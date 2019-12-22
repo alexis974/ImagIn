@@ -16,3 +16,6 @@
 # Executables
 *.exe
 *.out
+
+# Folder
+tmp/
