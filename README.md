@@ -1,5 +1,6 @@
 # ImagIn
-This is a project for the second year of EPITA
+ImagIn is a free and open-source software design to be used for beginner and intermidiate photographer. The purpose of the software is to combine both calibration and retouch tools it the same place.
+This project is made by four second year student of EPITA
 
 
 # Authors
