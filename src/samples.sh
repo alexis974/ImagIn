@@ -1,20 +1,7 @@
 #!/bin/bash
 
-download()
+download_raw()
 {
-	wget --output-document="$1" "$2"
-	if [ -f "$1" ]; then
-		mv "$1" "../samples"
-	fi
-}
-
-main()
-{
-	if [ -d ../samples ]; then
-		rm -rf ../samples
-	fi
-	mkdir ../samples
-
 	declare -a img_name
 	declare -a img_link
 	declare -a img_exif
@@ -95,11 +82,56 @@ main()
 
 	for i in {0..13}
 	do
-		printf "%s\n" "------------------------------------------------------------------------------------------------------------------------------------------------------------${img_name[$i]}"
-		download "${img_name[$i]}" "${img_link[$i]}"
-		download "${img_name[$i]}_exif.txt" "${img_exif[$i]}"
+		wget --output-document="${img_name[$i]}" "${img_link[$i]}"
+		if [ -f "${img_name[$i]}" ]; then
+			mv "${img_name[$i]}" "../samples"
+		fi
+		wget --output-document="${img_name[$i]}_exif.txt" "${img_exif[$i]}"
+		if [ -f "${img_name[$i]}_exif.txt" ]; then
+			mv "${img_name[$i]}_exif.txt" "../samples"
+		fi
 	done
 }
 
-# File downlard thanks to this website : https://raw.pixls.us/#repo
+download_jpg()
+{
+	name="Canon_90D"
+	link="https://img.photographyblog.com/reviews/canon_eos_90d/photos/canon_eos_90d"
+
+	if [ -d "../samples/"$name"_jpg" ]; then
+		rm -rf "../samples/"$name"_jpg"
+	fi
+	mkdir "../samples/"$name"_jpg"
+
+	for i in {1..59}
+	do
+		if [ $i -lt 10 ]; then
+			wget --output-document=""$name"_0$i.jpg" ""$link"_0$i.jpg"
+			if [ -f "Canon_90D_0"$i".jpg" ]; then
+				mv ""$name"_0$i.jpg" "../samples/"$name"_jpg/"
+			fi
+		else
+			wget --output-document=""$name"_$i.jpg" ""$link"_$i.jpg"
+			if [ -f ""$name"_$i.jpg" ]; then
+				mv ""$name"_$i.jpg" "../samples/"$name"_jpg/"
+			fi
+		fi
+	done
+}
+
+main()
+{
+	if [ -d ../samples ]; then
+		rm -rf ../samples
+	fi
+	mkdir ../samples
+
+	download_jpg
+	download_raw
+
+	printf "\e[96m\e[4mDone! All images have been download\n\e[0m"
+}
+
+# File download thanks to this website : https://raw.pixls.us/#repo for the RAW
+# File download thanks to this website : https://www.photographyblog.com/reviews/canon_eos_90d_review/preview_images for the jpeg
 main
