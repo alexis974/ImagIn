@@ -21,11 +21,13 @@
 tmp/
 samples/
 
-# IMage
+# Image
 *.jpg
 *.png
 *.dng
+*.DNG
 *.tiff
 *.tiff
 *.CR2
 *.NEF
+*.RAF
