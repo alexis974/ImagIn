@@ -19,3 +19,13 @@
 
 # Folder
 tmp/
+samples/
+
+# IMage
+*.jpg
+*.png
+*.dng
+*.tiff
+*.tiff
+*.CR2
+*.NEF
