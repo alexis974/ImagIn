@@ -6,7 +6,7 @@ void import_jpg(char* file_path)
 	//TODO
 }
 
-void import_png(char* file_path)
+void import_dng(char* file_path)
 {
 	//TODO
 }
