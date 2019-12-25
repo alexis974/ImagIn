@@ -2,6 +2,8 @@
 
 download_raw()
 {
+	mkdir "../samples/Raw_files"
+
 	declare -a img_name
 	declare -a img_link
 	declare -a img_exif
@@ -84,11 +86,11 @@ download_raw()
 	do
 		wget --output-document="${img_name[$i]}" "${img_link[$i]}"
 		if [ -f "${img_name[$i]}" ]; then
-			mv "${img_name[$i]}" "../samples"
+			mv "${img_name[$i]}" "../samples/Raw_files"
 		fi
 		wget --output-document="${img_name[$i]}_exif.txt" "${img_exif[$i]}"
 		if [ -f "${img_name[$i]}_exif.txt" ]; then
-			mv "${img_name[$i]}_exif.txt" "../samples"
+			mv "${img_name[$i]}_exif.txt" "../samples/Raw_files"
 		fi
 	done
 }
@@ -98,22 +100,29 @@ download_jpg()
 	name="Canon_90D"
 	link="https://img.photographyblog.com/reviews/canon_eos_90d/photos/canon_eos_90d"
 
-	if [ -d "../samples/"$name"_jpg" ]; then
-		rm -rf "../samples/"$name"_jpg"
-	fi
 	mkdir "../samples/"$name"_jpg"
+	mkdir "../samples/"$name"_bmp"
+	mkdir "../samples/"$name"_tiff"
 
 	for i in {1..59}
 	do
 		if [ $i -lt 10 ]; then
 			wget --output-document=""$name"_0$i.jpg" ""$link"_0$i.jpg"
 			if [ -f "Canon_90D_0"$i".jpg" ]; then
+				convert -compress none ""$name"_0$i.jpg" ""$name"_0$i.bmp"
+				convert -compress none ""$name"_0$i.jpg" ""$name"_0$i.tiff"
 				mv ""$name"_0$i.jpg" "../samples/"$name"_jpg/"
+				mv ""$name"_0$i.bmp" "../samples/"$name"_bmp/"
+				mv ""$name"_0$i.tiff" "../samples/"$name"_tiff/"
 			fi
 		else
 			wget --output-document=""$name"_$i.jpg" ""$link"_$i.jpg"
 			if [ -f ""$name"_$i.jpg" ]; then
+				convert -compress none ""$name"_$i.jpg" ""$name"_$i.bmp"
+				convert -compress none ""$name"_$i.jpg" ""$name"_$i.tiff"
 				mv ""$name"_$i.jpg" "../samples/"$name"_jpg/"
+				mv ""$name"_$i.bmp" "../samples/"$name"_bmp/"
+				mv ""$name"_$i.tiff" "../samples/"$name"_tiff/"
 			fi
 		fi
 	done
