@@ -26,8 +26,13 @@ samples/
 *.png
 *.dng
 *.DNG
-*.tiff
+*.bmp
+*.tif
 *.tiff
 *.CR2
 *.NEF
 *.RAF
+
+# EXIF
+.txt
+.XMP
