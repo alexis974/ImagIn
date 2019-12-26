@@ -112,7 +112,7 @@ download_jpg()
 			if [ -f "Canon_90D_0"$i".jpg" ]; then
 				convert -compress none ""$name"_0$i.jpg" ""$name"_0$i.bmp"
 				convert -compress none ""$name"_0$i.jpg" ""$name"_0$i.tiff"
-				convert -compress none ""$name"_0$i.jpg" ""$name"_0$i.ppm"
+				convert ""$name"_0$i.jpg" ""$name"_0$i.ppm"
 				mv ""$name"_0$i.jpg" "../samples/"$name"_jpg/"
 				mv ""$name"_0$i.bmp" "../samples/"$name"_bmp/"
 				mv ""$name"_0$i.tiff" "../samples/"$name"_tiff/"
@@ -123,7 +123,7 @@ download_jpg()
 			if [ -f ""$name"_$i.jpg" ]; then
 				convert -compress none ""$name"_$i.jpg" ""$name"_$i.bmp"
 				convert -compress none ""$name"_$i.jpg" ""$name"_$i.tiff"
-				convert -compress none ""$name"_$i.jpg" ""$name"_$i.ppm"
+				convert ""$name"_$i.jpg" ""$name"_$i.ppm"
 				mv ""$name"_$i.jpg" "../samples/"$name"_jpg/"
 				mv ""$name"_$i.bmp" "../samples/"$name"_bmp/"
 				mv ""$name"_$i.tiff" "../samples/"$name"_tiff/"
