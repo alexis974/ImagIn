@@ -27,6 +27,7 @@ samples/
 *.dng
 *.DNG
 *.bmp
+*.ppm
 *.tif
 *.tiff
 *.CR2
