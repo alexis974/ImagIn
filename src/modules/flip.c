@@ -39,26 +39,24 @@ void horizontal_flip(Image *img)
 
 void flip(Image *img)
 {
-	int i = 0;
 	unsigned char tmp;
-	int index_fin = img->x * img->y;
+	size_t index_end = img->x * img->y;
 
 	if (img)
 	{
-		while(i < index_fin)
+		for (size_t i = 0; i < index_end; i++, index_end--)
 		{
 			tmp = img->data[i].red;
+			img->data[i].red = img->data[index_end].red;
+			img->data[index_end].red = tmp;
 
-			img->data[i].red = img->data[index_fin].red;
-			img->data[i].green = img->data[index_fin].green;
-			img->data[i].blue = img->data[index_fin].blue;
+			tmp = img->data[i].green;
+			img->data[i].green = img->data[index_end].green;
+			img->data[index_end].green = tmp;
 
-			img->data[index_fin].red = tmp;
-			img->data[index_fin].green = tmp;
-			img->data[index_fin].blue = tmp;
-
-			i++;
-			index_fin--;
+			tmp = img->data[i].blue;
+			img->data[i].blue = img->data[index_end].blue;
+			img->data[index_end].blue = tmp;
 		}
 	}
 }
