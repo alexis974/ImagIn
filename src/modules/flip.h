@@ -3,6 +3,6 @@
 
 void horizontal_flip(Image *img);
 
-void flip(Image *img);
+void flip_both_axis(Image *img);
 
 #endif

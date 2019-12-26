@@ -28,7 +28,7 @@ int main()
     writePPM("tmp/tmp3.ppm",image);
 
 	//Flip the image both horizontaly and verticaly
-    flip(image);
+    flip_both_axis(image);
     writePPM("tmp/tmp4.ppm",image);
 
     horizontal_flip(image);

@@ -37,7 +37,7 @@ void horizontal_flip(Image *img)
 }
 
 
-void flip(Image *img)
+void flip_both_axis(Image *img)
 {
 	unsigned char tmp;
 	size_t index_end = img->x * img->y;
