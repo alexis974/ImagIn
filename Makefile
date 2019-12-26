@@ -10,7 +10,7 @@ SDL = `pkg-config --cflags --libs sdl` -lSDL_image
 GTK = `pkg-config --cflags --libs gtk+-3.0`
 LM = -lm
 
-SRC = src/imagin.c
+SRC = src/imagin.c src/import_export/*.c src/modules/*.c
 
 all: imagin tmp
 
