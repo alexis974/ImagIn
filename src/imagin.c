@@ -34,6 +34,9 @@ int main()
     horizontal_flip(image);
     writePPM("tmp/tmp5.ppm",image);
 
+    vertical_flip(image);
+    writePPM("tmp/tmp6.ppm",image);
+
     free(image);
 	printf("See you soon!\n");
 

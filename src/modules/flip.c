@@ -3,6 +3,38 @@
 #include "../imagin.h"
 #include "flip.h"
 
+void vertical_flip(Image *img)
+{
+	unsigned char tmp;
+	size_t offset = img->x;
+	size_t index_left;
+	size_t index_right;
+
+	if (img)
+	{
+		for (size_t y = 0; y < img->y ; y++)
+		{
+			for (size_t x = 0; x < (img->x / 2); x++)
+			{
+				index_left = y * offset + x;
+				index_right = y * offset + (img->x - x) ;
+
+				tmp = img->data[index_left].red;
+				img->data[index_left].red = img->data[index_right].red;
+				img->data[index_right].red = tmp;
+
+				tmp = img->data[index_left].green;
+				img->data[index_left].green = img->data[index_right].green;
+				img->data[index_right].green = tmp;
+
+				tmp = img->data[index_left].blue;
+				img->data[index_left].blue = img->data[index_right].blue;
+				img->data[index_right].blue = tmp;
+			}
+		}
+	}
+}
+
 
 void horizontal_flip(Image *img)
 {
