@@ -8,11 +8,11 @@ void invert(Image *img)
 
 	if (img)
 	{
-		for (i = 0; i < img->x * img->y; i++)
+		for (i = 0; i < img->width * img->height; i++)
 		{
-			img->data[i].red = RGB_COMPONENT_COLOR-img->data[i].red;
-			img->data[i].green = RGB_COMPONENT_COLOR-img->data[i].green;
-			img->data[i].blue = RGB_COMPONENT_COLOR-img->data[i].blue;
+			img->data[i].red = img->bit_depth - img->data[i].red;
+			img->data[i].green = img->bit_depth - img->data[i].green;
+			img->data[i].blue = img->bit_depth - img->data[i].blue;
 		}
 	}
 }

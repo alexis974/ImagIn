@@ -6,18 +6,18 @@
 void vertical_flip(Image *img)
 {
 	unsigned char tmp;
-	size_t offset = img->x;
+	size_t offset = img->width;
 	size_t index_left;
 	size_t index_right;
 
 	if (img)
 	{
-		for (size_t y = 0; y < img->y ; y++)
+		for (size_t y = 0; y < img->height ; y++)
 		{
-			for (size_t x = 0; x < (img->x / 2); x++)
+			for (size_t x = 0; x < (img->width / 2); x++)
 			{
 				index_left = y * offset + x;
-				index_right = y * offset + (img->x - x) ;
+				index_right = y * offset + (img->width - x) ;
 
 				tmp = img->data[index_left].red;
 				img->data[index_left].red = img->data[index_right].red;
@@ -39,18 +39,18 @@ void vertical_flip(Image *img)
 void horizontal_flip(Image *img)
 {
 	unsigned char tmp;
-	size_t offset = img->x;
+	size_t offset = img->width;
 	size_t index_top;
 	size_t index_bottom;
 
 	if (img)
 	{
-		for (size_t x = 0; x < img->x; x++)
+		for (size_t x = 0; x < img->width; x++)
 		{
-			for (size_t y = 0; y < (img->y / 2) ; y++)
+			for (size_t y = 0; y < (img->height / 2) ; y++)
 			{
 				index_top = y * offset + x;
-				index_bottom = offset * (img->y - y) + x - offset;
+				index_bottom = offset * (img->height - y) + x - offset;
 
 				tmp = img->data[index_top].red;
 				img->data[index_top].red = img->data[index_bottom].red;
@@ -72,7 +72,7 @@ void horizontal_flip(Image *img)
 void flip_both_axis(Image *img)
 {
 	unsigned char tmp;
-	size_t index_end = img->x * img->y;
+	size_t index_end = img->width * img->height;
 
 	if (img)
 	{

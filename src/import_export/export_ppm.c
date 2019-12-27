@@ -22,13 +22,13 @@
 	fprintf(fp, "# Image created by SilverGrain\n");
 
 	//image size
-	fprintf(fp, "%ld %ld\n",img->x,img->y);
+	fprintf(fp, "%ld %ld\n", img->width, img->height);
 
 	// rgb component depth
-	fprintf(fp, "%d\n",RGB_COMPONENT_COLOR);
+	fprintf(fp, "%ld\n", img->bit_depth);
 
 	// pixel data
-	fwrite(img->data, 3 * img->x, img->y, fp);
+	fwrite(img->data, 3 * img->width, img->height, fp);
 	fclose(fp);
 	printf("Image saved!\n");
 }

@@ -5,14 +5,14 @@
 #include "saturation.h"
 
 //For now, the saturation module doesn't handle increase saturation.
-void saturation(Image *img, double change)
+void saturation(Image *img, float change)
 {
 	size_t i;
-	double P;
+	float P;
 
 	if (img)
 	{
-		for (i = 0; i < img->x * img->y; i++)
+		for (i = 0; i < img->width * img->height; i++)
 		{
 			P = sqrt(img->data[i].red * img->data[i].red * 0.299 +
 			img->data[i].green * img->data[i].green * 0.587 +

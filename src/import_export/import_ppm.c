@@ -10,7 +10,7 @@ Image *readPPM(const char *filename)
 	char buff[16];
 	Image *img;
 	FILE *fp;
-	int c, rgb_comp_color;
+	int c;
 
 	//open PPM file for reading
 	fp = fopen(filename, "rb");
@@ -50,26 +50,26 @@ Image *readPPM(const char *filename)
 
 	ungetc(c, fp);
 	//read image size information
-	if (fscanf(fp, "%ld %ld", &img->x, &img->y) != 2)
+	if (fscanf(fp, "%ld %ld", &img->width, &img->height) != 2)
 	{
 		errx(1, "readPPM: Invalid image size (error loading '%s')\n", filename);
 	}
 
 	//read rgb component
-	if (fscanf(fp, "%d", &rgb_comp_color) != 1)
+	if (fscanf(fp, "%ld", &img->bit_depth) != 1)
 	{
 		errx(1, "readPPM: Invalid rgb component (error loading '%s')\n", filename);
 	}
 
 	//check rgb component depth
-	if (rgb_comp_color!= RGB_COMPONENT_COLOR)
+	if (img->bit_depth != 255)
 	{
 		errx(1, "readPPM: '%s' does not have 8-bits components\n", filename);
 	}
 
 	//memory allocation for pixel data
 	while (fgetc(fp) != '\n') ;
-	img->data = (Pixel*)malloc(img->x * img->y * sizeof(Pixel));
+	img->data = (Pixel*)malloc(img->width * img->height * sizeof(Pixel));
 
 	if (!img)
 	{
@@ -77,7 +77,7 @@ Image *readPPM(const char *filename)
 	}
 
 	//read pixel data from file
-	if (fread(img->data, 3 * img->x, img->y, fp) != img->y)
+	if (fread(img->data, 3 * img->width, img->height, fp) != img->height)
 	{
 		errx(1, "readPPM: Error loading image '%s'\n", filename);
 	}

@@ -1,16 +1,18 @@
 #ifndef IMAGIN_H
 #define IMAGIN_H
 
-#define RGB_COMPONENT_COLOR 255
-
 typedef struct
 {
-    unsigned char red,green,blue;
+    unsigned char red;
+    unsigned char green;
+    unsigned char blue;
 } Pixel;
 
 typedef struct
 {
-    size_t x, y;
+    size_t width;
+    size_t height;
+	size_t bit_depth;
     Pixel *data;
 } Image;
 

@@ -16,8 +16,8 @@ int main()
     writePPM("tmp/tmp0.ppm",image);
 
 	//Decrease the saturation by a factor of 2
-	saturation(image, 0.5);
-    writePPM("tmp/tmp1.ppm",image);
+//	saturation(image, 0.5);
+  //  writePPM("tmp/tmp1.ppm",image);
 
 	//Invert the colors of an image
     invert(image);

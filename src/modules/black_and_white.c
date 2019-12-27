@@ -10,7 +10,7 @@ void simple_BW(Image *img)
 
 	if (img)
 	{
-		for (i = 0; i < img->x * img->y; i++)
+		for (i = 0; i < img->width * img->height; i++)
 		{
 			sum = img->data[i].red + img->data[i].green + img->data[i].blue;
 			tmp = sum / 3;
