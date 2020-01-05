@@ -3,7 +3,9 @@
 
 #include "imagin.h"
 #include "import_export/import_ppm.h"
+#include "import_export/import_tiff.h"
 #include "import_export/export_ppm.h"
+#include "import_export/export_tiff.h"
 #include "modules/black_and_white.h"
 #include "modules/invert.h"
 #include "modules/flip.h"
@@ -11,13 +13,13 @@
 
 int main()
 {
-	Image *image;
+	struct Image *image;
     image = readPPM("samples/Canon_90D_ppm/Canon_90D_03.ppm");
-    writePPM("tmp/tmp0.ppm",image);
+    writeTIFF("tmp/tmp0.tiff",image);
 
 	//Decrease the saturation by a factor of 2
-//	saturation(image, 0.5);
-  //  writePPM("tmp/tmp1.ppm",image);
+    //	saturation(image, 0.5);
+    //  writePPM("tmp/tmp1.ppm",image);
 
 	//Invert the colors of an image
     invert(image);

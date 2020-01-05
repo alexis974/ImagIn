@@ -2,7 +2,7 @@
 #include"../imagin.h"
 #include"invert.h"
 
-void invert(Image *img)
+void invert(struct Image *img)
 {
 	size_t i;
 

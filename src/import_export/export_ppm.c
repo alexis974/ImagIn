@@ -4,7 +4,7 @@
 #include"export_ppm.h"
 
 
- void writePPM(const char *filename, Image *img)
+ void writePPM(const char *filename, struct Image *img)
 {
 	FILE *fp;
 	//open file for output

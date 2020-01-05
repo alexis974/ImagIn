@@ -3,7 +3,7 @@
 #include "../imagin.h"
 #include "flip.h"
 
-void vertical_flip(Image *img)
+void vertical_flip(struct Image *img)
 {
 	unsigned char tmp;
 	size_t offset = img->width;
@@ -36,7 +36,7 @@ void vertical_flip(Image *img)
 }
 
 
-void horizontal_flip(Image *img)
+void horizontal_flip(struct Image *img)
 {
 	unsigned char tmp;
 	size_t offset = img->width;
@@ -69,7 +69,7 @@ void horizontal_flip(Image *img)
 }
 
 
-void flip_both_axis(Image *img)
+void flip_both_axis(struct Image *img)
 {
 	unsigned char tmp;
 	size_t index_end = img->width * img->height;

@@ -1,6 +1,6 @@
 #ifndef SATURATION_H
 #define SATURATION_H
 
-void saturation(Image *img, float change);
+void saturation(struct Image *img, float change);
 
 #endif

@@ -17,6 +17,9 @@
 *.exe
 *.out
 
+#VSCode
+.DS_Store
+
 # Folder
 tmp/
 samples/

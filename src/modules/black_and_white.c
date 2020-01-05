@@ -2,7 +2,7 @@
 #include"../imagin.h"
 #include"black_and_white.h"
 
-void simple_BW(Image *img)
+void simple_BW(struct Image *img)
 {
 	size_t i;
 	size_t sum;

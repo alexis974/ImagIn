@@ -1,19 +1,19 @@
 #ifndef IMAGIN_H
 #define IMAGIN_H
 
-typedef struct
+struct Pixel
 {
     unsigned char red;
     unsigned char green;
     unsigned char blue;
-} Pixel;
+};
 
-typedef struct
+struct Image
 {
     size_t width;
     size_t height;
 	size_t bit_depth;
-    Pixel *data;
-} Image;
+    struct Pixel *data;
+};
 
 #endif

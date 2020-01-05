@@ -5,10 +5,10 @@
 #include"../imagin.h"
 #include"import_ppm.h"
 
-Image *readPPM(const char *filename)
+struct Image *readPPM(const char *filename)
 {
 	char buff[16];
-	Image *img;
+	struct Image *img;
 	FILE *fp;
 	int c;
 
@@ -32,7 +32,7 @@ Image *readPPM(const char *filename)
 	}
 
 	//alloc memory form image
-	img = malloc(sizeof(Image));
+	img = malloc(sizeof(struct Image));
 	if (!img)
 	{
 		errx(1, "readPPM: Unable to allocate memory\n");
@@ -69,9 +69,9 @@ Image *readPPM(const char *filename)
 
 	//memory allocation for pixel data
 	while (fgetc(fp) != '\n') ;
-	img->data = (Pixel*)malloc(img->width * img->height * sizeof(Pixel));
+	img->data = (struct Pixel*)malloc(img->width * img->height * sizeof(struct Pixel));
 
-	if (!img)
+	if (!img->data)
 	{
 		errx(1, "readPPM: Unable to allocate memory\n");
 	}

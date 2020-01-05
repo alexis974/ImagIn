@@ -1,6 +1,6 @@
 #ifndef INVERT_H
 #define INVERT_H
 
-void invert(Image *img);
+void invert(struct Image *img);
 
 #endif

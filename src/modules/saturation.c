@@ -5,7 +5,7 @@
 #include "saturation.h"
 
 //For now, the saturation module doesn't handle increase saturation.
-void saturation(Image *img, float change)
+void saturation(struct Image *img, float change)
 {
 	size_t i;
 	float P;
