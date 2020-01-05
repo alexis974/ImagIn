@@ -4,7 +4,7 @@
 #include"export_ppm.h"
 
 
- void writePPM(const char *filename, struct Image *img)
+void writePPM(const char *filename, struct Image *img)
 {
 	FILE *fp;
 	//open file for output
@@ -30,5 +30,5 @@
 	// pixel data
 	fwrite(img->data, 3 * img->width, img->height, fp);
 	fclose(fp);
-	printf("Image saved!\n");
+	printf("PPM Image saved!\n");
 }

@@ -49,8 +49,8 @@ void writeTIFF(const char *filename, struct Image *img)
         }
     }
 
-
     TIFFClose(out);
     if (buffer)
         _TIFFfree(buffer);
+    printf("TIFF Image saved!\n");
 }
