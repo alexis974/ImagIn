@@ -22,5 +22,5 @@ struct Image *read(const char *filename)
     {
         return readPPM(filename);
     }
-    errx(1,"import.c: Unknown file extension '%s'\n", ext);
+    errx(1,"import: Unknown file extension '%s'\n", ext);
 }

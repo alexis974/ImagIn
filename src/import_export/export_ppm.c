@@ -11,7 +11,7 @@ void writePPM(const char *filename, struct Image *img)
 	fp = fopen(filename, "wb");
 	if (!fp)
 	{
-		errx(1, "Unable to open file '%s'\n", filename );
+		errx(1, "writePPM: Unable to open file '%s'\n", filename );
 	}
 
 	//write the header file

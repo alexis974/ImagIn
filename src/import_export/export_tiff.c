@@ -44,7 +44,7 @@ void writeTIFF(const char *filename, struct Image *img)
         //Writing in image
         if(TIFFWriteScanline(out, buffer, j, 0) < 0)
         {
-            errx(1,"export_tiff: Unable to write image.");
+            errx(1,"writeTIFF: Unable to write image.\n");
             break;
         }
     }

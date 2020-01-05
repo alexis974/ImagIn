@@ -17,6 +17,6 @@ void write(const char *filename, struct Image *img)
     }
     else
     {
-        errx(1,"import.c: Unknown  file extension");
+        errx(1,"export: Unknown file extension '%s'\n", ext);
     }
 }
