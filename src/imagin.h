@@ -12,7 +12,7 @@ struct Image
 {
     size_t width;
     size_t height;
-	size_t bit_depth;
+    size_t bit_depth;
     struct Pixel *data;
 };
 
