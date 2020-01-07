@@ -95,6 +95,7 @@ download_raw()
 	done
 }
 
+
 download_jpg()
 {
 	name="Canon_90D"
@@ -104,8 +105,9 @@ download_jpg()
 	mkdir "../samples/"$name"_bmp"
 	mkdir "../samples/"$name"_tiff"
 	mkdir "../samples/"$name"_ppm"
+    nb_image=$1
 
-	for i in {1..59}
+    for i in $(seq 1 $nb_image)
 	do
 		if [ $i -lt 10 ]; then
 			wget --output-document=""$name"_0$i.jpg" ""$link"_0$i.jpg"
@@ -133,19 +135,45 @@ download_jpg()
 	done
 }
 
-main()
+
+Help()
 {
-	if [ -d ../samples ]; then
-		rm -rf ../samples
-	fi
-	mkdir ../samples
-
-	download_jpg
-	download_raw
-
-	printf "\e[96m\e[4mDone! All images have been download\n\e[0m"
+	echo "You came here for help, I see"
+    echo "Run './sample -l' to download only 5 images"
+    echo "Run './sample -f' to download all images with raw"
 }
+
+
+################################################################################
+# Main program                                                                 #
+################################################################################
+
+if [ -d ../samples ]; then
+rm -rf ../samples
+fi
+mkdir ../samples
+
+# Get the options
+while getopts "hlf" option; do
+	case $option in
+	h) # display Help
+		Help
+		exit;;
+	l) #litte
+		download_jpg 5
+		printf "\e[96m\e[4mDone! 5 images have been download\n\e[0m"
+		exit;;
+	f) #full
+		download_jpg 59
+		download_raw
+		printf "\e[96m\e[4mDone! All images have been download\n\e[0m"
+		exit;;
+	\?) # incorrect option
+		echo "Error: Invalid option"
+		exit;;
+	esac
+done
+
 
 # File download thanks to this website : https://raw.pixls.us/#repo for the RAW
 # File download thanks to this website : https://www.photographyblog.com/reviews/canon_eos_90d_review/preview_images for the jpeg
-main
