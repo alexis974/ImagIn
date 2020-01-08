@@ -23,7 +23,7 @@ debug:CFLAGS=-g
 debug:all
 
 cli: $(SRC) src/imagin_cli.c tmp
-	$(CC) -o $@.out src/imagin_cli.c $(SRC) $(CFLAGS) $(CPPFLAGS) $(SDL) $(GTK) $(LIBTIFF) $(LIBJPEG) $(LDFLAGS)
+	$(CC) -o imagin_cli.out src/imagin_cli.c $(SRC) $(CFLAGS) $(CPPFLAGS) $(SDL) $(GTK) $(LIBTIFF) $(LIBJPEG) $(LDFLAGS)
 
 debug_cli:CFLAGS=-g
 debug_cli:imagin_cli tmp
