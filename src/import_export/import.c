@@ -1,8 +1,8 @@
 #include <err.h>
 #include <string.h>
-#include "import_ppm.h"
-#include "import_tiff.h"
-#include "import_jpeg.h"
+#include "ppm.h"
+#include "tiff.h"
+#include "jpeg.h"
 
 const char *get_filename_ext(const char *filename)
 {

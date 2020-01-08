@@ -1,8 +1,8 @@
 #include <err.h>
 #include <string.h>
 #include "import.h"
-#include "export_ppm.h"
-#include "export_tiff.h"
+#include "ppm.h"
+#include "tiff.h"
 
 void write(const char *filename, struct Image *img)
 {

@@ -4,7 +4,7 @@
 #include <jpeglib.h>
 #include <setjmp.h>
 #include "../imagin.h"
-#include "import_ppm.h"
+#include "jpeg.h"
 
 //Check libjpeg example.c
 

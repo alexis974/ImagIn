@@ -1,5 +1,5 @@
-#ifndef IMPORT_JPEG_H
-#define IMPORT_JPEG_H
+#ifndef JPEG_H
+#define JPEG_H
 
 struct Image *readJPEG(const char *filename);
 
