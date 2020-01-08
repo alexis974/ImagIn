@@ -35,7 +35,7 @@ tmp:
 
 clean:
 	${RM} imagin.out
-	${RM} imagin.d
+	${RM} imagin_cli.out
 	if [ -d tmp ]; then rm -r tmp; fi
 
 # END
