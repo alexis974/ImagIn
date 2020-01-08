@@ -19,6 +19,7 @@
 
 #VSCode
 .DS_Store
+.vscode/
 
 # Folder
 tmp/
