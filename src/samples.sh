@@ -140,7 +140,10 @@ Help()
 {
 	echo "You came here for help, I see"
     echo "Run './sample -l' to download only 5 images"
-    echo "Run './sample -f' to download all images with raw"
+    echo "Run './sample -m' to download only 30 images"
+    echo "Run './sample -r' to download only the raw files"
+    echo "Run './sample -f' to download all images with raw files"
+    echo "sample.sh can also take multiple options. Example : './sample.sh -l -r'"
 }
 
 
@@ -153,25 +156,35 @@ rm -rf ../samples
 fi
 mkdir ../samples
 
+# Check if no argument is given
+if [ "$1" == "" ]; then
+    echo "sample.sh can not be use without option. Run './sample.sh -h' to see them"
+    exit 1
+fi
+
 # Get the options
-while getopts "hlf" option; do
-	case $option in
-	h) # display Help
-		Help
-		exit;;
-	l) #litte
+while [ -n "$1" ]; do
+	case "$1" in
+	-h) # display Help
+		Help ;;
+	-l) #litte
 		download_jpg 5
-		printf "\e[96m\e[4mDone! 5 images have been download\n\e[0m"
-		exit;;
-	f) #full
+		printf "\e[96m\e[4mDone! 5 images have been download\n\e[0m" ;;
+    -m) #medium
+        download_jpg 30
+		printf "\e[96m\e[4mDone! 30 images have been download\n\e[0m" ;;
+    -r) #raw
+		download_raw
+		printf "\e[96m\e[4mDone! All raws have been download\n\e[0m" ;;
+	-f) #full
 		download_jpg 59
 		download_raw
-		printf "\e[96m\e[4mDone! All images have been download\n\e[0m"
-		exit;;
-	\?) # incorrect option
+		printf "\e[96m\e[4mDone! All images have been download\n\e[0m" ;;
+	*) # incorrect option
 		echo "Error: Invalid option"
 		exit;;
 	esac
+    shift
 done
 
 
