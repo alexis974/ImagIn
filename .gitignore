@@ -38,6 +38,9 @@ samples/
 *.NEF
 *.RAF
 
+#trash files
+*.glade~
+
 # EXIF
 .txt
 .XMP
