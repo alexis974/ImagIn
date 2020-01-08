@@ -6,7 +6,7 @@ CPPFLAGS =
 LDFLAGS = -lm
 
 # libraries
-SDL = `pkg-config --cflags --libs sdl` -lSDL_image
+#SDL = `pkg-config --cflags --libs sdl` -lSDL_image
 GTK = `pkg-config --cflags --libs gtk+-3.0`
 LM = -lm
 LIBTIFF = `pkg-config --cflags --libs libtiff-4`
@@ -16,7 +16,7 @@ SRC = src/imagin.c src/import_export/*.c src/modules/*.c
 all: imagin tmp
 
 imagin: $(SRC) src/imagin.c
-	$(CC) -o $@.out $(SRC) $(CFLAGS) $(CPPFLAGS) $(SDL) $(GTK) $(LIBTIFF) $(LDFLAGS)
+	$(CC) -o $@.out $(SRC) $(CFLAGS) $(CPPFLAGS) $(GTK) $(LIBTIFF) $(LDFLAGS)
 
 tmp:
 	mkdir -p tmp
