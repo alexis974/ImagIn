@@ -19,6 +19,9 @@ all: imagin tmp
 imagin: $(SRC) src/imagin.c
 	$(CC) -o $@.out $(SRC) $(CFLAGS) $(CPPFLAGS) $(SDL) $(GTK) $(LIBTIFF) $(LIBJPEG) $(LDFLAGS)
 
+debug:CFLAGS+=-g
+debug:all
+
 tmp:
 	mkdir -p tmp
 
