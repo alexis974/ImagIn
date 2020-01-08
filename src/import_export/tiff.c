@@ -63,6 +63,10 @@ void writeTIFF(const char *filename, struct Image *img)
 {
     //Creating the file
     TIFF *out= TIFFOpen(filename, "w");
+    if (!out)
+    {
+        errx(1, "writeTIFF: Unable to create file\n");
+    }
     int sampleperpixel = 3;//Put 4 if alpha channel
 
     TIFFSetField (out, TIFFTAG_IMAGEWIDTH, img->width);  // set the width of the image
