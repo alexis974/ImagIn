@@ -2,6 +2,10 @@ window
 {
     background-color: #313131;
 }
+label
+{
+    color:white;
+}
 box
 {
     color:white;
