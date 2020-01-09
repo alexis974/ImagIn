@@ -27,10 +27,6 @@ int GUImain(void)
 	GtkWindow* window = GTK_WINDOW(gtk_builder_get_object(
 				builder, "main_window"));
 
-    /*struct UI ui=
-    {
-        .window = window,
-    };*/
     g_signal_connect(window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
     gtk_widget_show(GTK_WIDGET(window));
 
