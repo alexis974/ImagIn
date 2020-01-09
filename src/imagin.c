@@ -21,9 +21,16 @@ int main()
     //  writePPM("tmp/tmp1.ppm",image);
 
     //double exposure
-    exposure(image);
+    exposure(image, 0.5);
     write("tmp/tmp1.ppm", image);
 
+    exposure(image, 2);
+    write("tmp/tmp2.ppm", image);
+
+    exposure(image, 3);
+    write("tmp/tmp3.ppm", image);
+
+    /*
     //Invert the colors of an image
     invert(image);
     write("tmp/tmp2.ppm", image);
@@ -41,6 +48,7 @@ int main()
 
     vertical_flip(image);
     write("tmp/tmp6.ppm", image);
+    */
 
     free(image);
     printf("See you soon!\n");
