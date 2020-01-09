@@ -26,6 +26,8 @@ tmp:
 clean:
 	${RM} imagin.out
 	${RM} imagin.d
+	${RM} imagin_cli.out
+	${RM} imagin_cli.d
 	if [ -d tmp ]; then rm -r tmp; fi
 
 # END
