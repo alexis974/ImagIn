@@ -5,5 +5,5 @@
 int main(void)
 {
     printf("GUI Mode\n");
-    return GUImain();
+    return GUI_main();
 }
