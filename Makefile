@@ -12,7 +12,7 @@ LM = -lm
 LIBTIFF = `pkg-config --cflags --libs libtiff-4`
 LIBJPEG = `pkg-config --cflags --libs libjpeg`
 
-SRC = src/import_export/*.c src/modules/*.c
+SRC = src/import_export/*.c src/modules/*.c src/gui/*.c
 
 all: imagin tmp
 
