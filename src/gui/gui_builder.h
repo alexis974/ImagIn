@@ -1,5 +1,5 @@
 #ifndef GUI_BUILDER_H
-#define GUI_BUIDER_H
+#define GUI_BUILDER_H
 
 #include "gui.h"
 #include <gtk/gtk.h>
