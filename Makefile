@@ -14,8 +14,8 @@ LIBJPEG = `pkg-config --cflags --libs libjpeg`
 SRC = src/import_export/*.c src/modules/*.c src/gui/*.c
 
 all: imagin tmp
-
 imagin: $(SRC) src/imagin.c
+
 	$(CC) -o $@.out src/imagin.c $(SRC) $(CFLAGS) $(CPPFLAGS) $(GTK) $(LIBTIFF) $(LIBJPEG) $(LDFLAGS)
 
 debug:CFLAGS=-g
