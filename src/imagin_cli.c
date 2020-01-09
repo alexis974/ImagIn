@@ -12,7 +12,7 @@
 int main(void)
 {
     struct Image *image;
-    image = read("samples/Canon_90D_ppm/Canon_90D_03.ppm");
+    image = read_image("samples/Canon_90D_ppm/Canon_90D_03.ppm");
     write_image("tmp/tmp0.tiff",image);
 
     //Decrease the saturation by a factor of 2

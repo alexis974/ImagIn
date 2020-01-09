@@ -12,7 +12,7 @@ const char *get_filename_ext(const char *filename)
     return dot + 1;
 }
 
-struct Image *read(const char *filename)
+struct Image *read_image(const char *filename)
 {
     const char* ext = get_filename_ext(filename);
     if(strcmp(ext,"tiff") == 0 || strcmp(ext,"tif") == 0)
