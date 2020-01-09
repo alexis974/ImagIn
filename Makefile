@@ -6,17 +6,26 @@ CPPFLAGS =
 LDFLAGS = -lm
 
 # libraries
-#SDL = `pkg-config --cflags --libs sdl` -lSDL_image
 GTK = `pkg-config --cflags --libs gtk+-3.0`
 LM = -lm
 LIBTIFF = `pkg-config --cflags --libs libtiff-4`
+LIBJPEG = `pkg-config --cflags --libs libjpeg`
 
-SRC = src/imagin.c src/import_export/*.c src/modules/*.c
+SRC = src/import_export/*.c src/modules/*.c src/gui/*.c
 
 all: imagin tmp
-
 imagin: $(SRC) src/imagin.c
-	$(CC) -o $@.out $(SRC) $(CFLAGS) $(CPPFLAGS) $(GTK) $(LIBTIFF) $(LDFLAGS)
+
+	$(CC) -o $@.out src/imagin.c $(SRC) $(CFLAGS) $(CPPFLAGS) $(GTK) $(LIBTIFF) $(LIBJPEG) $(LDFLAGS)
+
+debug:CFLAGS=-g
+debug:all
+
+cli: $(SRC) src/imagin_cli.c tmp
+	$(CC) -o imagin_cli.out src/imagin_cli.c $(SRC) $(CFLAGS) $(CPPFLAGS) $(GTK) $(LIBTIFF) $(LIBJPEG) $(LDFLAGS)
+
+debug_cli:CFLAGS=-g
+debug_cli:imagin_cli tmp
 
 tmp:
 	mkdir -p tmp
@@ -25,9 +34,7 @@ tmp:
 
 clean:
 	${RM} imagin.out
-	${RM} imagin.d
 	${RM} imagin_cli.out
-	${RM} imagin_cli.d
 	if [ -d tmp ]; then rm -r tmp; fi
 
 # END

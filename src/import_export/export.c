@@ -1,10 +1,10 @@
 #include <err.h>
 #include <string.h>
 #include "import.h"
-#include "export_ppm.h"
-#include "export_tiff.h"
+#include "ppm.h"
+#include "tiff.h"
 
-void write(const char *filename, struct Image *img)
+void write_image(const char *filename, struct Image *img)
 {
     const char* ext = get_filename_ext(filename);
     if(strcmp(ext,"tiff") == 0 || strcmp(ext,"tif")==0)

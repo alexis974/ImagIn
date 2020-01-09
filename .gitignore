@@ -19,6 +19,7 @@
 
 #VSCode
 .DS_Store
+.vscode/
 
 # Folder
 tmp/
@@ -36,6 +37,9 @@ samples/
 *.CR2
 *.NEF
 *.RAF
+
+#trash files
+*.glade~
 
 # EXIF
 .txt

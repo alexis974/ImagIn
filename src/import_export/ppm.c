@@ -1,9 +1,9 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<err.h>
-#include<math.h>
-#include"../imagin.h"
-#include"import_ppm.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <err.h>
+#include <math.h>
+#include "../imagin.h"
+#include "ppm.h"
 
 struct Image *readPPM(const char *filename)
 {
@@ -85,4 +85,33 @@ struct Image *readPPM(const char *filename)
     fclose(fp);
     printf("Image imported!\n");
     return img;
+}
+
+void writePPM(const char *filename, struct Image *img)
+{
+    FILE *fp;
+    //open file for output
+    fp = fopen(filename, "wb");
+    if (!fp)
+    {
+        errx(1, "writePPM: Unable to open file '%s'\n", filename );
+    }
+
+    //write the header file
+    //image format
+    fprintf(fp, "P6\n");
+
+    //comments
+    fprintf(fp, "# Image created by SilverGrain\n");
+
+    //image size
+    fprintf(fp, "%ld %ld\n", img->width, img->height);
+
+    // rgb component depth
+    fprintf(fp, "%ld\n", img->bit_depth);
+
+    // pixel data
+    fwrite(img->data, 3 * img->width, img->height, fp);
+    fclose(fp);
+    printf("PPM Image saved!\n");
 }
