@@ -13,9 +13,9 @@ struct Orientation
 
 struct Menu_bar
 {
-    GtkButton *new_button;
-    GtkButton *open_button;
-    GtkButton *close_button;
+    GtkMenuItem *new_button;
+    GtkMenuItem *open_button;
+    GtkMenuItem *close_button;
 };
 
 struct Modules

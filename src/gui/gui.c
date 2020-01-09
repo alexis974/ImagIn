@@ -27,6 +27,7 @@ struct UI* build_GUI(char* glade_file_path)
     struct UI *ui = malloc(sizeof(struct UI));
     ui->window = GTK_WINDOW(gtk_builder_get_object(
 				    builder, "main_window"));
+    build_menu_bar_GUI(builder, ui);
     build_modules_GUI(builder, ui);
     return ui;
 }
@@ -58,6 +59,21 @@ void flip_ver(GtkWidget *button, gpointer user_data)
     printf("Flip vertical button pressed !\n");
 }
 
+void open_menu(GtkWidget *button, gpointer user_data)
+{
+    (void) button;
+    (void) user_data;
+    printf("Open button pressed !\n");
+}
+
+void new_menu(GtkWidget *button, gpointer user_data)
+{
+    (void) button;
+    (void) user_data;
+    printf("New button pressed !\n");
+}
+
+
 int GUI_main(void)
 {
     gtk_init(NULL,NULL);
@@ -79,6 +95,11 @@ int GUI_main(void)
     gtk_window_set_title(ui->window, "ImagIn");//Set title
 
     g_signal_connect(ui->window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
+    //Menu bar signals
+    g_signal_connect(ui->menu_bar->new_button, "activate", G_CALLBACK(new_menu), NULL);
+    g_signal_connect(ui->menu_bar->open_button, "activate", G_CALLBACK(open_menu), NULL);
+    g_signal_connect(ui->menu_bar->close_button, "activate", G_CALLBACK(gtk_main_quit), NULL);
+    //Orientation modules signals
     g_signal_connect(ui->modules->orientation->rot_l_button, "clicked", G_CALLBACK(rotate_left), NULL);
     g_signal_connect(ui->modules->orientation->rot_r_button, "clicked", G_CALLBACK(rotate_right), NULL);
     g_signal_connect(ui->modules->orientation->flip_v_button, "clicked", G_CALLBACK(flip_ver), NULL);

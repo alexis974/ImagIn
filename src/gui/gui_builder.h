@@ -4,6 +4,7 @@
 #include "gui.h"
 #include <gtk/gtk.h>
 
+void build_menu_bar_GUI(GtkBuilder *builder, struct UI *ui);
 void build_modules_GUI(GtkBuilder *builder, struct UI *ui);
 
 #endif
