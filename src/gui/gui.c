@@ -11,6 +11,8 @@ struct UI
 int GUImain(void)
 {
     gtk_init(NULL,NULL);
+    g_object_set(gtk_settings_get_default(),
+        "gtk-application-prefer-dark-theme", TRUE,NULL);
     GtkBuilder *builder = gtk_builder_new();
 
     GError* error = NULL;
