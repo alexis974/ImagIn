@@ -3,6 +3,7 @@
 <interface>
   <requires lib="gtk+" version="3.20"/>
   <object class="GtkWindow" id="main_window">
+    <property name="name">main_window</property>
     <property name="can_focus">False</property>
     <property name="default_width">1400</property>
     <property name="default_height">1400</property>
@@ -15,7 +16,7 @@
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
         <child>
-          <object class="GtkMenuBar">
+          <object class="GtkMenuBar" id="menu">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
@@ -177,6 +178,7 @@
             <property name="can_focus">False</property>
             <child>
               <object class="GtkBox">
+                <property name="width_request">69</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="orientation">vertical</property>
@@ -194,7 +196,19 @@
                   </packing>
                 </child>
                 <child>
-                  <placeholder/>
+                  <object class="GtkScale">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="valign">center</property>
+                    <property name="margin_left">3</property>
+                    <property name="margin_right">3</property>
+                    <property name="round_digits">1</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
                 </child>
                 <child>
                   <placeholder/>
@@ -207,10 +221,19 @@
               </packing>
             </child>
             <child>
-              <object class="GtkImage">
+              <object class="GtkAspectFrame" id="image_canvas">
+                <property name="name">image_canvas</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="stock">gtk-missing-image</property>
+                <property name="label_xalign">0</property>
+                <property name="shadow_type">none</property>
+                <child>
+                  <object class="GtkImage">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="stock">gtk-missing-image</property>
+                  </object>
+                </child>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -223,7 +246,6 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="orientation">vertical</property>
-                <property name="homogeneous">True</property>
                 <child>
                   <object class="GtkImage">
                     <property name="visible">True</property>
