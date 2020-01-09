@@ -44,7 +44,7 @@ int GUImain(void)
 
     //Set to full size
     gtk_window_set_default_size(window, workarea.width, workarea.height);
-
+    gtk_window_set_title(window, "ImagIn");
     g_signal_connect(window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
     gtk_widget_show(GTK_WIDGET(window));
 
