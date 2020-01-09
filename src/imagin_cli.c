@@ -8,16 +8,18 @@
 #include "modules/invert.h"
 #include "modules/flip.h"
 #include "modules/saturation.h"
+#include "modules/exposure.h"
 
 int main(void)
 {
     struct Image *image;
-    image = read_image("samples/Canon_90D_ppm/Canon_90D_03.ppm");
+    image = read_image("samples/Canon_90D_ppm/Canon_90D_04.ppm");
     write_image("tmp/tmp0.tiff",image);
+    write_image("tmp/tmp0.ppm",image);
 
-    //Decrease the saturation by a factor of 2
-    //	saturation(image, 0.5);
-    //  writePPM("tmp/tmp1.ppm",image);
+    //Add 0.5EV to image
+    exposure(image, 0.5);
+    write_image("tmp/tmp1.ppm",image);
 
     //Invert the colors of an image
     invert(image);
