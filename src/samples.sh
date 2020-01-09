@@ -112,8 +112,11 @@ download_jpg()
         if [ $i -lt 10 ]; then
             wget --output-document=""$name"_0$i.jpg" ""$link"_0$i.jpg"
             if [ -f "Canon_90D_0"$i".jpg" ]; then
+                printf "\e[96mConverting "$name"_0$i.jpg to bmp...\n\e[0m"
                 convert -compress none ""$name"_0$i.jpg" ""$name"_0$i.bmp"
+                printf "\e[96mConverting "$name"_0$i.jpg to tiff...\n\e[0m"
                 convert -compress none ""$name"_0$i.jpg" ""$name"_0$i.tiff"
+                printf "\e[96mConverting "$name"_0$i.jpg to ppm...\n\e[0m"
                 convert ""$name"_0$i.jpg" ""$name"_0$i.ppm"
                 mv ""$name"_0$i.jpg" "../samples/"$name"_jpg/"
                 mv ""$name"_0$i.bmp" "../samples/"$name"_bmp/"
@@ -123,8 +126,11 @@ download_jpg()
         else
             wget --output-document=""$name"_$i.jpg" ""$link"_$i.jpg"
             if [ -f ""$name"_$i.jpg" ]; then
+                printf "\e[96mConverting $name_$i.jpg to bmp...\n\e[0m"
                 convert -compress none ""$name"_$i.jpg" ""$name"_$i.bmp"
+                printf "\e[96mConverting $name_$i.jpg to tiff...\n\e[0m"
                 convert -compress none ""$name"_$i.jpg" ""$name"_$i.tiff"
+                printf "\e[96mConverting $name_$i.jpg to ppm...\n\e[0m"
                 convert ""$name"_$i.jpg" ""$name"_$i.ppm"
                 mv ""$name"_$i.jpg" "../samples/"$name"_jpg/"
                 mv ""$name"_$i.bmp" "../samples/"$name"_bmp/"
