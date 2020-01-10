@@ -16,6 +16,7 @@ struct Menu_bar
     GtkMenuItem *new_button;
     GtkMenuItem *open_button;
     GtkMenuItem *close_button;
+    GtkMenuItem *about_button;
 };
 
 struct Modules

@@ -3,6 +3,7 @@
 #include <string.h>
 #include "gui_builder.h"
 #include "gui_signals.h"
+#include "gui_callbacks.h"
 
 void css_setup(void)
 {

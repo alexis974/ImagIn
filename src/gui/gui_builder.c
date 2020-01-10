@@ -9,6 +9,8 @@ void build_menu_bar_GUI(GtkBuilder *builder, struct UI *ui)
 				    builder, "menu_open_button"));
     ui->menu_bar->close_button = GTK_MENU_ITEM(gtk_builder_get_object(
 				    builder, "menu_close_button"));
+    ui->menu_bar->about_button = GTK_MENU_ITEM(gtk_builder_get_object(
+				    builder, "about_button"));
 }
 
 void build_modules_GUI(GtkBuilder *builder, struct UI *ui)

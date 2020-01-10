@@ -40,3 +40,17 @@ void new_menu(GtkWidget *button, gpointer user_data)
     (void) user_data;
     printf("New button pressed !\n");
 }
+
+// Shows an about dialog window (import it from the glade file each time)
+void on_menubar_btn_about_activate(GtkWidget *widget, gpointer _ui)
+{
+    (void) widget;
+    struct UI *ui =_ui;
+    GtkBuilder *builder = gtk_builder_new_from_file("src/gui/gui.glade");
+    GtkWidget *window_about =
+        GTK_WIDGET(gtk_builder_get_object(builder, "window_about"));
+    gtk_builder_connect_signals(builder, NULL);
+    gtk_window_set_transient_for(GTK_WINDOW(window_about), ui->window);
+    gtk_widget_show(window_about);
+    g_object_unref(builder);
+}

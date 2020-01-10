@@ -10,6 +10,10 @@ box
 {
     color:white;
 }
+dialog
+{
+    background-color: #313131;
+}
 #image_canvas
 {
     background-color: #626262;
