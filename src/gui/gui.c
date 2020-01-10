@@ -92,7 +92,6 @@ int GUI_main(void)
 
     //Set to full size
     gtk_window_set_default_size(ui->window, workarea.width, workarea.height);
-    gtk_window_set_title(ui->window, "ImagIn");//Set title
 
     g_signal_connect(ui->window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
     //Menu bar signals
