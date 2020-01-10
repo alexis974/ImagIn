@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <err.h>
+
 #include "../imagin.h"
 #include "flip.h"
+
 
 void vertical_flip(struct Image *img)
 {
