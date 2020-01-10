@@ -26,17 +26,17 @@ tmp/
 samples/
 
 # Image
-*.jpg
-*.png
-*.dng
-*.DNG
-*.bmp
-*.ppm
-*.tif
-*.tiff
-*.CR2
-*.NEF
-*.RAF
+src/*.jpg
+src/*.png
+src/*.dng
+src/*.DNG
+src/*.bmp
+src/*.ppm
+src/*.tif
+src/*.tiff
+src/*.CR2
+src/*.NEF
+src/*.RAF
 
 #trash files
 *.glade~
