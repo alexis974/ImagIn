@@ -7,8 +7,7 @@ struct Orientation
 {
     GtkButton *rot_l_button;
     GtkButton *rot_r_button;
-    GtkButton *flip_h_button;
-    GtkButton *flip_v_button;
+    GtkComboBox *flip_box;
 };
 
 struct Menu_bar

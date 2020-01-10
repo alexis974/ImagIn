@@ -6,8 +6,7 @@ void connect_modules(struct UI *ui)
     //Orientation modules signals
     g_signal_connect(ui->modules->orientation->rot_l_button, "clicked", G_CALLBACK(rotate_left), NULL);
     g_signal_connect(ui->modules->orientation->rot_r_button, "clicked", G_CALLBACK(rotate_right), NULL);
-    g_signal_connect(ui->modules->orientation->flip_v_button, "clicked", G_CALLBACK(flip_ver), NULL);
-    g_signal_connect(ui->modules->orientation->flip_h_button, "clicked", G_CALLBACK(flip_hor), NULL);
+    g_signal_connect(ui->modules->orientation->flip_box, "changed", G_CALLBACK(flip_changed), NULL);
 }
 
 void connect_menu_bar(struct UI *ui)

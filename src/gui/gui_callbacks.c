@@ -14,17 +14,25 @@ void rotate_right(GtkWidget *button, gpointer user_data)
     printf("Rotate right button pressed !\n");
 }
 
-void flip_hor(GtkWidget *button, gpointer user_data)
+void flip_changed(GtkWidget *box, gpointer user_data)
 {
-    (void) button;
     (void) user_data;
-    printf("Flip horizontal button pressed !\n");
-}
-void flip_ver(GtkWidget *button, gpointer user_data)
-{
-    (void) button;
-    (void) user_data;
-    printf("Flip vertical button pressed !\n");
+    int element_id = gtk_combo_box_get_active(GTK_COMBO_BOX(box));
+    switch (element_id)
+    {
+    case 0:
+        printf("Flip is now 'None' !\n");
+        break;
+    case 1:
+        printf("Flip is now 'Vertical' !\n");
+        break;
+    case 2:
+        printf("Flip is now 'Horizontal' !\n");
+        break;
+    case 3:
+        printf("Flip is now 'Both' !\n");
+        break;
+    }
 }
 
 void open_menu(GtkWidget *button, gpointer user_data)
