@@ -3,6 +3,7 @@
 #include "import.h"
 #include "ppm.h"
 #include "tiff.h"
+#include "jpeg.h"
 
 void write_image(const char *filename, struct Image *img)
 {
@@ -14,6 +15,10 @@ void write_image(const char *filename, struct Image *img)
     else if(strcmp(ext,"ppm") == 0)
     {
         writePPM(filename, img);
+    }
+    else if(strcmp(ext,"jpeg") == 0 || strcmp(ext,"jpg") == 0)
+    {
+        writeJPEG(filename, img);
     }
     else
     {

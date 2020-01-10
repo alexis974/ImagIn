@@ -14,12 +14,11 @@ int main(void)
 {
     struct Image *image;
     image = read_image("samples/Canon_90D_ppm/Canon_90D_04.ppm");
-    write_image("tmp/tmp0.tiff",image);
-    write_image("tmp/tmp0.ppm",image);
+    write_image("tmp/tmp0.jpeg",image);
 
     //Add 0.5EV to image
     exposure(image, 0.5);
-    write_image("tmp/tmp1.ppm",image);
+    write_image("tmp/tmp1.jpg",image);
 
     //Invert the colors of an image
     invert(image);
