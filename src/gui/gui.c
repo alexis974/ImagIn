@@ -1,8 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <gtk/gtk.h>
 #include "gui_builder.h"
+#include "gui_signals.h"
 
 void css_setup(void)
 {
@@ -32,48 +32,6 @@ struct UI* build_GUI(char* glade_file_path)
     return ui;
 }
 
-void rotate_left(GtkWidget *button, gpointer user_data)
-{
-    (void) button;
-    (void) user_data;
-    printf("Rotate left button pressed !\n");
-}
-
-void rotate_right(GtkWidget *button, gpointer user_data)
-{
-    (void) button;
-    (void) user_data;
-    printf("Rotate right button pressed !\n");
-}
-
-void flip_hor(GtkWidget *button, gpointer user_data)
-{
-    (void) button;
-    (void) user_data;
-    printf("Flip horizontal button pressed !\n");
-}
-void flip_ver(GtkWidget *button, gpointer user_data)
-{
-    (void) button;
-    (void) user_data;
-    printf("Flip vertical button pressed !\n");
-}
-
-void open_menu(GtkWidget *button, gpointer user_data)
-{
-    (void) button;
-    (void) user_data;
-    printf("Open button pressed !\n");
-}
-
-void new_menu(GtkWidget *button, gpointer user_data)
-{
-    (void) button;
-    (void) user_data;
-    printf("New button pressed !\n");
-}
-
-
 int GUI_main(void)
 {
     gtk_init(NULL,NULL);
@@ -93,18 +51,9 @@ int GUI_main(void)
     //Set to full size
     gtk_window_set_default_size(ui->window, workarea.width, workarea.height);
 
-    g_signal_connect(ui->window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
-    //Menu bar signals
-    g_signal_connect(ui->menu_bar->new_button, "activate", G_CALLBACK(new_menu), NULL);
-    g_signal_connect(ui->menu_bar->open_button, "activate", G_CALLBACK(open_menu), NULL);
-    g_signal_connect(ui->menu_bar->close_button, "activate", G_CALLBACK(gtk_main_quit), NULL);
-    //Orientation modules signals
-    g_signal_connect(ui->modules->orientation->rot_l_button, "clicked", G_CALLBACK(rotate_left), NULL);
-    g_signal_connect(ui->modules->orientation->rot_r_button, "clicked", G_CALLBACK(rotate_right), NULL);
-    g_signal_connect(ui->modules->orientation->flip_v_button, "clicked", G_CALLBACK(flip_ver), NULL);
-    g_signal_connect(ui->modules->orientation->flip_h_button, "clicked", G_CALLBACK(flip_hor), NULL);
-
     gtk_widget_show(GTK_WIDGET(ui->window));
+
+    connect_signals(ui);
 
     gtk_main();
     return 0;
