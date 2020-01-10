@@ -32,7 +32,7 @@ cli: $(SRC) src/imagin_cli.c tmp
 		$(LIBMAGICKWAND) $(LDFLAGS)
 
 debug_cli:CFLAGS=-g
-debug_cli:imagin_cli tmp
+debug_cli:cli tmp
 
 tmp:
 	mkdir -p tmp

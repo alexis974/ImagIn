@@ -2,8 +2,11 @@
 #include <stdio.h>
 
 #include "imagin.h"
+
 #include "import_export/import.h"
 #include "import_export/export.h"
+#include "import_export/scale.h"
+
 #include "modules/black_and_white.h"
 #include "modules/invert.h"
 #include "modules/flip.h"
@@ -15,6 +18,9 @@ int main(void)
     struct Image *image;
     image = read_image("samples/Canon_90D_ppm/Canon_90D_04.ppm");
     write_image("tmp/tmp0.jpeg",image);
+
+    //Rescale img
+    write_image("tmp/tmp7.jpg", scale_img(image, 900, 600));
 
     //Add 0.5EV to image
     exposure(image, 0.5);
