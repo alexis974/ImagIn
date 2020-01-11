@@ -35,13 +35,6 @@ void flip_changed(GtkWidget *box, gpointer user_data)
     }
 }
 
-void open_menu(GtkWidget *button, gpointer user_data)
-{
-    (void) button;
-    (void) user_data;
-    printf("Open button pressed !\n");
-}
-
 void new_menu(GtkWidget *button, gpointer user_data)
 {
     (void) button;
@@ -50,15 +43,28 @@ void new_menu(GtkWidget *button, gpointer user_data)
 }
 
 // Shows an about dialog window (import it from the glade file each time)
-void on_menubar_btn_about_activate(GtkWidget *widget, gpointer _ui)
+void on_menubar_btn_about_activate(GtkWidget *widget, gpointer user_data)
 {
     (void) widget;
-    struct UI *ui =_ui;
+    struct UI *ui = user_data;
     GtkBuilder *builder = gtk_builder_new_from_file("src/gui/gui.glade");
     GtkWidget *window_about =
         GTK_WIDGET(gtk_builder_get_object(builder, "window_about"));
     gtk_builder_connect_signals(builder, NULL);
     gtk_window_set_transient_for(GTK_WINDOW(window_about), ui->window);
     gtk_widget_show(window_about);
+    g_object_unref(builder);
+}
+
+void open_file_chooser(GtkWidget *widget, gpointer user_data)
+{
+    (void) widget;
+    struct UI *ui = user_data;
+    GtkBuilder *builder = gtk_builder_new_from_file("src/gui/gui.glade");
+    GtkWidget *file_chooser =
+        GTK_WIDGET(gtk_builder_get_object(builder, "open_file_chooser"));
+    gtk_builder_connect_signals(builder, NULL);
+    gtk_window_set_transient_for(GTK_WINDOW(file_chooser), ui->window);
+    gtk_widget_show(file_chooser);
     g_object_unref(builder);
 }

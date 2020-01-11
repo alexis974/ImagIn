@@ -13,7 +13,7 @@ void connect_menu_bar(struct UI *ui)
 {
     //File submenu signals
     g_signal_connect(ui->menu_bar->new_button, "activate", G_CALLBACK(new_menu), NULL);
-    g_signal_connect(ui->menu_bar->open_button, "activate", G_CALLBACK(open_menu), NULL);
+    g_signal_connect(ui->menu_bar->open_button, "activate", G_CALLBACK(open_file_chooser), ui);
     g_signal_connect(ui->menu_bar->close_button, "activate", G_CALLBACK(gtk_main_quit), NULL);
     g_signal_connect(ui->menu_bar->about_button, "activate", G_CALLBACK(on_menubar_btn_about_activate), ui);
 }

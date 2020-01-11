@@ -23,6 +23,57 @@
     <property name="page_increment">0.01</property>
     <property name="page_size">0.01</property>
   </object>
+  <object class="GtkFileFilter" id="image_filter">
+    <mime-types>
+      <mime-type>*.jpg</mime-type>
+      <mime-type>*.jpeg</mime-type>
+      <mime-type>*.tiff</mime-type>
+      <mime-type>*.tif</mime-type>
+      <mime-type>*.png</mime-type>
+      <mime-type>*.ppm</mime-type>
+    </mime-types>
+    <patterns>
+      <pattern>*.png</pattern>
+      <pattern>*.jpg</pattern>
+      <pattern>*.jpeg</pattern>
+      <pattern>*.tiff</pattern>
+      <pattern>*.tif</pattern>
+      <pattern>.ppm</pattern>
+    </patterns>
+  </object>
+  <object class="GtkFileChooserDialog" id="open_file_chooser">
+    <property name="name">open_file_chooser</property>
+    <property name="can_focus">False</property>
+    <property name="type_hint">dialog</property>
+    <property name="filter">image_filter</property>
+    <child internal-child="vbox">
+      <object class="GtkBox">
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <object class="GtkButtonBox">
+            <property name="can_focus">False</property>
+            <property name="layout_style">end</property>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+      </object>
+    </child>
+  </object>
   <object class="GtkAdjustment" id="saturation_ajust">
     <property name="upper">2.0099999999999998</property>
     <property name="value">1</property>
