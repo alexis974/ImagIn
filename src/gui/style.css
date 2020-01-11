@@ -1,4 +1,4 @@
-window
+window,dialog,menu,menubar
 {
     background-color: #313131;
 }
@@ -9,10 +9,6 @@ label
 box
 {
     color:white;
-}
-dialog
-{
-    background-color: #313131;
 }
 #image_canvas
 {
