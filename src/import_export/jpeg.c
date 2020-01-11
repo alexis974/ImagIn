@@ -87,6 +87,7 @@ struct Image *readJPEG(const char *filename)
     //Closing everything and freeing memory
     jpeg_finish_decompress(&cinfo);
     jpeg_destroy_decompress(&cinfo);
+    printf("JPEG Image read!\n");
     fclose(infile);
     return img;
 }

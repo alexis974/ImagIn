@@ -56,6 +56,7 @@ struct Image *readTIFF(const char *filename)
     }
     _TIFFfree(raster);
     TIFFClose(tif);
+    printf("TIFF Image read!\n");
     return img;
 }
 
