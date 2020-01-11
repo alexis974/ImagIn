@@ -56,6 +56,13 @@ void on_menubar_btn_about_activate(GtkWidget *widget, gpointer user_data)
     g_object_unref(builder);
 }
 
+void file_selected(GtkWidget *widget, gpointer user_data)
+{
+    (void) user_data;
+    printf("%s\n", gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget)));
+    gtk_window_close(GTK_WINDOW(widget));
+}
+
 void open_file_chooser(GtkWidget *widget, gpointer user_data)
 {
     (void) widget;
@@ -66,5 +73,6 @@ void open_file_chooser(GtkWidget *widget, gpointer user_data)
     gtk_builder_connect_signals(builder, NULL);
     gtk_window_set_transient_for(GTK_WINDOW(file_chooser), ui->window);
     gtk_widget_show(file_chooser);
+    g_signal_connect(file_chooser, "file_activated", G_CALLBACK(file_selected), ui);
     g_object_unref(builder);
 }
