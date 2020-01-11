@@ -1,4 +1,5 @@
 #include "gui_callbacks.h"
+#include "../import_export/import.h"
 
 void rotate_left(GtkWidget *button, gpointer user_data)
 {
@@ -58,9 +59,11 @@ void on_menubar_btn_about_activate(GtkWidget *widget, gpointer user_data)
 
 void file_selected(GtkWidget *widget, gpointer user_data)
 {
-    (void) user_data;
-    printf("%s\n", gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget)));
+    struct UI *ui = user_data;
+    gchar *filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
+    printf("Chosen file : %s\n", filename);
     gtk_window_close(GTK_WINDOW(widget));
+    ui->displayed_image = read_image(filename);
 }
 
 void open_file_chooser(GtkWidget *widget, gpointer user_data)

@@ -2,6 +2,7 @@
 #define UI_H
 
 #include <gtk/gtk.h>
+#include "../imagin.h"
 
 struct Orientation
 {
@@ -23,11 +24,18 @@ struct Modules
     struct Orientation *orientation;
 };
 
+struct Display
+{
+    GtkImage *display_image;
+};
+
 struct UI
 {
     GtkWindow *window;
     struct Menu_bar *menu_bar;
     struct Modules *modules;
+    struct Display *display;
+    struct Image *displayed_image;
 };
 
 int GUI_main(void);
