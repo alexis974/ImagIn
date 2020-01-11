@@ -64,6 +64,17 @@ void file_selected(GtkWidget *widget, gpointer user_data)
     printf("Chosen file : %s\n", filename);
     gtk_window_close(GTK_WINDOW(widget));
     ui->displayed_image = read_image(filename);
+
+    GdkPixbuf *pix_buffer =
+        gdk_pixbuf_new_from_file_at_scale(
+            filename,
+            500,-1,TRUE,NULL
+        );
+
+    gtk_image_set_from_pixbuf(ui->display->display_image, pix_buffer);
+
+    //releasing memory
+    g_object_unref(pix_buffer);
 }
 
 void open_file_chooser(GtkWidget *widget, gpointer user_data)
