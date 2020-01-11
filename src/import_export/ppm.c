@@ -83,7 +83,7 @@ struct Image *readPPM(const char *filename)
     }
 
     fclose(fp);
-    printf("Image imported!\n");
+    printf("PPM Image read!\n");
     return img;
 }
 
