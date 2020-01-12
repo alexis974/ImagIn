@@ -2,11 +2,11 @@ window,dialog,menu,menubar
 {
     background-color: #313131;
 }
-label
+window:not(#open_file_chooser) label
 {
     color:white;
 }
-box
+window:not(#open_file_chooser) box
 {
     color:white;
 }
@@ -14,7 +14,7 @@ box
 {
     background-color: #626262;
 }
-expander
+window:not(#open_file_chooser) expander
 {
     background-color : #454545;
     border-radius: 5px;
