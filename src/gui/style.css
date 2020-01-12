@@ -2,7 +2,7 @@ window,dialog,menu,menubar
 {
     background-color: #313131;
 }
-window:not(#open_file_chooser) label
+window:not(#open_file_chooser) label, dialog label
 {
     color:white;
 }
