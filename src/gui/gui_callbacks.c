@@ -81,7 +81,7 @@ void new_menu(GtkWidget *button, gpointer user_data)
 }
 
 // Shows an about dialog window
-void on_menubar_btn_about_activate(GtkWidget *widget, gpointer user_data)
+void open_about_window(GtkWidget *widget, gpointer user_data)
 {
     (void) widget;
     struct UI *ui = user_data;
