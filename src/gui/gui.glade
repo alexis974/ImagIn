@@ -95,6 +95,7 @@
     <property name="window_position">center-always</property>
     <property name="default_width">1400</property>
     <property name="default_height">1400</property>
+    <property name="icon">icons/imagin_icon.png</property>
     <child>
       <placeholder/>
     </child>
@@ -823,7 +824,7 @@
     <property name="comments" translatable="yes">A free and open-source software</property>
     <property name="website">TODO</property>
     <property name="website_label" translatable="yes">TODO</property>
-    <property name="logo_icon_name">image-missing</property>
+    <property name="logo">icons/imagin_icon.png</property>
     <property name="license_type">mit-x11</property>
     <child type="titlebar">
       <placeholder/>
