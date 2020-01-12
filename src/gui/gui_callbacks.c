@@ -1,13 +1,14 @@
 #include "gui_callbacks.h"
 #include "../import_export/import.h"
 
+//Rotate module callback
 void rotate_left(GtkWidget *button, gpointer user_data)
 {
     (void) button;
     (void) user_data;
     printf("Rotate left button pressed !\n");
 }
-
+//Rotate module callback
 void rotate_right(GtkWidget *button, gpointer user_data)
 {
     (void) button;
@@ -15,6 +16,7 @@ void rotate_right(GtkWidget *button, gpointer user_data)
     printf("Rotate right button pressed !\n");
 }
 
+//Flip module callback
 void flip_changed(GtkWidget *box, gpointer user_data)
 {
     (void) user_data;
@@ -36,6 +38,7 @@ void flip_changed(GtkWidget *box, gpointer user_data)
     }
 }
 
+//Called when 'new file' is pressed
 void new_menu(GtkWidget *button, gpointer user_data)
 {
     (void) button;
@@ -43,7 +46,7 @@ void new_menu(GtkWidget *button, gpointer user_data)
     printf("New button pressed !\n");
 }
 
-// Shows an about dialog window (import it from the glade file each time)
+// Shows an about dialog window
 void on_menubar_btn_about_activate(GtkWidget *widget, gpointer user_data)
 {
     (void) widget;
@@ -57,6 +60,7 @@ void on_menubar_btn_about_activate(GtkWidget *widget, gpointer user_data)
     g_object_unref(builder);
 }
 
+//Called when user select a file in the file chooser menu
 void file_selected(GtkWidget *widget, gpointer user_data)
 {
     struct UI *ui = user_data;
@@ -77,6 +81,7 @@ void file_selected(GtkWidget *widget, gpointer user_data)
     g_object_unref(pix_buffer);
 }
 
+//Called to open the file chooser
 void open_file_chooser(GtkWidget *widget, gpointer user_data)
 {
     (void) widget;
