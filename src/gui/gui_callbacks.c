@@ -1,5 +1,39 @@
 #include "gui_callbacks.h"
 #include "../import_export/import.h"
+#include <err.h>
+
+unsigned char *from_image_to_buffer(struct Image *img)
+{
+    unsigned char *buffer =
+        malloc(sizeof(unsigned char) * img->width * img->height * 3);
+
+    for (size_t j = 0; j < img->height; j++)
+    {
+        for (size_t i = 0; i < img->width; i++)
+        {
+            buffer[j*(img->width*3)+i*3] = img->data[j*img->width+i].red;
+            buffer[j*(img->width*3)+i*3+1] = img->data[j*img->width+i].green;
+            buffer[j*(img->width*3)+i*3+2] = img->data[j*img->width+i].blue;
+        }
+    }
+    return buffer;
+}
+
+//Image data has to be allocated
+void fill_image_data_with_buffer(unsigned char *buffer, struct Image *img)
+{
+    if (!img || !img->data)
+        errx(1,"fill_image_with_buffer: image memory has not been allocated.");
+    for (size_t j = 0; j < img->height; j++)
+    {
+        for (size_t i = 0; i < img->width; i++)
+        {
+            img->data[j*img->width+i].red = buffer[j*(img->width*3)+i*3];
+            img->data[j*img->width+i].green = buffer[j*(img->width*3)+i*3+1];
+            img->data[j*img->width+i].blue = buffer[j*(img->width*3)+i*3+2];
+        }
+    }
+}
 
 //Rotate module callback
 void rotate_left(GtkWidget *button, gpointer user_data)
@@ -60,6 +94,13 @@ void on_menubar_btn_about_activate(GtkWidget *widget, gpointer user_data)
     g_object_unref(builder);
 }
 
+//Free pixel buffer when GdkBuffer is set
+void free_buffer(guchar *pixels, gpointer data)
+{
+    (void) data;
+    free(pixels);
+}
+
 //Called when user select a file in the file chooser menu
 void file_selected(GtkWidget *widget, gpointer user_data)
 {
@@ -68,13 +109,12 @@ void file_selected(GtkWidget *widget, gpointer user_data)
     printf("Chosen file : %s\n", filename);
     gtk_window_close(GTK_WINDOW(widget));
     ui->displayed_image = read_image(filename);
+    unsigned char *buffer = from_image_to_buffer(ui->displayed_image);
 
     GdkPixbuf *pix_buffer =
-        gdk_pixbuf_new_from_file_at_scale(
-            filename,
-            500,-1,TRUE,NULL
-        );
-
+        gdk_pixbuf_new_from_data(buffer, GDK_COLORSPACE_RGB, FALSE, 8,
+            ui->displayed_image->width, ui->displayed_image->height,
+                ui->displayed_image->width * 3, free_buffer, NULL);
     gtk_image_set_from_pixbuf(ui->display->display_image, pix_buffer);
 
     //releasing memory
