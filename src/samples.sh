@@ -175,17 +175,17 @@ while [ -n "$1" ]; do
             Help ;;
         -l) #litte
             download_jpg 5
-            printf "\e[96m\e[4mDone! 5 images have been download\n\e[0m" ;;
+            printf "\e[96m\e[4mDone! 5 images have been downloaded\n\e[0m" ;;
         -m) #medium
             download_jpg 30
-            printf "\e[96m\e[4mDone! 30 images have been download\n\e[0m" ;;
+            printf "\e[96m\e[4mDone! 30 images have been downloaded\n\e[0m" ;;
         -r) #raw
             download_raw
-            printf "\e[96m\e[4mDone! All raws have been download\n\e[0m" ;;
+            printf "\e[96m\e[4mDone! All raws have been downloaded\n\e[0m" ;;
         -f) #full
             download_jpg 59
             download_raw
-            printf "\e[96m\e[4mDone! All images have been download\n\e[0m" ;;
+            printf "\e[96m\e[4mDone! All images have been downloaded\n\e[0m" ;;
         *) # incorrect option
             echo "Error: Invalid option"
             exit;;
