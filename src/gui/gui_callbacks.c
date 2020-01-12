@@ -1,5 +1,10 @@
 #include "gui_callbacks.h"
 #include "../import_export/import.h"
+#include "../modules/flip.h"
+#include "../modules/contrast.h"
+#include "../modules/shadows_highlights.h"
+#include "../modules/exposure.h"
+#include "../modules/saturation.h"
 #include <err.h>
 
 unsigned char *from_image_to_buffer(struct Image *img)
@@ -35,25 +40,59 @@ void fill_image_data_with_buffer(unsigned char *buffer, struct Image *img)
     }
 }
 
+//Free pixel buffer when GdkBuffer is set
+void free_buffer(guchar *pixels, gpointer data)
+{
+    (void) data;
+    free(pixels);
+}
+
+void reload_images(struct UI *ui)
+{
+    unsigned char *buffer = from_image_to_buffer(ui->displayed_image);
+
+    GdkPixbuf *pix_buffer =
+        gdk_pixbuf_new_from_data(buffer, GDK_COLORSPACE_RGB, FALSE, 8,
+            ui->displayed_image->width, ui->displayed_image->height,
+                ui->displayed_image->width * 3, free_buffer, NULL);
+    gtk_image_set_from_pixbuf(ui->display->display_image, pix_buffer);
+
+    //releasing memory
+    g_object_unref(pix_buffer);
+}
+
+/*
+**  MODULES
+*/
+
 //Rotate module callback
 void rotate_left(GtkWidget *button, gpointer user_data)
 {
+    struct UI *ui = user_data;
+    //if no image has been opened
+    if (!ui->displayed_image)
+        return;
     (void) button;
-    (void) user_data;
     printf("Rotate left button pressed !\n");
 }
 //Rotate module callback
 void rotate_right(GtkWidget *button, gpointer user_data)
 {
+    struct UI *ui = user_data;
+    //if no image has been opened
+    if (!ui->displayed_image)
+        return;
     (void) button;
-    (void) user_data;
     printf("Rotate right button pressed !\n");
 }
 
 //Flip module callback
-void flip_changed(GtkWidget *box, gpointer user_data)
+void flip_changed(GtkComboBox *box, gpointer user_data)
 {
-    (void) user_data;
+    struct UI *ui = user_data;
+    //if no image has been opened
+    if (!ui->displayed_image)
+        return;
     int element_id = gtk_combo_box_get_active(GTK_COMBO_BOX(box));
     switch (element_id)
     {
@@ -61,16 +100,76 @@ void flip_changed(GtkWidget *box, gpointer user_data)
         printf("Flip is now 'None' !\n");
         break;
     case 1:
-        printf("Flip is now 'Vertical' !\n");
+        vertical_flip(ui->displayed_image);
         break;
     case 2:
         printf("Flip is now 'Horizontal' !\n");
+        horizontal_flip(ui->displayed_image);
         break;
     case 3:
         printf("Flip is now 'Both' !\n");
+        flip_both_axis(ui->displayed_image);
         break;
     }
+    reload_images(ui);
 }
+
+gboolean contraste_changed(GtkRange *range, GdkEvent* event, struct UI *user_data)
+{
+    struct UI *ui = user_data;
+    //if no image has been opened
+    if (!ui->displayed_image)
+        return TRUE;
+    printf("value : %f\n", gtk_range_get_value(range));
+    (void) event;
+    return TRUE;
+}
+gboolean saturation_changed(GtkRange *range, GdkEvent* event, struct UI *user_data)
+{
+    struct UI *ui = user_data;
+    //if no image has been opened
+    if (!ui->displayed_image)
+        return TRUE;
+    saturation(ui->displayed_image, gtk_range_get_value(range));
+    reload_images(ui);
+    (void) event;
+    return TRUE;
+}
+gboolean exposure_changed(GtkRange *range, GdkEvent* event, struct UI *user_data)
+{
+    struct UI *ui = user_data;
+    //if no image has been opened
+    if (!ui->displayed_image)
+        return TRUE;
+    (void) event;
+    exposure(ui->displayed_image, gtk_range_get_value(range));
+    reload_images(ui);
+    return TRUE;
+}
+gboolean shadows_changed(GtkRange *range, GdkEvent* event, struct UI *user_data)
+{
+    struct UI *ui = user_data;
+    //if no image has been opened
+    if (!ui->displayed_image)
+        return TRUE;
+    (void) range;
+    (void) event;
+    return TRUE;
+}
+gboolean highlights_changed(GtkRange *range, GdkEvent* event, struct UI *user_data)
+{
+    struct UI *ui = user_data;
+    //if no image has been opened
+    if (!ui->displayed_image)
+        return TRUE;
+    (void) range;
+    (void) event;
+    return TRUE;
+}
+
+/*
+**  WINDOWS & DIALOG
+*/
 
 //Called when 'new file' is pressed
 void new_menu(GtkWidget *button, gpointer user_data)
@@ -94,13 +193,6 @@ void open_about_window(GtkWidget *widget, gpointer user_data)
     g_object_unref(builder);
 }
 
-//Free pixel buffer when GdkBuffer is set
-void free_buffer(guchar *pixels, gpointer data)
-{
-    (void) data;
-    free(pixels);
-}
-
 //Called when user select a file in the file chooser menu
 void file_selected(GtkWidget *widget, gpointer user_data)
 {
@@ -110,7 +202,6 @@ void file_selected(GtkWidget *widget, gpointer user_data)
     gtk_window_close(GTK_WINDOW(widget));
     ui->displayed_image = read_image(filename);
     unsigned char *buffer = from_image_to_buffer(ui->displayed_image);
-
     GdkPixbuf *pix_buffer =
         gdk_pixbuf_new_from_data(buffer, GDK_COLORSPACE_RGB, FALSE, 8,
             ui->displayed_image->width, ui->displayed_image->height,

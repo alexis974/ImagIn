@@ -19,9 +19,24 @@ struct Menu_bar
     GtkMenuItem *about_button;
 };
 
+struct Cont_exp_sat
+{
+    GtkScale *contraste_scale;
+    GtkScale *exposure_scale;
+    GtkScale *saturation_scale;
+};
+
+struct Shadows_highlights
+{
+    GtkScale *shadows_scale;
+    GtkScale *highlights_scale;
+};
+
 struct Modules
 {
     struct Orientation *orientation;
+    struct Cont_exp_sat *cont_exp_sat;
+    struct Shadows_highlights *shadows_highlights;
 };
 
 struct Display

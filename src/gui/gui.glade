@@ -542,12 +542,14 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkScale">
+                                      <object class="GtkScale" id="contraste_scale">
                                         <property name="width_request">150</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="halign">center</property>
                                         <property name="adjustment">contraste_ajust</property>
+                                        <property name="lower_stepper_sensitivity">off</property>
+                                        <property name="upper_stepper_sensitivity">off</property>
                                         <property name="restrict_to_fill_level">False</property>
                                         <property name="fill_level">0</property>
                                         <property name="round_digits">1</property>
@@ -586,7 +588,7 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkScale">
+                                      <object class="GtkScale" id="exposure_scale">
                                         <property name="width_request">150</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
@@ -630,7 +632,7 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkScale">
+                                      <object class="GtkScale" id="saturation_scale">
                                         <property name="width_request">150</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
@@ -704,7 +706,7 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkScale">
+                                      <object class="GtkScale" id="shadows_scale">
                                         <property name="width_request">150</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
@@ -748,7 +750,7 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkScale">
+                                      <object class="GtkScale" id="highlights_scale">
                                         <property name="width_request">150</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>

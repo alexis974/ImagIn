@@ -32,4 +32,18 @@ void build_modules_GUI(GtkBuilder *builder, struct UI *ui)
 
     ui->modules->orientation->flip_box = GTK_COMBO_BOX(gtk_builder_get_object(
                 builder, "flip_box"));
+
+    ui->modules->cont_exp_sat = malloc(sizeof(struct Cont_exp_sat));
+    ui->modules->cont_exp_sat->contraste_scale = GTK_SCALE(
+            gtk_builder_get_object(builder, "contraste_scale"));
+    ui->modules->cont_exp_sat->exposure_scale = GTK_SCALE(
+            gtk_builder_get_object(builder, "exposure_scale"));
+    ui->modules->cont_exp_sat->saturation_scale = GTK_SCALE(
+            gtk_builder_get_object(builder, "saturation_scale"));
+
+    ui->modules->shadows_highlights = malloc(sizeof(struct Shadows_highlights));
+    ui->modules->shadows_highlights->shadows_scale = GTK_SCALE(
+            gtk_builder_get_object(builder, "shadows_scale"));
+    ui->modules->shadows_highlights->highlights_scale = GTK_SCALE(
+            gtk_builder_get_object(builder, "highlights_scale"));
 }
