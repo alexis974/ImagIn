@@ -49,6 +49,8 @@ void free_buffer(guchar *pixels, gpointer data)
 
 void reload_images(struct UI *ui)
 {
+    if (!ui->image_loaded)
+        return;
     unsigned char *buffer = from_image_to_buffer(ui->displayed_image);
 
     GdkPixbuf *pix_buffer =
@@ -70,7 +72,7 @@ void rotate_left(GtkWidget *button, gpointer user_data)
 {
     struct UI *ui = user_data;
     //if no image has been opened
-    if (!ui->displayed_image)
+    if (!ui->image_loaded)
         return;
     (void) button;
     printf("Rotate left button pressed !\n");
@@ -80,7 +82,7 @@ void rotate_right(GtkWidget *button, gpointer user_data)
 {
     struct UI *ui = user_data;
     //if no image has been opened
-    if (!ui->displayed_image)
+    if (!ui->image_loaded)
         return;
     (void) button;
     printf("Rotate right button pressed !\n");
@@ -91,7 +93,7 @@ void flip_changed(GtkComboBox *box, gpointer user_data)
 {
     struct UI *ui = user_data;
     //if no image has been opened
-    if (!ui->displayed_image)
+    if (!ui->image_loaded)
         return;
     int element_id = gtk_combo_box_get_active(GTK_COMBO_BOX(box));
     switch (element_id)
@@ -118,7 +120,7 @@ gboolean contraste_changed(GtkRange *range, GdkEvent* event, struct UI *user_dat
 {
     struct UI *ui = user_data;
     //if no image has been opened
-    if (!ui->displayed_image)
+    if (!ui->image_loaded)
         return TRUE;
     printf("value : %f\n", gtk_range_get_value(range));
     (void) event; //Prevent unused warning
@@ -128,7 +130,7 @@ gboolean saturation_changed(GtkRange *range, GdkEvent* event, struct UI *user_da
 {
     struct UI *ui = user_data;
     //if no image has been opened
-    if (!ui->displayed_image)
+    if (!ui->image_loaded)
         return TRUE;
     saturation(ui->displayed_image, gtk_range_get_value(range));
     reload_images(ui);
@@ -139,7 +141,7 @@ gboolean exposure_changed(GtkRange *range, GdkEvent* event, struct UI *user_data
 {
     struct UI *ui = user_data;
     //if no image has been opened
-    if (!ui->displayed_image)
+    if (!ui->image_loaded)
         return TRUE;
     (void) event; //Prevent unused warning
     exposure(ui->displayed_image, gtk_range_get_value(range));
@@ -150,7 +152,7 @@ gboolean shadows_changed(GtkRange *range, GdkEvent* event, struct UI *user_data)
 {
     struct UI *ui = user_data;
     //if no image has been opened
-    if (!ui->displayed_image)
+    if (!ui->image_loaded)
         return TRUE;
     (void) range;
     (void) event; //Prevent unused warning
@@ -160,7 +162,7 @@ gboolean highlights_changed(GtkRange *range, GdkEvent* event, struct UI *user_da
 {
     struct UI *ui = user_data;
     //if no image has been opened
-    if (!ui->displayed_image)
+    if (!ui->image_loaded)
         return TRUE;
     (void) range;
     (void) event; //Prevent unused warning
@@ -207,7 +209,7 @@ void file_selected(GtkWidget *widget, gpointer user_data)
             ui->displayed_image->width, ui->displayed_image->height,
                 ui->displayed_image->width * 3, free_buffer, NULL);
     gtk_image_set_from_pixbuf(ui->display->display_image, pix_buffer);
-
+    ui->image_loaded = TRUE;
     //releasing memory
     g_object_unref(pix_buffer);
 }

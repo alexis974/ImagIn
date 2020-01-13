@@ -51,6 +51,7 @@ struct UI
     struct Modules *modules;
     struct Display *display;
     struct Image *displayed_image;
+    gboolean image_loaded;
 };
 
 int GUI_main(void);

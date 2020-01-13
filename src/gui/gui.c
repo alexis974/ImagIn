@@ -28,6 +28,7 @@ struct UI* build_GUI(char* glade_file_path)
     struct UI *ui = malloc(sizeof(struct UI));
     ui->window = GTK_WINDOW(gtk_builder_get_object(
                 builder, "main_window"));
+    ui->image_loaded = FALSE;
     build_menu_bar_GUI(builder, ui);
     build_modules_GUI(builder, ui);
     build_display_GUI(builder,ui);
