@@ -15,6 +15,21 @@ window:not(#open_file_chooser) box
     background-color: #626262;
 }
 
+button
+{
+    background-image: none;
+    border-image: none;
+    background-color: #565656;
+}
+
+combobox button.combo
+{
+    background-image: none;
+    border-image: none;
+    background-color: #565656;
+    border-radius: 0;
+}
+
 window:not(#open_file_chooser) expander
 {
     background-color : #252525;
