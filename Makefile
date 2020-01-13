@@ -11,6 +11,7 @@ GTK = `pkg-config --cflags --libs gtk+-3.0`
 LIBTIFF = `pkg-config --cflags --libs libtiff-4`
 LIBJPEG = `pkg-config --cflags --libs libjpeg`
 LIBXML = `pkg-config --cflags --libs libxml-2.0`
+LIBPNG = `pkg-config --cflags --libs libpng`
 
 SRC = src/import_export/*.c src/modules/*.c src/gui/*.c
 
@@ -19,7 +20,7 @@ imagin: $(SRC) src/imagin.c
 	$(CC) -o $@.out src/imagin.c $(SRC) $(CFLAGS) $(CPPFLAGS)\
 		$(GTK) $(LIBTIFF)\
 		$(LIBJPEG) $(LIBXML)\
-		$(LDFLAGS)
+		$(LIBPNG) $(LDFLAGS)
 
 debug:CFLAGS=-g
 debug:all
@@ -28,7 +29,7 @@ cli: $(SRC) src/imagin_cli.c tmp
 	$(CC) -o imagin_cli.out src/imagin_cli.c $(SRC) $(CFLAGS) $(CPPFLAGS)\
 		$(GTK) $(LIBTIFF)\
 		$(LIBXML) $(LIBJPEG)\
-		$(LDFLAGS)
+		$(LIBPNG) $(LDFLAGS)
 
 debug_cli:CFLAGS=-g
 debug_cli:cli tmp

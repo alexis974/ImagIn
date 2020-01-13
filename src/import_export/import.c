@@ -3,6 +3,7 @@
 #include "ppm.h"
 #include "tiff.h"
 #include "jpeg.h"
+#include "png.h"
 
 const char *get_filename_ext(const char *filename)
 {
@@ -26,6 +27,10 @@ struct Image *read_image(const char *filename)
     else if(strcmp(ext,"jpeg") == 0 || strcmp(ext,"jpg") == 0)
     {
         return readJPEG(filename);
+    }
+    else if(strcmp(ext,"png") == 0)
+    {
+        return readPNG(filename);
     }
     errx(1,"import: Unknown file extension '%s'\n", ext);
 }
