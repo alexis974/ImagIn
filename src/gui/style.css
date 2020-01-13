@@ -17,9 +17,15 @@ window:not(#open_file_chooser) box
 
 button
 {
+    box-shadow: 0px -2px 1px #606060;
     background-image: none;
     border-image: none;
+    border-color: #565656;
     background-color: #565656;
+}
+button:active
+{
+    box-shadow: 0px -2px 1px #565656;
 }
 
 combobox button.combo
@@ -28,6 +34,10 @@ combobox button.combo
     border-image: none;
     background-color: #565656;
     border-radius: 0;
+}
+combobox *
+{
+    color: white;
 }
 
 window:not(#open_file_chooser) expander
