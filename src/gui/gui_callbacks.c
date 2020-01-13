@@ -121,7 +121,7 @@ gboolean contraste_changed(GtkRange *range, GdkEvent* event, struct UI *user_dat
     if (!ui->displayed_image)
         return TRUE;
     printf("value : %f\n", gtk_range_get_value(range));
-    (void) event;
+    (void) event; //Prevent unused warning
     return TRUE;
 }
 gboolean saturation_changed(GtkRange *range, GdkEvent* event, struct UI *user_data)
@@ -132,7 +132,7 @@ gboolean saturation_changed(GtkRange *range, GdkEvent* event, struct UI *user_da
         return TRUE;
     saturation(ui->displayed_image, gtk_range_get_value(range));
     reload_images(ui);
-    (void) event;
+    (void) event; //Prevent unused warning
     return TRUE;
 }
 gboolean exposure_changed(GtkRange *range, GdkEvent* event, struct UI *user_data)
@@ -141,7 +141,7 @@ gboolean exposure_changed(GtkRange *range, GdkEvent* event, struct UI *user_data
     //if no image has been opened
     if (!ui->displayed_image)
         return TRUE;
-    (void) event;
+    (void) event; //Prevent unused warning
     exposure(ui->displayed_image, gtk_range_get_value(range));
     reload_images(ui);
     return TRUE;
@@ -153,7 +153,7 @@ gboolean shadows_changed(GtkRange *range, GdkEvent* event, struct UI *user_data)
     if (!ui->displayed_image)
         return TRUE;
     (void) range;
-    (void) event;
+    (void) event; //Prevent unused warning
     return TRUE;
 }
 gboolean highlights_changed(GtkRange *range, GdkEvent* event, struct UI *user_data)
@@ -163,7 +163,7 @@ gboolean highlights_changed(GtkRange *range, GdkEvent* event, struct UI *user_da
     if (!ui->displayed_image)
         return TRUE;
     (void) range;
-    (void) event;
+    (void) event; //Prevent unused warning
     return TRUE;
 }
 

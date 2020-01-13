@@ -555,7 +555,6 @@
                                         <property name="fill_level">0</property>
                                         <property name="round_digits">1</property>
                                         <property name="digits">2</property>
-                                        <property name="has_origin">False</property>
                                         <property name="value_pos">right</property>
                                       </object>
                                       <packing>
@@ -599,7 +598,6 @@
                                         <property name="fill_level">0</property>
                                         <property name="round_digits">1</property>
                                         <property name="digits">2</property>
-                                        <property name="has_origin">False</property>
                                         <property name="value_pos">right</property>
                                       </object>
                                       <packing>
@@ -643,7 +641,6 @@
                                         <property name="fill_level">0</property>
                                         <property name="round_digits">1</property>
                                         <property name="digits">2</property>
-                                        <property name="has_origin">False</property>
                                         <property name="value_pos">right</property>
                                       </object>
                                       <packing>
@@ -717,7 +714,6 @@
                                         <property name="fill_level">0</property>
                                         <property name="round_digits">1</property>
                                         <property name="digits">2</property>
-                                        <property name="has_origin">False</property>
                                         <property name="value_pos">right</property>
                                       </object>
                                       <packing>
@@ -761,7 +757,6 @@
                                         <property name="fill_level">0</property>
                                         <property name="round_digits">1</property>
                                         <property name="digits">2</property>
-                                        <property name="has_origin">False</property>
                                         <property name="value_pos">right</property>
                                       </object>
                                       <packing>
