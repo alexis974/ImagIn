@@ -1,9 +1,12 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <libxml/encoding.h>
+#include <libxml/xmlwriter.h>
 
 #include "imagin.h"
 #include "import_export/import.h"
 #include "import_export/export.h"
+#include "import_export/xml.h"
 #include "modules/black_and_white.h"
 #include "modules/invert.h"
 #include "modules/flip.h"
@@ -13,8 +16,24 @@
 int main(void)
 {
     struct Image *image;
-    image = read_image("samples/Canon_90D_ppm/Canon_90D_04.ppm");
+    char *img_path = "samples/Canon_90D_ppm/Canon_90D_04.ppm";
+    char *xml_path = "samples/Canon_90D_ppm/Canon_90D_04.xml";
+
+    image = read_image(img_path);
     write_image("tmp/tmp0.jpeg",image);
+
+    /* try to open file to read */
+    FILE *file;
+    if ((file = fopen(xml_path, "r")))
+    {
+        printf("XML file already exist\n");
+        fclose(file);
+    }
+    else
+    {
+        printf("No XML file found. Creating one...\n");
+        create_xmp(xml_path);
+    }
 
     //Add 0.5EV to image
     exposure(image, 0.5);
