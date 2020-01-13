@@ -17,7 +17,7 @@
 *.exe
 *.out
 
-#VSCode
+# IDE
 .DS_Store
 .vscode/
 
@@ -38,9 +38,9 @@ src/*.CR2
 src/*.NEF
 src/*.RAF
 
-#trash files
+# GUI
 *.glade~
 
-# EXIF
-.txt
-.XMP
+# ImagIn
+.xmp
+.tmp
