@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <err.h>
+#include "../error_handler.h"
 #include <math.h>
 #include <string.h>
 #include <tiffio.h>
@@ -12,7 +12,8 @@ struct Image *readTIFF(const char *filename)
     TIFF *tif=TIFFOpen(filename, "r");
     if(!tif)
     {
-        errx(1 , "readTIFF: Unable to open file '%s'\n", filename);
+        throw_error("readTIFF", "Unable to open file");
+        return NULL;
     }
     uint32 width;
     uint32 height;
@@ -21,11 +22,13 @@ struct Image *readTIFF(const char *filename)
     uint32 *raster=(uint32 *) _TIFFmalloc(width*height *sizeof(uint32));
     if (!raster)
     {
-        errx(1, "readTIFF: Unable to allocate memory\n");
+        throw_error("readTIFF", "Unable to allocate memory");
+        return NULL;
     }
     if(!TIFFReadRGBAImage(tif, width, height, raster, 0))
     {
-        errx(1, "readTIFF: Unable to read image\n");
+        throw_error("readTIFF", "Unable to read image");
+        return NULL;
     }
     struct Image *img;
 
@@ -33,7 +36,8 @@ struct Image *readTIFF(const char *filename)
     img = malloc(sizeof(struct Image));
     if (!img)
     {
-        errx(1, "readTIFF: Unable to allocate memory\n");
+        throw_error("readTIFF", "Unable to allocate memory");
+        return NULL;
     }
     img->height = height;
     img->width = width;
@@ -42,7 +46,8 @@ struct Image *readTIFF(const char *filename)
     img->data = (struct Pixel*)malloc(img->width * img->height * sizeof(struct Pixel));
     if (!img->data)
     {
-        errx(1, "readTIFF: Unable to allocate memory\n");
+        throw_error("readTIFF", "Unable to allocate memory");
+        return NULL;
     }
 
     for (size_t j = 0; j < height; j++)
@@ -66,7 +71,8 @@ void writeTIFF(const char *filename, struct Image *img)
     TIFF *out= TIFFOpen(filename, "w");
     if (!out)
     {
-        errx(1, "writeTIFF: Unable to create file\n");
+        throw_error("writeTIFF", "Unable to create file");
+        return;
     }
     int sampleperpixel = 3;//Put 4 if alpha channel
 
@@ -103,8 +109,8 @@ void writeTIFF(const char *filename, struct Image *img)
         //Writing in image
         if(TIFFWriteScanline(out, buffer, j, 0) < 0)
         {
-            errx(1,"writeTIFF: Unable to write image.\n");
-            break;
+            throw_error("writeTIFF", "Unable to write image.");
+            return;
         }
     }
 

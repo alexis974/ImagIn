@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <err.h>
+#include "../error_handler.h"
 #include <math.h>
 #include "../imagin.h"
 #include "ppm.h"
@@ -16,26 +16,30 @@ struct Image *readPPM(const char *filename)
     fp = fopen(filename, "rb");
     if (!fp)
     {
-        errx(1 , "readPPM: Unable to open file '%s'\n", filename);
+        throw_error("readPPM", "Unable to open file");
+        return NULL;
     }
 
     //read image format
     if (!fgets(buff, sizeof(buff), fp))
     {
-        errx(1, "readPPM: Wrong image format for '%s'\n", filename);
+        throw_error("readPPM", "Wrong image format");
+        return NULL;
     }
 
     //check the image format
     if (buff[0] != 'P' || buff[1] != '6')
     {
-        errx(1, "readPPM: Invalid image format (must be 'P6')\n");
+        throw_error("readPPM","Invalid image format (must be 'P6')");
+        return NULL;
     }
 
     //alloc memory form image
     img = malloc(sizeof(struct Image));
     if (!img)
     {
-        errx(1, "readPPM: Unable to allocate memory\n");
+        throw_error("readPPM","Unable to allocate memory");
+        return NULL;
     }
 
     //check for comments
@@ -52,19 +56,22 @@ struct Image *readPPM(const char *filename)
     //read image size information
     if (fscanf(fp, "%ld %ld", &img->width, &img->height) != 2)
     {
-        errx(1, "readPPM: Invalid image size (error loading '%s')\n", filename);
+        throw_error("readPPM", "Invalid image size");
+        return NULL;
     }
 
     //read rgb component
     if (fscanf(fp, "%ld", &img->bit_depth) != 1)
     {
-        errx(1, "readPPM: Invalid rgb component (error loading '%s')\n", filename);
+        throw_error("readPPM","Invalid rgb component");
+        return NULL;
     }
 
     //check rgb component depth
     if (img->bit_depth != 255)
     {
-        errx(1, "readPPM: '%s' does not have 8-bits components\n", filename);
+        throw_error("readPPM","file does not have 8-bits components");
+        return NULL;
     }
 
     //memory allocation for pixel data
@@ -73,13 +80,15 @@ struct Image *readPPM(const char *filename)
 
     if (!img->data)
     {
-        errx(1, "readPPM: Unable to allocate memory\n");
+        throw_error("readPPM","Unable to allocate memory");
+        return NULL;
     }
 
     //read pixel data from file
     if (fread(img->data, 3 * img->width, img->height, fp) != img->height)
     {
-        errx(1, "readPPM: Error loading image '%s'\n", filename);
+        throw_error("readPPM", "Error loading image");
+        return NULL;
     }
 
     fclose(fp);
@@ -94,7 +103,7 @@ void writePPM(const char *filename, struct Image *img)
     fp = fopen(filename, "wb");
     if (!fp)
     {
-        errx(1, "writePPM: Unable to open file '%s'\n", filename );
+        throw_error("writePPM", "Unable to open file");
     }
 
     //write the header file

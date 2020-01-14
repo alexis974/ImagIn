@@ -5,7 +5,7 @@
 #include "../modules/shadows_highlights.h"
 #include "../modules/exposure.h"
 #include "../modules/saturation.h"
-#include <err.h>
+#include "../error_handler.h"
 
 unsigned char *from_image_to_buffer(struct Image *img)
 {
@@ -28,7 +28,7 @@ unsigned char *from_image_to_buffer(struct Image *img)
 void fill_image_data_with_buffer(unsigned char *buffer, struct Image *img)
 {
     if (!img || !img->data)
-        errx(1,"fill_image_with_buffer: image memory has not been allocated.");
+        throw_error("fill_image_with_buffer", "image memory has not been allocated.");
     for (size_t j = 0; j < img->height; j++)
     {
         for (size_t i = 0; i < img->width; i++)

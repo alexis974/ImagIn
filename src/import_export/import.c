@@ -1,4 +1,4 @@
-#include <err.h>
+#include "../error_handler.h"
 #include <string.h>
 #include "ppm.h"
 #include "tiff.h"
@@ -32,5 +32,6 @@ struct Image *read_image(const char *filename)
     {
         return readPNG(filename);
     }
-    errx(1,"import: Unknown file extension '%s'\n", ext);
+    throw_error("import", "Unknown extension.");
+    return NULL;
 }

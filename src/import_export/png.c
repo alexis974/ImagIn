@@ -1,6 +1,6 @@
 #include <png.h>
 #include <stdio.h>
-#include <err.h>
+#include "../error_handler.h"
 #include "../imagin.h"
 #include <stdlib.h>
 
@@ -10,26 +10,41 @@ struct Image *readPNG(const char *filename)
 
     png_structp png = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
     if (!png)
-        errx(1,"readPNG : Unable to use png library.");
+    {
+        throw_error("readPNG","Unable to use png library.");
+        return NULL;
+    }
 
     png_infop info = png_create_info_struct(png);
     if (!info)
-        errx(1,"readPNG : Unable to use png library.");
+    {
+        throw_error("readPNG","Unable to use png library.");
+        return NULL;
+    }
 
     if (setjmp(png_jmpbuf(png)))
-        errx(1,"readPNG : Unable to use png library.");
+    {
+        throw_error("readPNG","Unable to use png library.");
+        return NULL;
+    }
 
     png_init_io(png, fp);
     png_read_info(png, info);
 
     struct Image *img = malloc(sizeof(struct Image));
     if (!img)
-        errx(1, "readPNG: Unable to allocate memoy.");
+    {
+        throw_error("readPNG","Unable to allocate memory.");
+        return NULL;
+    }
     img->width = png_get_image_width(png, info);
     img->height = png_get_image_height(png, info);
     img->data = malloc(sizeof(struct Pixel) * img->height * img->width);
     if (!img->data)
-        errx(1, "readPNG: Unable to allocate memoy.");
+    {
+        throw_error("readPNG","Unable to allocate memory.");
+        return NULL;
+    }
     img->bit_depth = png_get_bit_depth(png, info);
     png_byte color_type = png_get_color_type(png, info);
     if (img->bit_depth == 16)

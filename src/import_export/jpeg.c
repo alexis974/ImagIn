@@ -1,4 +1,4 @@
-#include <err.h>
+#include "../error_handler.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <jpeglib.h>
@@ -27,7 +27,8 @@ struct Image *readJPEG(const char *filename)
 
     if(!(infile = fopen(filename, "rb")))
     {
-        errx(1 , "readJPEG: Unable to open file '%s'\n", filename);
+        throw_error("readJPEG", "Unable to open file");
+        return NULL;
     }
 
     //Setting up errors management
@@ -37,7 +38,7 @@ struct Image *readJPEG(const char *filename)
     {
         jpeg_destroy_decompress(&cinfo);
         fclose(infile);
-        return 0;
+        return NULL;
     }
 
     //Getting info
@@ -47,13 +48,17 @@ struct Image *readJPEG(const char *filename)
     jpeg_start_decompress(&cinfo);
 
     if(cinfo.output_components != 3)
-        errx(1,"readJPEG: Too many components (alpha canal ?)");
+    {
+        throw_error("readJPEG", "Too many components (alpha canal ?)");
+        return NULL;
+    }
 
     //Setting info
     struct Image *img = malloc(sizeof(struct Image));
     if(!img)
     {
-        errx(1, "readJPEG: Unable to allocate memory.");
+        throw_error("readJPEG", "Unable to allocate memory.");
+        return NULL;
     }
     img->width = cinfo.image_width;
     img->height = cinfo.image_height;
@@ -61,7 +66,8 @@ struct Image *readJPEG(const char *filename)
     img->data = malloc(sizeof(struct Pixel) * img->width * img->height);
     if(!img->data)
     {
-        errx(1, "readJPEG: Unable to allocate memory.");
+        throw_error("readJPEG", "Unable to allocate memory.");
+        return NULL;
     }
 
     JSAMPARRAY buffer;//Output row buffer
@@ -104,7 +110,8 @@ void writeJPEG(const char *filename, struct Image *img)
     jpeg_create_compress(&cinfo);
     if ((outfile = fopen(filename, "wb")) == NULL)
     {
-        errx(1 , "writeJPEG: Unable to open file '%s'\n", filename);
+        throw_error("writeJPEG", "Unable to open file");
+        return;
     }
 
     jpeg_stdio_dest(&cinfo, outfile);
@@ -121,7 +128,8 @@ void writeJPEG(const char *filename, struct Image *img)
     row_pointer[0] = malloc(sizeof(unsigned char)*row_stride);
     if (!row_pointer[0])
     {
-        errx(1,"writeJPEG : Unable to allocate.");
+        throw_error("writeJPEG", "Unable to allocate memory.");
+        return;
     }
     while (cinfo.next_scanline < cinfo.image_height)
     {

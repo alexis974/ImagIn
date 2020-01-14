@@ -4,6 +4,7 @@
 #include <libxml/xmlwriter.h>
 
 #include "imagin.h"
+#include "error_handler.h"
 #include "import_export/import.h"
 #include "import_export/export.h"
 #include "import_export/xml.h"
@@ -15,6 +16,9 @@
 
 int main(void)
 {
+    //Set error mode to CLI to have error in text format
+    g_cli_mode = FALSE;
+
     struct Image *image;
     char *img_path = "samples/Canon_90D_ppm/Canon_90D_04.ppm";
     char *xml_path = "samples/Canon_90D_ppm/Canon_90D_04.xml";

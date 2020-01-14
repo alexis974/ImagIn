@@ -1,4 +1,4 @@
-#include <err.h>
+#include "../error_handler.h"
 #include <string.h>
 #include "import.h"
 #include "ppm.h"
@@ -22,6 +22,6 @@ void write_image(const char *filename, struct Image *img)
     }
     else
     {
-        errx(1,"export: Unknown file extension '%s'\n", ext);
+        throw_error("export","Unknow file extension.");
     }
 }

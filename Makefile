@@ -13,7 +13,7 @@ LIBJPEG = `pkg-config --cflags --libs libjpeg`
 LIBXML = `pkg-config --cflags --libs libxml-2.0`
 LIBPNG = `pkg-config --cflags --libs libpng`
 
-SRC = src/import_export/*.c src/modules/*.c src/gui/*.c
+SRC = src/import_export/*.c src/modules/*.c src/gui/*.c src/error_handler.c
 
 all: imagin tmp
 imagin: $(SRC) src/imagin.c
