@@ -1,12 +1,12 @@
-window,dialog,menu,menubar
+window:not(filechooser),dialog,menu,menubar
 {
     background-color: #313131;
 }
-window:not(#open_file_chooser) label, dialog label
+window:not(filechooser) label, dialog:not(filechooser) label
 {
     color:white;
 }
-window:not(#open_file_chooser) box
+window:not(filechooser) box
 {
     color:white;
 }
@@ -15,7 +15,7 @@ window:not(#open_file_chooser) box
     background-color: #626262;
 }
 
-button
+window:not(filechooser) button
 {
     box-shadow: 0px -2px 1px #606060;
     background-image: none;
@@ -23,38 +23,38 @@ button
     border-color: #565656;
     background-color: #565656;
 }
-button:active
+window:not(filechooser) button:active
 {
     box-shadow: 0px -2px 1px #565656;
 }
 
-combobox button.combo
+window:not(filechooser) combobox button.combo
 {
     background-image: none;
     border-image: none;
     background-color: #565656;
     border-radius: 0;
 }
-combobox *
+window:not(filechooser) combobox *
 {
     color: white;
 }
 
-window:not(#open_file_chooser) expander
+window:not(filechooser) expander
 {
     background-color : #252525;
     border-radius: 5px;
     padding-top: 3px;
 }
-expander > title
+window:not(filechooser) expander > title
 {
     padding-bottom: 3px;
 }
-expander arrow
+window:not(filechooser) expander arrow
 {
     color: white;
 }
-expander > box
+window:not(filechooser) expander > box
 {
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
@@ -63,7 +63,7 @@ expander > box
     padding-bottom: 3px;
 }
 
-scale > contents > trough
+window:not(filechooser) scale > contents > trough
 {
     background-image: none;
     background-color: #565656;
@@ -75,7 +75,7 @@ scale > contents > trough
     padding: 0;
 }
 
-slider
+window:not(filechooser) slider
 {
     background-image: none;
     background-color: #d4d4d4;
@@ -87,7 +87,7 @@ slider
     box-shadow: 0 0px 2px rgba(0,0,0,0.4);
 }
 
-scale trough highlight
+window:not(filechooser) scale trough highlight
 {
     min-height: 6px;
     border-radius :7px;
@@ -98,7 +98,7 @@ scale trough highlight
       inset 0 0 2px rgba(0, 0, 0,0.5);
 }
 
-scale trough slider:hover ~ highlight, highlight:hover
+window:not(filechooser) scale trough slider:hover ~ highlight, highlight:hover
 {
     background-color: rgb(255, 143, 137);
 }
