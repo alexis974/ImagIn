@@ -228,3 +228,33 @@ void open_file_chooser(GtkWidget *widget, gpointer user_data)
     g_signal_connect(file_chooser, "file_activated", G_CALLBACK(file_selected), ui);
     g_object_unref(builder);
 }
+
+void open_save_as_window(GtkWidget *widget, gpointer user_data)
+{
+    (void) widget;
+    struct UI *ui = user_data;
+    GtkWidget *dialog;
+    gint res;
+
+    dialog = gtk_file_chooser_dialog_new("Save Result",
+                                        GTK_WINDOW(ui->window),
+                                        GTK_FILE_CHOOSER_ACTION_SAVE,
+                                        "Cancel",
+                                        GTK_RESPONSE_CANCEL,
+                                        "Save",
+                                        GTK_RESPONSE_ACCEPT,
+                                        NULL);
+
+    gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(dialog), TRUE);
+
+    res = gtk_dialog_run(GTK_DIALOG(dialog));
+    if (res == GTK_RESPONSE_ACCEPT)
+    {
+        char *path;
+        path = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
+        printf("%s\n", path);
+        g_free(path);
+    }
+
+    gtk_widget_destroy(dialog);
+}

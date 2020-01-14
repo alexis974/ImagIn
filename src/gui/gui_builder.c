@@ -7,6 +7,8 @@ void build_menu_bar_GUI(GtkBuilder *builder, struct UI *ui)
                 builder, "menu_new_button"));
     ui->menu_bar->open_button = GTK_MENU_ITEM(gtk_builder_get_object(
                 builder, "menu_open_button"));
+    ui->menu_bar->save_as_button = GTK_MENU_ITEM(gtk_builder_get_object(
+                builder, "menu_save_as_button"));
     ui->menu_bar->close_button = GTK_MENU_ITEM(gtk_builder_get_object(
                 builder, "menu_close_button"));
     ui->menu_bar->about_button = GTK_MENU_ITEM(gtk_builder_get_object(
