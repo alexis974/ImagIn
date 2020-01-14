@@ -28,7 +28,10 @@ unsigned char *from_image_to_buffer(struct Image *img)
 void fill_image_data_with_buffer(unsigned char *buffer, struct Image *img)
 {
     if (!img || !img->data)
+    {
         throw_error("fill_image_with_buffer", "image memory has not been allocated.");
+        return;
+    }
     for (size_t j = 0; j < img->height; j++)
     {
         for (size_t i = 0; i < img->width; i++)
