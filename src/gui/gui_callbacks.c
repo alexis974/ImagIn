@@ -116,57 +116,63 @@ void flip_changed(GtkComboBox *box, gpointer user_data)
     reload_images(ui);
 }
 
-gboolean contraste_changed(GtkRange *range, GdkEvent* event, struct UI *user_data)
+gboolean contraste_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
 {
+    if(!(gdk_event_get_event_type(event) == GDK_BUTTON_RELEASE))
+        return FALSE;
     struct UI *ui = user_data;
     //if no image has been opened
     if (!ui->image_loaded)
-        return TRUE;
+        return FALSE;
     printf("value : %f\n", gtk_range_get_value(range));
-    (void) event; //Prevent unused warning
-    return TRUE;
+    return FALSE;
 }
-gboolean saturation_changed(GtkRange *range, GdkEvent* event, struct UI *user_data)
+gboolean saturation_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
 {
+    if(!(gdk_event_get_event_type(event) == GDK_BUTTON_RELEASE))
+        return FALSE;
     struct UI *ui = user_data;
     //if no image has been opened
     if (!ui->image_loaded)
-        return TRUE;
+        return FALSE;
     saturation(ui->displayed_image, gtk_range_get_value(range));
     reload_images(ui);
-    (void) event; //Prevent unused warning
-    return TRUE;
+    return FALSE;
 }
-gboolean exposure_changed(GtkRange *range, GdkEvent* event, struct UI *user_data)
+gboolean exposure_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
 {
+    if(!(gdk_event_get_event_type(event) == GDK_BUTTON_RELEASE))
+        return FALSE;
     struct UI *ui = user_data;
     //if no image has been opened
     if (!ui->image_loaded)
-        return TRUE;
+        return FALSE;
     (void) event; //Prevent unused warning
     exposure(ui->displayed_image, gtk_range_get_value(range));
     reload_images(ui);
-    return TRUE;
+    return FALSE;
 }
-gboolean shadows_changed(GtkRange *range, GdkEvent* event, struct UI *user_data)
+gboolean shadows_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
 {
+    if(!(gdk_event_get_event_type(event) == GDK_BUTTON_RELEASE))
+        return FALSE;
     struct UI *ui = user_data;
     //if no image has been opened
     if (!ui->image_loaded)
-        return TRUE;
+        return FALSE;
     (void) range;
-    (void) event; //Prevent unused warning
-    return TRUE;
+    return FALSE;
 }
-gboolean highlights_changed(GtkRange *range, GdkEvent* event, struct UI *user_data)
+gboolean highlights_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
 {
+    if(!(gdk_event_get_event_type(event) == GDK_BUTTON_RELEASE))
+        return FALSE;
     struct UI *ui = user_data;
     //if no image has been opened
     if (!ui->image_loaded)
-        return TRUE;
+        return FALSE;
     (void) range;
-    (void) event; //Prevent unused warning
-    return TRUE;
+    return FALSE;
 }
 
 /*

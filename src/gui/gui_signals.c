@@ -9,12 +9,12 @@ void connect_modules(struct UI *ui)
     g_signal_connect(ui->modules->orientation->flip_box, "changed", G_CALLBACK(flip_changed), ui);
 
     //Contraste Exposure Saturation signals
-    g_signal_connect(ui->modules->cont_exp_sat->contraste_scale, "button-release-event", G_CALLBACK(contraste_changed), ui);
-    g_signal_connect(ui->modules->cont_exp_sat->exposure_scale, "button-release-event", G_CALLBACK(exposure_changed), ui);
-    g_signal_connect(ui->modules->cont_exp_sat->saturation_scale, "button-release-event", G_CALLBACK(saturation_changed), ui);
+    g_signal_connect(ui->modules->cont_exp_sat->contraste_scale, "event", G_CALLBACK(contraste_changed), ui);
+    g_signal_connect(ui->modules->cont_exp_sat->exposure_scale, "event", G_CALLBACK(exposure_changed), ui);
+    g_signal_connect(ui->modules->cont_exp_sat->saturation_scale, "event", G_CALLBACK(saturation_changed), ui);
     //Shadow Highlights signals
-    g_signal_connect(ui->modules->shadows_highlights->shadows_scale, "button-release-event", G_CALLBACK(shadows_changed), ui);
-    g_signal_connect(ui->modules->shadows_highlights->shadows_scale, "button-release-event", G_CALLBACK(highlights_changed), ui);
+    g_signal_connect(ui->modules->shadows_highlights->shadows_scale, "event", G_CALLBACK(shadows_changed), ui);
+    g_signal_connect(ui->modules->shadows_highlights->shadows_scale, "event", G_CALLBACK(highlights_changed), ui);
 }
 
 void connect_menu_bar(struct UI *ui)
