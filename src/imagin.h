@@ -16,4 +16,11 @@ struct Image
     struct Pixel *data;
 };
 
+struct Images
+{
+    struct Image *Full_image;
+    struct Image *Scale_image;
+    struct Image *Edited_scale_image;
+}
+
 #endif
