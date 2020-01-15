@@ -24,7 +24,7 @@ int main(void)
 
     struct Image *image;
     char *img_path = "samples/Canon_90D_ppm/Canon_90D_04.ppm";
-    char *xml_path = "samples/Canon_90D_ppm/Canon_90D_04.xml";
+    char *xml_path = "samples/Canon_90D_ppm/Canon_90D_04.ppm.xml";
 
     image = read_image(img_path);
     write_image("tmp/tmp0.jpg",image);
