@@ -51,7 +51,7 @@ struct UI
     struct Menu_bar *menu_bar;
     struct Modules *modules;
     struct Display *display;
-    struct Image *displayed_image;
+    struct Images *images;
     gboolean image_loaded;
 };
 

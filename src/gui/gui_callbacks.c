@@ -54,12 +54,12 @@ void reload_images(struct UI *ui)
 {
     if (!ui->image_loaded)
         return;
-    unsigned char *buffer = from_image_to_buffer(ui->displayed_image);
+    unsigned char *buffer = from_image_to_buffer(ui->images->full);
 
     GdkPixbuf *pix_buffer =
         gdk_pixbuf_new_from_data(buffer, GDK_COLORSPACE_RGB, FALSE, 8,
-            ui->displayed_image->width, ui->displayed_image->height,
-                ui->displayed_image->width * 3, free_buffer, NULL);
+            ui->images->full->width, ui->images->full->height,
+                ui->images->full->width * 3, free_buffer, NULL);
     gtk_image_set_from_pixbuf(ui->display->display_image, pix_buffer);
 
     //releasing memory
@@ -105,15 +105,15 @@ void flip_changed(GtkComboBox *box, gpointer user_data)
         printf("Flip is now 'None' !\n");
         break;
     case 1:
-        vertical_flip(ui->displayed_image);
+        vertical_flip(ui->images->full);
         break;
     case 2:
         printf("Flip is now 'Horizontal' !\n");
-        horizontal_flip(ui->displayed_image);
+        horizontal_flip(ui->images->full);
         break;
     case 3:
         printf("Flip is now 'Both' !\n");
-        flip_both_axis(ui->displayed_image);
+        flip_both_axis(ui->images->full);
         break;
     }
     reload_images(ui);
@@ -138,7 +138,7 @@ gboolean saturation_changed(GtkRange *range, GdkEvent *event, gpointer user_data
     //if no image has been opened
     if (!ui->image_loaded)
         return FALSE;
-    saturation(ui->displayed_image, gtk_range_get_value(range));
+    saturation(ui->images->full, gtk_range_get_value(range));
     reload_images(ui);
     return FALSE;
 }
@@ -151,7 +151,7 @@ gboolean exposure_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
     if (!ui->image_loaded)
         return FALSE;
     (void) event; //Prevent unused warning
-    exposure(ui->displayed_image, gtk_range_get_value(range));
+    exposure(ui->images->full, gtk_range_get_value(range));
     reload_images(ui);
     return FALSE;
 }
@@ -208,13 +208,16 @@ void open_about_window(GtkWidget *widget, gpointer user_data)
 void open_file(struct UI *ui, char *filename)
 {
     printf("Chosen file : %s\n", filename);
-    ui->displayed_image = read_image(filename);
-    unsigned char *buffer = from_image_to_buffer(ui->displayed_image);
+    //Full image
+    ui->images->full = read_image(filename);
+    //Middle image
+    unsigned char *buffer = from_image_to_buffer(ui->images->full);
     GdkPixbuf *pix_buffer =
         gdk_pixbuf_new_from_data(buffer, GDK_COLORSPACE_RGB, FALSE, 8,
-            ui->displayed_image->width, ui->displayed_image->height,
-                ui->displayed_image->width * 3, free_buffer, NULL);
+            ui->images->full->width, ui->images->full->height,
+                ui->images->full->width * 3, free_buffer, NULL);
     gtk_image_set_from_pixbuf(ui->display->display_image, pix_buffer);
+
     ui->image_loaded = TRUE;
     //releasing memory
     g_object_unref(pix_buffer);
