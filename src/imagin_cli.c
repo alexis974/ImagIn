@@ -19,15 +19,17 @@
 
 int main(void)
 {
-    //Set error mode to CLI to have error in text format
+    // Set error mode to CLI to have error in text format
     g_cli_mode = FALSE;
 
-    struct Image *image;
+    // Define paths
     char *img_path = "samples/Canon_90D_ppm/Canon_90D_04.ppm";
     char *xml_path = "samples/Canon_90D_ppm/Canon_90D_04.ppm.xml";
 
-    image = read_image(img_path);
-    write_image("tmp/tmp0.jpg",image);
+
+//##############################################################################
+//                               ### IMPORT ###                              ###
+//##############################################################################
 
     /* try to open file to read */
     FILE *file;
@@ -42,32 +44,59 @@ int main(void)
         create_xmp(xml_path);
     }
 
-    //Rescale img
-    write_image("tmp/tmp7.jpg", scale_img(image, 900, 600));
+    // Init struct Images
+    struct Images *images;
+    images = malloc(sizeof(struct Images));
+
+    // Store all the pixel of the image in Full_image
+    images->full = read_image(img_path);
+    write_image("tmp/Full_image.jpg", images->full);
+    write_image("tmp/Full_image.ppm", images->full);
+    write_image("tmp/Full_image.tiff", images->full);
+
+    // Scale the image to fit gui window
+    images->scale = scale_img(images->full, 1200, 800);
+    images->edit = scale_img(images->full, 1200, 800);
+    images->small = scale_img(images->full, 225, 150);
+    write_image("tmp/Scale_image.ppm", images->scale);
+    write_image("tmp/Small_image.ppm", images->small);
+
+
+//##############################################################################
+//                               ### MODULES ###                             ###
+//##############################################################################
 
     //Add 0.5EV to image
-    exposure(image, 0.5);
-    write_image("tmp/tmp1.jpg",image);
+    exposure(images->edit, 0.5);
+    write_image("tmp/01_Exposure.jpg", images->edit);
 
     //Invert the colors of an image
-    invert(image);
-    write_image("tmp/tmp2.ppm",image);
+    invert(images->edit);
+    write_image("tmp/02_Invert.jpg", images->edit);
 
     //Turn the image black and white
-    simple_BW(image);
-    write_image("tmp/tmp3.ppm",image);
+    simple_BW(images->edit);
+    write_image("tmp/03_Black_and_white.ppm", images->edit);
 
     //Flip the image both horizontaly and verticaly
-    flip_both_axis(image);
-    write_image("tmp/tmp4.ppm",image);
+    flip_both_axis(images->edit);
+    write_image("tmp/04_Flip_both_axis.tiff", images->edit);
 
-    horizontal_flip(image);
-    write_image("tmp/tmp5.ppm",image);
+    //Flip the horizontaly
+    horizontal_flip(images->edit);
+    write_image("tmp/05_Flip_horizontal.jpg", images->edit);
 
-    vertical_flip(image);
-    write_image("tmp/tmp6.ppm",image);
+    //Flip the image verticaly
+    vertical_flip(images->edit);
+    write_image("tmp/06_Flip_vertiacl.ppm", images->edit);
 
-    free(image);
+    // Free image
+    free(images->full);
+    free(images->scale);
+    free(images->edit);
+    free(images->small);
+    free(images);
+
     printf("See you soon!\n");
 
     return 0;

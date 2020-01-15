@@ -10,15 +10,18 @@ void interpolation(struct Image *src, struct Image *dst, size_t i, size_t j,
     size_t minx = (size_t)valx;
     size_t miny = (size_t)valy;
     size_t maxx = minx + 1;
+    size_t maxy = miny + 1;
+
     if (maxx >= src->width)
     {
         maxx --;
     }
-    size_t maxy = miny + 1;
+
     if (maxy >= src->height)
     {
         maxy --;
     }
+
     double fx = valx - minx;
     double fy = valy - miny;
 
@@ -44,25 +47,26 @@ void interpolation(struct Image *src, struct Image *dst, size_t i, size_t j,
         src->data[maxy*src->width+maxx].blue * fx * fy;
 }
 
-struct Image *scale_img(struct Image *img, size_t width, size_t height)
+
+struct Image *scale_img(struct Image *full_img, size_t width, size_t height)
 {
-    if (!img)
+    if (!full_img)
     {
         errx(1, "scale_img: No image found");
     }
 
     //Initialize scaled image
-    struct Image *img_scale = malloc(sizeof(struct Image));
-    img_scale->width = width;
-    img_scale->height = height;
-    img_scale->bit_depth = img->bit_depth;
-    img_scale->data = malloc(width * height * sizeof(struct Pixel));
+    struct Image *small_img = malloc(sizeof(struct Image));
+    small_img->width = width;
+    small_img->height = height;
+    small_img->bit_depth = full_img->bit_depth;
+    small_img->data = malloc(width * height * sizeof(struct Pixel));
 
-    float old_width = img->width;
+    float old_width = full_img->width;
     float new_width = width;
     float ratio_w = new_width / old_width;
 
-    float old_height = img->height;
+    float old_height = full_img->height;
     float new_height = height;
     float ratio_h = new_height / old_height;
 
@@ -75,9 +79,9 @@ struct Image *scale_img(struct Image *img, size_t width, size_t height)
         {
             valw = i / ratio_w;
             valh = j / ratio_h;
-            interpolation(img, img_scale, i, j, valw, valh);
+            interpolation(full_img, small_img, i, j, valw, valh);
         }
     }
 
-    return img_scale;
+    return small_img;
 }
