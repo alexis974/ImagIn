@@ -793,6 +793,7 @@
     </child>
   </object>
   <object class="GtkMessageDialog" id="error_dialog">
+    <property name="name">error_dialog</property>
     <property name="can_focus">False</property>
     <property name="type">popup</property>
     <property name="title" translatable="yes">Error</property>
@@ -835,6 +836,7 @@
     </child>
   </object>
   <object class="GtkAboutDialog" id="window_about">
+    <property name="name">window_about</property>
     <property name="can_focus">False</property>
     <property name="resizable">False</property>
     <property name="destroy_with_parent">True</property>

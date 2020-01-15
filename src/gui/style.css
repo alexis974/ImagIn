@@ -1,12 +1,12 @@
-window:not(filechooser),dialog,menu,menubar
+#main_window,#window_about,#error_dialog,#main_window menu,#main_window menubar
 {
     background-color: #313131;
 }
-window:not(filechooser) label, dialog:not(filechooser) label
+#main_window label, #window_about label,#error_dialog label
 {
     color:white;
 }
-window:not(filechooser) box
+#main_window box
 {
     color:white;
 }
@@ -15,7 +15,7 @@ window:not(filechooser) box
     background-color: #626262;
 }
 
-window:not(filechooser) button
+#main_window button, #window_about button ,#error_dialog button
 {
     box-shadow: 0px -2px 1px #606060;
     background-image: none;
@@ -23,38 +23,38 @@ window:not(filechooser) button
     border-color: #565656;
     background-color: #565656;
 }
-window:not(filechooser) button:active
+#main_window button:active,  #window_about button:active ,#error_dialog button:active
 {
     box-shadow: 0px -2px 1px #565656;
 }
 
-window:not(filechooser) combobox button.combo
+#main_window combobox button.combo
 {
     background-image: none;
     border-image: none;
     background-color: #565656;
     border-radius: 0;
 }
-window:not(filechooser) combobox *
+#main_window combobox *
 {
     color: white;
 }
 
-window:not(filechooser) expander
+#main_window expander
 {
     background-color : #252525;
     border-radius: 5px;
     padding-top: 3px;
 }
-window:not(filechooser) expander > title
+#main_window expander > title
 {
     padding-bottom: 3px;
 }
-window:not(filechooser) expander arrow
+#main_window expander arrow
 {
     color: white;
 }
-window:not(filechooser) expander > box
+#main_window expander > box
 {
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
@@ -63,7 +63,7 @@ window:not(filechooser) expander > box
     padding-bottom: 3px;
 }
 
-window:not(filechooser) scale > contents > trough
+#main_window scale > contents > trough
 {
     background-image: none;
     background-color: #565656;
@@ -75,7 +75,7 @@ window:not(filechooser) scale > contents > trough
     padding: 0;
 }
 
-window:not(filechooser) slider
+#main_window slider
 {
     background-image: none;
     background-color: #d4d4d4;
@@ -87,7 +87,7 @@ window:not(filechooser) slider
     box-shadow: 0 0px 2px rgba(0,0,0,0.4);
 }
 
-window:not(filechooser) scale trough highlight
+#main_window scale trough highlight
 {
     min-height: 6px;
     border-radius :7px;
@@ -98,7 +98,7 @@ window:not(filechooser) scale trough highlight
       inset 0 0 2px rgba(0, 0, 0,0.5);
 }
 
-window:not(filechooser) scale trough slider:hover ~ highlight, highlight:hover
+#main_window scale trough slider:hover ~ highlight, #main_window highlight:hover
 {
     background-color: rgb(255, 143, 137);
 }
