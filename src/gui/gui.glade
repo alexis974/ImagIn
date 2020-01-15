@@ -897,6 +897,8 @@
     <property name="website_label" translatable="yes">TODO</property>
     <property name="logo">icons/imagin_icon.png</property>
     <property name="license_type">mit-x11</property>
+    <signal name="close" handler="gtk_widget_destroy" swapped="no"/>
+    <signal name="response" handler="gtk_widget_destroy" swapped="no"/>
     <child type="titlebar">
       <placeholder/>
     </child>
