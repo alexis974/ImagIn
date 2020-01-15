@@ -5,9 +5,12 @@
 
 #include "imagin.h"
 #include "error_handler.h"
+
 #include "import_export/import.h"
 #include "import_export/export.h"
 #include "import_export/xml.h"
+#include "import_export/scale.h"
+
 #include "modules/black_and_white.h"
 #include "modules/invert.h"
 #include "modules/flip.h"
@@ -38,6 +41,9 @@ int main(void)
         printf("No XML file found. Creating one...\n");
         create_xmp(xml_path);
     }
+
+    //Rescale img
+    write_image("tmp/tmp7.jpg", scale_img(image, 900, 600));
 
     //Add 0.5EV to image
     exposure(image, 0.5);
