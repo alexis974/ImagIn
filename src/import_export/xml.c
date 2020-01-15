@@ -15,14 +15,14 @@ void create_xmp(const char *uri)
     writer = xmlNewTextWriterFilename(uri, 0);
     if (writer == NULL)
     {
-        errx(1, "create_xmp: Error creating the xml writer\n");
+        errx(1, "create_xml: Error creating the xml writer\n");
     }
 
     /* Start the document. */
     rc = xmlTextWriterStartDocument(writer, NULL, MY_ENCODING, NULL);
     if (rc < 0)
     {
-        errx(1, "create_xmp: Error at xmlTextWriterStartDocument\n");
+        errx(1, "create_xml: Error at xmlTextWriterStartDocument\n");
     }
 
     /*
@@ -32,7 +32,7 @@ void create_xmp(const char *uri)
     rc = xmlTextWriterStartElement(writer, BAD_CAST "IMAGE");
     if (rc < 0)
     {
-        errx(1, "create_xmp: Error at xmlTextWriterStartElement\n");
+        errx(1, "create_xml: Error at xmlTextWriterStartElement\n");
     }
 
     /* Add an attribute with name "xml:lang" and value "en" to IMAGE. */
@@ -40,28 +40,28 @@ void create_xmp(const char *uri)
             BAD_CAST "en");
     if (rc < 0)
     {
-        errx(1, "create_xmp: Error at xmlTextWriterWriteAttribute\n");
+        errx(1, "create_xml: Error at xmlTextWriterWriteAttribute\n");
     }
 
     /* Write a comment as child of IMAGE. */
     rc = xmlTextWriterWriteFormatComment(writer, "This is a comment");
     if (rc < 0)
     {
-        errx(1, "create_xmp: Error at xmlTextWriterWriteComment\n");
+        errx(1, "create_xml: Error at xmlTextWriterWriteComment\n");
     }
 
     /* Write a comment as child of IMAGE */
     rc = xmlTextWriterWriteFormatComment(writer, "This is another comment");
     if (rc < 0)
     {
-        errx(1, "create_xmp: Error at xmlTextWriterWriteFormatComment\n");
+        errx(1, "create_xml: Error at xmlTextWriterWriteFormatComment\n");
     }
 
     /* Start an element named "DESCRIPTION" as child of IMAGE. */
     rc = xmlTextWriterStartElement(writer, BAD_CAST "DESCRIPTION");
     if (rc < 0)
     {
-        errx(1, "create_xmp: Error at xmlTextWriterStartElement\n");
+        errx(1, "create_xml: Error at xmlTextWriterStartElement\n");
     }
 
     /* Write an element named "NAME" as child of DESCRIPTION. */
@@ -69,42 +69,42 @@ void create_xmp(const char *uri)
             BAD_CAST "This is a text.");
     if (rc < 0)
     {
-        errx(1, "create_xmp: Error at xmlTextWriterWriteElement\n");
+        errx(1, "create_xml: Error at xmlTextWriterWriteElement\n");
     }
 
     /* Start an element named "EXIF" as child of DEXCRIPTION. */
     rc = xmlTextWriterStartElement(writer, BAD_CAST "EXIF");
     if (rc < 0)
     {
-        errx(1, "create_xmp: Error at xmlTextWriterStartElement\n");
+        errx(1, "create_xml: Error at xmlTextWriterStartElement\n");
     }
     /* Write an element named "Date" as child of EXIF. */
     rc = xmlTextWriterWriteElement(writer, BAD_CAST "Date",
             BAD_CAST "This is a text.");
     if (rc < 0)
     {
-        errx(1, "create_xmp: Error at xmlTextWriterWriteElement\n");
+        errx(1, "create_xml: Error at xmlTextWriterWriteElement\n");
     }
 
     /* Close the element named EXIF. */
     rc = xmlTextWriterEndElement(writer);
     if (rc < 0)
     {
-        errx(1, "create_xmp: Error at xmlTextWriterEndElement\n");
+        errx(1, "create_xml: Error at xmlTextWriterEndElement\n");
     }
 
     /* Close the element named DESCRIPTION. */
     rc = xmlTextWriterEndElement(writer);
     if (rc < 0)
     {
-        errx(1,"create_xmp: Error at xmlTextWriterEndElement\n");
+        errx(1, "create_xml: Error at xmlTextWriterEndElement\n");
     }
 
     /* Start an element named "HISTORY" as child of IMAGE. */
     rc = xmlTextWriterStartElement(writer, BAD_CAST "HISTORY");
     if (rc < 0)
     {
-        errx(1, "create_xmp: Error at xmlTextWriterStartElement\n");
+        errx(1, "create_xml: Error at xmlTextWriterStartElement\n");
     }
 
     /* Write an element named "TEXT" as child of HISTORY. */
@@ -112,14 +112,14 @@ void create_xmp(const char *uri)
             BAD_CAST "This is a text.");
     if (rc < 0)
     {
-        errx(1,"create_xmp: Error at xmlTextWriterWriteElement\n");
+        errx(1, "create_xml: Error at xmlTextWriterWriteElement\n");
     }
 
     /* Close the element named HISTORY. */
     rc = xmlTextWriterEndElement(writer);
     if (rc < 0)
     {
-        errx(1, "create_xmp: Error at xmlTextWriterEndElement\n");
+        errx(1, "create_xml: Error at xmlTextWriterEndElement\n");
     }
 
     /*
@@ -129,7 +129,7 @@ void create_xmp(const char *uri)
     rc = xmlTextWriterEndDocument(writer);
     if (rc < 0)
     {
-        errx(1, "create_xmp: Error at xmlTextWriterEndDocument\n");
+        errx(1, "create_xml: Error at xmlTextWriterEndDocument\n");
     }
 
     xmlFreeTextWriter(writer);
