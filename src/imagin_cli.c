@@ -27,7 +27,7 @@ int main(void)
     char *xml_path = "samples/Canon_90D_ppm/Canon_90D_04.xml";
 
     image = read_image(img_path);
-    write_image("tmp/tmp0.jpeg",image);
+    write_image("tmp/tmp0.jpg",image);
 
     /* try to open file to read */
     FILE *file;
