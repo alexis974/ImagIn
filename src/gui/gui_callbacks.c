@@ -205,12 +205,9 @@ void open_about_window(GtkWidget *widget, gpointer user_data)
 }
 
 //Called when user select a file in the file chooser menu
-void file_selected(GtkWidget *widget, gpointer user_data)
+void open_file(struct UI *ui, char *filename)
 {
-    struct UI *ui = user_data;
-    gchar *filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
     printf("Chosen file : %s\n", filename);
-    gtk_window_close(GTK_WINDOW(widget));
     ui->displayed_image = read_image(filename);
     unsigned char *buffer = from_image_to_buffer(ui->displayed_image);
     GdkPixbuf *pix_buffer =
@@ -228,14 +225,30 @@ void open_file_chooser(GtkWidget *widget, gpointer user_data)
 {
     (void) widget;
     struct UI *ui = user_data;
-    GtkBuilder *builder = gtk_builder_new_from_file("src/gui/gui.glade");
-    GtkWidget *file_chooser =
-        GTK_WIDGET(gtk_builder_get_object(builder, "open_file_chooser"));
-    gtk_builder_connect_signals(builder, NULL);
-    gtk_window_set_transient_for(GTK_WINDOW(file_chooser), ui->window);
-    gtk_widget_show(file_chooser);
-    g_signal_connect(file_chooser, "file_activated", G_CALLBACK(file_selected), ui);
-    g_object_unref(builder);
+    GtkWidget *dialog;
+    GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_OPEN;
+    gint res;
+
+    dialog = gtk_file_chooser_dialog_new ("Open File",
+                                        ui->window,
+                                        action,
+                                        ("Cancel"),
+                                        GTK_RESPONSE_CANCEL,
+                                        ("Open"),
+                                        GTK_RESPONSE_ACCEPT,
+                                        NULL);
+
+    res = gtk_dialog_run (GTK_DIALOG (dialog));
+    if (res == GTK_RESPONSE_ACCEPT)
+    {
+        char *filename;
+        GtkFileChooser *chooser = GTK_FILE_CHOOSER (dialog);
+        filename = gtk_file_chooser_get_filename (chooser);
+        open_file(ui, filename);
+        g_free (filename);
+    }
+
+    gtk_widget_destroy (dialog);
 }
 
 void open_save_as_window(GtkWidget *widget, gpointer user_data)
