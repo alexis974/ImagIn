@@ -47,7 +47,6 @@ void interpolation(struct Image *src, struct Image *dst, size_t i, size_t j,
         src->data[maxy*src->width+maxx].blue * fx * fy;
 }
 
-
 struct Image *scale_img(struct Image *full_img, size_t width, size_t height)
 {
     if (!full_img)
@@ -55,8 +54,9 @@ struct Image *scale_img(struct Image *full_img, size_t width, size_t height)
         errx(1, "scale_img: No image found");
     }
 
+    struct Image *small_img = malloc(width * height * sizeof(struct Image));
+
     //Initialize scaled image
-    struct Image *small_img = malloc(sizeof(struct Image));
     small_img->width = width;
     small_img->height = height;
     small_img->bit_depth = full_img->bit_depth;

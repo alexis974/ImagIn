@@ -1,37 +1,110 @@
-#include "../error_handler.h"
 #include <string.h>
+#include <stdlib.h>
+
+#include "../imagin.h"
+#include "../error_handler.h"
+
+#include "scale.h"
 #include "ppm.h"
 #include "tiff.h"
 #include "jpeg.h"
 #include "png.h"
 
+//Max dimensions for scaled image
+const size_t g_maxheight = 400;
+const size_t g_maxwidth = 600;
+//Max dimensions for small image
+const size_t g_maxheight_small = 40;
+const size_t g_maxwidth_small = 60;
+
+/*
+** Return filename's extension
+*/
 const char *get_filename_ext(const char *filename)
 {
-    //Gets the last '.' position
+    //Get the last '.' position
     const char *dot = strrchr(filename, '.');
-    if(!dot || dot == filename) return "";
+    if(!dot || dot == filename)
+    {
+        return "";
+    }
     return dot + 1;
 }
 
-struct Image *read_image(const char *filename)
+/*
+** Return struct Image from an image file and its extension
+*/
+struct Image *read_ext(const char *filename, const char *ext)
 {
-    const char* ext = get_filename_ext(filename);
-    if(strcmp(ext,"tiff") == 0 || strcmp(ext,"tif") == 0)
+    if(strcmp(ext, "tiff") == 0 || strcmp(ext, "tif") == 0)
     {
         return readTIFF(filename);
     }
-    else if(strcmp(ext,"ppm") == 0)
+    else if(strcmp(ext, "ppm") == 0)
     {
         return readPPM(filename);
     }
-    else if(strcmp(ext,"jpeg") == 0 || strcmp(ext,"jpg") == 0)
+    else if(strcmp(ext, "jpeg") == 0 || strcmp(ext, "jpg") == 0)
     {
         return readJPEG(filename);
     }
-    else if(strcmp(ext,"png") == 0)
+    else if(strcmp(ext, "png") == 0)
     {
         return readPNG(filename);
     }
     throw_error("import", "Unknown extension.");
     return NULL;
+}
+
+/*
+** Return the scaled image given the full image
+*/
+struct Image *get_scale(struct Image *full_img)
+{
+    float ratio = (float) full_img->width / full_img->height;
+    size_t width = g_maxwidth;
+    size_t height = (size_t) width / ratio;
+    if (height > g_maxheight)
+    {
+        height = g_maxheight;
+        width = (size_t) height * ratio;
+    }
+    return scale_img(full_img, width, height);
+}
+
+/*
+** Return the small image given the scale image
+*/
+struct Image *get_small(struct Image *scaled_img)
+{
+    float ratio = (float) scaled_img->width / scaled_img->height;
+    size_t width = g_maxwidth_small;
+    size_t height = (size_t) width / ratio;
+    if (height > g_maxheight_small)
+    {
+        height = g_maxheight_small;
+        width = (size_t) height * ratio;
+    }
+    return scale_img(scaled_img, width, height);
+}
+
+/*
+** Return a struct Images from an image file
+*/
+struct Images *read_image(const char *filename)
+{
+    struct Images *images = malloc(sizeof(struct Images));
+
+    const char *ext = get_filename_ext(filename);
+    images->full = read_ext(filename, ext);
+    if (!images->full)
+    {
+        exit(0);
+    }
+
+    images->scale = get_scale(images->full);
+    images->edit = get_scale(images->full);
+    images->small = get_small(images->scale);
+
+    return images;
 }
