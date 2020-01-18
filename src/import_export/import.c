@@ -1,6 +1,6 @@
 #include <string.h>
 #include <stdlib.h>
-
+#include "import.h"
 #include "../imagin.h"
 #include "../error_handler.h"
 
@@ -9,13 +9,6 @@
 #include "tiff.h"
 #include "jpeg.h"
 #include "png.h"
-
-//Max dimensions for scaled image
-const size_t g_maxheight = 400;
-const size_t g_maxwidth = 600;
-//Max dimensions for small image
-const size_t g_maxheight_small = 40;
-const size_t g_maxwidth_small = 60;
 
 /*
 ** Return filename's extension

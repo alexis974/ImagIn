@@ -1,5 +1,6 @@
 #include "gui_callbacks.h"
 #include "../import_export/import.h"
+#include "../import_export/export.h"
 #include "../modules/flip.h"
 #include "../modules/contrast.h"
 #include "../modules/shadows_highlights.h"
@@ -54,12 +55,12 @@ void reload_images(struct UI *ui)
 {
     if (!ui->image_loaded)
         return;
-    unsigned char *buffer = from_image_to_buffer(ui->images->full);
+    unsigned char *buffer = from_image_to_buffer(ui->images->edit);
 
     GdkPixbuf *pix_buffer =
         gdk_pixbuf_new_from_data(buffer, GDK_COLORSPACE_RGB, FALSE, 8,
-            ui->images->full->width, ui->images->full->height,
-                ui->images->full->width * 3, free_buffer, NULL);
+            ui->images->edit->width, ui->images->edit->height,
+                ui->images->edit->width * 3, free_buffer, NULL);
     gtk_image_set_from_pixbuf(ui->display->display_image, pix_buffer);
 
     //releasing memory
@@ -105,15 +106,15 @@ void flip_changed(GtkComboBox *box, gpointer user_data)
         printf("Flip is now 'None' !\n");
         break;
     case 1:
-        vertical_flip(ui->images->full);
+        vertical_flip(ui->images->edit);
         break;
     case 2:
         printf("Flip is now 'Horizontal' !\n");
-        horizontal_flip(ui->images->full);
+        horizontal_flip(ui->images->edit);
         break;
     case 3:
         printf("Flip is now 'Both' !\n");
-        flip_both_axis(ui->images->full);
+        flip_both_axis(ui->images->edit);
         break;
     }
     reload_images(ui);
@@ -138,7 +139,7 @@ gboolean saturation_changed(GtkRange *range, GdkEvent *event, gpointer user_data
     //if no image has been opened
     if (!ui->image_loaded)
         return FALSE;
-    saturation(ui->images->full, gtk_range_get_value(range));
+    saturation(ui->images->edit, gtk_range_get_value(range));
     reload_images(ui);
     return FALSE;
 }
@@ -151,7 +152,7 @@ gboolean exposure_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
     if (!ui->image_loaded)
         return FALSE;
     (void) event; //Prevent unused warning
-    exposure(ui->images->full, gtk_range_get_value(range));
+    exposure(ui->images->edit, gtk_range_get_value(range));
     reload_images(ui);
     return FALSE;
 }
@@ -208,14 +209,19 @@ void open_about_window(GtkWidget *widget, gpointer user_data)
 void open_file(struct UI *ui, char *filename)
 {
     printf("Chosen file : %s\n", filename);
-    //Full image
-    ui->images->full = read_image(filename);
+    //Setting middle zone info
+    g_maxwidth = gtk_widget_get_allocated_width(
+        GTK_WIDGET(ui->display->display_image));
+    g_maxheight = gtk_widget_get_allocated_height(
+        GTK_WIDGET(ui->display->display_image));
+    //Getting all scaled images
+    ui->images = read_image(filename);
     //Middle image
-    unsigned char *buffer = from_image_to_buffer(ui->images->full);
+    unsigned char *buffer = from_image_to_buffer(ui->images->edit);
     GdkPixbuf *pix_buffer =
         gdk_pixbuf_new_from_data(buffer, GDK_COLORSPACE_RGB, FALSE, 8,
-            ui->images->full->width, ui->images->full->height,
-                ui->images->full->width * 3, free_buffer, NULL);
+            ui->images->edit->width, ui->images->edit->height,
+                ui->images->edit->width * 3, free_buffer, NULL);
     gtk_image_set_from_pixbuf(ui->display->display_image, pix_buffer);
 
     ui->image_loaded = TRUE;
