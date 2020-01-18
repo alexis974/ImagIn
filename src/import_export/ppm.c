@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../error_handler.h"
 #include <math.h>
+
 #include "../imagin.h"
+#include "../error_handler.h"
+
 #include "ppm.h"
 
 struct Image *readPPM(const char *filename)
@@ -76,7 +78,8 @@ struct Image *readPPM(const char *filename)
 
     //memory allocation for pixel data
     while (fgetc(fp) != '\n') ;
-    img->data = (struct Pixel*)malloc(img->width * img->height * sizeof(struct Pixel));
+    img->data = (struct Pixel*)
+        malloc(img->width * img->height * sizeof(struct Pixel));
 
     if (!img->data)
     {
