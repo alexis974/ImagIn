@@ -1,13 +1,14 @@
-#include "../error_handler.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <jpeglib.h>
 #include <setjmp.h>
+
+#include "../error_handler.h"
 #include "../imagin.h"
+
 #include "jpeg.h"
 
 //Check libjpeg example.c
-
 struct my_error_mgr
 {
     struct jpeg_error_mgr pub; /* "public" fields */
