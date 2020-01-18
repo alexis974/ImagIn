@@ -8,14 +8,12 @@
 
 //Check libjpeg example.c
 
-struct my_error_mgr {
-  struct jpeg_error_mgr pub;	/* "public" fields */
-
-  jmp_buf setjmp_buffer;	/* for return to caller */
+struct my_error_mgr
+{
+    struct jpeg_error_mgr pub; /* "public" fields */
+    jmp_buf setjmp_buffer; /* for return to caller */
 };
-
 typedef struct my_error_mgr * my_error_ptr;
-
 
 struct Image *readJPEG(const char *filename)
 {
@@ -70,13 +68,17 @@ struct Image *readJPEG(const char *filename)
         return NULL;
     }
 
-    JSAMPARRAY buffer;//Output row buffer
-    size_t row_stride;//Physical row width in output buffer
+    JSAMPARRAY buffer; //Output row buffer
+    size_t row_stride; //Physical row width in output buffer
+
     //JSAMPLEs per row in output buffer
     row_stride = cinfo.output_width * cinfo.output_components;
+
     //Make a one-row-high sample array that will go away when done with image
-    buffer = (*cinfo.mem->alloc_sarray)((j_common_ptr) &cinfo, JPOOL_IMAGE, row_stride, 1);
+    buffer = (*cinfo.mem->alloc_sarray)((j_common_ptr) &cinfo,
+            JPOOL_IMAGE, row_stride, 1);
     buffer[0] = (JSAMPROW)malloc(sizeof(JSAMPLE) * row_stride);
+
     //While there is at least one line left
     while (cinfo.output_scanline < cinfo.output_height)
     {
@@ -84,9 +86,12 @@ struct Image *readJPEG(const char *filename)
         jpeg_read_scanlines(&cinfo, buffer, 1);
         for (size_t i = 0; i < img->width; i++)
         {
-            img->data[img->width * (cinfo.output_scanline - 1) + i].red = (unsigned char)buffer[0][i * 3];
-            img->data[img->width * (cinfo.output_scanline - 1) + i].green = (unsigned char)buffer[0][i * 3 + 1];
-            img->data[img->width * (cinfo.output_scanline - 1) + i].blue = (unsigned char)buffer[0][i * 3 + 2];
+            img->data[img->width * (cinfo.output_scanline - 1) + i].red =
+                (unsigned char)buffer[0][i * 3];
+            img->data[img->width * (cinfo.output_scanline - 1) + i].green =
+                (unsigned char)buffer[0][i * 3 + 1];
+            img->data[img->width * (cinfo.output_scanline - 1) + i].blue =
+                (unsigned char)buffer[0][i * 3 + 2];
         }
     }
 
@@ -106,6 +111,7 @@ void writeJPEG(const char *filename, struct Image *img)
     JSAMPROW row_pointer[1];
     int row_stride;
     cinfo.err = jpeg_std_error(&jerr);
+
     /*Initialize the JPEG compression object. */
     jpeg_create_compress(&cinfo);
     if ((outfile = fopen(filename, "wb")) == NULL)
@@ -136,13 +142,18 @@ void writeJPEG(const char *filename, struct Image *img)
         //Filling Buffer
         for (size_t i = 0; i < img->width; i++)
         {
-            row_pointer[0][i*3] = img->data[cinfo.next_scanline*img->width+i].red;
-            row_pointer[0][i*3+1] = img->data[cinfo.next_scanline*img->width+i].green;
-            row_pointer[0][i*3+2] = img->data[cinfo.next_scanline*img->width+i].blue;
+            row_pointer[0][i*3] =
+                img->data[cinfo.next_scanline*img->width+i].red;
+            row_pointer[0][i*3+1] =
+                img->data[cinfo.next_scanline*img->width+i].green;
+            row_pointer[0][i*3+2] =
+                img->data[cinfo.next_scanline*img->width+i].blue;
         }
+
         //Writing in image
         jpeg_write_scanlines(&cinfo, row_pointer, 1);
     }
+
     jpeg_finish_compress(&cinfo);
     fclose(outfile);
     jpeg_destroy_compress(&cinfo);
