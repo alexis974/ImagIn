@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <err.h>
 
-#include "../imagin.h"
 #include "flip.h"
 
+#include "../imagin.h"
 
 void vertical_flip(struct Image *img)
 {
@@ -22,7 +22,7 @@ void vertical_flip(struct Image *img)
         for (size_t x = 0; x < (img->width / 2); x++)
         {
             index_left = y * offset + x;
-            index_right = y * offset + (img->width - x) ;
+            index_right = y * offset + (img->width - x);
 
             tmp = img->data[index_left].red;
             img->data[index_left].red = img->data[index_right].red;
