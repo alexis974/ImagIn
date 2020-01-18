@@ -1,27 +1,56 @@
-#include "../error_handler.h"
 #include <string.h>
-#include "import.h"
+
 #include "ppm.h"
 #include "tiff.h"
 #include "jpeg.h"
 
-void write_image(const char *filename, struct Image *img)
+#include "../error_handler.h"
+
+/*
+** Return filename's extension
+*/
+const char *get_filename_ext(const char *filename)
 {
-    const char* ext = get_filename_ext(filename);
-    if(strcmp(ext,"tiff") == 0 || strcmp(ext,"tif")==0)
+    //Get the last '.' position
+    const char *dot = strrchr(filename, '.');
+    if(!dot || dot == filename)
+    {
+        return "";
+    }
+    return dot + 1;
+}
+
+/*
+** Write image file given an image and a file name
+*/
+void write_ext(const char *filename, const char *ext, struct Image *img)
+{
+    if(strcmp(ext, "tiff") == 0 || strcmp(ext, "tif") == 0)
     {
         writeTIFF(filename, img);
     }
-    else if(strcmp(ext,"ppm") == 0)
+    else if(strcmp(ext, "ppm") == 0)
     {
         writePPM(filename, img);
     }
-    else if(strcmp(ext,"jpeg") == 0 || strcmp(ext,"jpg") == 0)
+    else if(strcmp(ext, "jpeg") == 0 || strcmp(ext, "jpg") == 0)
     {
         writeJPEG(filename, img);
     }
+    else if(strcmp(ext, "png") == 0)
+    {
+        writePNG(filename, img);
+    }
     else
     {
-        throw_error("export","Unknow file extension.");
+        throw_error("export", "Unknown file extension.");
     }
+    return;
+}
+
+void write_image(const char *filename, struct Images *images)
+{
+    const char* ext = get_filename_ext(filename);
+    write_ext(filename, ext, images->full);
+    return;
 }
