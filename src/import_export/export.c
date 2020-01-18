@@ -3,8 +3,10 @@
 #include "ppm.h"
 #include "tiff.h"
 #include "jpeg.h"
+#include "png.h"
 
 #include "../error_handler.h"
+#include "../imagin.h"
 
 /*
 ** Return filename's extension
@@ -36,10 +38,6 @@ void write_ext(const char *filename, const char *ext, struct Image *img)
     else if(strcmp(ext, "jpeg") == 0 || strcmp(ext, "jpg") == 0)
     {
         writeJPEG(filename, img);
-    }
-    else if(strcmp(ext, "png") == 0)
-    {
-        writePNG(filename, img);
     }
     else
     {
