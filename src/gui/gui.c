@@ -26,12 +26,11 @@ struct UI* build_GUI(char* glade_file_path)
     }
 
     struct UI *ui = malloc(sizeof(struct UI));
-    ui->window = GTK_WINDOW(gtk_builder_get_object(
-                builder, "main_window"));
+    ui->window = GTK_WINDOW(gtk_builder_get_object(builder, "main_window"));
     ui->image_loaded = FALSE;
     build_menu_bar_GUI(builder, ui);
     build_modules_GUI(builder, ui);
-    build_display_GUI(builder,ui);
+    build_display_GUI(builder, ui);
     g_object_unref(builder);
     return ui;
 }
@@ -48,9 +47,8 @@ int GUI_main(void)
 
     //Get monitor size
     GdkRectangle workarea = {0};
-    gdk_monitor_get_workarea(
-            gdk_display_get_primary_monitor(gdk_display_get_default()),
-            &workarea);
+    gdk_monitor_get_workarea(gdk_display_get_primary_monitor(
+                gdk_display_get_default()), &workarea);
 
     //Set to full size
     gtk_window_set_default_size(ui->window, workarea.width, workarea.height);
