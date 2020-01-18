@@ -1,11 +1,14 @@
 #include "gui_callbacks.h"
+
 #include "../import_export/import.h"
 #include "../import_export/export.h"
+
 #include "../modules/flip.h"
 #include "../modules/contrast.h"
 #include "../modules/shadows_highlights.h"
 #include "../modules/exposure.h"
 #include "../modules/saturation.h"
+
 #include "../error_handler.h"
 
 unsigned char *from_image_to_buffer(struct Image *img)
@@ -22,6 +25,7 @@ unsigned char *from_image_to_buffer(struct Image *img)
             buffer[j*(img->width*3)+i*3+2] = img->data[j*img->width+i].blue;
         }
     }
+
     return buffer;
 }
 
@@ -30,9 +34,11 @@ void fill_image_data_with_buffer(unsigned char *buffer, struct Image *img)
 {
     if (!img || !img->data)
     {
-        throw_error("fill_image_with_buffer", "image memory has not been allocated.");
+        throw_error("fill_image_with_buffer",
+                "image memory has not been allocated.");
         return;
     }
+
     for (size_t j = 0; j < img->height; j++)
     {
         for (size_t i = 0; i < img->width; i++)
@@ -59,8 +65,8 @@ void reload_images(struct UI *ui)
 
     GdkPixbuf *pix_buffer =
         gdk_pixbuf_new_from_data(buffer, GDK_COLORSPACE_RGB, FALSE, 8,
-            ui->images->edit->width, ui->images->edit->height,
-                ui->images->edit->width * 3, free_buffer, NULL);
+        ui->images->edit->width, ui->images->edit->height,
+        ui->images->edit->width * 3, free_buffer, NULL);
     gtk_image_set_from_pixbuf(ui->display->display_image, pix_buffer);
 
     //releasing memory
@@ -81,6 +87,7 @@ void rotate_left(GtkWidget *button, gpointer user_data)
     (void) button;
     printf("Rotate left button pressed !\n");
 }
+
 //Rotate module callback
 void rotate_right(GtkWidget *button, gpointer user_data)
 {
@@ -131,7 +138,9 @@ gboolean contraste_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
     printf("value : %f\n", gtk_range_get_value(range));
     return FALSE;
 }
-gboolean saturation_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
+
+gboolean saturation_changed(GtkRange *range, GdkEvent *event,
+        gpointer user_data)
 {
     if(!(gdk_event_get_event_type(event) == GDK_BUTTON_RELEASE))
         return FALSE;
@@ -143,6 +152,7 @@ gboolean saturation_changed(GtkRange *range, GdkEvent *event, gpointer user_data
     reload_images(ui);
     return FALSE;
 }
+
 gboolean exposure_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
 {
     if(!(gdk_event_get_event_type(event) == GDK_BUTTON_RELEASE))
@@ -156,6 +166,7 @@ gboolean exposure_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
     reload_images(ui);
     return FALSE;
 }
+
 gboolean shadows_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
 {
     if(!(gdk_event_get_event_type(event) == GDK_BUTTON_RELEASE))
@@ -167,7 +178,9 @@ gboolean shadows_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
     (void) range;
     return FALSE;
 }
-gboolean highlights_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
+
+gboolean highlights_changed(GtkRange *range, GdkEvent *event,
+        gpointer user_data)
 {
     if(!(gdk_event_get_event_type(event) == GDK_BUTTON_RELEASE))
         return FALSE;
@@ -209,13 +222,16 @@ void open_about_window(GtkWidget *widget, gpointer user_data)
 void open_file(struct UI *ui, char *filename)
 {
     printf("Chosen file : %s\n", filename);
+
     //Setting middle zone info
     g_maxwidth = gtk_widget_get_allocated_width(
         GTK_WIDGET(ui->display->display_image));
     g_maxheight = gtk_widget_get_allocated_height(
         GTK_WIDGET(ui->display->display_image));
+
     //Getting all scaled images
     ui->images = read_image(filename);
+
     //Middle image
     unsigned char *buffer = from_image_to_buffer(ui->images->edit);
     GdkPixbuf *pix_buffer =
@@ -225,6 +241,7 @@ void open_file(struct UI *ui, char *filename)
     gtk_image_set_from_pixbuf(ui->display->display_image, pix_buffer);
 
     ui->image_loaded = TRUE;
+
     //releasing memory
     g_object_unref(pix_buffer);
 }
@@ -238,14 +255,9 @@ void open_file_chooser(GtkWidget *widget, gpointer user_data)
     GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_OPEN;
     gint res;
 
-    dialog = gtk_file_chooser_dialog_new ("Open File",
-                                        ui->window,
-                                        action,
-                                        ("Cancel"),
-                                        GTK_RESPONSE_CANCEL,
-                                        ("Open"),
-                                        GTK_RESPONSE_ACCEPT,
-                                        NULL);
+    dialog = gtk_file_chooser_dialog_new ("Open File", ui->window, action,
+            ("Cancel"), GTK_RESPONSE_CANCEL,
+            ("Open"), GTK_RESPONSE_ACCEPT, NULL);
 
     res = gtk_dialog_run (GTK_DIALOG (dialog));
     if (res == GTK_RESPONSE_ACCEPT)
@@ -267,14 +279,10 @@ void open_save_as_window(GtkWidget *widget, gpointer user_data)
     GtkWidget *dialog;
     gint res;
 
-    dialog = gtk_file_chooser_dialog_new("Save Result",
-                                        GTK_WINDOW(ui->window),
-                                        GTK_FILE_CHOOSER_ACTION_SAVE,
-                                        "Cancel",
-                                        GTK_RESPONSE_CANCEL,
-                                        "Save",
-                                        GTK_RESPONSE_ACCEPT,
-                                        NULL);
+    dialog = gtk_file_chooser_dialog_new("Save Result", GTK_WINDOW(ui->window), 
+            GTK_FILE_CHOOSER_ACTION_SAVE, "Cancel",
+            GTK_RESPONSE_CANCEL, "Save",
+            GTK_RESPONSE_ACCEPT, NULL);
 
     gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(dialog), TRUE);
 
