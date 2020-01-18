@@ -1,11 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../error_handler.h"
 #include <math.h>
 #include <string.h>
 #include <tiffio.h>
-#include"../imagin.h"
+
 #include "tiff.h"
+
+#include"../imagin.h"
+#include "../error_handler.h"
 
 struct Image *readTIFF(const char *filename)
 {
@@ -15,35 +17,41 @@ struct Image *readTIFF(const char *filename)
         throw_error("readTIFF", "Unable to open file");
         return NULL;
     }
+
     uint32 width;
     uint32 height;
     TIFFGetField(tif, TIFFTAG_IMAGEWIDTH, &width);
     TIFFGetField(tif, TIFFTAG_IMAGELENGTH, &height);
     uint32 *raster=(uint32 *) _TIFFmalloc(width*height *sizeof(uint32));
+
     if (!raster)
     {
         throw_error("readTIFF", "Unable to allocate memory");
         return NULL;
     }
+
     if(!TIFFReadRGBAImage(tif, width, height, raster, 0))
     {
         throw_error("readTIFF", "Unable to read image");
         return NULL;
     }
+
     struct Image *img;
 
-    //alloc memory for image
+    //Alloc memory for image
     img = malloc(sizeof(struct Image));
     if (!img)
     {
         throw_error("readTIFF", "Unable to allocate memory");
         return NULL;
     }
+
     img->height = height;
     img->width = width;
     img->bit_depth = 255;
 
-    img->data = (struct Pixel*)malloc(img->width * img->height * sizeof(struct Pixel));
+    img->data = (struct Pixel*)
+        malloc(img->width * img->height * sizeof(struct Pixel));
     if (!img->data)
     {
         throw_error("readTIFF", "Unable to allocate memory");
@@ -54,9 +62,12 @@ struct Image *readTIFF(const char *filename)
     {
         for (size_t i = 0; i < width; i++)
         {
-            img->data[j*width+i].red = (unsigned char)TIFFGetR(raster[j*width+i]);
-            img->data[j*width+i].blue = (unsigned char)TIFFGetB(raster[j*width+i]);
-            img->data[j*width+i].green = (unsigned char)TIFFGetG(raster[j*width+i]);
+            img->data[j*width+i].red = 
+                (unsigned char)TIFFGetR(raster[j*width+i]);
+            img->data[j*width+i].blue = 
+                (unsigned char)TIFFGetB(raster[j*width+i]);
+            img->data[j*width+i].green = 
+                (unsigned char)TIFFGetG(raster[j*width+i]);
         }
     }
     _TIFFfree(raster);
@@ -74,14 +85,19 @@ void writeTIFF(const char *filename, struct Image *img)
         throw_error("writeTIFF", "Unable to create file");
         return;
     }
-    int sampleperpixel = 3;//Put 4 if alpha channel
+    int sampleperpixel = 3; //Put 4 if alpha channel
 
-    TIFFSetField (out, TIFFTAG_IMAGEWIDTH, img->width);  // set the width of the image
-    TIFFSetField(out, TIFFTAG_IMAGELENGTH, img->height);    // set the height of the image
-    TIFFSetField(out, TIFFTAG_SAMPLESPERPIXEL, sampleperpixel);   // set number of channels per pixel
-    TIFFSetField(out, TIFFTAG_BITSPERSAMPLE, 8);    // set the size of the channels
-    TIFFSetField(out, TIFFTAG_ORIENTATION, ORIENTATION_TOPLEFT);    // set the origin of the image.
-    //   Some other essential fields to set that you do not have to understand for now.
+    //Set the width of the image
+    TIFFSetField (out, TIFFTAG_IMAGEWIDTH, img->width);
+    //Set the height of the image
+    TIFFSetField(out, TIFFTAG_IMAGELENGTH, img->height);
+    //Set number of channels per pixel
+    TIFFSetField(out, TIFFTAG_SAMPLESPERPIXEL, sampleperpixel);
+    //Set the size of the channels
+    TIFFSetField(out, TIFFTAG_BITSPERSAMPLE, 8);
+    //Set the origin of the image
+    TIFFSetField(out, TIFFTAG_ORIENTATION, ORIENTATION_TOPLEFT);
+    //Some other essential fields
     TIFFSetField(out, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
     TIFFSetField(out, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_RGB);
 
@@ -106,6 +122,7 @@ void writeTIFF(const char *filename, struct Image *img)
             buffer[i*sampleperpixel+1] = img->data[j*img->width+i].green;
             buffer[i*sampleperpixel+2] = img->data[j*img->width+i].blue;
         }
+
         //Writing in image
         if(TIFFWriteScanline(out, buffer, j, 0) < 0)
         {
