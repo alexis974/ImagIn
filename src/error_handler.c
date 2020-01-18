@@ -8,8 +8,7 @@ void throw_error_in_UI(char *source, char *message)
         GTK_WIDGET(gtk_builder_get_object(builder, "error_dialog"));
     gtk_builder_connect_signals(builder, NULL);
     gtk_message_dialog_format_secondary_text(
-        GTK_MESSAGE_DIALOG(error_dialog), "%s: %s", source, message
-    );
+        GTK_MESSAGE_DIALOG(error_dialog), "%s: %s", source, message);
     gtk_widget_show(error_dialog);
     g_object_unref(builder);
 }
