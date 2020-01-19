@@ -55,13 +55,19 @@ struct Image *scale_img(struct Image *full_img, size_t width, size_t height)
     }
 
     struct Image *small_img = malloc(width * height * sizeof(struct Image));
-
+    if (!small_img)
+    {
+        errx(1,"scale_img : Could not allocate memory.");
+    }
     //Initialize scaled image
     small_img->width = width;
     small_img->height = height;
     small_img->bit_depth = full_img->bit_depth;
     small_img->data = malloc(width * height * sizeof(struct Pixel));
-
+    if (!small_img->data)
+    {
+        errx(1,"scale_img : Could not allocate memory.");
+    }
     float old_width = full_img->width;
     float new_width = width;
     float ratio_w = new_width / old_width;
