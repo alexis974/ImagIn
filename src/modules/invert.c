@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <err.h>
 
+#include "../imagin.h"
+
 #include "invert.h"
 
 void invert(struct Image *img)

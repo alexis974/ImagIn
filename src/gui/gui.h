@@ -1,9 +1,6 @@
 #ifndef UI_H
 #define UI_H
 
-#include <gtk/gtk.h>
-#include "../imagin.h"
-
 struct Orientation
 {
     GtkButton *rot_l_button;

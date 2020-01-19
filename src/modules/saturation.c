@@ -2,6 +2,8 @@
 #include <err.h>
 #include <math.h>
 
+#include "../imagin.h"
+
 #include "saturation.h"
 
 //For now, the saturation module doesn't handle increase saturation.

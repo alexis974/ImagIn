@@ -1,8 +1,6 @@
 #ifndef FLIP_H
 #define FLIP_H
 
-#include "../imagin.h"
-
 void vertical_flip(struct Image *img);
 
 void horizontal_flip(struct Image *img);

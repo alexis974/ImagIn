@@ -1,6 +1,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <gtk/gtk.h>
+
+#include "../imagin.h"
 
 #include "gui_builder.h"
 #include "gui_signals.h"

@@ -1,8 +1,6 @@
 #ifndef GUI_CALLBACKS_H
 #define GUI_CALLBACKS_H
 
-#include "gui.h"
-
 void rotate_left(GtkWidget *button, gpointer user_data);
 void rotate_right(GtkWidget *button, gpointer user_data);
 void flip_changed(GtkComboBox *button, gpointer user_data);

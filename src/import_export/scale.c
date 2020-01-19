@@ -4,6 +4,8 @@
 
 #include "../imagin.h"
 
+#include "scale.h"
+
 void interpolation(struct Image *src, struct Image *dst, size_t i, size_t j,
         float valx, float valy)
 {

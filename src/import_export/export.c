@@ -1,12 +1,13 @@
 #include <string.h>
+
+#include "../imagin.h"
+#include "../error_handler.h"
+
 #include "import.h"
 #include "ppm.h"
 #include "tiff.h"
 #include "jpeg.h"
 #include "png.h"
-
-#include "../error_handler.h"
-#include "../imagin.h"
 
 /*
 ** Write image file given an image and a file name

@@ -12,6 +12,8 @@
 
 #include "../error_handler.h"
 
+#include "gui.h"
+
 unsigned char *from_image_to_buffer(struct Image *img)
 {
     unsigned char *buffer =

@@ -4,10 +4,10 @@
 #include <string.h>
 #include <tiffio.h>
 
-#include "tiff.h"
-
-#include"../imagin.h"
+#include "../imagin.h"
 #include "../error_handler.h"
+
+#include "tiff.h"
 
 struct Image *readTIFF(const char *filename)
 {

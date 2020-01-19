@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <err.h>
 #include <math.h>
+
+#include "../imagin.h"
+
 #include "exposure.h"
 
 void exposure(struct Image *img, float EV)

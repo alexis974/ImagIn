@@ -1,3 +1,6 @@
+#include <gtk/gtk.h>
+
+#include "gui.h"
 #include "gui_builder.h"
 
 void build_menu_bar_GUI(GtkBuilder *builder, struct UI *ui)

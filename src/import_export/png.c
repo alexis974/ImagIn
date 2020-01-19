@@ -1,9 +1,10 @@
-#include <png.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 #include "../error_handler.h"
 #include "../imagin.h"
+
+#include <png.h>
 
 struct Image *readPNG(const char *filename)
 {

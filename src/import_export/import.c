@@ -1,14 +1,16 @@
 #include <string.h>
 #include <stdlib.h>
-#include "import.h"
+
 #include "../imagin.h"
 #include "../error_handler.h"
 
+#include "import.h"
 #include "scale.h"
 #include "ppm.h"
 #include "tiff.h"
 #include "jpeg.h"
 #include "png.h"
+#include "scale.h"
 
 /*
 ** Return filename's extension

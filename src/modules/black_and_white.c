@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <err.h>
 
+#include "../imagin.h"
+
 #include "black_and_white.h"
 
 void simple_BW(struct Image *img)
