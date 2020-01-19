@@ -1,8 +1,5 @@
 #include <stdlib.h>
-
 #include "free.h"
-
-#include "../imagin.h"
 
 void free_image(struct Image *img)
 {

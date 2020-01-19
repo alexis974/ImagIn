@@ -3,8 +3,6 @@
 
 #include "black_and_white.h"
 
-#include "../imagin.h"
-
 void simple_BW(struct Image *img)
 {
     if (!img)

@@ -3,8 +3,6 @@
 
 #include "invert.h"
 
-#include "../imagin.h"
-
 void invert(struct Image *img)
 {
     if (!img)

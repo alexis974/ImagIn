@@ -1,5 +1,5 @@
 #include <string.h>
-
+#include "import.h"
 #include "ppm.h"
 #include "tiff.h"
 #include "jpeg.h"
@@ -7,20 +7,6 @@
 
 #include "../error_handler.h"
 #include "../imagin.h"
-
-/*
-** Return filename's extension
-*/
-const char *get_filename_ext(const char *filename)
-{
-    //Get the last '.' position
-    const char *dot = strrchr(filename, '.');
-    if(!dot || dot == filename)
-    {
-        return "";
-    }
-    return dot + 1;
-}
 
 /*
 ** Write image file given an image and a file name

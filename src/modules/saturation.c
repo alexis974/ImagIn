@@ -4,8 +4,6 @@
 
 #include "saturation.h"
 
-#include "../imagin.h"
-
 //For now, the saturation module doesn't handle increase saturation.
 void saturation(struct Image *img, float change)
 {

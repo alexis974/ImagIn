@@ -3,8 +3,6 @@
 
 #include "flip.h"
 
-#include "../imagin.h"
-
 void vertical_flip(struct Image *img)
 {
     if (!img)
