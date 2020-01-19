@@ -23,5 +23,6 @@ void new_menu(GtkWidget *button, gpointer user_data);
 void open_about_window(GtkWidget *widget, gpointer _ui);
 void open_file_chooser(GtkWidget *widget, gpointer user_data);
 void open_save_as_window(GtkWidget *widget, gpointer user_data);
+void quit(GtkWidget *widget, gpointer user_data);
 
 #endif

@@ -223,9 +223,8 @@ void open_about_window(GtkWidget *widget, gpointer user_data)
 void open_file(struct UI *ui, char *filename)
 {
     printf("Chosen file : %s\n", filename);
-
     //Free memory before reimporting
-    if (ui->images)
+    if (ui->image_loaded)
     {
         free_images(ui->images);
     }
@@ -236,21 +235,24 @@ void open_file(struct UI *ui, char *filename)
     g_maxheight = gtk_widget_get_allocated_height(
         GTK_WIDGET(ui->display->display_image));
 
+    printf("Reading image\n");
+    printf("Middle display resolution is %zu/%zu\n", g_maxwidth, g_maxheight);
+
     //Getting all scaled images
     ui->images = read_image(filename);
 
     //Middle image
-    unsigned char *buffer = from_image_to_buffer(ui->images->edit);
+    /*unsigned char *buffer = from_image_to_buffer(ui->images->edit);
     GdkPixbuf *pix_buffer =
         gdk_pixbuf_new_from_data(buffer, GDK_COLORSPACE_RGB, FALSE, 8,
             ui->images->edit->width, ui->images->edit->height,
                 ui->images->edit->width * 3, free_buffer, NULL);
-    gtk_image_set_from_pixbuf(ui->display->display_image, pix_buffer);
+    gtk_image_set_from_pixbuf(ui->display->display_image, pix_buffer);*/
 
     ui->image_loaded = TRUE;
 
     //releasing memory
-    g_object_unref(pix_buffer);
+    //g_object_unref(pix_buffer);
 }
 
 //Called to open the file chooser
@@ -303,4 +305,14 @@ void open_save_as_window(GtkWidget *widget, gpointer user_data)
     }
 
     gtk_widget_destroy(dialog);
+}
+
+//Called when window is closed
+void quit(GtkWidget *widget, gpointer user_data)
+{
+    (void) widget;
+    struct UI *ui = user_data;
+    if (ui->image_loaded)
+        free_images(ui->images);
+    gtk_main_quit();
 }

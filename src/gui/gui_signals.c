@@ -38,12 +38,12 @@ void connect_menu_bar(struct UI *ui)
     g_signal_connect(ui->menu_bar->about_button, "activate",
             G_CALLBACK(open_about_window), ui);
     g_signal_connect(ui->menu_bar->close_button, "activate",
-            G_CALLBACK(gtk_main_quit), NULL);
+            G_CALLBACK(quit), ui);
 }
 
 void connect_signals(struct UI *ui)
 {
-    g_signal_connect(ui->window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
+    g_signal_connect(ui->window, "destroy", G_CALLBACK(quit), ui);
 
     connect_modules(ui);
     connect_menu_bar(ui);
