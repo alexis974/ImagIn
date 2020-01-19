@@ -1,7 +1,9 @@
 #include <stdio.h>
-#include "imagin.h"
+#include <gtk/gtk.h>
+
 #include "gui/gui.h"
 #include "error_handler.h"
+#include "imagin.h"
 
 int main(void)
 {

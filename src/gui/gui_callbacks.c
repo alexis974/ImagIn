@@ -1,4 +1,6 @@
-#include "gui_callbacks.h"
+#include <gtk/gtk.h>
+
+#include "../imagin.h"
 
 #include "../import_export/import.h"
 #include "../import_export/export.h"
@@ -13,6 +15,7 @@
 #include "../error_handler.h"
 
 #include "gui.h"
+#include "gui_callbacks.h"
 
 unsigned char *from_image_to_buffer(struct Image *img)
 {

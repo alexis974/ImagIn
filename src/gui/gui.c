@@ -5,6 +5,7 @@
 
 #include "../imagin.h"
 
+#include "gui.h"
 #include "gui_builder.h"
 #include "gui_signals.h"
 #include "gui_callbacks.h"

@@ -1,6 +1,8 @@
-#include "gui_signals.h"
-#include "gui_callbacks.h"
+#include <gtk/gtk.h>
+
 #include "gui.h"
+#include "gui_callbacks.h"
+#include "gui_signals.h"
 
 void connect_modules(struct UI *ui)
 {
