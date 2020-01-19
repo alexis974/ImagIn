@@ -2,6 +2,7 @@
 
 #include "../import_export/import.h"
 #include "../import_export/export.h"
+#include "../import_export/free.h"
 
 #include "../modules/flip.h"
 #include "../modules/contrast.h"
@@ -222,6 +223,12 @@ void open_about_window(GtkWidget *widget, gpointer user_data)
 void open_file(struct UI *ui, char *filename)
 {
     printf("Chosen file : %s\n", filename);
+
+    //Free memory before reimporting
+    if (ui->images)
+    {
+        free_images(ui->images);
+    }
 
     //Setting middle zone info
     g_maxwidth = gtk_widget_get_allocated_width(
