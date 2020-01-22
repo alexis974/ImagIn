@@ -1,7 +1,7 @@
 #include <string.h>
 
 #include "../imagin.h"
-#include "../error_handler.h"
+#include "../debug/error_handler.h"
 
 #include "import.h"
 #include "ppm.h"

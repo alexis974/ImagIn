@@ -3,7 +3,7 @@
 #include <math.h>
 
 #include "../imagin.h"
-#include "../error_handler.h"
+#include "../debug/error_handler.h"
 
 #include "ppm.h"
 

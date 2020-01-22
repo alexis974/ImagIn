@@ -3,7 +3,7 @@
 #include <jpeglib.h>
 #include <setjmp.h>
 
-#include "../error_handler.h"
+#include "../debug/error_handler.h"
 #include "../imagin.h"
 
 #include "jpeg.h"

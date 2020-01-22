@@ -5,7 +5,7 @@
 #include <tiffio.h>
 
 #include "../imagin.h"
-#include "../error_handler.h"
+#include "../debug/error_handler.h"
 
 #include "tiff.h"
 

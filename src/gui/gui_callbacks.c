@@ -12,7 +12,7 @@
 #include "../modules/exposure.h"
 #include "../modules/saturation.h"
 
-#include "../error_handler.h"
+#include "../debug/error_handler.h"
 
 #include "gui.h"
 #include "gui_callbacks.h"

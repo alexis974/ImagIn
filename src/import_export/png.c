@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "../error_handler.h"
+#include "../debug/error_handler.h"
 #include "../imagin.h"
 
 #include <png.h>
