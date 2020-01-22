@@ -13,8 +13,8 @@ LIBJPEG = `pkg-config --cflags --libs libjpeg`
 LIBXML = `pkg-config --cflags --libs libxml-2.0`
 LIBPNG = `pkg-config --cflags --libs libpng`
 
-SRC = src/import_export/*.c src/modules/*.c src/gui/*.c src/debug/*.c\
-	  src/tools/*.c
+SRC = src/import_export/*.c src/import_export/xml/*.c src/tools/*.c\
+	src/modules/*.c src/gui/*.c src/debug/*.c
 
 all: imagin tmp
 imagin: $(SRC) src/imagin.c
@@ -44,5 +44,10 @@ clean:
 	${RM} imagin.out
 	${RM} imagin_cli.out
 	if [ -d tmp ]; then rm -r tmp; fi
+
+purge:
+	${RM} *.out
+	if [ -d tmp ]; then rm -r tmp; fi
+	if [ -d samples ]; then rm -r samples; fi
 
 # END
