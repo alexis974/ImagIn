@@ -9,7 +9,6 @@
 #include "import_export/import.h"
 #include "import_export/export.h"
 #include "import_export/xml.h"
-#include "import_export/scale.h"
 #include "import_export/free.h"
 
 #include "modules/black_and_white.h"
@@ -17,6 +16,8 @@
 #include "modules/flip.h"
 #include "modules/saturation.h"
 #include "modules/exposure.h"
+
+#include "tools/scale.h"
 
 int main(void)
 {

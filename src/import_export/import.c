@@ -5,12 +5,11 @@
 #include "../debug/error_handler.h"
 
 #include "import.h"
-#include "scale.h"
 #include "ppm.h"
 #include "tiff.h"
 #include "jpeg.h"
 #include "png.h"
-#include "scale.h"
+#include "../tools/scale.h"
 
 /*
 ** Return filename's extension
