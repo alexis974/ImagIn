@@ -33,9 +33,9 @@ void write_ext(const char *filename, const char *ext, struct Image *img)
     return;
 }
 
-void write_image(const char *filename, struct Images *images)
+void write_image(const char *filename, struct Image *image)
 {
     const char* ext = get_filename_ext(filename);
-    write_ext(filename, ext, images->full);
+    write_ext(filename, ext, image);
     return;
 }

@@ -51,16 +51,16 @@ int main(void)
 
     // Store all the pixel of the image
     images = read_image(img_path);
-    write_image("tmp/Full_image.jpg", images);
-    write_image("tmp/Full_image.ppm", images);
-    write_image("tmp/Full_image.tiff", images);
+    write_image("tmp/Full_image.jpg", images->full);
+    write_image("tmp/Full_image.ppm", images->full);
+    write_image("tmp/Full_image.tiff", images->full);
 
     // Scale the image to fit gui window
     images->scale = scale_img(images->full, 1200, 800);
     images->edit = scale_img(images->full, 1200, 800);
     images->small = scale_img(images->full, 225, 150);
-    write_image("tmp/Scale_image.ppm", images);
-    write_image("tmp/Small_image.ppm", images);
+    write_image("tmp/Scale_image.ppm", images->scale);
+    write_image("tmp/Small_image.ppm", images->small);
 
 
 //##############################################################################
@@ -69,27 +69,27 @@ int main(void)
 
     //Add 0.5EV to image
     exposure(images->edit, 0.5);
-    write_image("tmp/01_Exposure.jpg", images);
+    write_image("tmp/01_Exposure.jpg", images->edit);
 
     //Invert the colors of an image
     invert(images->edit);
-    write_image("tmp/02_Invert.jpg", images);
+    write_image("tmp/02_Invert.jpg", images->edit);
 
     //Turn the image black and white
     simple_BW(images->edit);
-    write_image("tmp/03_Black_and_white.ppm", images);
+    write_image("tmp/03_Black_and_white.ppm", images->edit);
 
     //Flip the image both horizontaly and verticaly
     flip_both_axis(images->edit);
-    write_image("tmp/04_Flip_both_axis.tiff", images);
+    write_image("tmp/04_Flip_both_axis.tiff", images->edit);
 
     //Flip the horizontaly
     horizontal_flip(images->edit);
-    write_image("tmp/05_Flip_horizontal.jpg", images);
+    write_image("tmp/05_Flip_horizontal.jpg", images->edit);
 
     //Flip the image verticaly
     vertical_flip(images->edit);
-    write_image("tmp/06_Flip_vertiacl.ppm", images);
+    write_image("tmp/06_Flip_vertiacl.ppm", images->edit);
 
     free_images(images);
 
