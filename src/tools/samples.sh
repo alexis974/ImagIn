@@ -113,11 +113,14 @@ download_jpg()
     rm -r "../../samples/"$name"_tiff"; fi
     if [ -d "../../samples/"$name"_ppm" ]; then
         rm -r "../../samples/"$name"_ppm"; fi
+    if [ -d "../../samples/"$name"_png" ]; then
+        rm -r "../../samples/"$name"_png"; fi
 
     mkdir "../../samples/"$name"_jpg"
     mkdir "../../samples/"$name"_bmp"
     mkdir "../../samples/"$name"_tiff"
     mkdir "../../samples/"$name"_ppm"
+    mkdir "../../samples/"$name"_png"
 
     for i in $(seq 1 $nb_image)
     do
@@ -130,10 +133,13 @@ download_jpg()
                 convert -compress none ""$name"_0$i.jpg" ""$name"_0$i.tiff"
                 printf "\e[96mConverting "$name"_0$i.jpg to ppm...\n\e[0m"
                 convert ""$name"_0$i.jpg" ""$name"_0$i.ppm"
+                printf "\e[96mConverting "$name"_0$i.jpg to png...\n\e[0m"
+                convert ""$name"_0$i.jpg" ""$name"_0$i.png"
                 mv ""$name"_0$i.jpg" "../../samples/"$name"_jpg/"
                 mv ""$name"_0$i.bmp" "../../samples/"$name"_bmp/"
                 mv ""$name"_0$i.tiff" "../../samples/"$name"_tiff/"
                 mv ""$name"_0$i.ppm" "../../samples/"$name"_ppm/"
+                mv ""$name"_0$i.png" "../../samples/"$name"_png/"
             fi
         else
             wget --output-document=""$name"_$i.jpg" ""$link"_$i.jpg"
