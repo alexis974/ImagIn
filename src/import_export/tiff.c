@@ -62,11 +62,12 @@ struct Image *readTIFF(const char *filename)
     {
         for (size_t i = 0; i < width; i++)
         {
-            img->data[j*width+i].red = 
+            //TIFF is save from bottom to top
+            img->data[(height-j-1)*width+i].red =
                 (unsigned char)TIFFGetR(raster[j*width+i]);
-            img->data[j*width+i].blue = 
+            img->data[(height-j-1)*width+i].blue =
                 (unsigned char)TIFFGetB(raster[j*width+i]);
-            img->data[j*width+i].green = 
+            img->data[(height-j-1)*width+i].green =
                 (unsigned char)TIFFGetG(raster[j*width+i]);
         }
     }
