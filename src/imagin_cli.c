@@ -8,8 +8,8 @@
 
 #include "import_export/import.h"
 #include "import_export/export.h"
-#include "import_export/xml.h"
 #include "import_export/free.h"
+#include "import_export/xml/xml.h"
 
 #include "modules/black_and_white.h"
 #include "modules/invert.h"
@@ -25,8 +25,8 @@ int main(void)
     g_cli_mode = FALSE;
 
     // Define paths
-    char *img_path = "samples/Canon_90D_ppm/Canon_90D_04.ppm";
-    char *xml_path = "samples/Canon_90D_ppm/Canon_90D_04.ppm.xml";
+    char *img_path = "samples/Canon_90D_ppm/Canon_90D_03.ppm";
+    char *xml_path = "samples/Canon_90D_ppm/Canon_90D_03.ppm.xml";
 
 
 //##############################################################################
