@@ -26,17 +26,18 @@ tmp/
 samples/
 
 # Image
-src/*.jpg
-src/*.png
-src/*.dng
-src/*.DNG
-src/*.bmp
-src/*.ppm
-src/*.tif
-src/*.tiff
-src/*.CR2
-src/*.NEF
-src/*.RAF
+src/tools/*.jpg
+src/tools/*.png
+src/tools/*.dng
+src/tools/*.DNG
+src/tools/*.bmp
+src/tools/*.ppm
+src/tools/*.tif
+src/tools/*.tiff
+src/tools/*.CR2
+src/tools/*.NEF
+src/tools/*.RAF
+src/tools/*.fff
 
 # GUI
 *.glade~
