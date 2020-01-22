@@ -18,6 +18,13 @@ void build_menu_bar_GUI(GtkBuilder *builder, struct UI *ui)
                 builder, "about_button"));
 }
 
+void build_bottom_bar_GUI(GtkBuilder *builder, struct UI *ui)
+{
+    ui->bottom_bar = malloc(sizeof(struct Bottom_bar));
+    ui->bottom_bar->filename_label = GTK_LABEL(gtk_builder_get_object(
+                builder, "image_filename"));
+}
+
 void build_display_GUI(GtkBuilder *builder, struct UI *ui)
 {
     ui->display = malloc(sizeof(struct Display));

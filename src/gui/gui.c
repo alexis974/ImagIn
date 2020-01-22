@@ -36,6 +36,7 @@ struct UI* build_GUI(char* glade_file_path)
     build_menu_bar_GUI(builder, ui);
     build_modules_GUI(builder, ui);
     build_display_GUI(builder, ui);
+    build_bottom_bar_GUI(builder, ui);
     g_object_unref(builder);
     return ui;
 }

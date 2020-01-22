@@ -43,12 +43,18 @@ struct Display
     GtkImage *small_image;
 };
 
+struct Bottom_bar
+{
+    GtkLabel *filename_label;
+};
+
 struct UI
 {
     GtkWindow *window;
     struct Menu_bar *menu_bar;
     struct Modules *modules;
     struct Display *display;
+    struct Bottom_bar *bottom_bar;
     struct Images *images;
     gboolean image_loaded;
 };

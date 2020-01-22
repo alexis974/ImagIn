@@ -258,12 +258,16 @@ void open_file(struct UI *ui, char *filename)
                 ui->images->edit->width * 3, free_buffer, NULL);
     gtk_image_set_from_pixbuf(ui->display->display_image, pix_buffer);
 
+    //Small image
     unsigned char *buffer_small = from_image_to_buffer(ui->images->small);
     GdkPixbuf *pix_buffer_small =
         gdk_pixbuf_new_from_data(buffer_small, GDK_COLORSPACE_RGB, FALSE, 8,
             ui->images->small->width, ui->images->small->height,
                 ui->images->small->width * 3, free_buffer, NULL);
     gtk_image_set_from_pixbuf(ui->display->small_image, pix_buffer_small);
+
+    //Bottom bar
+    gtk_label_set_text(ui->bottom_bar->filename_label, filename);
 
     ui->image_loaded = TRUE;
 
