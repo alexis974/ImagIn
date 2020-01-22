@@ -83,6 +83,22 @@ void reload_images(struct UI *ui)
 **  MODULES
 */
 
+void reset_modules(struct UI *ui)
+{
+    gtk_range_set_value(GTK_RANGE(
+        ui->modules->cont_exp_sat->contraste_scale), 0);
+    gtk_range_set_value(GTK_RANGE(
+        ui->modules->cont_exp_sat->exposure_scale), 0);
+    gtk_range_set_value(GTK_RANGE(
+        ui->modules->cont_exp_sat->saturation_scale), 1);
+    gtk_range_set_value(GTK_RANGE(
+        ui->modules->shadows_highlights->shadows_scale), 0);
+    gtk_range_set_value(GTK_RANGE(
+        ui->modules->shadows_highlights->highlights_scale), 0);
+    gtk_combo_box_set_active(GTK_COMBO_BOX(
+        ui->modules->orientation->flip_box), 0);
+}
+
 //Rotate module callback
 void rotate_left(GtkWidget *button, gpointer user_data)
 {
@@ -233,6 +249,8 @@ void open_file(struct UI *ui, char *filename)
     {
         free_images(ui->images);
     }
+
+    reset_modules(ui);
 
     int padding = 10;
     //Setting middle zone info
