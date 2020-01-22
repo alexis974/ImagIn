@@ -194,29 +194,31 @@ download_Hasselblad()
         "https://cdn.hasselblad.com/zoom/gunther-egger/Hasselblad_0138+FIN.tif"
         "https://cdn.hasselblad.com/zoom/gunther-egger/Hasselblad_0138.fff")
 
-            for i in {0..10}
-            do
-                wget --output-document="${img_name[$i]}" "${img_link[$i]}"
-                if [ -f "${img_name[$i]}" ]; then
-                    mv "${img_name[$i]}" "../../samples/Hasselblad"
-                fi
-            done
-        }
-
-
-    download_space()
-    {
-        if [ -d ../../samples/Hubble ]; then
-            rm -r "../../samples/Hubble"
+    nb_image="12"
+    for i in $(seq 0 $nb_image)
+    do
+        wget --output-document="${img_name[$i]}" "${img_link[$i]}"
+        if [ -f "${img_name[$i]}" ]; then
+            mv "${img_name[$i]}" "../../samples/Hasselblad"
         fi
-        mkdir "../../samples/Hubble"
+    done
+}
 
-        url="https://hubblesite.org/uploads/image_file/image_attachment/31682/STSCI-H-p1917a-f-25500x25500.tif"
-        wget --output-document="hubble.tif" "$url"
-        if [ -f "hubble.tif" ]; then
-            mv "hubble.tif" "../../samples/Hubble"
-        fi
-    }
+
+download_space()
+{
+    if [ -d ../../samples/Hubble ]; then
+        rm -r "../../samples/Hubble"
+    fi
+    mkdir "../../samples/Hubble"
+
+    url="https://hubblesite.org/uploads/image_file/image_attachment/31682/STSCI-H-p1917a-f-25500x25500.tif"
+
+    wget --output-document="hubble.tif" "$url"
+    if [ -f "hubble.tif" ]; then
+        mv "hubble.tif" "../../samples/Hubble"
+    fi
+}
 
 
 Help()
@@ -252,11 +254,11 @@ while [ -n "$1" ]; do
         -h) # display Help
             Help ;;
         -l) # litte
-            download_jpg 5
-            printf "\e[96m\e[4mDone! 5 images have been downloaded\n\e[0m" ;;
+            download_jpg 3
+            printf "\e[96m\e[4mDone! 3 images have been downloaded\n\e[0m" ;;
         -m) # medium
-            download_jpg 30
-            printf "\e[96m\e[4mDone! 30 images have been downloaded\n\e[0m" ;;
+            download_jpg 20
+            printf "\e[96m\e[4mDone! 20 images have been downloaded\n\e[0m" ;;
         -r) # raw
             download_raw
             printf "\e[96m\e[4mDone! All raws have been downloaded\n\e[0m" ;;
