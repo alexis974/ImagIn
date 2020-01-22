@@ -283,13 +283,12 @@ void open_file_chooser(GtkWidget *widget, gpointer user_data)
     struct UI *ui = user_data;
     GtkWidget *dialog;
     GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_OPEN;
-    gint res;
 
     dialog = gtk_file_chooser_dialog_new ("Open File", ui->window, action,
             ("Cancel"), GTK_RESPONSE_CANCEL,
             ("Open"), GTK_RESPONSE_ACCEPT, NULL);
 
-    res = gtk_dialog_run (GTK_DIALOG (dialog));
+    gint res = gtk_dialog_run (GTK_DIALOG (dialog));
     if (res == GTK_RESPONSE_ACCEPT)
     {
         char *filename;
@@ -307,19 +306,18 @@ void open_save_as_window(GtkWidget *widget, gpointer user_data)
     (void) widget;
     struct UI *ui = user_data;
     GtkWidget *dialog;
-    gint res;
 
-    dialog = gtk_file_chooser_dialog_new("Save Result", GTK_WINDOW(ui->window), 
+    dialog = gtk_file_chooser_dialog_new("Save Result", GTK_WINDOW(ui->window),
             GTK_FILE_CHOOSER_ACTION_SAVE, "Cancel",
             GTK_RESPONSE_CANCEL, "Save",
             GTK_RESPONSE_ACCEPT, NULL);
 
     gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(dialog), TRUE);
 
-    res = gtk_dialog_run(GTK_DIALOG(dialog));
+    gint res = gtk_dialog_run(GTK_DIALOG(dialog));
     if (res == GTK_RESPONSE_ACCEPT)
     {
-        char *path;
+        char *path = NULL;
         path = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
         printf("%s\n", path);
         g_free(path);
@@ -333,7 +331,12 @@ void quit(GtkWidget *widget, gpointer user_data)
 {
     (void) widget;
     struct UI *ui = user_data;
+    free(ui->bottom_bar);
+    free(ui->display);
+    free(ui->menu_bar);
+    free(ui->modules);
     if (ui->image_loaded)
         free_images(ui->images);
+    free(ui);
     gtk_main_quit();
 }
