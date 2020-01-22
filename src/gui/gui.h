@@ -40,6 +40,7 @@ struct Modules
 struct Display
 {
     GtkImage *display_image;
+    GtkImage *small_image;
 };
 
 struct UI

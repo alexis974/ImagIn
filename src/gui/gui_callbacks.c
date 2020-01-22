@@ -234,17 +234,18 @@ void open_file(struct UI *ui, char *filename)
         free_images(ui->images);
     }
 
+    int padding = 10;
     //Setting middle zone info
     g_maxwidth = gtk_widget_get_allocated_width(
-        GTK_WIDGET(ui->display->display_image));
+        GTK_WIDGET(ui->display->display_image)) - padding;
     g_maxheight = gtk_widget_get_allocated_height(
-        GTK_WIDGET(ui->display->display_image));
+        GTK_WIDGET(ui->display->display_image)) - padding;
 
     //Setting preview zone info
     g_maxwidth_small = gtk_widget_get_allocated_width(
-        GTK_WIDGET(ui->display->display_image));
+        GTK_WIDGET(ui->display->small_image)) - padding;
     g_maxheight_small = gtk_widget_get_allocated_height(
-        GTK_WIDGET(ui->display->display_image));
+        GTK_WIDGET(ui->display->small_image)) - padding;
 
     //Getting all scaled images
     ui->images = read_image(filename);
@@ -257,10 +258,18 @@ void open_file(struct UI *ui, char *filename)
                 ui->images->edit->width * 3, free_buffer, NULL);
     gtk_image_set_from_pixbuf(ui->display->display_image, pix_buffer);
 
+    unsigned char *buffer_small = from_image_to_buffer(ui->images->small);
+    GdkPixbuf *pix_buffer_small =
+        gdk_pixbuf_new_from_data(buffer_small, GDK_COLORSPACE_RGB, FALSE, 8,
+            ui->images->small->width, ui->images->small->height,
+                ui->images->small->width * 3, free_buffer, NULL);
+    gtk_image_set_from_pixbuf(ui->display->small_image, pix_buffer_small);
+
     ui->image_loaded = TRUE;
 
     //releasing memory
     g_object_unref(pix_buffer);
+    g_object_unref(pix_buffer_small);
 }
 
 //Called to open the file chooser

@@ -23,6 +23,8 @@ void build_display_GUI(GtkBuilder *builder, struct UI *ui)
     ui->display = malloc(sizeof(struct Display));
     ui->display->display_image = GTK_IMAGE(gtk_builder_get_object(
                 builder, "display_image"));
+    ui->display->small_image = GTK_IMAGE(gtk_builder_get_object(
+                builder, "small_preview"));
 }
 
 void build_modules_GUI(GtkBuilder *builder, struct UI *ui)
