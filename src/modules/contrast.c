@@ -21,7 +21,7 @@ void contrast(struct Image *img, float range)
     {
         mid ++;
     }
-    printf("%ld", mid);
+
     size_t average;
     size_t s1 = 100;
     size_t s2 = 150;
