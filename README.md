@@ -3,7 +3,7 @@ ImagIn is a free and open-source software designed to be used for beginner and i
 This project is made by four second year students at EPITA
 
 
-Building
+Building :hammer:
 --------
 
 Since ImagIn is a software that is currently in active developement, if you cloned the repository a couple of days ago, please run the following command to be sure to have the latest stable version.
