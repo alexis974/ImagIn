@@ -39,7 +39,7 @@ make cli
 ```
 
 
-Wiki
+Wiki :book:
 ----
 
 The wiki will arrive shortly. We thank you in advance for your patience
