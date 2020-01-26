@@ -20,7 +20,6 @@ size_t apply_contrast(size_t c, float n, size_t depth)
 
 /*
 ** Modify contrast of given image
-** 'range' is in range (0.1, 2.0)
 */
 void contrast(struct Image *img, float range)
 {
