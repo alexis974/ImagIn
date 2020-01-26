@@ -16,6 +16,7 @@
 #include "modules/flip.h"
 #include "modules/saturation.h"
 #include "modules/exposure.h"
+#include "modules/contrast.h"
 
 #include "tools/scale.h"
 
@@ -67,6 +68,10 @@ int main(void)
 //##############################################################################
 //                               ### MODULES ###                             ###
 //##############################################################################
+
+    //Modify contrast
+    contrast(images->edit, 2);
+    write_image("tmp/00_Contrast.jpg", images->edit);
 
     //Add 0.5EV to image
     exposure(images->edit, 0.5);
