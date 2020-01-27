@@ -2,6 +2,7 @@
 
 #include "gui.h"
 #include "gui_callbacks.h"
+#include "gui_display.h"
 #include "gui_signals.h"
 
 void connect_modules(struct UI *ui)
@@ -44,10 +45,17 @@ void connect_menu_bar(struct UI *ui)
             G_CALLBACK(quit), ui);
 }
 
+void connect_display(struct UI *ui)
+{
+    g_signal_connect(ui->display->histogram_area, "draw",
+            G_CALLBACK(draw_histogram), ui);
+}
+
 void connect_signals(struct UI *ui)
 {
     g_signal_connect(ui->window, "destroy", G_CALLBACK(quit), ui);
 
     connect_modules(ui);
     connect_menu_bar(ui);
+    connect_display(ui);
 }

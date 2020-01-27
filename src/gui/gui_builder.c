@@ -32,6 +32,8 @@ void build_display_GUI(GtkBuilder *builder, struct UI *ui)
                 builder, "display_image"));
     ui->display->small_image = GTK_IMAGE(gtk_builder_get_object(
                 builder, "small_preview"));
+    ui->display->histogram_area = GTK_DRAWING_AREA(gtk_builder_get_object(
+                builder, "histogram_area"));
 }
 
 void build_modules_GUI(GtkBuilder *builder, struct UI *ui)

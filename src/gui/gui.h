@@ -41,6 +41,7 @@ struct Display
 {
     GtkImage *display_image;
     GtkImage *small_image;
+    GtkDrawingArea *histogram_area;
 };
 
 struct Bottom_bar
