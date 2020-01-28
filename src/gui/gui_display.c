@@ -78,16 +78,26 @@ void reload_images(struct UI *ui)
 {
     if (!ui->image_loaded)
         return;
-    unsigned char *buffer = from_image_to_buffer(ui->images->edit);
 
+    //Middle image
+    unsigned char *buffer = from_image_to_buffer(ui->images->edit);
     GdkPixbuf *pix_buffer =
         gdk_pixbuf_new_from_data(buffer, GDK_COLORSPACE_RGB, FALSE, 8,
-        ui->images->edit->width, ui->images->edit->height,
-        ui->images->edit->width * 3, free_buffer, NULL);
+            ui->images->edit->width, ui->images->edit->height,
+                ui->images->edit->width * 3, free_buffer, NULL);
     gtk_image_set_from_pixbuf(ui->display->display_image, pix_buffer);
+
+    //Small image
+    unsigned char *buffer_small = from_image_to_buffer(ui->images->small);
+    GdkPixbuf *pix_buffer_small =
+        gdk_pixbuf_new_from_data(buffer_small, GDK_COLORSPACE_RGB, FALSE, 8,
+            ui->images->small->width, ui->images->small->height,
+                ui->images->small->width * 3, free_buffer, NULL);
+    gtk_image_set_from_pixbuf(ui->display->small_image, pix_buffer_small);
 
     //releasing memory
     g_object_unref(pix_buffer);
+    g_object_unref(pix_buffer_small);
 }
 
 void display_images(struct UI *ui, char* filename)
@@ -116,30 +126,12 @@ void display_images(struct UI *ui, char* filename)
     //Getting all scaled images
     ui->images = read_image(filename);
 
-    //Middle image
-    unsigned char *buffer = from_image_to_buffer(ui->images->edit);
-    GdkPixbuf *pix_buffer =
-        gdk_pixbuf_new_from_data(buffer, GDK_COLORSPACE_RGB, FALSE, 8,
-            ui->images->edit->width, ui->images->edit->height,
-                ui->images->edit->width * 3, free_buffer, NULL);
-    gtk_image_set_from_pixbuf(ui->display->display_image, pix_buffer);
-
-    //Small image
-    unsigned char *buffer_small = from_image_to_buffer(ui->images->small);
-    GdkPixbuf *pix_buffer_small =
-        gdk_pixbuf_new_from_data(buffer_small, GDK_COLORSPACE_RGB, FALSE, 8,
-            ui->images->small->width, ui->images->small->height,
-                ui->images->small->width * 3, free_buffer, NULL);
-    gtk_image_set_from_pixbuf(ui->display->small_image, pix_buffer_small);
-
     //Bottom bar
     gtk_label_set_text(ui->bottom_bar->filename_label, filename);
 
     ui->image_loaded = TRUE;
 
-    //releasing memory
-    g_object_unref(pix_buffer);
-    g_object_unref(pix_buffer_small);
+    reload_images(ui);
 
     gtk_widget_queue_draw_area(GTK_WIDGET(ui->display->histogram_area),
         0,0,300,150);
