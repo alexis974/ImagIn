@@ -29,17 +29,24 @@ size_t history_length(struct module_history *hist)
 
 
 /*
-** history_add does not respect the coding style. Must find a way to pass less
-** than 5 paramters.
+** history_append does not respect the coding style. Must find a way to pass
+** less than 5 paramters.
 */
-void history_add(struct module_history *hist, char *module_name, int module_id,
-        int enable, float value)
+void history_append(struct module_history *hist, char *module_name,
+        int module_id, int enable, float value)
 {
     // TODO
 }
 
 
 void history_delete(struct module_history hist, int module_id)
+{
+    // TODO
+}
+
+
+// Sorting the history using the insert sort algorithm
+void history_sort(struct module_history *hist)
 {
     // TODO
 }
