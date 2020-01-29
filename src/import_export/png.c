@@ -106,3 +106,64 @@ struct Image *readPNG(const char *filename)
     png_destroy_read_struct(&png, &info, NULL);
     return img;
 }
+
+void writePNG(const char *filename, struct Image *img)
+{
+    FILE *fp = fopen(filename, "wb");
+    if(!fp)
+    {
+        throw_error("writePNG", "Could not write file");
+        return;
+    }
+
+    png_structp png = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+
+    if (!png)
+    {
+        throw_error("writePNG", "Could not write file");
+        return;
+    }
+
+    png_infop info = png_create_info_struct(png);
+    if (!info)
+    {
+        throw_error("writePNG", "Could not write file");
+        return;
+    }
+
+    if (setjmp(png_jmpbuf(png)))
+    {
+        throw_error("writePNG", "Could not write file");
+        return;
+    }
+
+    /* write header */
+    png_init_io(png, fp);
+
+    png_set_IHDR(png, info, img->width, img->height,
+                    8, PNG_COLOR_TYPE_RGB, PNG_INTERLACE_NONE,
+                    PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
+
+    png_write_info(png, info);
+
+    png_bytep *row_pointers = (png_bytep*) malloc(sizeof(png_bytep) * img->height);
+    for (size_t j = 0; j < img->height; j++)
+    {
+        row_pointers[j] = (png_byte*) malloc(sizeof(png_byte)*3*img->width);
+        for (size_t i = 0; i < img->width; i++)
+        {
+            row_pointers[j][i*3] = img->data[j*img->width+i].red;
+            row_pointers[j][i*3+1] = img->data[j*img->width+i].green;
+            row_pointers[j][i*3+2] = img->data[j*img->width+i].blue;
+        }
+    }
+
+    png_write_image(png, row_pointers);
+    png_write_end(png, NULL);
+
+    for (size_t j=0; j<img->height; j++)
+            free(row_pointers[j]);
+    free(row_pointers);
+    fclose(fp);
+    png_destroy_write_struct(&png, &info);
+}

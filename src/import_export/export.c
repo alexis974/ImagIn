@@ -26,6 +26,10 @@ void write_ext(const char *filename, const char *ext, struct Image *img)
     {
         writeJPEG(filename, img);
     }
+    else if(strcmp(ext, "png") == 0)
+    {
+        writePNG(filename, img);
+    }
     else
     {
         throw_error("export", "Unknown file extension.");
