@@ -1,5 +1,7 @@
 #include <stdio.h>
 
+#include "history.h"
+
 void init_history(struct module_history *hist)
 {
     hist->id = -1;
@@ -33,17 +35,18 @@ size_t history_length(struct module_history *hist)
 void history_add(struct module_history *hist, char *module_name, int module_id,
         int enable, float value)
 {
-    //TODO
+    // TODO
 }
 
 
 void history_delete(struct module_history hist, int module_id)
 {
-    //TODO
+    // TODO
 }
 
 
 struct module_history *compress_history(struct module_history *hist)
 {
-    //TODO
+    // TODO
+    return hist;
 }
