@@ -10,6 +10,7 @@
 
 #include "../debug/error_handler.h"
 
+#include "gui_callbacks.h"
 #include "gui.h"
 
 void reset_modules(struct UI *ui)
@@ -185,5 +186,16 @@ gboolean draw_histogram(GtkWidget *widget, cairo_t *cr, gpointer user_data)
         cairo_line_to(cr, i*width/256, height-blue_hist[i]);
     }
     cairo_stroke(cr);
+    return FALSE;
+}
+
+gboolean on_image_event(GtkWidget *widget, GdkEvent *event,
+               gpointer user_data)
+{
+    (void) widget;
+    (void) event;
+    struct UI *ui = user_data;
+    if(!ui->image_loaded)
+        open_file_chooser(NULL, user_data);
     return FALSE;
 }

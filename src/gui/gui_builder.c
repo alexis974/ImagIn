@@ -34,6 +34,8 @@ void build_display_GUI(GtkBuilder *builder, struct UI *ui)
                 builder, "small_preview"));
     ui->display->histogram_area = GTK_DRAWING_AREA(gtk_builder_get_object(
                 builder, "histogram_area"));
+    ui->display->middle_area_events = GTK_EVENT_BOX(gtk_builder_get_object(
+                builder, "middle_area_events"));
 }
 
 void build_modules_GUI(GtkBuilder *builder, struct UI *ui)

@@ -49,6 +49,8 @@ void connect_display(struct UI *ui)
 {
     g_signal_connect(ui->display->histogram_area, "draw",
             G_CALLBACK(draw_histogram), ui);
+    g_signal_connect(ui->display->middle_area_events, "button-press-event",
+            G_CALLBACK(on_image_event), ui);
 }
 
 void connect_signals(struct UI *ui)

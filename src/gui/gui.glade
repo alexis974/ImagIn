@@ -310,10 +310,17 @@
                     <property name="label_xalign">0</property>
                     <property name="shadow_type">none</property>
                     <child>
-                      <object class="GtkImage" id="display_image">
+                      <object class="GtkEventBox" id="middle_area_events">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="stock">gtk-discard</property>
+                        <property name="above_child">True</property>
+                        <child>
+                          <object class="GtkImage" id="display_image">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="stock">gtk-discard</property>
+                          </object>
+                        </child>
                       </object>
                     </child>
                   </object>
