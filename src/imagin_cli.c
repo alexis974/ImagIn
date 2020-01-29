@@ -68,7 +68,10 @@ int main(void)
 //##############################################################################
 //                               ### MODULES ###                             ###
 //##############################################################################
-
+    
+    //Modify saturtion
+    saturation(images->edit, 2);
+    write_image("
     //Modify contrast
     contrast(images->edit, 2);
     write_image("tmp/00_Contrast.jpg", images->edit);

@@ -103,7 +103,7 @@ Pixel HSVtoRGB(PixelHSV pxl)
     p = v * (1 - s);
     q = v * (1 - s * f);
     t = v * (1 - s * (1 - f));
-    
+
     switch(i)
     {
         case 0:
@@ -161,7 +161,7 @@ void saturation(struct Image *img, float change)
     for (size_t i = 0; i < img->width * img->heigth; i++)
     {
         //only non-black pixels
-        if (getmax(img->data[i].red, 
+        if (getmax(img->data[i].red,
                     getmax(img->data[i].green, img->data[i].blue)) != 0)
         {
             saturate(img->data[i], change);
