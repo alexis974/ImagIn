@@ -60,7 +60,7 @@ int GUI_main(void)
     gtk_window_set_default_size(ui->window, workarea.width, workarea.height);
 
     //Setting default middle image
-    gtk_image_set_from_file(ui->display->display_image,"src/data/no_image.png");
+    gtk_image_set_from_file(ui->display->display_image,"src/data/icons/no_image.png");
 
     gtk_widget_show(GTK_WIDGET(ui->window));
 
