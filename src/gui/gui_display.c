@@ -139,9 +139,11 @@ void display_images(struct UI *ui, char* filename)
 
 gboolean draw_histogram(GtkWidget *widget, cairo_t *cr, gpointer user_data)
 {
-    (void) widget;
-    (void) user_data;
+    struct UI *ui = user_data;
+    if(!ui->image_loaded)
+        return FALSE;
 
+    (void) widget;
     int height =  gtk_widget_get_allocated_height(widget);
     int width = gtk_widget_get_allocated_width(widget);
 
