@@ -45,6 +45,16 @@ struct Display
     GtkEventBox *middle_area_events;
 };
 
+struct ImageInfo
+{
+    GtkLabel *datetime;
+    GtkLabel *exposure_time;
+    GtkLabel *focal_length;
+    GtkLabel *shutter_speed;
+    GtkLabel *aperture;
+    GtkLabel *filename;
+    GtkLabel *iso;
+};
 struct Bottom_bar
 {
     GtkLabel *filename_label;
@@ -58,6 +68,7 @@ struct UI
     struct Display *display;
     struct Bottom_bar *bottom_bar;
     struct Images *images;
+    struct ImageInfo *image_info;
     gboolean image_loaded;
 };
 

@@ -9,6 +9,7 @@
 #include "gui_builder.h"
 #include "gui_signals.h"
 #include "gui_callbacks.h"
+#include "gui_display.h"
 
 void css_setup(void)
 {
@@ -37,6 +38,7 @@ struct UI* build_GUI(char* glade_file_path)
     build_modules_GUI(builder, ui);
     build_display_GUI(builder, ui);
     build_bottom_bar_GUI(builder, ui);
+    build_image_info(builder, ui);
     g_object_unref(builder);
     return ui;
 }
@@ -50,7 +52,7 @@ int GUI_main(void)
         return 1;
 
     css_setup();
-
+    reset_modules(ui);
     //Get monitor size
     GdkRectangle workarea = {0};
     gdk_monitor_get_workarea(gdk_display_get_primary_monitor(

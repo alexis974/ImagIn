@@ -38,6 +38,25 @@ void build_display_GUI(GtkBuilder *builder, struct UI *ui)
                 builder, "middle_area_events"));
 }
 
+void build_image_info(GtkBuilder *builder, struct UI *ui)
+{
+    ui->image_info = malloc(sizeof(struct ImageInfo));
+    ui->image_info->aperture = GTK_LABEL(gtk_builder_get_object(
+                builder, "info_aperture"));
+    ui->image_info->exposure_time = GTK_LABEL(gtk_builder_get_object(
+                builder, "info_exposuretime"));
+    ui->image_info->datetime = GTK_LABEL(gtk_builder_get_object(
+                builder, "info_datetime"));
+    ui->image_info->filename = GTK_LABEL(gtk_builder_get_object(
+                builder, "info_filename"));
+    ui->image_info->focal_length = GTK_LABEL(gtk_builder_get_object(
+                builder, "info_focallength"));
+    ui->image_info->iso = GTK_LABEL(gtk_builder_get_object(
+                builder, "info_iso"));
+    ui->image_info->shutter_speed = GTK_LABEL(gtk_builder_get_object(
+                builder, "info_shutterspeed"));
+}
+
 void build_modules_GUI(GtkBuilder *builder, struct UI *ui)
 {
     ui->modules = malloc(sizeof(struct Modules));

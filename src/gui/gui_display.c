@@ -15,6 +15,13 @@
 
 void reset_modules(struct UI *ui)
 {
+    gtk_label_set_text(ui->image_info->aperture, "-");
+    gtk_label_set_text(ui->image_info->datetime, "-");
+    gtk_label_set_text(ui->image_info->exposure_time, "-");
+    gtk_label_set_text(ui->image_info->filename, "-");
+    gtk_label_set_text(ui->image_info->focal_length, "-");
+    gtk_label_set_text(ui->image_info->iso, "-");
+    gtk_label_set_text(ui->image_info->shutter_speed, "-");
     gtk_range_set_value(GTK_RANGE(
         ui->modules->cont_exp_sat->contraste_scale), 0);
     gtk_range_set_value(GTK_RANGE(
