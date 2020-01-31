@@ -84,3 +84,26 @@ void build_modules_GUI(GtkBuilder *builder, struct UI *ui)
     ui->modules->shadows_highlights->highlights_scale = GTK_SCALE(
             gtk_builder_get_object(builder, "highlights_scale"));
 }
+
+struct UI* build_GUI(char* glade_file_path)
+{
+    GtkBuilder *builder = gtk_builder_new();
+    GError* error = NULL;
+    if (gtk_builder_add_from_file(builder, glade_file_path, &error) == 0)
+    {
+        g_printerr("Error loading file: %s\n", error->message);
+        g_clear_error(&error);
+        return NULL;
+    }
+
+    struct UI *ui = malloc(sizeof(struct UI));
+    ui->window = GTK_WINDOW(gtk_builder_get_object(builder, "main_window"));
+    ui->image_loaded = FALSE;
+    build_menu_bar_GUI(builder, ui);
+    build_modules_GUI(builder, ui);
+    build_display_GUI(builder, ui);
+    build_bottom_bar_GUI(builder, ui);
+    build_image_info(builder, ui);
+    g_object_unref(builder);
+    return ui;
+}
