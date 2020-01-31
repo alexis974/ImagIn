@@ -50,7 +50,7 @@ struct Image *read_ext(const char *filename, const char *ext)
     {
         return readPNG(filename);
     }
-    throw_error("import", "Unknown extension.");
+    throw_error("Import", "Unknown extension.");
     return NULL;
 }
 
@@ -97,7 +97,7 @@ struct Images *read_image(const char *filename)
     images->full = read_ext(filename, ext);
     if (!images->full)
     {
-        exit(0);
+        return NULL;
     }
 
     images->scale = get_scale(images->full);

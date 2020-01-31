@@ -126,6 +126,8 @@ void display_images(struct UI *ui, char* filename)
 
     //Getting all scaled images
     ui->images = read_image(filename);
+    if(!ui->images)
+        return;
 
     //Bottom bar
     gtk_label_set_text(ui->bottom_bar->filename_label, filename);
