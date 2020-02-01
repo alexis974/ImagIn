@@ -44,33 +44,68 @@ void history_append(struct module_history *hist, char *module_name,
     new->local_id = module_id;
     new->enable = enable;
     new->value = value;
+    new->next = NULL;
 
     while (hist->next)
     {
         hist = hist->next;
     }
 
-
     hist->next = new;
-    new->next = NULL;
+}
 
+
+void swap_module(struct module_history *elm1, struct module_history *elm2)
+{
+    char *name = elm1->name;
+    elm1->name = elm2->name;
+    elm2->name = name;
+
+    int local_id = elm1->local_id;
+    elm1->local_id = elm2->local_id;
+    elm2->local_id = local_id;
+
+    int enable = elm1->enable;
+    elm1->enable = elm2->enable;
+    elm2->enable = enable;
+
+    float value = elm1->value;
+    elm1->value = elm2->value;
+    elm2->value = value;
+}
+
+
+// Sorting the history using the buublesort algorithm
+void history_sort(struct module_history *hist)
+{
+    if (hist == NULL)
+    {
+        return;
+    }
+
+    struct module_history *copy = hist;
+
+    int is_sorted = 0;
+    while (!is_sorted)
+    {
+        is_sorted = 1;
+        hist = copy;
+
+        while(hist->next != NULL)
+        {
+            if(hist->local_id > hist->next->local_id)
+            {
+                swap_module(hist, hist->next);
+                is_sorted = 0;
+            }
+
+            hist = hist->next;
+        }
+    }
 }
 
 
 /*
-void history_delete(struct module_history hist, int module_id)
-{
-    // TODO
-}
-
-
-// Sorting the history using the insert sort algorithm
-void history_sort(struct module_history *hist)
-{
-    // TODO
-}
-
-
 struct module_history *compress_history(struct module_history *hist)
 {
     // TODO
