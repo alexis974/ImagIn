@@ -16,16 +16,16 @@ size_t getmax(size_t x, size_t y)
     return x > y ? x : y;
 }
 
-PixelHSV RGBtoHSV(Pixel pxl)
+struct PixelHSV RGBtoHSV(struct Pixel pxl)
 {
-    PixelHSV newpxl;
-    float h;
-    float s;
-    size_t v;
+    struct PixelHSV newpxl;
+    float h = 0;
+    float s = 0;
+    size_t v = 0;
 
-    size_t r = pxl->red;
-    size_t g = pxl->green;
-    size_t b = pxl->blue;
+    size_t r = pxl.red;
+    size_t g = pxl.green;
+    size_t b = pxl.blue;
     size_t min = getmin(r, getmin(g, b)); //min(r, g, b)
     size_t max = getmax(r, getmax(g, b)); //max(r, g, b)
 
@@ -42,47 +42,48 @@ PixelHSV RGBtoHSV(Pixel pxl)
     {
         s = 0;
         h = -1;
-        newpxl->h = h;
-        newpxl->s = s;
-        newpxl->v = v;
+        newpxl.h = h;
+        newpxl.s = s;
+        newpxl.v = v;
         return newpxl;
     }
 
     //h
     if (r == max) //red
     {
-        h = (float) (g-b) / delta;
+        h = (int)(g-b) / (float)delta;
     }
     else if (g == max) //green
     {
-        h = (float) (2 + (b-r) / delta);
+        h = 2 + (int)(b-r) / (float)delta;
     }
     else //blue
     {
-        h = (float) (4 + (r-g) / delta);
+        h =  4 + (int)(r-g) / (float)delta;
     }
     h *= 60;
+
     if (h < 0)
     {
         h += 360;
     }
 
-    newpxl->h = h;
-    newpxl->s = s;
-    newpxl->v = v;
+    newpxl.h = h;
+    newpxl.s = s;
+    newpxl.v = v;
     return newpxl;
 }
 
-Pixel HSVtoRGB(PixelHSV pxl)
+struct Pixel HSVtoRGB(struct PixelHSV pxl)
 {
-    Pixel newpxl;
+    struct Pixel newpxl;
     size_t r;
     size_t g;
     size_t b;
 
-    float h = pxl->h;
-    float s = pxl->s;
-    size_t v = pxl->v;
+    float h = pxl.h;
+    float s = pxl.s;
+    size_t v = pxl.v;
     int i;
     float f;
     float p;
@@ -91,9 +92,9 @@ Pixel HSVtoRGB(PixelHSV pxl)
 
     if (s == 0)
     {
-        newpxl->red = 0;
-        newpxl->green = 0;
-        newpxl->blue = 0;
+        newpxl.red = 0;
+        newpxl.green = 0;
+        newpxl.blue = 0;
         return newpxl;
     }
 
@@ -135,20 +136,20 @@ Pixel HSVtoRGB(PixelHSV pxl)
             r = v;
             g = p;
             b = q;
-            break:
+            break;
     }
 
-    newpxl->red = r;
-    newpxl->green = g;
-    newpxl->blue = b;
+    newpxl.red = r;
+    newpxl.green = g;
+    newpxl.blue = b;
     return newpxl;
 }
 
-void saturate(Pixel pxl, float change)
+void saturate(struct Pixel *pxl, float change)
 {
-    PixelHSV pxlhsv = RGBtoHSV(pxl);
-    pxlhsv->s *= change;
-    pxl = HSVtoRGB(pxlhsv);
+    struct PixelHSV pxlhsv = RGBtoHSV(*pxl);
+    pxlhsv.s *= change;
+    *pxl = HSVtoRGB(pxlhsv);
 }
 
 void saturation(struct Image *img, float change)
@@ -158,13 +159,13 @@ void saturation(struct Image *img, float change)
         errx(1, "saturation: No image found");
     }
 
-    for (size_t i = 0; i < img->width * img->heigth; i++)
+    for (size_t i = 0; i < img->width * img->height; i++)
     {
         //only non-black pixels
         if (getmax(img->data[i].red,
                     getmax(img->data[i].green, img->data[i].blue)) != 0)
         {
-            saturate(img->data[i], change);
+            saturate(&img->data[i], change);
         }
     }
 }
