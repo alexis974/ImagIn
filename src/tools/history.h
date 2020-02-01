@@ -24,6 +24,8 @@ void history_sort(struct module_history *hist);
 
 void compress_history(struct module_history *hist);
 
+void truncate_history(struct module_history *hist, size_t index);
+
 char *get_name(int id);
 
 #endif

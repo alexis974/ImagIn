@@ -115,6 +115,16 @@ void compress_history(struct module_history *hist)
     }
 }
 
+// TODO : Clean the rest of the history after truncate
+void truncate_history(struct module_history *hist, size_t index)
+{
+    for (size_t count = 0; count < index; count++)
+    {
+        hist = hist->next;
+    }
+
+    hist->next = NULL;
+}
 
 char *get_name(int id)
 {
