@@ -31,10 +31,6 @@ size_t history_length(struct module_history *hist)
 }
 
 
-/*
-** history_append does not respect the coding style. Must find a way to pass
-** less than 6 paramters.
-*/
 void history_append(struct module_history *hist, int module_id,
         int enable, float value)
 {
@@ -117,4 +113,13 @@ void compress_history(struct module_history *hist)
         old = hist;
         hist = hist->next;
     }
+}
+
+
+char *get_name(int id)
+{
+    char *module_name[] = {"Exposure", "Saturation", "Contraste", "Shadows",
+        "Highlights", "Flip"};
+
+    return id < 0 ? "NULL" : module_name[id];
 }
