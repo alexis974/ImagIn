@@ -4,6 +4,7 @@
 struct module_history
 {
     char *name;
+    int id;
     int local_id;
     int enable;
     float value;
@@ -17,7 +18,7 @@ int history_is_empty(struct module_history *hist);
 size_t history_length(struct module_history *hist);
 
 void history_append(struct module_history *hist, char *module_name,
-        int module_id, int enable, float value);
+        int module_id,int module_local_id, int enable, float value);
 
 void swap_module(struct module_history *elm1, struct module_history *elm2);
 

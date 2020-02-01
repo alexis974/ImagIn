@@ -6,6 +6,7 @@
 void init_history(struct module_history *hist)
 {
     hist->name = "";
+    hist->id = -1;
     hist->local_id = -1;
     hist->enable = 0;
     hist->value = 0;
@@ -37,11 +38,12 @@ size_t history_length(struct module_history *hist)
 ** less than 5 paramters.
 */
 void history_append(struct module_history *hist, char *module_name,
-        int module_id, int enable, float value)
+        int module_id, int module_local_id, int enable, float value)
 {
     struct module_history *new = malloc(sizeof(struct module_history));
     new->name = module_name;
-    new->local_id = module_id;
+    new->id = module_id;
+    new->local_id = module_local_id;
     new->enable = enable;
     new->value = value;
     new->next = NULL;
@@ -60,6 +62,10 @@ void swap_module(struct module_history *elm1, struct module_history *elm2)
     char *name = elm1->name;
     elm1->name = elm2->name;
     elm2->name = name;
+
+    int id = elm1->id;
+    elm1->id = elm2->id;
+    elm2->id = id;
 
     int local_id = elm1->local_id;
     elm1->local_id = elm2->local_id;
@@ -93,7 +99,7 @@ void history_sort(struct module_history *hist)
 
         while(hist->next != NULL)
         {
-            if(hist->local_id > hist->next->local_id)
+            if(hist->id > hist->next->id)
             {
                 swap_module(hist, hist->next);
                 is_sorted = 0;
