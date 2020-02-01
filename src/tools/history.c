@@ -3,7 +3,7 @@
 
 #include "history.h"
 
-void init_history(struct module_history *hist)
+void init_history(struct history *hist)
 {
     hist->id = -1;
     hist->enable = 0;
@@ -12,13 +12,13 @@ void init_history(struct module_history *hist)
 }
 
 
-int history_is_empty(struct module_history *hist)
+int history_is_empty(struct history *hist)
 {
     return (!hist->next) ?  1 : 0;
 }
 
 
-size_t history_length(struct module_history *hist)
+size_t history_length(struct history *hist)
 {
     size_t counter = 0;
     while (hist->next)
@@ -31,10 +31,10 @@ size_t history_length(struct module_history *hist)
 }
 
 
-void history_append(struct module_history *hist, int module_id,
+void history_append(struct history *hist, int module_id,
         int enable, float value)
 {
-    struct module_history *new = malloc(sizeof(struct module_history));
+    struct history *new = malloc(sizeof(struct history));
     new->id = module_id;
     new->enable = enable;
     new->value = value;
@@ -49,7 +49,7 @@ void history_append(struct module_history *hist, int module_id,
 }
 
 
-void swap_module(struct module_history *elm1, struct module_history *elm2)
+void swap_module(struct history *elm1, struct history *elm2)
 {
     int id = elm1->id;
     elm1->id = elm2->id;
@@ -66,14 +66,14 @@ void swap_module(struct module_history *elm1, struct module_history *elm2)
 
 
 // Sorting the history using the buublesort algorithm
-void history_sort(struct module_history *hist)
+void history_sort(struct history *hist)
 {
     if (hist == NULL)
     {
         return;
     }
 
-    struct module_history *copy = hist;
+    struct history *copy = hist;
 
     int is_sorted = 0;
     while (!is_sorted)
@@ -95,10 +95,10 @@ void history_sort(struct module_history *hist)
 }
 
 
-void compress_history(struct module_history *hist)
+void compress_history(struct history *hist)
 {
     history_sort(hist);
-    struct module_history *old = hist;
+    struct history *old = hist;
 
     while (hist->next != NULL)
     {
@@ -116,7 +116,7 @@ void compress_history(struct module_history *hist)
 }
 
 // TODO : Clean the rest of the history after truncate
-void truncate_history(struct module_history *hist, size_t index)
+void truncate_history(struct history *hist, size_t index)
 {
     for (size_t count = 0; count < index; count++)
     {
