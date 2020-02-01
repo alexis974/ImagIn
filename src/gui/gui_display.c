@@ -16,7 +16,8 @@
 void reset_modules(struct UI *ui)
 {
     gtk_label_set_text(ui->image_info->aperture, "-");
-    gtk_label_set_text(ui->image_info->datetime, "-");
+    gtk_label_set_text(ui->image_info->date, "-");
+    gtk_label_set_text(ui->image_info->time, "-");
     gtk_label_set_text(ui->image_info->exposure_time, "-");
     gtk_label_set_text(ui->image_info->filename, "-");
     gtk_label_set_text(ui->image_info->focal_length, "-");

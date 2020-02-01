@@ -47,7 +47,8 @@ struct Display
 
 struct ImageInfo
 {
-    GtkLabel *datetime;
+    GtkLabel *date;
+    GtkLabel *time;
     GtkLabel *exposure_time;
     GtkLabel *focal_length;
     GtkLabel *shutter_speed;

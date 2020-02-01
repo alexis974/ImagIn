@@ -45,8 +45,10 @@ void build_image_info(GtkBuilder *builder, struct UI *ui)
                 builder, "info_aperture"));
     ui->image_info->exposure_time = GTK_LABEL(gtk_builder_get_object(
                 builder, "info_exposuretime"));
-    ui->image_info->datetime = GTK_LABEL(gtk_builder_get_object(
-                builder, "info_datetime"));
+    ui->image_info->date = GTK_LABEL(gtk_builder_get_object(
+                builder, "info_date"));
+    ui->image_info->time = GTK_LABEL(gtk_builder_get_object(
+                builder, "info_time"));
     ui->image_info->filename = GTK_LABEL(gtk_builder_get_object(
                 builder, "info_filename"));
     ui->image_info->focal_length = GTK_LABEL(gtk_builder_get_object(
