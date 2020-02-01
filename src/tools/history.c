@@ -35,7 +35,7 @@ size_t history_length(struct module_history *hist)
 
 /*
 ** history_append does not respect the coding style. Must find a way to pass
-** less than 5 paramters.
+** less than 6 paramters.
 */
 void history_append(struct module_history *hist, char *module_name,
         int module_id, int module_local_id, int enable, float value)
