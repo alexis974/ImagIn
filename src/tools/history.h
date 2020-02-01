@@ -23,4 +23,6 @@ void swap_module(struct module_history *elm1, struct module_history *elm2);
 
 void history_sort(struct module_history *hist);
 
+void compress_history(struct module_history *hist);
+
 #endif

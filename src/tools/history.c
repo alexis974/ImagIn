@@ -105,10 +105,26 @@ void history_sort(struct module_history *hist)
 }
 
 
-/*
-struct module_history *compress_history(struct module_history *hist)
+void compress_history(struct module_history *hist)
 {
-    // TODO
-    return hist;
+    printf("afkngkfngCOMPRESSION DONEafngfkgns!\n");
+    history_sort(hist);
+    struct module_history *old = hist;
+
+    printf("COMPRESSION DONEafngfkgns!\n");
+    while (hist->next != NULL)
+    {
+
+        if (hist->name == hist->next->name)
+        {
+
+            old->next = hist->next;
+            //free(hist);
+        }
+
+        old = hist;
+        hist = hist->next;
+    }
+
+    printf("COMPRESSION DONE!\n");
 }
-*/
