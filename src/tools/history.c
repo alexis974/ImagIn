@@ -1,10 +1,14 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "history.h"
 
 void init_history(struct module_history *hist)
 {
-    hist->id = -1;
+    hist->name = "";
+    hist->local_id = -1;
+    hist->enable = 0;
+    hist->value = 0;
     hist->next = NULL;
 }
 
@@ -35,10 +39,25 @@ size_t history_length(struct module_history *hist)
 void history_append(struct module_history *hist, char *module_name,
         int module_id, int enable, float value)
 {
-    // TODO
+    struct module_history *new = malloc(sizeof(struct module_history));
+    new->name = module_name;
+    new->local_id = module_id;
+    new->enable = enable;
+    new->value = value;
+
+    while (hist->next)
+    {
+        hist = hist->next;
+    }
+
+
+    hist->next = new;
+    new->next = NULL;
+
 }
 
 
+/*
 void history_delete(struct module_history hist, int module_id)
 {
     // TODO
@@ -57,3 +76,4 @@ struct module_history *compress_history(struct module_history *hist)
     // TODO
     return hist;
 }
+*/
