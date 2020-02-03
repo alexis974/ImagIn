@@ -22,6 +22,14 @@
 **  MODULES
 */
 
+void apply_module(struct UI *ui, int module_id, float value)
+{
+    GtkWidget *label = gtk_label_new(get_name(module_id));
+    gtk_list_box_insert(ui->modules->history_list->list,label, 0);
+    gtk_widget_show(label);
+    history_append(ui->hist, module_id, 1,value);
+}
+
 //Rotate module callback
 void rotate_left(GtkWidget *button, gpointer user_data)
 {
@@ -57,19 +65,16 @@ void flip_changed(GtkComboBox *box, gpointer user_data)
     switch (element_id)
     {
     case 0:
-        printf("Flip is now 'None' !\n");
-        history_append(ui->hist, FLIP, 1, 0);
+        apply_module(ui, FLIP, 0);
         break;
     case 1:
-        history_append(ui->hist, FLIP, 1, 1);
+        apply_module(ui, FLIP, 1);
         break;
     case 2:
-        printf("Flip is now 'Horizontal' !\n");
-        history_append(ui->hist, FLIP, 1, 2);
+        apply_module(ui, FLIP, 2);
         break;
     case 3:
-        printf("Flip is now 'Both' !\n");
-        history_append(ui->hist, FLIP, 1, 3);
+        apply_module(ui, FLIP, 3);
         break;
     }
     reload_images(ui);
@@ -83,7 +88,7 @@ gboolean contraste_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
     //if no image has been opened
     if (!ui->image_loaded)
         return FALSE;
-    history_append(ui->hist, CONTRASTE, 1, gtk_range_get_value(range));
+    apply_module(ui, CONTRASTE, gtk_range_get_value(range));
     reload_images(ui);
     return FALSE;
 }
@@ -97,7 +102,7 @@ gboolean saturation_changed(GtkRange *range, GdkEvent *event,
     //if no image has been opened
     if (!ui->image_loaded)
         return FALSE;
-    history_append(ui->hist, SATURATION, 1, gtk_range_get_value(range));
+    apply_module(ui, SATURATION, gtk_range_get_value(range));
     reload_images(ui);
     return FALSE;
 }
@@ -111,7 +116,7 @@ gboolean exposure_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
     if (!ui->image_loaded)
         return FALSE;
     (void) event; //Prevent unused warning
-    history_append(ui->hist, EXPOSURE, 1, gtk_range_get_value(range));
+    apply_module(ui, EXPOSURE, gtk_range_get_value(range));
     reload_images(ui);
     return FALSE;
 }
@@ -124,7 +129,7 @@ gboolean shadows_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
     //if no image has been opened
     if (!ui->image_loaded)
         return FALSE;
-    history_append(ui->hist, SHADOWS, 1, gtk_range_get_value(range));
+    apply_module(ui, SHADOWS, gtk_range_get_value(range));
     return FALSE;
 }
 
@@ -137,7 +142,7 @@ gboolean highlights_changed(GtkRange *range, GdkEvent *event,
     //if no image has been opened
     if (!ui->image_loaded)
         return FALSE;
-    history_append(ui->hist, HIGHLIGHTS, 1, gtk_range_get_value(range));
+    apply_module(ui, HIGHLIGHTS, gtk_range_get_value(range));
     return FALSE;
 }
 

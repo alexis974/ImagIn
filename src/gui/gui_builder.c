@@ -85,6 +85,10 @@ void build_modules_GUI(GtkBuilder *builder, struct UI *ui)
             gtk_builder_get_object(builder, "shadows_scale"));
     ui->modules->shadows_highlights->highlights_scale = GTK_SCALE(
             gtk_builder_get_object(builder, "highlights_scale"));
+
+    ui->modules->history_list = malloc(sizeof(struct History_List));
+    ui->modules->history_list->list = GTK_LIST_BOX(
+            gtk_builder_get_object(builder, "history_list"));
 }
 
 struct UI* build_GUI(char* glade_file_path)

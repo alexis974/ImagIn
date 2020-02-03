@@ -26,7 +26,7 @@ void connect_modules(struct UI *ui)
     //Shadow Highlights signals
     g_signal_connect(ui->modules->shadows_highlights->shadows_scale, "event",
             G_CALLBACK(shadows_changed), ui);
-    g_signal_connect(ui->modules->shadows_highlights->shadows_scale, "event",
+    g_signal_connect(ui->modules->shadows_highlights->highlights_scale, "event",
             G_CALLBACK(highlights_changed), ui);
 }
 
