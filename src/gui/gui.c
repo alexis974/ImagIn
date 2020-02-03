@@ -5,6 +5,8 @@
 
 #include "../imagin.h"
 
+#include "../tools/history.h"
+
 #include "gui.h"
 #include "gui_builder.h"
 #include "gui_signals.h"
@@ -27,6 +29,8 @@ int GUI_main(void)
     struct UI *ui = build_GUI("src/gui/gui.glade");
     if (!ui)
         return 1;
+    ui->hist = malloc(sizeof(struct history));
+    init_history(ui->hist);
 
     css_setup();
     reset_modules(ui);

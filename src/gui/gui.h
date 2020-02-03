@@ -71,6 +71,7 @@ struct UI
     struct Images *images;
     struct ImageInfo *image_info;
     gboolean image_loaded;
+    struct history *hist;
 };
 
 int GUI_main(void);
