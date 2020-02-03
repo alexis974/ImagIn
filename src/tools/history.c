@@ -1,8 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <err.h>
+
+#include "../imagin.h"
 
 #include "history.h"
-#include "../imagin.h"
+
 
 #include "../modules/contrast.h"
 #include "../modules/exposure.h"
@@ -72,7 +75,7 @@ void swap_module(struct history *elm1, struct history *elm2)
 }
 
 
-// Sorting the history using the bubblesort algorithm
+// Sorting the history using the buublesort algorithm
 void history_sort(struct history *hist)
 {
     if (hist == NULL)
@@ -101,11 +104,13 @@ void history_sort(struct history *hist)
     }
 }
 
-
-void apply_history(struct history *hist, struct Image *img)
+void apply_history(struct history *hist, struct Images *imgs)
 {
-    compress_history(hist);
-    for (struct history *p = hist->next; p != NULL; p=p->next)
+    struct history *compressed = duplicate_history(hist);
+    compress_history(compressed);
+    copy_img(imgs->scale, imgs->edit);
+    struct Image *img = imgs->edit;
+    for (struct history *p = compressed->next; p != NULL; p=p->next)
     {
         switch (p->id)
         {
@@ -132,7 +137,6 @@ void apply_history(struct history *hist, struct Image *img)
     }
 }
 
-
 void compress_history(struct history *hist)
 {
     history_sort(hist);
@@ -143,12 +147,15 @@ void compress_history(struct history *hist)
         {
             old->next = hist->next;
             free(hist);
+            hist = old->next;
         }
-        old = hist;
-        hist = hist->next;
+        else
+        {
+            old = hist;
+            hist = hist->next;
+        }
     }
 }
-
 
 // TODO : Clean the rest of the history after truncate
 void truncate_history(struct history *hist, size_t index)
@@ -161,6 +168,24 @@ void truncate_history(struct history *hist, size_t index)
     hist->next = NULL;
 }
 
+struct history *duplicate_history(struct history *hist)
+{
+    struct history *new = malloc(sizeof(struct history));
+    struct history *new_hist = new;
+    init_history(new);
+    hist = hist->next;
+    while(hist)
+    {
+        new->next = malloc(sizeof(struct history));
+        new->next->id = hist->id;
+        new->next->enable = hist->enable;
+        new->next->value = hist->value;
+        new->next->next = NULL;
+        new = new->next;
+        hist = hist->next;
+    }
+    return new_hist;
+}
 
 char *get_name(int id)
 {
@@ -170,12 +195,37 @@ char *get_name(int id)
     return id < 0 ? "NULL" : module_name[id];
 }
 
-
 void print_history(struct history *hist)
 {
-    printf("----History----\n");
-    for (struct history *p = hist->next; p != NULL; p=p->next)
+    size_t nb_elm = history_length(hist);
+    for(size_t i = 0; i <= nb_elm; i++)
     {
-        printf("%s value is %f\n", get_name(p->id), p->value);
+        printf("------------------------------- Module %ld\n", i);
+        printf("name: %s\n", get_name(hist->id));
+        printf("id: %d\n", hist->id);
+        printf("enable: %d\n", hist->enable);
+        printf("value: %f\n", hist->value);
+
+        hist = hist->next;
+    }
+}
+
+void copy_img(struct Image *img_src, struct Image *img_dst)
+{
+    if (!img_src || !img_dst)
+    {
+        errx(1, "copy_img: No image found");
+    }
+
+    if (img_src->width != img_dst->width || img_src->height != img_dst->height)
+    {
+        errx(1, "copy_img: images don't have the same size");
+    }
+
+    for (size_t i = 0; i < img_src->width * img_src->height; i++)
+    {
+        img_dst->data[i].red = img_src->data[i].red;
+        img_dst->data[i].green = img_src->data[i].green;
+        img_dst->data[i].blue = img_src->data[i].blue;
     }
 }

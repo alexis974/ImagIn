@@ -30,7 +30,7 @@ void rotate_left(GtkWidget *button, gpointer user_data)
     if (!ui->image_loaded)
         return;
     (void) button;
-    compress_history(ui->hist);
+    reload_images(ui);
     printf("Rotate left button pressed !\n");
 }
 

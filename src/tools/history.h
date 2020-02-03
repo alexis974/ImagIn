@@ -20,6 +20,8 @@ struct history
     struct history *next;
 };
 
+void apply_history(struct history *hist, struct Images *img);
+
 void init_history(struct history *hist);
 
 int history_is_empty(struct history *hist);
@@ -33,6 +35,8 @@ void swap_module(struct history *elm1, struct history *elm2);
 
 void history_sort(struct history *hist);
 
+struct history *duplicate_history(struct history *hist);
+
 void compress_history(struct history *hist);
 
 void truncate_history(struct history *hist, size_t index);
@@ -40,5 +44,7 @@ void truncate_history(struct history *hist, size_t index);
 char *get_name(int id);
 
 void print_history(struct history *hist);
+
+void copy_img(struct Image *img_src, struct Image *img_dst);
 
 #endif
