@@ -58,6 +58,7 @@ struct UI
     struct Bottom_bar *bottom_bar;
     struct Images *images;
     gboolean image_loaded;
+    struct history *hist;
 };
 
 int GUI_main(void);

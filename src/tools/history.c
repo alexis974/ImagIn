@@ -2,6 +2,13 @@
 #include <stdlib.h>
 
 #include "history.h"
+#include "../imagin.h"
+
+#include "../modules/contrast.h"
+#include "../modules/exposure.h"
+#include "../modules/flip.h"
+#include "../modules/saturation.h"
+#include "../modules/shadows_highlights.h"
 
 void init_history(struct history *hist)
 {
@@ -94,22 +101,47 @@ void history_sort(struct history *hist)
     }
 }
 
+void apply_history(struct history *hist, struct Image *img)
+{
+    compress_history(hist);
+    for (struct history *p = hist->next; p != NULL; p=p->next)
+    {
+        switch (p->id)
+        {
+        case CONTRASTE:
+            contrast(img, p->value);
+            break;
+        case EXPOSURE:
+            exposure(img, p->value);
+            break;
+        case SATURATION:
+            saturation(img, p->value);
+            break;
+        case FLIP:
+            if(p->value == 1)
+                vertical_flip(img);
+            else if(p->value ==  2)
+                horizontal_flip(img);
+            else if(p->value == 3)
+                flip_both_axis(img);
+            break;
+        default:
+            break;
+        }
+    }
+}
 
 void compress_history(struct history *hist)
 {
     history_sort(hist);
     struct history *old = hist;
-
     while (hist->next != NULL)
     {
-
         if (hist->id == hist->next->id)
         {
-
             old->next = hist->next;
             free(hist);
         }
-
         old = hist;
         hist = hist->next;
     }
@@ -129,7 +161,16 @@ void truncate_history(struct history *hist, size_t index)
 char *get_name(int id)
 {
     char *module_name[] = {"Exposure", "Saturation", "Contraste", "Shadows",
-        "Highlights", "Flip"};
+        "Highlights", "Flip", "Rotation"};
 
     return id < 0 ? "NULL" : module_name[id];
+}
+
+void print_history(struct history *hist)
+{
+    printf("----History----\n");
+    for (struct history *p = hist->next; p != NULL; p=p->next)
+    {
+        printf("%s value is %f\n", get_name(p->id), p->value);
+    }
 }

@@ -1,6 +1,17 @@
 #ifndef HISTORY_H
 #define HISTORY_H
 
+enum ModulesID
+{
+    EXPOSURE,
+    SATURATION,
+    CONTRASTE,
+    SHADOWS,
+    HIGHLIGHTS,
+    FLIP,
+    ROTATION
+};
+
 struct history
 {
     int id;
@@ -27,5 +38,7 @@ void compress_history(struct history *hist);
 void truncate_history(struct history *hist, size_t index);
 
 char *get_name(int id);
+
+void print_history(struct history *hist);
 
 #endif
