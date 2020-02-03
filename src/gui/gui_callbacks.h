@@ -1,6 +1,9 @@
 #ifndef GUI_CALLBACKS_H
 #define GUI_CALLBACKS_H
 
+gboolean on_key_press (GtkWidget *widget, GdkEventKey *event,
+                gpointer user_data);
+
 void rotate_left(GtkWidget *button, gpointer user_data);
 void rotate_right(GtkWidget *button, gpointer user_data);
 void flip_changed(GtkComboBox *button, gpointer user_data);

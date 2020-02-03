@@ -56,7 +56,7 @@ void connect_display(struct UI *ui)
 void connect_signals(struct UI *ui)
 {
     g_signal_connect(ui->window, "destroy", G_CALLBACK(quit), ui);
-
+    g_signal_connect(ui->window, "key_press_event", G_CALLBACK (on_key_press), ui);
     connect_modules(ui);
     connect_menu_bar(ui);
     connect_display(ui);

@@ -21,7 +21,6 @@ void init_history(struct history *hist)
     hist->next = NULL;
 }
 
-
 int history_is_empty(struct history *hist)
 {
     return (!hist->next) ?  1 : 0;
@@ -40,7 +39,6 @@ size_t history_length(struct history *hist)
     return counter;
 }
 
-
 void history_append(struct history *hist, int module_id,
         int enable, float value)
 {
@@ -58,7 +56,17 @@ void history_append(struct history *hist, int module_id,
     hist->next = new;
 }
 
-
+void history_pop(struct history *hist)
+{
+    if(!hist->next)
+        return;
+    while(hist->next->next)
+    {
+        hist = hist->next;
+    }
+    free(hist->next);
+    hist->next = NULL;
+}
 void swap_module(struct history *elm1, struct history *elm2)
 {
     int id = elm1->id;

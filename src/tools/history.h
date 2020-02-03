@@ -31,6 +31,8 @@ size_t history_length(struct history *hist);
 void history_append(struct history *hist, int module_id,
         int enable, float value);
 
+void history_pop(struct history *hist);
+
 void swap_module(struct history *elm1, struct history *elm2);
 
 void history_sort(struct history *hist);

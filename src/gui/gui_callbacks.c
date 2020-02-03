@@ -19,6 +19,24 @@
 #include "gui_display.h"
 
 /*
+**  INPUT
+*/
+
+gboolean
+on_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
+{
+    (void) widget;
+    struct UI *ui = user_data;
+    if(event->state & GDK_CONTROL_MASK && event->keyval == GDK_KEY_z
+        && ui->image_loaded)
+    {
+        history_pop(ui->hist);
+        reload_images(ui);
+    }
+    return FALSE;
+}
+
+/*
 **  MODULES
 */
 
