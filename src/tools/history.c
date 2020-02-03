@@ -72,7 +72,7 @@ void swap_module(struct history *elm1, struct history *elm2)
 }
 
 
-// Sorting the history using the buublesort algorithm
+// Sorting the history using the bubblesort algorithm
 void history_sort(struct history *hist)
 {
     if (hist == NULL)
@@ -100,6 +100,7 @@ void history_sort(struct history *hist)
         }
     }
 }
+
 
 void apply_history(struct history *hist, struct Image *img)
 {
@@ -131,6 +132,7 @@ void apply_history(struct history *hist, struct Image *img)
     }
 }
 
+
 void compress_history(struct history *hist)
 {
     history_sort(hist);
@@ -147,6 +149,7 @@ void compress_history(struct history *hist)
     }
 }
 
+
 // TODO : Clean the rest of the history after truncate
 void truncate_history(struct history *hist, size_t index)
 {
@@ -158,6 +161,7 @@ void truncate_history(struct history *hist, size_t index)
     hist->next = NULL;
 }
 
+
 char *get_name(int id)
 {
     char *module_name[] = {"Exposure", "Saturation", "Contraste", "Shadows",
@@ -165,6 +169,7 @@ char *get_name(int id)
 
     return id < 0 ? "NULL" : module_name[id];
 }
+
 
 void print_history(struct history *hist)
 {
