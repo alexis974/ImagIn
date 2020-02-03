@@ -120,6 +120,7 @@ void display_images(struct UI *ui, char* filename)
     if (ui->image_loaded)
     {
         free_images(ui->images);
+        truncate_history(ui->hist, 0); //Reset
     }
 
     reset_modules(ui);
