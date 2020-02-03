@@ -61,17 +61,14 @@ void flip_changed(GtkComboBox *box, gpointer user_data)
         history_append(ui->hist, FLIP, 1, 0);
         break;
     case 1:
-        vertical_flip(ui->images->edit);
         history_append(ui->hist, FLIP, 1, 1);
         break;
     case 2:
         printf("Flip is now 'Horizontal' !\n");
-        horizontal_flip(ui->images->edit);
         history_append(ui->hist, FLIP, 1, 2);
         break;
     case 3:
         printf("Flip is now 'Both' !\n");
-        flip_both_axis(ui->images->edit);
         history_append(ui->hist, FLIP, 1, 3);
         break;
     }
@@ -86,9 +83,8 @@ gboolean contraste_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
     //if no image has been opened
     if (!ui->image_loaded)
         return FALSE;
-    contrast(ui->images->edit, gtk_range_get_value(range) -  1);
-    reload_images(ui);
     history_append(ui->hist, CONTRASTE, 1, gtk_range_get_value(range));
+    reload_images(ui);
     return FALSE;
 }
 
@@ -101,7 +97,6 @@ gboolean saturation_changed(GtkRange *range, GdkEvent *event,
     //if no image has been opened
     if (!ui->image_loaded)
         return FALSE;
-    saturation(ui->images->edit, gtk_range_get_value(range));
     history_append(ui->hist, SATURATION, 1, gtk_range_get_value(range));
     reload_images(ui);
     return FALSE;
@@ -116,7 +111,6 @@ gboolean exposure_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
     if (!ui->image_loaded)
         return FALSE;
     (void) event; //Prevent unused warning
-    exposure(ui->images->edit, gtk_range_get_value(range));
     history_append(ui->hist, EXPOSURE, 1, gtk_range_get_value(range));
     reload_images(ui);
     return FALSE;
