@@ -78,7 +78,8 @@ gboolean contraste_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
     //if no image has been opened
     if (!ui->image_loaded)
         return FALSE;
-    printf("value : %f\n", gtk_range_get_value(range));
+    contrast(ui->images->edit, gtk_range_get_value(range) -  1);
+    reload_images(ui);
     return FALSE;
 }
 
