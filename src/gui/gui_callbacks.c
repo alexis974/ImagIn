@@ -28,6 +28,7 @@ void apply_module(struct UI *ui, int module_id, float value)
     gtk_list_box_insert(ui->modules->history_list->list,label, 0);
     gtk_widget_show(label);
     history_append(ui->hist, module_id, 1,value);
+    reload_images(ui);
 }
 
 //Rotate module callback
@@ -38,7 +39,6 @@ void rotate_left(GtkWidget *button, gpointer user_data)
     if (!ui->image_loaded)
         return;
     (void) button;
-    reload_images(ui);
     printf("Rotate left button pressed !\n");
 }
 
@@ -77,7 +77,6 @@ void flip_changed(GtkComboBox *box, gpointer user_data)
         apply_module(ui, FLIP, 3);
         break;
     }
-    reload_images(ui);
 }
 
 gboolean contraste_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
@@ -89,7 +88,6 @@ gboolean contraste_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
     if (!ui->image_loaded)
         return FALSE;
     apply_module(ui, CONTRASTE, gtk_range_get_value(range));
-    reload_images(ui);
     return FALSE;
 }
 
@@ -103,7 +101,6 @@ gboolean saturation_changed(GtkRange *range, GdkEvent *event,
     if (!ui->image_loaded)
         return FALSE;
     apply_module(ui, SATURATION, gtk_range_get_value(range));
-    reload_images(ui);
     return FALSE;
 }
 
@@ -117,7 +114,6 @@ gboolean exposure_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
         return FALSE;
     (void) event; //Prevent unused warning
     apply_module(ui, EXPOSURE, gtk_range_get_value(range));
-    reload_images(ui);
     return FALSE;
 }
 
