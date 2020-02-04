@@ -89,9 +89,8 @@ void reload_images(struct UI *ui)
 {
     if (!ui->image_loaded)
         return;
-
-    apply_history(ui->hist, ui->images);
     ui->images->small = get_small(ui->images->edit);
+    apply_history(ui->hist, ui->images);
 
     //Middle image
     unsigned char *buffer = from_image_to_buffer(ui->images->edit);

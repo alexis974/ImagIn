@@ -28,8 +28,10 @@ on_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
     (void) widget;
     struct UI *ui = user_data;
     if(event->state & GDK_CONTROL_MASK && event->keyval == GDK_KEY_z
-        && ui->image_loaded)
+        && ui->image_loaded && !history_is_empty(ui->hist))
     {
+        gtk_widget_destroy(GTK_WIDGET(gtk_list_box_get_row_at_index (
+            ui->modules->history_list->list,0)));
         history_pop(ui->hist);
         reload_images(ui);
     }

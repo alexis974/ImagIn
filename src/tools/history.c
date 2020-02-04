@@ -121,6 +121,8 @@ void history_sort(struct history *hist)
 
 void apply_history(struct history *hist, struct Images *imgs)
 {
+    if(!hist->next)
+        return;
     struct history *compressed = duplicate_history(hist);
     compress_history(compressed);
     copy_img(imgs->scale, imgs->edit);
@@ -181,18 +183,19 @@ void truncate_history(struct history *hist, size_t index)
         hist = hist->next;
     }
     free_recursively(hist->next);
+    hist->next = NULL;
 }
 
 /*
 **  Free from hist till the end (hist included)
+**  Do not use it with hist->next as arguments
+**  because next pointer cannot be set to NULL
 */
 void free_recursively(struct history *hist)
 {
-    if(hist->next)
-    {
-        free_recursively(hist->next);
-        hist->next =  NULL;
-    }
+    if(!hist)
+        return;
+    free_recursively(hist->next);
     free(hist);
 }
 
