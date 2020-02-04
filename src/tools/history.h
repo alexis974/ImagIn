@@ -20,6 +20,8 @@ struct history
     struct history *next;
 };
 
+void reset_widgets(struct history *hist, struct UI *ui);
+
 void apply_history(struct history *hist, struct Images *img);
 
 struct history *new_history(void);

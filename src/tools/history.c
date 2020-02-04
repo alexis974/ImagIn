@@ -1,11 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <err.h>
+#include <gtk/gtk.h>
 
 #include "../imagin.h"
 
-#include "history.h"
+#include "../gui/gui.h"
 
+#include "history.h"
 
 #include "../modules/contrast.h"
 #include "../modules/exposure.h"
@@ -118,6 +120,38 @@ void history_sort(struct history *hist)
         }
     }
 }
+
+void reset_widgets(struct history *hist, struct UI *ui)
+{
+    struct history *compressed = duplicate_history(hist);
+    compress_history(compressed);
+    for (struct history *p = compressed->next; p != NULL; p=p->next)
+    {
+        switch (p->id)
+        {
+        case CONTRASTE:
+            gtk_range_set_value(GTK_RANGE(
+                ui->modules->cont_exp_sat->contraste_scale), p->value);
+            break;
+        case EXPOSURE:
+            gtk_range_set_value(GTK_RANGE(
+                ui->modules->cont_exp_sat->exposure_scale), p->value);
+            break;
+        case SATURATION:
+            gtk_range_set_value(GTK_RANGE(
+                ui->modules->cont_exp_sat->saturation_scale), p->value);
+            break;
+        case FLIP:
+            gtk_combo_box_set_active(GTK_COMBO_BOX(
+                ui->modules->orientation->flip_box), p->value);
+            break;
+        default:
+            break;
+        }
+    }
+    free_recursively(compressed);
+}
+
 
 void apply_history(struct history *hist, struct Images *imgs)
 {
