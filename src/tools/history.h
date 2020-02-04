@@ -39,6 +39,8 @@ void swap_module(struct history *elm1, struct history *elm2);
 
 void history_sort(struct history *hist);
 
+void free_recursively(struct history *hist);
+
 struct history *duplicate_history(struct history *hist);
 
 void compress_history(struct history *hist);

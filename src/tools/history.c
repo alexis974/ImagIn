@@ -150,6 +150,7 @@ void apply_history(struct history *hist, struct Images *imgs)
             break;
         }
     }
+    free_recursively(compressed);
 }
 
 void compress_history(struct history *hist)
@@ -179,8 +180,20 @@ void truncate_history(struct history *hist, size_t index)
     {
         hist = hist->next;
     }
+    free_recursively(hist->next);
+}
 
-    hist->next = NULL;
+/*
+**  Free from hist till the end (hist included)
+*/
+void free_recursively(struct history *hist)
+{
+    if(hist->next)
+    {
+        free_recursively(hist->next);
+        hist->next =  NULL;
+    }
+    free(hist);
 }
 
 struct history *duplicate_history(struct history *hist)

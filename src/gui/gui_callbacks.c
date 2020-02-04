@@ -247,6 +247,7 @@ void quit(GtkWidget *widget, gpointer user_data)
     free(ui->modules);
     if (ui->image_loaded)
         free_images(ui->images);
+    free_recursively(ui->hist);
     free(ui);
     gtk_main_quit();
 }
