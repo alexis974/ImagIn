@@ -16,6 +16,14 @@ void build_menu_bar_GUI(GtkBuilder *builder, struct UI *ui)
                 builder, "menu_close_button"));
     ui->menu_bar->about_button = GTK_MENU_ITEM(gtk_builder_get_object(
                 builder, "about_button"));
+
+    GDir *dir = g_dir_open("src/data/style", 0, NULL);
+    const gchar *file = NULL;
+    while((file = g_dir_read_name(dir)) != NULL)
+    {
+        printf("%s\n", file);
+    }
+    g_dir_close(dir);
 }
 
 void build_bottom_bar_GUI(GtkBuilder *builder, struct UI *ui)

@@ -23,7 +23,7 @@ int GUI_main(void)
         return 1;
     ui->hist = new_history();
 
-    css_setup();
+    css_setup("src/data/style/imagin_default.css");
     reset_modules(ui);
 
     gtk_widget_show(GTK_WIDGET(ui->window));
