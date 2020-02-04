@@ -69,17 +69,21 @@ int main(void)
 //                               ### MODULES ###                             ###
 //##############################################################################
 
+    //Modify saturation
+    saturation(images->edit, 2);
+    write_image("tmp/07_Saturation.jpg", images->edit);
+
     //Modify contrast
     contrast(images->edit, 2);
-    write_image("tmp/00_Contrast.jpg", images->edit);
+    write_image("tmp/06_Contrast.jpg", images->edit);
 
     //Add 0.5EV to image
     exposure(images->edit, 0.5);
-    write_image("tmp/01_Exposure.jpg", images->edit);
+    write_image("tmp/05_Exposure.jpg", images->edit);
 
     //Invert the colors of an image
     invert(images->edit);
-    write_image("tmp/02_Invert.jpg", images->edit);
+    write_image("tmp/04_Invert.jpg", images->edit);
 
     //Turn the image black and white
     simple_BW(images->edit);
@@ -87,15 +91,15 @@ int main(void)
 
     //Flip the image both horizontaly and verticaly
     flip_both_axis(images->edit);
-    write_image("tmp/04_Flip_both_axis.tiff", images->edit);
+    write_image("tmp/02_Flip_both_axis.tiff", images->edit);
 
     //Flip the horizontaly
     horizontal_flip(images->edit);
-    write_image("tmp/05_Flip_horizontal.jpg", images->edit);
+    write_image("tmp/01_Flip_horizontal.jpg", images->edit);
 
     //Flip the image verticaly
     vertical_flip(images->edit);
-    write_image("tmp/06_Flip_vertiacl.ppm", images->edit);
+    write_image("tmp/00_Flip_vertiacl.ppm", images->edit);
 
     free_images(images);
 
