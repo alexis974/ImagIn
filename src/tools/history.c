@@ -13,6 +13,13 @@
 #include "../modules/saturation.h"
 #include "../modules/shadows_highlights.h"
 
+struct history *new_history(void)
+{
+    struct history *hist = malloc(sizeof(struct history));
+    init_history(hist);
+    return hist;
+}
+
 void init_history(struct history *hist)
 {
     hist->id = -1;

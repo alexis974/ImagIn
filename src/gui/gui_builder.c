@@ -36,6 +36,9 @@ void build_display_GUI(GtkBuilder *builder, struct UI *ui)
                 builder, "histogram_area"));
     ui->display->middle_area_events = GTK_EVENT_BOX(gtk_builder_get_object(
                 builder, "middle_area_events"));
+
+    //Setting default middle image
+    gtk_image_set_from_file(ui->display->display_image,"src/data/icons/no_image.png");
 }
 
 void build_image_info(GtkBuilder *builder, struct UI *ui)
@@ -91,6 +94,18 @@ void build_modules_GUI(GtkBuilder *builder, struct UI *ui)
             gtk_builder_get_object(builder, "history_list"));
 }
 
+void build_window_GUI(GtkBuilder *builder, struct UI *ui)
+{
+    ui->window = GTK_WINDOW(gtk_builder_get_object(builder, "main_window"));
+    //Get monitor size
+    GdkRectangle workarea = {0};
+    gdk_monitor_get_workarea(gdk_display_get_primary_monitor(
+                gdk_display_get_default()), &workarea);
+
+    //Set to full size
+    gtk_window_set_default_size(ui->window, workarea.width, workarea.height);
+}
+
 struct UI* build_GUI(char* glade_file_path)
 {
     GtkBuilder *builder = gtk_builder_new();
@@ -103,8 +118,8 @@ struct UI* build_GUI(char* glade_file_path)
     }
 
     struct UI *ui = malloc(sizeof(struct UI));
-    ui->window = GTK_WINDOW(gtk_builder_get_object(builder, "main_window"));
     ui->image_loaded = FALSE;
+    build_window_GUI(builder, ui);
     build_menu_bar_GUI(builder, ui);
     build_modules_GUI(builder, ui);
     build_display_GUI(builder, ui);

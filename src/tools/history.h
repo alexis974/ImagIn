@@ -22,6 +22,8 @@ struct history
 
 void apply_history(struct history *hist, struct Images *img);
 
+struct history *new_history(void);
+
 void init_history(struct history *hist);
 
 int history_is_empty(struct history *hist);
