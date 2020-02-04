@@ -1,11 +1,11 @@
 #ifndef SATURATION_H
 #define SATURATION_H
 
-struct PixelHSV
+struct PixelHSL
 {
-    float h;
-    float s;
-    size_t v;
+    int h;
+    int s;
+    int l;
 };
 
 void saturation(struct Image *img, float change);

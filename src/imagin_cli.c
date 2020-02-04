@@ -70,7 +70,7 @@ int main(void)
 //##############################################################################
 
     //Modify saturation
-    saturation(images->edit, 1.5);
+    saturation(images->edit, 2);
     write_image("tmp/07_Saturation.jpg", images->edit);
 
     //Modify contrast
