@@ -1,4 +1,5 @@
 #include <gtk/gtk.h>
+#include <string.h>
 
 void css_setup(char* filename)
 {
@@ -7,4 +8,13 @@ void css_setup(char* filename)
     gtk_style_context_add_provider_for_screen(gdk_screen_get_default(),
             GTK_STYLE_PROVIDER(css_provider),
             GTK_STYLE_PROVIDER_PRIORITY_USER);
+}
+
+void switch_css(GtkWidget *button, gpointer user_data)
+{
+    (void) user_data;
+    const gchar* filename = gtk_menu_item_get_label(GTK_MENU_ITEM(button));
+    char path[512]  = "src/data/style/";
+    strcat(path, filename);
+    css_setup(path);
 }

@@ -2,6 +2,7 @@
 
 #include "gui.h"
 #include "gui_builder.h"
+#include "gui_style.h"
 
 void build_menu_bar_GUI(GtkBuilder *builder, struct UI *ui)
 {
@@ -16,12 +17,15 @@ void build_menu_bar_GUI(GtkBuilder *builder, struct UI *ui)
                 builder, "menu_close_button"));
     ui->menu_bar->about_button = GTK_MENU_ITEM(gtk_builder_get_object(
                 builder, "about_button"));
-
+    GtkWidget *preferences_menu = GTK_WIDGET(gtk_builder_get_object(builder, "preferences_menu"));
     GDir *dir = g_dir_open("src/data/style", 0, NULL);
     const gchar *file = NULL;
     while((file = g_dir_read_name(dir)) != NULL)
     {
-        printf("%s\n", file);
+        GtkWidget *item = gtk_menu_item_new_with_label(file);
+        gtk_menu_shell_append(GTK_MENU_SHELL(preferences_menu), item);
+        g_signal_connect(item, "activate", G_CALLBACK(switch_css), NULL);
+        gtk_widget_show(item);
     }
     g_dir_close(dir);
 }
