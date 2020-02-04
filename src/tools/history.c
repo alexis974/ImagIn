@@ -30,7 +30,7 @@ void init_history(struct history *hist)
 
 int history_is_empty(struct history *hist)
 {
-    return (!hist->next) ?  1 : 0;
+    return (hist->next) ?  0 : 1;
 }
 
 
@@ -121,8 +121,6 @@ void history_sort(struct history *hist)
 
 void apply_history(struct history *hist, struct Images *imgs)
 {
-    if(!hist->next)
-        return;
     struct history *compressed = duplicate_history(hist);
     compress_history(compressed);
     copy_img(imgs->scale, imgs->edit);

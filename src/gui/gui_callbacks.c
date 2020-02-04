@@ -27,6 +27,7 @@ on_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 {
     (void) widget;
     struct UI *ui = user_data;
+    printf("%d\n",history_is_empty(ui->hist));
     if(event->state & GDK_CONTROL_MASK && event->keyval == GDK_KEY_z
         && ui->image_loaded && !history_is_empty(ui->hist))
     {
