@@ -14,6 +14,14 @@
 {
     color:white;
 }
+#main_window list
+{
+    background-color: #626262;
+}
+#main_window list row:selected
+{
+    background-color: rgb(241, 93, 88);
+}
 #image_canvas
 {
     background-color: #626262;
