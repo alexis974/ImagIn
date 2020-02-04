@@ -5,14 +5,14 @@
 
 #include "../imagin.h"
 
-#include "../tools/history.h"
-
 #include "gui.h"
 #include "gui_builder.h"
 #include "gui_signals.h"
 #include "gui_callbacks.h"
 #include "gui_display.h"
 #include "gui_style.h"
+
+#include "../tools/history.h"
 
 int GUI_main(void)
 {

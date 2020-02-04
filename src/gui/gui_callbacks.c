@@ -12,11 +12,11 @@
 
 #include "../debug/error_handler.h"
 
-#include "../tools/history.h"
-
 #include "gui.h"
 #include "gui_callbacks.h"
 #include "gui_display.h"
+
+#include "../tools/history.h"
 
 /*
 **  INPUT

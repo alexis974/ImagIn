@@ -10,10 +10,10 @@
 
 #include "../debug/error_handler.h"
 
-#include "../tools/history.h"
-
 #include "gui_callbacks.h"
 #include "gui.h"
+
+#include "../tools/history.h"
 
 void reset_modules(struct UI *ui)
 {
