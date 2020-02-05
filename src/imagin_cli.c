@@ -4,6 +4,7 @@
 #include <libxml/xmlwriter.h>
 
 #include "imagin.h"
+
 #include "debug/error_handler.h"
 
 #include "import_export/import.h"
@@ -69,31 +70,31 @@ int main(void)
 //                               ### MODULES ###                             ###
 //##############################################################################
 
-    //Modify contrast
+    // Modify contrast
     contrast(images->edit, 2);
     write_image("tmp/00_Contrast.jpg", images->edit);
 
-    //Add 0.5EV to image
+    // Add 0.5EV to image
     exposure(images->edit, 0.5);
     write_image("tmp/01_Exposure.jpg", images->edit);
 
-    //Invert the colors of an image
+    // Invert the colors of an image
     invert(images->edit);
     write_image("tmp/02_Invert.jpg", images->edit);
 
-    //Turn the image black and white
+    // Turn the image black and white
     simple_BW(images->edit);
     write_image("tmp/03_Black_and_white.ppm", images->edit);
 
-    //Flip the image both horizontaly and verticaly
+    // Flip the image both horizontaly and verticaly
     flip_both_axis(images->edit);
     write_image("tmp/04_Flip_both_axis.tiff", images->edit);
 
-    //Flip the horizontaly
+    // Flip the horizontaly
     horizontal_flip(images->edit);
     write_image("tmp/05_Flip_horizontal.jpg", images->edit);
 
-    //Flip the image verticaly
+    // Flip the image verticaly
     vertical_flip(images->edit);
     write_image("tmp/06_Flip_vertiacl.ppm", images->edit);
 
