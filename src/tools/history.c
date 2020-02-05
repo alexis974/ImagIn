@@ -130,6 +130,7 @@ void history_sort(struct history *hist)
 
 void reset_widgets(struct history *hist, struct UI *ui)
 {
+    ui->can_modify = FALSE;
     struct history *compressed = duplicate_history(hist);
     compress_history(compressed);
     for (struct history *p = compressed->next; p != NULL; p=p->next)
@@ -148,6 +149,14 @@ void reset_widgets(struct history *hist, struct UI *ui)
                 gtk_range_set_value(GTK_RANGE(
                             ui->modules->cont_exp_sat->saturation_scale), p->value);
                 break;
+            case SHADOWS:
+                gtk_range_set_value(GTK_RANGE(
+                            ui->modules->shadows_highlights->shadows_scale), p->value);
+                break;
+            case HIGHLIGHTS:
+                gtk_range_set_value(GTK_RANGE(
+                            ui->modules->shadows_highlights->highlights_scale), p->value);
+                break;
             case FLIP:
                 gtk_combo_box_set_active(GTK_COMBO_BOX(
                             ui->modules->orientation->flip_box), p->value);
@@ -162,7 +171,7 @@ void reset_widgets(struct history *hist, struct UI *ui)
                 break;
         }
     }
-
+    ui->can_modify = TRUE;
     free_recursively(compressed);
 }
 

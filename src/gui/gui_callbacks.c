@@ -36,9 +36,9 @@ gboolean on_key_press (GtkWidget *widget, GdkEventKey *event,
         gtk_widget_destroy(GTK_WIDGET(gtk_list_box_get_row_at_index (
             ui->modules->history_list->list,0)));
         history_pop(ui->hist);
-        reload_images(ui);
         reset_modules(ui);
         reset_widgets(ui->hist, ui);
+        reload_images(ui);
     }
 
     else if(event->state & GDK_CONTROL_MASK && event->keyval == GDK_KEY_o)
@@ -57,6 +57,8 @@ gboolean on_key_press (GtkWidget *widget, GdkEventKey *event,
 
 void apply_module(struct UI *ui, int module_id, float value)
 {
+    if(!ui->can_modify)
+        return;
     GtkWidget *label = gtk_label_new(get_name(module_id));
     gtk_list_box_insert(ui->modules->history_list->list,label, 0);
     gtk_widget_show(label);

@@ -144,6 +144,7 @@ struct UI* build_GUI(char* glade_file_path)
 
     struct UI *ui = malloc(sizeof(struct UI));
     ui->image_loaded = FALSE;
+    ui->can_modify = TRUE;
     build_window_GUI(builder, ui);
     build_menu_bar_GUI(builder, ui);
     build_modules_GUI(builder, ui);
