@@ -31,7 +31,6 @@ struct Image *read_ext(const char *filename, const char *ext)
     else if(strcmp(ext, "jpeg") == 0 || strcmp(ext, "jpg") == 0
         || strcmp(ext, "JPEG") == 0 || strcmp(ext, "JPG") == 0)
     {
-        print_data(filename);
         return readJPEG(filename);
     }
     else if(strcmp(ext, "png") == 0 || strcmp(ext, "PNG") == 0)

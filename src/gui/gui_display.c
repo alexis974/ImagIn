@@ -161,6 +161,8 @@ void display_images(struct UI *ui, char* filename)
         return;
 
     //Image info
+    const char *file_name = get_filename_from_path(filename);
+    gtk_label_set_text(ui->image_info->filename, file_name);
     const char *ext = get_filename_ext(filename);
     if(strcmp(ext, "jpeg") == 0 || strcmp(ext, "jpg") == 0
         || strcmp(ext, "JPEG") == 0 || strcmp(ext, "JPG") == 0)

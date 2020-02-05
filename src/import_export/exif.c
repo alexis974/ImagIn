@@ -42,8 +42,6 @@ void print_data(const char *filename)
 
 void set_image_info(const char *filename, struct UI *ui)
 {
-    const char *file_name = get_filename_from_path(filename);
-    gtk_label_set_text(ui->image_info->filename, file_name);
     if(!gexiv2_initialize())
     {
         throw_error("print_data:", "Could not init gexiv");
@@ -93,8 +91,14 @@ void set_image_info(const char *filename, struct UI *ui)
     }
     if(gexiv2_metadata_get_tag_interpreted_string(meta_data, "Exif.Photo.DateTimeOriginal"))
     {
-        gtk_label_set_text(ui->image_info->date,
-            gexiv2_metadata_get_tag_interpreted_string (meta_data, "Exif.Photo.DateTimeOriginal"));
+        char* datetime = gexiv2_metadata_get_tag_interpreted_string (
+                meta_data, "Exif.Photo.DateTimeOriginal");
+        char *date = malloc(sizeof(char)*10);
+        char *time = malloc(sizeof(char)*8);
+        format_datetime(datetime, date, time);
+        gtk_label_set_text(ui->image_info->date, date);
+        gtk_label_set_text(ui->image_info->time, time);
+        free(date);
+        free(time);
     }
-    gtk_label_set_text(ui->image_info->time, "-");
 }
