@@ -2,26 +2,32 @@
 {
     background-color: #313131;
 }
+
 #main_window label, #window_about label,#error_dialog label
 {
     color:white;
 }
+
 #main_window scrolledwindow
 {
     padding-top: 5px;
 }
+
 #main_window box
 {
     color:white;
 }
+
 #main_window list
 {
     background-color: #626262;
 }
+
 #main_window list row:selected
 {
     background-color: rgb(241, 93, 88);
 }
+
 #image_canvas
 {
     background-color: #626262;
@@ -35,6 +41,7 @@
     border-color: #565656;
     background-color: #565656;
 }
+
 #main_window button:active,  #window_about button:active ,#error_dialog button:active
 {
     box-shadow: 0px -2px 1px #565656;
@@ -47,6 +54,7 @@
     background-color: #565656;
     border-radius: 0;
 }
+
 #main_window combobox *
 {
     color: white;
@@ -58,14 +66,17 @@
     border-radius: 5px;
     padding-top: 3px;
 }
+
 #main_window expander > title
 {
     padding-bottom: 3px;
 }
+
 #main_window expander arrow
 {
     color: white;
 }
+
 #main_window expander > box
 {
     border-bottom-right-radius: 5px;
