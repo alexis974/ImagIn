@@ -3,6 +3,7 @@
 
 enum ModulesID
 {
+    INVERT,
     EXPOSURE,
     SATURATION,
     CONTRASTE,
@@ -10,8 +11,7 @@ enum ModulesID
     HIGHLIGHTS,
     FLIP,
     ROTATION,
-    BW,
-    INVERT
+    BW
 };
 
 struct history

@@ -4,7 +4,6 @@
 #include <gtk/gtk.h>
 
 #include "../imagin.h"
-
 #include "../gui/gui.h"
 
 #include "history.h"
@@ -36,7 +35,6 @@ int history_is_empty(struct history *hist)
 {
     return (hist->next) ?  0 : 1;
 }
-
 
 size_t history_length(struct history *hist)
 {
