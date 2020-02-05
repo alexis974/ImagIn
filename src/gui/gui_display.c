@@ -17,6 +17,17 @@
 #include "../tools/history.h"
 #include "../tools/strings.h"
 
+void reset_history_list(struct UI *ui)
+{
+    GList *children, *iter;
+
+    children = gtk_container_get_children(
+            GTK_CONTAINER(ui->modules->history_list->list));
+    for(iter = children; iter != NULL; iter = g_list_next(iter))
+        gtk_widget_destroy(GTK_WIDGET(iter->data));
+    g_list_free(children);
+}
+
 void reset_modules(struct UI *ui)
 {
     gtk_label_set_text(ui->image_info->aperture, "-");
@@ -39,12 +50,9 @@ void reset_modules(struct UI *ui)
         ui->modules->shadows_highlights->highlights_scale), 0);
     gtk_combo_box_set_active(GTK_COMBO_BOX(
         ui->modules->orientation->flip_box), 0);
-    printf("test\n");
-    fflush(stdout);
     gtk_switch_set_state (ui->modules->bw_switch, FALSE);
     gtk_switch_set_state (ui->modules->invert_switch, FALSE);
-    printf("test\n");
-    fflush(stdout);
+    reset_history_list(ui);
 }
 
 unsigned char *from_image_to_buffer(struct Image *img)
