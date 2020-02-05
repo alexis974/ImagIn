@@ -13,7 +13,9 @@
 #include "gui_callbacks.h"
 #include "gui.h"
 
+#include "../import_export/exif.h"
 #include "../tools/history.h"
+#include "../tools/strings.h"
 
 void reset_modules(struct UI *ui)
 {
@@ -141,6 +143,14 @@ void display_images(struct UI *ui, char* filename)
     ui->images = read_image(filename);
     if(!ui->images)
         return;
+
+    //Image info
+    const char *ext = get_filename_ext(filename);
+    if(strcmp(ext, "jpeg") == 0 || strcmp(ext, "jpg") == 0
+        || strcmp(ext, "JPEG") == 0 || strcmp(ext, "JPG") == 0)
+    {
+        set_image_info(filename, ui);
+    }
 
     //Bottom bar
     gtk_label_set_text(ui->bottom_bar->filename_label, filename);

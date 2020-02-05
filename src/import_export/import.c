@@ -4,6 +4,8 @@
 #include "../imagin.h"
 #include "../debug/error_handler.h"
 #include "../tools/scale.h"
+#include "../tools/strings.h"
+#include "../gui/gui.h"
 
 #include "import.h"
 #include "ppm.h"
@@ -11,20 +13,6 @@
 #include "jpeg.h"
 #include "png.h"
 #include "exif.h"
-
-/*
-** Return filename's extension
-*/
-const char *get_filename_ext(const char *filename)
-{
-    //Get the last '.' position
-    const char *dot = strrchr(filename, '.');
-    if(!dot || dot == filename)
-    {
-        return "";
-    }
-    return dot + 1;
-}
 
 /*
 ** Return struct Image from an image file and its extension

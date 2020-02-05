@@ -2,8 +2,8 @@
 
 #include "../imagin.h"
 #include "../debug/error_handler.h"
+#include "../tools/strings.h"
 
-#include "import.h"
 #include "ppm.h"
 #include "tiff.h"
 #include "jpeg.h"

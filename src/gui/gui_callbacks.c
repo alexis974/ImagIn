@@ -34,6 +34,7 @@ on_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
             ui->modules->history_list->list,0)));
         history_pop(ui->hist);
         reload_images(ui);
+        reset_modules(ui);
         reset_widgets(ui->hist, ui);
     }
     else if(event->state & GDK_CONTROL_MASK && event->keyval == GDK_KEY_o)
