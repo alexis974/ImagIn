@@ -41,6 +41,8 @@ struct Modules
     struct Cont_exp_sat *cont_exp_sat;
     struct Shadows_highlights *shadows_highlights;
     struct History_List *history_list;
+    GtkSwitch *bw_switch;
+    GtkSwitch *invert_switch;
 };
 
 struct Display

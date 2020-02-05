@@ -9,7 +9,9 @@ enum ModulesID
     SHADOWS,
     HIGHLIGHTS,
     FLIP,
-    ROTATION
+    ROTATION,
+    BW,
+    INVERT
 };
 
 struct history

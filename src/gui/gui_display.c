@@ -39,6 +39,12 @@ void reset_modules(struct UI *ui)
         ui->modules->shadows_highlights->highlights_scale), 0);
     gtk_combo_box_set_active(GTK_COMBO_BOX(
         ui->modules->orientation->flip_box), 0);
+    printf("test\n");
+    fflush(stdout);
+    gtk_switch_set_state (ui->modules->bw_switch, FALSE);
+    gtk_switch_set_state (ui->modules->invert_switch, FALSE);
+    printf("test\n");
+    fflush(stdout);
 }
 
 unsigned char *from_image_to_buffer(struct Image *img)
@@ -123,6 +129,8 @@ void display_images(struct UI *ui, char* filename)
         free_images(ui->images);
         truncate_history(ui->hist, 0); //Reset
     }
+    //It is necessary to set image_loaded as false until this function is not finished
+    ui->image_loaded = FALSE;
 
     reset_modules(ui);
 

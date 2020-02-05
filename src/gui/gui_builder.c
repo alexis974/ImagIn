@@ -104,6 +104,11 @@ void build_modules_GUI(GtkBuilder *builder, struct UI *ui)
     ui->modules->history_list = malloc(sizeof(struct History_List));
     ui->modules->history_list->list = GTK_LIST_BOX(
             gtk_builder_get_object(builder, "history_list"));
+
+    ui->modules->bw_switch  = GTK_SWITCH(
+            gtk_builder_get_object(builder, "bw_switch"));
+    ui->modules->invert_switch  = GTK_SWITCH(
+            gtk_builder_get_object(builder, "invert_switch"));
 }
 
 void build_window_GUI(GtkBuilder *builder, struct UI *ui)

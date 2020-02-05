@@ -169,6 +169,29 @@ gboolean highlights_changed(GtkRange *range, GdkEvent *event,
     return FALSE;
 }
 
+//Black and white
+gboolean bw_changed(GtkSwitch *widget, gboolean state, gpointer user_data)
+{
+    (void) widget;
+    struct UI *ui = user_data;
+    //if no image has been opened
+    if (!ui->image_loaded)
+        return FALSE;
+    apply_module(ui, BW, state);
+    return FALSE;
+}
+
+//Black and white
+gboolean invert_changed(GtkSwitch *widget, gboolean state, gpointer user_data)
+{
+    (void) widget;
+    struct UI *ui = user_data;
+    //if no image has been opened
+    if (!ui->image_loaded)
+        return FALSE;
+    apply_module(ui, INVERT, state);
+    return FALSE;
+}
 /*
 **  WINDOWS & DIALOG
 */

@@ -18,6 +18,8 @@ gboolean shadows_changed(GtkRange *range, GdkEvent *event,
         gpointer user_data);
 gboolean highlights_changed(GtkRange *range, GdkEvent *event,
         gpointer user_data);
+gboolean bw_changed(GtkSwitch *widget, gboolean state, gpointer user_data);
+gboolean invert_changed(GtkSwitch *widget, gboolean state, gpointer user_data);
 
 void open_menu(GtkWidget *button, gpointer user_data);
 void new_menu(GtkWidget *button, gpointer user_data);

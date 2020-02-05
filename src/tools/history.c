@@ -14,6 +14,8 @@
 #include "../modules/flip.h"
 #include "../modules/saturation.h"
 #include "../modules/shadows_highlights.h"
+#include "../modules/black_and_white.h"
+#include "../modules/invert.h"
 
 struct history *new_history(void)
 {
@@ -145,6 +147,12 @@ void reset_widgets(struct history *hist, struct UI *ui)
             gtk_combo_box_set_active(GTK_COMBO_BOX(
                 ui->modules->orientation->flip_box), p->value);
             break;
+        case BW:
+            gtk_switch_set_state (ui->modules->bw_switch, p->value);
+            break;
+        case INVERT:
+            gtk_switch_set_state (ui->modules->invert_switch, p->value);
+            break;
         default:
             break;
         }
@@ -179,6 +187,14 @@ void apply_history(struct history *hist, struct Images *imgs)
                 horizontal_flip(img);
             else if(p->value == 3)
                 flip_both_axis(img);
+            break;
+        case BW:
+            if(p->value)
+                simple_BW(img);
+            break;
+        case INVERT:
+            if(p->value)
+                invert(img);
             break;
         default:
             break;
@@ -253,7 +269,7 @@ struct history *duplicate_history(struct history *hist)
 char *get_name(int id)
 {
     char *module_name[] = {"Exposure", "Saturation", "Contraste", "Shadows",
-        "Highlights", "Flip", "Rotation"};
+        "Highlights", "Flip", "Rotation", "Black and White", "Invert"};
 
     return id < 0 ? "NULL" : module_name[id];
 }

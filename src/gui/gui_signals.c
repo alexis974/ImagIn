@@ -28,6 +28,11 @@ void connect_modules(struct UI *ui)
             G_CALLBACK(shadows_changed), ui);
     g_signal_connect(ui->modules->shadows_highlights->highlights_scale, "event",
             G_CALLBACK(highlights_changed), ui);
+
+    g_signal_connect(ui->modules->bw_switch, "state_set",
+            G_CALLBACK(bw_changed), ui);
+    g_signal_connect(ui->modules->invert_switch, "state_set",
+            G_CALLBACK(invert_changed), ui);
 }
 
 void connect_menu_bar(struct UI *ui)
