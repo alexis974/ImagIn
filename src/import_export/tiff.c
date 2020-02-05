@@ -3,6 +3,7 @@
 #include <math.h>
 #include <string.h>
 #include <tiffio.h>
+#include <gtk/gtk.h>
 
 #include "../imagin.h"
 #include "../debug/error_handler.h"

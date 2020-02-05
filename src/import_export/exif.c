@@ -1,5 +1,6 @@
 #include <gexiv2/gexiv2.h>
 #include <gexiv2/gexiv2-metadata.h>
+#include <gtk/gtk.h>
 
 #include "../debug/error_handler.h"
 #include "../tools/strings.h"

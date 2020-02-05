@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <gtk/gtk.h>
 
 #include "../debug/error_handler.h"
 #include "../imagin.h"

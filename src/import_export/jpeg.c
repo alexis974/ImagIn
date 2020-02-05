@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <jpeglib.h>
 #include <setjmp.h>
+#include <gtk/gtk.h>
 
 #include "../debug/error_handler.h"
 #include "../imagin.h"
