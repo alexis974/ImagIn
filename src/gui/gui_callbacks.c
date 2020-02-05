@@ -47,6 +47,12 @@ gboolean on_key_press (GtkWidget *widget, GdkEventKey *event,
         open_file_chooser(NULL, tmp);
     }
 
+    else if(event->state & GDK_CONTROL_MASK && event->keyval == GDK_KEY_e)
+    {
+        gpointer tmp = ui;
+        open_save_as_window(NULL, tmp);
+    }
+
     return FALSE;
 }
 
@@ -336,9 +342,10 @@ void open_save_as_window(GtkWidget *widget, gpointer user_data)
 {
     (void) widget;
     struct UI *ui = user_data;
-    GtkWidget *dialog;
-
-    dialog = gtk_file_chooser_dialog_new("Save Result", GTK_WINDOW(ui->window),
+    if(!ui->image_loaded)
+        return;
+    GtkWidget *dialog = gtk_file_chooser_dialog_new("Save Result",
+            GTK_WINDOW(ui->window),
             GTK_FILE_CHOOSER_ACTION_SAVE, "Cancel",
             GTK_RESPONSE_CANCEL, "Save",
             GTK_RESPONSE_ACCEPT, NULL);
