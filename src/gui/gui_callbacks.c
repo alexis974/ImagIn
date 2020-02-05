@@ -9,6 +9,7 @@
 #include "../modules/saturation.h"
 
 #include "../import_export/free.h"
+#include "../import_export/export.h"
 
 #include "../debug/error_handler.h"
 
@@ -243,6 +244,20 @@ void open_file_chooser(GtkWidget *widget, gpointer user_data)
     gtk_widget_destroy (dialog);
 }
 
+void export_at(struct UI *ui, char* filename)
+{
+    struct Image *exported = malloc(sizeof(struct Image));
+    exported->width = ui->images->full->width;
+    exported->height = ui->images->full->height;
+    exported->bit_depth = ui->images->full->bit_depth;
+    exported->data = malloc(sizeof(struct Pixel) *
+        exported->width * exported->height);
+    copy_img(ui->images->full, exported);
+    apply_history(ui->hist, exported);
+    write_image(filename, exported);
+    free_image(exported);
+}
+
 void open_save_as_window(GtkWidget *widget, gpointer user_data)
 {
     (void) widget;
@@ -261,7 +276,7 @@ void open_save_as_window(GtkWidget *widget, gpointer user_data)
     {
         char *path = NULL;
         path = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
-        printf("%s\n", path);
+        export_at(ui, path);
         g_free(path);
     }
 

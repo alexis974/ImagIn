@@ -105,7 +105,8 @@ void reload_images(struct UI *ui)
 {
     if (!ui->image_loaded)
         return;
-    apply_history(ui->hist, ui->images);
+    copy_img(ui->images->scale, ui->images->edit);
+    apply_history(ui->hist, ui->images->edit);
     ui->images->small = get_small(ui->images->edit);
 
     //Middle image

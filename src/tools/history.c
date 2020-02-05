@@ -161,12 +161,10 @@ void reset_widgets(struct history *hist, struct UI *ui)
 }
 
 
-void apply_history(struct history *hist, struct Images *imgs)
+void apply_history(struct history *hist, struct Image *img)
 {
     struct history *compressed = duplicate_history(hist);
     compress_history(compressed);
-    copy_img(imgs->scale, imgs->edit);
-    struct Image *img = imgs->edit;
     for (struct history *p = compressed->next; p != NULL; p=p->next)
     {
         switch (p->id)

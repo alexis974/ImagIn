@@ -24,7 +24,7 @@ struct history
 
 void reset_widgets(struct history *hist, struct UI *ui);
 
-void apply_history(struct history *hist, struct Images *img);
+void apply_history(struct history *hist, struct Image *img);
 
 struct history *new_history(void);
 
