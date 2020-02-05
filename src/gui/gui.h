@@ -64,6 +64,7 @@ struct ImageInfo
     GtkLabel *filename;
     GtkLabel *iso;
 };
+
 struct Bottom_bar
 {
     GtkLabel *filename_label;

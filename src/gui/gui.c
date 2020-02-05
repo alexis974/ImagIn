@@ -19,8 +19,12 @@ int GUI_main(void)
     gtk_init(NULL,NULL);
 
     struct UI *ui = build_GUI("src/gui/gui.glade");
+
     if (!ui)
+    {
         return 1;
+    }
+
     ui->hist = new_history();
 
     css_setup("src/data/style/imagin_default.css");
@@ -31,5 +35,6 @@ int GUI_main(void)
     connect_signals(ui);
 
     gtk_main();
+
     return 0;
 }

@@ -2,6 +2,10 @@
 
 #include "../imagin.h"
 
+#include "gui.h"
+#include "gui_callbacks.h"
+#include "gui_display.h"
+
 #include "../modules/flip.h"
 #include "../modules/contrast.h"
 #include "../modules/shadows_highlights.h"
@@ -13,21 +17,19 @@
 
 #include "../debug/error_handler.h"
 
-#include "gui.h"
-#include "gui_callbacks.h"
-#include "gui_display.h"
-
 #include "../tools/history.h"
 
-/*
-**  INPUT
+
+/*##############################################################################
+** INPUT
 */
 
-gboolean
-on_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
+gboolean on_key_press (GtkWidget *widget, GdkEventKey *event,
+        gpointer user_data)
 {
     (void) widget;
     struct UI *ui = user_data;
+
     if(event->state & GDK_CONTROL_MASK && event->keyval == GDK_KEY_z
         && ui->image_loaded && !history_is_empty(ui->hist))
     {
@@ -38,16 +40,19 @@ on_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
         reset_modules(ui);
         reset_widgets(ui->hist, ui);
     }
+
     else if(event->state & GDK_CONTROL_MASK && event->keyval == GDK_KEY_o)
     {
         gpointer tmp = ui;
         open_file_chooser(NULL, tmp);
     }
+
     return FALSE;
 }
 
-/*
-**  MODULES
+
+/*##############################################################################
+** MODULES
 */
 
 void apply_module(struct UI *ui, int module_id, float value)
@@ -59,37 +64,49 @@ void apply_module(struct UI *ui, int module_id, float value)
     reload_images(ui);
 }
 
-//Rotate module callback
+// Rotate module callback
 void rotate_left(GtkWidget *button, gpointer user_data)
 {
     struct UI *ui = user_data;
-    //if no image has been opened
+
+    // If no image has been opened
     if (!ui->image_loaded)
+    {
         return;
+    }
+
     (void) button;
     printf("Rotate left button pressed !\n");
 }
 
-//Rotate module callback
+// Rotate module callback
 void rotate_right(GtkWidget *button, gpointer user_data)
 {
     struct UI *ui = user_data;
-    //if no image has been opened
+
+    // If no image has been opened
     if (!ui->image_loaded)
+    {
         return;
+    }
+
     (void) button;
     printf("Rotate right button pressed !\n");
     print_history(ui->hist);
 }
 
-//Flip module callback
+// Flip module callback
 void flip_changed(GtkComboBox *box, gpointer user_data)
 {
     struct UI *ui = user_data;
-    //if no image has been opened
+    // If no image has been opened
     if (!ui->image_loaded)
+    {
         return;
+    }
+
     int element_id = gtk_combo_box_get_active(GTK_COMBO_BOX(box));
+
     switch (element_id)
     {
     case 0:
@@ -110,12 +127,20 @@ void flip_changed(GtkComboBox *box, gpointer user_data)
 gboolean contraste_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
 {
     if(!(gdk_event_get_event_type(event) == GDK_BUTTON_RELEASE))
+    {
         return FALSE;
+    }
+
     struct UI *ui = user_data;
-    //if no image has been opened
+
+    // If no image has been opened
     if (!ui->image_loaded)
+    {
         return FALSE;
+    }
+
     apply_module(ui, CONTRASTE, gtk_range_get_value(range));
+
     return FALSE;
 }
 
@@ -123,37 +148,61 @@ gboolean saturation_changed(GtkRange *range, GdkEvent *event,
         gpointer user_data)
 {
     if(!(gdk_event_get_event_type(event) == GDK_BUTTON_RELEASE))
+    {
         return FALSE;
+    }
+
     struct UI *ui = user_data;
-    //if no image has been opened
+
+    // If no image has been opened
     if (!ui->image_loaded)
+    {
         return FALSE;
+    }
+
     apply_module(ui, SATURATION, gtk_range_get_value(range));
+
     return FALSE;
 }
 
 gboolean exposure_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
 {
     if(!(gdk_event_get_event_type(event) == GDK_BUTTON_RELEASE))
+    {
         return FALSE;
+    }
+
     struct UI *ui = user_data;
-    //if no image has been opened
+
+    // If no image has been opened
     if (!ui->image_loaded)
+    {
         return FALSE;
-    (void) event; //Prevent unused warning
+    }
+
+    (void) event; // Prevent unused warning
     apply_module(ui, EXPOSURE, gtk_range_get_value(range));
+
     return FALSE;
 }
 
 gboolean shadows_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
 {
     if(!(gdk_event_get_event_type(event) == GDK_BUTTON_RELEASE))
+    {
         return FALSE;
+    }
+
     struct UI *ui = user_data;
-    //if no image has been opened
+
+    // If no image has been opened
     if (!ui->image_loaded)
+    {
         return FALSE;
+    }
+
     apply_module(ui, SHADOWS, gtk_range_get_value(range));
+
     return FALSE;
 }
 
@@ -161,43 +210,63 @@ gboolean highlights_changed(GtkRange *range, GdkEvent *event,
         gpointer user_data)
 {
     if(!(gdk_event_get_event_type(event) == GDK_BUTTON_RELEASE))
+    {
         return FALSE;
+    }
+
     struct UI *ui = user_data;
-    //if no image has been opened
+
+    // If no image has been opened
     if (!ui->image_loaded)
+    {
         return FALSE;
+    }
+
     apply_module(ui, HIGHLIGHTS, gtk_range_get_value(range));
+
     return FALSE;
 }
 
-//Black and white
+// Black and white
 gboolean bw_changed(GtkSwitch *widget, gboolean state, gpointer user_data)
 {
     (void) widget;
     struct UI *ui = user_data;
-    //if no image has been opened
+
+    // If no image has been opened
     if (!ui->image_loaded)
+    {
         return FALSE;
+    }
+
     apply_module(ui, BW, state);
+
     return FALSE;
 }
 
-//Black and white
+// Black and white
 gboolean invert_changed(GtkSwitch *widget, gboolean state, gpointer user_data)
 {
     (void) widget;
     struct UI *ui = user_data;
-    //if no image has been opened
+
+    // If no image has been opened
     if (!ui->image_loaded)
+    {
         return FALSE;
+    }
+
     apply_module(ui, INVERT, state);
+
     return FALSE;
 }
-/*
-**  WINDOWS & DIALOG
+
+
+/*##############################################################################
+** WINDOWS & DIALOG
 */
 
-//Called when 'new file' is pressed
+// Called when 'new file' is pressed
 void new_menu(GtkWidget *button, gpointer user_data)
 {
     (void) button;
@@ -219,7 +288,7 @@ void open_about_window(GtkWidget *widget, gpointer user_data)
     g_object_unref(builder);
 }
 
-//Called to open the file chooser
+// Called to open the file chooser
 void open_file_chooser(GtkWidget *widget, gpointer user_data)
 {
     (void) widget;
@@ -232,6 +301,7 @@ void open_file_chooser(GtkWidget *widget, gpointer user_data)
             ("Open"), GTK_RESPONSE_ACCEPT, NULL);
 
     gint res = gtk_dialog_run (GTK_DIALOG (dialog));
+
     if (res == GTK_RESPONSE_ACCEPT)
     {
         char *filename;
@@ -247,11 +317,13 @@ void open_file_chooser(GtkWidget *widget, gpointer user_data)
 void export_at(struct UI *ui, char* filename)
 {
     struct Image *exported = malloc(sizeof(struct Image));
+
     exported->width = ui->images->full->width;
     exported->height = ui->images->full->height;
     exported->bit_depth = ui->images->full->bit_depth;
     exported->data = malloc(sizeof(struct Pixel) *
         exported->width * exported->height);
+
     copy_img(ui->images->full, exported);
     apply_history(ui->hist, exported);
     write_image(filename, exported);
@@ -269,9 +341,11 @@ void open_save_as_window(GtkWidget *widget, gpointer user_data)
             GTK_RESPONSE_CANCEL, "Save",
             GTK_RESPONSE_ACCEPT, NULL);
 
-    gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(dialog), TRUE);
+    gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(dialog),
+            TRUE);
 
     gint res = gtk_dialog_run(GTK_DIALOG(dialog));
+
     if (res == GTK_RESPONSE_ACCEPT)
     {
         char *path = NULL;
@@ -283,7 +357,7 @@ void open_save_as_window(GtkWidget *widget, gpointer user_data)
     gtk_widget_destroy(dialog);
 }
 
-//Called when window is closed
+// Called when window is closed
 void quit(GtkWidget *widget, gpointer user_data)
 {
     (void) widget;
@@ -292,8 +366,12 @@ void quit(GtkWidget *widget, gpointer user_data)
     free(ui->display);
     free(ui->menu_bar);
     free(ui->modules);
+
     if (ui->image_loaded)
+    {
         free_images(ui->images);
+    }
+
     free_recursively(ui->hist);
     free(ui);
     gtk_main_quit();

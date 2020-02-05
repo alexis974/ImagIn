@@ -1,7 +1,8 @@
 #include <gtk/gtk.h>
 
-#include "gui.h"
 #include "gui_builder.h"
+
+#include "gui.h"
 #include "gui_style.h"
 
 void build_menu_bar_GUI(GtkBuilder *builder, struct UI *ui)
@@ -17,9 +18,12 @@ void build_menu_bar_GUI(GtkBuilder *builder, struct UI *ui)
                 builder, "menu_close_button"));
     ui->menu_bar->about_button = GTK_MENU_ITEM(gtk_builder_get_object(
                 builder, "about_button"));
-    GtkWidget *preferences_menu = GTK_WIDGET(gtk_builder_get_object(builder, "preferences_menu"));
+
+    GtkWidget *preferences_menu = GTK_WIDGET(gtk_builder_get_object(
+                builder, "preferences_menu"));
     GDir *dir = g_dir_open("src/data/style", 0, NULL);
     const gchar *file = NULL;
+
     while((file = g_dir_read_name(dir)) != NULL)
     {
         GtkWidget *item = gtk_menu_item_new_with_label(file);
@@ -27,6 +31,7 @@ void build_menu_bar_GUI(GtkBuilder *builder, struct UI *ui)
         g_signal_connect(item, "activate", G_CALLBACK(switch_css), NULL);
         gtk_widget_show(item);
     }
+
     g_dir_close(dir);
 }
 
@@ -50,7 +55,8 @@ void build_display_GUI(GtkBuilder *builder, struct UI *ui)
                 builder, "middle_area_events"));
 
     //Setting default middle image
-    gtk_image_set_from_file(ui->display->display_image,"src/data/icons/no_image.png");
+    gtk_image_set_from_file(ui->display->display_image,
+            "src/data/icons/no_image.png");
 }
 
 void build_image_info(GtkBuilder *builder, struct UI *ui)
@@ -114,6 +120,7 @@ void build_modules_GUI(GtkBuilder *builder, struct UI *ui)
 void build_window_GUI(GtkBuilder *builder, struct UI *ui)
 {
     ui->window = GTK_WINDOW(gtk_builder_get_object(builder, "main_window"));
+
     //Get monitor size
     GdkRectangle workarea = {0};
     gdk_monitor_get_workarea(gdk_display_get_primary_monitor(
@@ -127,6 +134,7 @@ struct UI* build_GUI(char* glade_file_path)
 {
     GtkBuilder *builder = gtk_builder_new();
     GError* error = NULL;
+
     if (gtk_builder_add_from_file(builder, glade_file_path, &error) == 0)
     {
         g_printerr("Error loading file: %s\n", error->message);
@@ -143,5 +151,6 @@ struct UI* build_GUI(char* glade_file_path)
     build_bottom_bar_GUI(builder, ui);
     build_image_info(builder, ui);
     g_object_unref(builder);
+
     return ui;
 }
