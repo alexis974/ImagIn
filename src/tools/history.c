@@ -264,8 +264,8 @@ struct history *duplicate_history(struct history *hist)
 
 char *get_name(int id)
 {
-    char *module_name[] = {"Exposure", "Saturation", "Contraste", "Shadows",
-        "Highlights", "Flip", "Rotation", "Black and White", "Invert"};
+    char *module_name[] = {"Invert", "Exposure", "Saturation", "Contraste", "Shadows",
+        "Highlights", "Flip", "Rotation", "Black_and_White"};
 
     return id < 0 ? "NULL" : module_name[id];
 }
