@@ -20,6 +20,7 @@ struct history *new_history(void)
 {
     struct history *hist = malloc(sizeof(struct history));
     init_history(hist);
+
     return hist;
 }
 
@@ -39,6 +40,7 @@ int history_is_empty(struct history *hist)
 size_t history_length(struct history *hist)
 {
     size_t counter = 0;
+
     while (hist->next)
     {
         hist = hist->next;
@@ -68,14 +70,19 @@ void history_append(struct history *hist, int module_id,
 void history_pop(struct history *hist)
 {
     if(!hist->next)
+    {
         return;
+    }
+
     while(hist->next->next)
     {
         hist = hist->next;
     }
+
     free(hist->next);
     hist->next = NULL;
 }
+
 void swap_module(struct history *elm1, struct history *elm2)
 {
     int id = elm1->id;
@@ -100,9 +107,9 @@ void history_sort(struct history *hist)
         return;
     }
 
+    int is_sorted = 0;
     struct history *copy = hist;
 
-    int is_sorted = 0;
     while (!is_sorted)
     {
         is_sorted = 1;
@@ -129,32 +136,33 @@ void reset_widgets(struct history *hist, struct UI *ui)
     {
         switch (p->id)
         {
-        case CONTRASTE:
-            gtk_range_set_value(GTK_RANGE(
-                ui->modules->cont_exp_sat->contraste_scale), p->value);
-            break;
-        case EXPOSURE:
-            gtk_range_set_value(GTK_RANGE(
-                ui->modules->cont_exp_sat->exposure_scale), p->value);
-            break;
-        case SATURATION:
-            gtk_range_set_value(GTK_RANGE(
-                ui->modules->cont_exp_sat->saturation_scale), p->value);
-            break;
-        case FLIP:
-            gtk_combo_box_set_active(GTK_COMBO_BOX(
-                ui->modules->orientation->flip_box), p->value);
-            break;
-        case BW:
-            gtk_switch_set_state (ui->modules->bw_switch, p->value);
-            break;
-        case INVERT:
-            gtk_switch_set_state (ui->modules->invert_switch, p->value);
-            break;
-        default:
-            break;
+            case CONTRASTE:
+                gtk_range_set_value(GTK_RANGE(
+                            ui->modules->cont_exp_sat->contraste_scale), p->value);
+                break;
+            case EXPOSURE:
+                gtk_range_set_value(GTK_RANGE(
+                            ui->modules->cont_exp_sat->exposure_scale), p->value);
+                break;
+            case SATURATION:
+                gtk_range_set_value(GTK_RANGE(
+                            ui->modules->cont_exp_sat->saturation_scale), p->value);
+                break;
+            case FLIP:
+                gtk_combo_box_set_active(GTK_COMBO_BOX(
+                            ui->modules->orientation->flip_box), p->value);
+                break;
+            case BW:
+                gtk_switch_set_state (ui->modules->bw_switch, p->value);
+                break;
+            case INVERT:
+                gtk_switch_set_state (ui->modules->invert_switch, p->value);
+                break;
+            default:
+                break;
         }
     }
+
     free_recursively(compressed);
 }
 
@@ -167,35 +175,46 @@ void apply_history(struct history *hist, struct Image *img)
     {
         switch (p->id)
         {
-        case CONTRASTE:
-            contrast(img, p->value);
-            break;
-        case EXPOSURE:
-            exposure(img, p->value);
-            break;
-        case SATURATION:
-            saturation(img, p->value);
-            break;
-        case FLIP:
-            if(p->value == 1)
-                vertical_flip(img);
-            else if(p->value ==  2)
-                horizontal_flip(img);
-            else if(p->value == 3)
-                flip_both_axis(img);
-            break;
-        case BW:
-            if(p->value)
-                simple_BW(img);
-            break;
-        case INVERT:
-            if(p->value)
-                invert(img);
-            break;
-        default:
-            break;
+            case CONTRASTE:
+                contrast(img, p->value);
+                break;
+            case EXPOSURE:
+                exposure(img, p->value);
+                break;
+            case SATURATION:
+                saturation(img, p->value);
+                break;
+            case FLIP:
+                if(p->value == 1)
+                {
+                    vertical_flip(img);
+                }
+                else if(p->value ==  2)
+                {
+                    horizontal_flip(img);
+                }
+                else if(p->value == 3)
+                {
+                    flip_both_axis(img);
+                }
+                break;
+            case BW:
+                if(p->value)
+                {
+                    simple_BW(img);
+                }
+                break;
+            case INVERT:
+                if(p->value)
+                {
+                    invert(img);
+                }
+                break;
+            default:
+                break;
         }
     }
+
     free_recursively(compressed);
 }
 
@@ -203,6 +222,7 @@ void compress_history(struct history *hist)
 {
     history_sort(hist);
     struct history *old = hist;
+
     while (hist->next != NULL)
     {
         if (hist->id == hist->next->id)
@@ -219,26 +239,29 @@ void compress_history(struct history *hist)
     }
 }
 
-// TODO : Clean the rest of the history after truncate
 void truncate_history(struct history *hist, size_t index)
 {
     for (size_t count = 0; count < index; count++)
     {
         hist = hist->next;
     }
+
     free_recursively(hist->next);
     hist->next = NULL;
 }
 
 /*
-**  Free from hist till the end (hist included)
-**  Do not use it with hist->next as arguments
-**  because next pointer cannot be set to NULL
-*/
+ **  Free from hist till the end (hist included)
+ **  Do not use it with hist->next as arguments
+ **  because next pointer cannot be set to NULL
+ */
 void free_recursively(struct history *hist)
 {
     if(!hist)
+    {
         return;
+    }
+
     free_recursively(hist->next);
     free(hist);
 }
@@ -247,8 +270,10 @@ struct history *duplicate_history(struct history *hist)
 {
     struct history *new = malloc(sizeof(struct history));
     struct history *new_hist = new;
+
     init_history(new);
     hist = hist->next;
+
     while(hist)
     {
         new->next = malloc(sizeof(struct history));
@@ -259,6 +284,7 @@ struct history *duplicate_history(struct history *hist)
         new = new->next;
         hist = hist->next;
     }
+
     return new_hist;
 }
 

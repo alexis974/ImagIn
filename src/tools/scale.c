@@ -27,21 +27,21 @@ void interpolation(struct Image *src, struct Image *dst, size_t i, size_t j,
     double fx = valx - minx;
     double fy = valy - miny;
 
-    //red
+    // Red
     dst->data[j*dst->width+i].red =
         src->data[miny*src->width+minx].red * (1-fx) * (1-fy) +
         src->data[maxy*src->width+minx].red * fx * (1-fy) +
         src->data[miny*src->width+maxx].red * (1-fx) * fy +
         src->data[maxy*src->width+maxx].red * fx * fy;
 
-    //green
+    // Green
     dst->data[j*dst->width+i].green =
         src->data[miny*src->width+minx].green * (1-fx) * (1-fy) +
         src->data[maxy*src->width+minx].green * fx * (1-fy) +
         src->data[miny*src->width+maxx].green * (1-fx) * fy +
         src->data[maxy*src->width+maxx].green * fx * fy;
 
-    //blue
+    // Blue
     dst->data[j*dst->width+i].blue =
         src->data[miny*src->width+minx].blue * (1-fx) * (1-fy) +
         src->data[maxy*src->width+minx].blue * fx * (1-fy) +
@@ -61,15 +61,18 @@ struct Image *scale_img(struct Image *full_img, size_t width, size_t height)
     {
         errx(1,"scale_img : Could not allocate memory.");
     }
-    //Initialize scaled image
+
+    // Initialize scaled image
     small_img->width = width;
     small_img->height = height;
     small_img->bit_depth = full_img->bit_depth;
     small_img->data = malloc(width * height * sizeof(struct Pixel));
+
     if (!small_img->data)
     {
         errx(1,"scale_img : Could not allocate memory.");
     }
+
     float old_width = full_img->width;
     float new_width = width;
     float ratio_w = new_width / old_width;
