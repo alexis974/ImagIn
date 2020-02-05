@@ -24,21 +24,32 @@
 ** INPUT
 */
 
+void undo(GtkWidget *widget, gpointer user_data)
+{
+    (void) widget;
+    struct UI *ui = user_data;
+    if(!ui->image_loaded || history_is_empty(ui->hist))
+    {
+        return;
+    }
+    gtk_widget_destroy(GTK_WIDGET(gtk_list_box_get_row_at_index (
+            ui->modules->history_list->list,0)));
+    history_pop(ui->hist);
+    reset_modules(ui);
+    reset_widgets(ui->hist, ui);
+    reload_images(ui);
+}
+
 gboolean on_key_press (GtkWidget *widget, GdkEventKey *event,
         gpointer user_data)
 {
     (void) widget;
     struct UI *ui = user_data;
 
-    if(event->state & GDK_CONTROL_MASK && event->keyval == GDK_KEY_z
-        && ui->image_loaded && !history_is_empty(ui->hist))
+    if(event->state & GDK_CONTROL_MASK && event->keyval == GDK_KEY_z)
     {
-        gtk_widget_destroy(GTK_WIDGET(gtk_list_box_get_row_at_index (
-            ui->modules->history_list->list,0)));
-        history_pop(ui->hist);
-        reset_modules(ui);
-        reset_widgets(ui->hist, ui);
-        reload_images(ui);
+        gpointer tmp = ui;
+        undo(NULL, tmp);
     }
 
     else if(event->state & GDK_CONTROL_MASK && event->keyval == GDK_KEY_o)
@@ -50,7 +61,7 @@ gboolean on_key_press (GtkWidget *widget, GdkEventKey *event,
     else if(event->state & GDK_CONTROL_MASK && event->keyval == GDK_KEY_e)
     {
         gpointer tmp = ui;
-        open_save_as_window(NULL, tmp);
+        open_export_as_window(NULL, tmp);
     }
 
     return FALSE;
@@ -274,14 +285,6 @@ gboolean invert_changed(GtkSwitch *widget, gboolean state, gpointer user_data)
 ** WINDOWS & DIALOG
 */
 
-// Called when 'new file' is pressed
-void new_menu(GtkWidget *button, gpointer user_data)
-{
-    (void) button;
-    (void) user_data;
-    printf("New button pressed !\n");
-}
-
 // Shows an about dialog window
 void open_about_window(GtkWidget *widget, gpointer user_data)
 {
@@ -338,7 +341,7 @@ void export_at(struct UI *ui, char* filename)
     free_image(exported);
 }
 
-void open_save_as_window(GtkWidget *widget, gpointer user_data)
+void open_export_as_window(GtkWidget *widget, gpointer user_data)
 {
     (void) widget;
     struct UI *ui = user_data;

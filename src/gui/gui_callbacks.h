@@ -1,6 +1,8 @@
 #ifndef GUI_CALLBACKS_H
 #define GUI_CALLBACKS_H
 
+void undo(GtkWidget *widget, gpointer user_data);
+
 gboolean on_key_press (GtkWidget *widget, GdkEventKey *event,
                 gpointer user_data);
 
@@ -31,13 +33,11 @@ gboolean invert_changed(GtkSwitch *widget, gboolean state, gpointer user_data);
 
 void open_menu(GtkWidget *button, gpointer user_data);
 
-void new_menu(GtkWidget *button, gpointer user_data);
-
 void open_about_window(GtkWidget *widget, gpointer _ui);
 
 void open_file_chooser(GtkWidget *widget, gpointer user_data);
 
-void open_save_as_window(GtkWidget *widget, gpointer user_data);
+void open_export_as_window(GtkWidget *widget, gpointer user_data);
 
 void quit(GtkWidget *widget, gpointer user_data);
 

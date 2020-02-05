@@ -10,11 +10,11 @@ struct Orientation
 
 struct Menu_bar
 {
-    GtkMenuItem *new_button;
     GtkMenuItem *open_button;
-    GtkMenuItem *save_as_button;
+    GtkMenuItem *export_as_button;
     GtkMenuItem *close_button;
     GtkMenuItem *about_button;
+    GtkMenuItem *undo_button;
 };
 
 struct Cont_exp_sat
