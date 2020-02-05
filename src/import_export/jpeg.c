@@ -16,8 +16,7 @@ struct my_error_mgr
     jmp_buf setjmp_buffer;      // For return to caller
 };
 
-// TODO : Remove typedef
-typedef struct my_error_mgr * my_error_ptr;
+struct my_error_mgr * my_error_ptr;
 
 struct Image *readJPEG(const char *filename)
 {
