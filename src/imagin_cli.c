@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <libxml/encoding.h>
 #include <libxml/xmlwriter.h>
+#include <gtk/gtk.h>
 
 #include "imagin.h"
 
