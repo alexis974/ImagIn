@@ -78,6 +78,7 @@ void create_xmp(const char *uri)
     {
         errx(1, "create_xml: Error at xmlTextWriterStartElement\n");
     }
+
     /* Write an element named "Date" as child of EXIF. */
     rc = xmlTextWriterWriteElement(writer, BAD_CAST "Date",
             BAD_CAST "This is a text.");

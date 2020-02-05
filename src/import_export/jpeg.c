@@ -9,39 +9,43 @@
 
 #include "jpeg.h"
 
-//Check libjpeg example.c
+// Check libjpeg example.c
 struct my_error_mgr
 {
-    struct jpeg_error_mgr pub; /* "public" fields */
-    jmp_buf setjmp_buffer; /* for return to caller */
+    struct jpeg_error_mgr pub;  // Public" fields
+    jmp_buf setjmp_buffer;      // For return to caller
 };
+
+// TODO : Remove typedef
 typedef struct my_error_mgr * my_error_ptr;
 
 struct Image *readJPEG(const char *filename)
 {
-    //Store image info
+    // Store image info
     struct jpeg_decompress_struct cinfo;
 
-    //Source file
+    // Source file
     FILE *infile;
 
     if(!(infile = fopen(filename, "rb")))
     {
         throw_error("readJPEG", "Unable to open file");
+
         return NULL;
     }
 
-    //Setting up errors management
+    // Setting up errors management
     struct my_error_mgr jerr;
     cinfo.err = jpeg_std_error(&jerr.pub);
     if (setjmp(jerr.setjmp_buffer))
     {
         jpeg_destroy_decompress(&cinfo);
         fclose(infile);
+
         return NULL;
     }
 
-    //Getting info
+    // Getting info
     jpeg_create_decompress(&cinfo);
     jpeg_stdio_src(&cinfo, infile);
     jpeg_read_header(&cinfo, TRUE);
@@ -50,16 +54,19 @@ struct Image *readJPEG(const char *filename)
     if(cinfo.output_components != 3)
     {
         throw_error("readJPEG", "Too many components (alpha canal ?)");
+
         return NULL;
     }
 
-    //Setting info
+    // Setting info
     struct Image *img = malloc(sizeof(struct Image));
     if(!img)
     {
         throw_error("readJPEG", "Unable to allocate memory.");
+
         return NULL;
     }
+
     img->width = cinfo.image_width;
     img->height = cinfo.image_height;
     img->bit_depth = 255;
@@ -67,24 +74,25 @@ struct Image *readJPEG(const char *filename)
     if(!img->data)
     {
         throw_error("readJPEG", "Unable to allocate memory.");
+
         return NULL;
     }
 
-    JSAMPARRAY buffer; //Output row buffer
-    size_t row_stride; //Physical row width in output buffer
+    JSAMPARRAY buffer; // Output row buffer
+    size_t row_stride; // Physical row width in output buffer
 
-    //JSAMPLEs per row in output buffer
+    // JSAMPLEs per row in output buffer
     row_stride = cinfo.output_width * cinfo.output_components;
 
-    //Make a one-row-high sample array that will go away when done with image
+    // Make a one-row-high sample array that will go away when done with image
     buffer = (*cinfo.mem->alloc_sarray)((j_common_ptr) &cinfo,
             JPOOL_IMAGE, row_stride, 1);
     buffer[0] = (JSAMPROW)malloc(sizeof(JSAMPLE) * row_stride);
 
-    //While there is at least one line left
+    // While there is at least one line left
     while (cinfo.output_scanline < cinfo.output_height)
     {
-        //Reading row
+        // Reading row
         jpeg_read_scanlines(&cinfo, buffer, 1);
         for (size_t i = 0; i < img->width; i++)
         {
@@ -97,11 +105,12 @@ struct Image *readJPEG(const char *filename)
         }
     }
 
-    //Closing everything and freeing memory
+    // Closing everything and freeing memory
     jpeg_finish_decompress(&cinfo);
     jpeg_destroy_decompress(&cinfo);
     printf("JPEG Image read!\n");
     fclose(infile);
+
     return img;
 }
 
