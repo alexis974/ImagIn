@@ -1,21 +1,38 @@
 #include <gtk/gtk.h>
 
-#include "gui.h"
 #include "gui_builder.h"
+
+#include "gui.h"
+#include "gui_style.h"
 
 void build_menu_bar_GUI(GtkBuilder *builder, struct UI *ui)
 {
     ui->menu_bar = malloc(sizeof(struct Menu_bar));
-    ui->menu_bar->new_button = GTK_MENU_ITEM(gtk_builder_get_object(
-                builder, "menu_new_button"));
     ui->menu_bar->open_button = GTK_MENU_ITEM(gtk_builder_get_object(
                 builder, "menu_open_button"));
-    ui->menu_bar->save_as_button = GTK_MENU_ITEM(gtk_builder_get_object(
-                builder, "menu_save_as_button"));
+    ui->menu_bar->export_as_button = GTK_MENU_ITEM(gtk_builder_get_object(
+                builder, "menu_export_as_button"));
     ui->menu_bar->close_button = GTK_MENU_ITEM(gtk_builder_get_object(
                 builder, "menu_close_button"));
     ui->menu_bar->about_button = GTK_MENU_ITEM(gtk_builder_get_object(
                 builder, "about_button"));
+    ui->menu_bar->undo_button = GTK_MENU_ITEM(gtk_builder_get_object(
+                builder, "menu_undo_button"));
+
+    GtkWidget *preferences_menu = GTK_WIDGET(gtk_builder_get_object(
+                builder, "preferences_menu"));
+    GDir *dir = g_dir_open("src/data/style", 0, NULL);
+    const gchar *file = NULL;
+
+    while((file = g_dir_read_name(dir)) != NULL)
+    {
+        GtkWidget *item = gtk_menu_item_new_with_label(file);
+        gtk_menu_shell_append(GTK_MENU_SHELL(preferences_menu), item);
+        g_signal_connect(item, "activate", G_CALLBACK(switch_css), NULL);
+        gtk_widget_show(item);
+    }
+
+    g_dir_close(dir);
 }
 
 void build_bottom_bar_GUI(GtkBuilder *builder, struct UI *ui)
@@ -36,6 +53,10 @@ void build_display_GUI(GtkBuilder *builder, struct UI *ui)
                 builder, "histogram_area"));
     ui->display->middle_area_events = GTK_EVENT_BOX(gtk_builder_get_object(
                 builder, "middle_area_events"));
+
+    //Setting default middle image
+    gtk_image_set_from_file(ui->display->display_image,
+            "src/data/icons/no_image.png");
 }
 
 void build_image_info(GtkBuilder *builder, struct UI *ui)
@@ -85,12 +106,35 @@ void build_modules_GUI(GtkBuilder *builder, struct UI *ui)
             gtk_builder_get_object(builder, "shadows_scale"));
     ui->modules->shadows_highlights->highlights_scale = GTK_SCALE(
             gtk_builder_get_object(builder, "highlights_scale"));
+
+    ui->modules->history_list = malloc(sizeof(struct History_List));
+    ui->modules->history_list->list = GTK_LIST_BOX(
+            gtk_builder_get_object(builder, "history_list"));
+
+    ui->modules->bw_switch  = GTK_SWITCH(
+            gtk_builder_get_object(builder, "bw_switch"));
+    ui->modules->invert_switch  = GTK_SWITCH(
+            gtk_builder_get_object(builder, "invert_switch"));
+}
+
+void build_window_GUI(GtkBuilder *builder, struct UI *ui)
+{
+    ui->window = GTK_WINDOW(gtk_builder_get_object(builder, "main_window"));
+
+    //Get monitor size
+    GdkRectangle workarea = {0};
+    gdk_monitor_get_workarea(gdk_display_get_primary_monitor(
+                gdk_display_get_default()), &workarea);
+
+    //Set to full size
+    gtk_window_set_default_size(ui->window, workarea.width, workarea.height);
 }
 
 struct UI* build_GUI(char* glade_file_path)
 {
     GtkBuilder *builder = gtk_builder_new();
     GError* error = NULL;
+
     if (gtk_builder_add_from_file(builder, glade_file_path, &error) == 0)
     {
         g_printerr("Error loading file: %s\n", error->message);
@@ -99,13 +143,15 @@ struct UI* build_GUI(char* glade_file_path)
     }
 
     struct UI *ui = malloc(sizeof(struct UI));
-    ui->window = GTK_WINDOW(gtk_builder_get_object(builder, "main_window"));
     ui->image_loaded = FALSE;
+    ui->can_modify = TRUE;
+    build_window_GUI(builder, ui);
     build_menu_bar_GUI(builder, ui);
     build_modules_GUI(builder, ui);
     build_display_GUI(builder, ui);
     build_bottom_bar_GUI(builder, ui);
     build_image_info(builder, ui);
     g_object_unref(builder);
+
     return ui;
 }

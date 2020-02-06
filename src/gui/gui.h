@@ -10,11 +10,11 @@ struct Orientation
 
 struct Menu_bar
 {
-    GtkMenuItem *new_button;
     GtkMenuItem *open_button;
-    GtkMenuItem *save_as_button;
+    GtkMenuItem *export_as_button;
     GtkMenuItem *close_button;
     GtkMenuItem *about_button;
+    GtkMenuItem *undo_button;
 };
 
 struct Cont_exp_sat
@@ -30,11 +30,19 @@ struct Shadows_highlights
     GtkScale *highlights_scale;
 };
 
+struct History_List
+{
+    GtkListBox *list;
+};
+
 struct Modules
 {
     struct Orientation *orientation;
     struct Cont_exp_sat *cont_exp_sat;
     struct Shadows_highlights *shadows_highlights;
+    struct History_List *history_list;
+    GtkSwitch *bw_switch;
+    GtkSwitch *invert_switch;
 };
 
 struct Display
@@ -56,6 +64,7 @@ struct ImageInfo
     GtkLabel *filename;
     GtkLabel *iso;
 };
+
 struct Bottom_bar
 {
     GtkLabel *filename_label;
@@ -71,6 +80,8 @@ struct UI
     struct Images *images;
     struct ImageInfo *image_info;
     gboolean image_loaded;
+    gboolean can_modify;
+    struct history *hist;
 };
 
 int GUI_main(void);

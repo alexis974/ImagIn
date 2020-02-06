@@ -14,6 +14,7 @@ void exposure(struct Image *img, float EV)
     }
 
     float scale = pow(2, EV);
+
     for (size_t i = 0; i < img->width * img->height; i++)
     {
         img->data[i].red = (img->data[i].red * scale) > img->bit_depth ?

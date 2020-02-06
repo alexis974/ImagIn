@@ -176,21 +176,3 @@ void saturation(struct Image *img, float change)
         img->data[i] = HSLtoRGB(pxlhsl, (float)img->bit_depth);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

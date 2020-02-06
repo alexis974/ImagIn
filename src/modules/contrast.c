@@ -6,27 +6,30 @@
 
 #include "contrast.h"
 
+// TODO : Fix explicit cast
 size_t apply_contrast(size_t c, float n, size_t depth)
 {
     if (c <= depth / 2)
     {
-        return (size_t)(depth/2) * pow((double)2*c/255, n);
+        return (size_t)(depth / 2) * pow((double)2 * c / 255, n);
     }
+
     else
     {
         return 255 - apply_contrast(255 - c, n, depth);
     }
 }
 
-/*
-** Modify contrast of given image
-*/
+
+// Modify contrast of given image
 void contrast(struct Image *img, float range)
 {
     if (!img)
     {
         errx(1, "contrast: no image found");
     }
+
+    range += 1;
 
     for (size_t i = 0; i < img->width * img->height; i++)
     {

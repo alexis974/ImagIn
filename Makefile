@@ -15,23 +15,27 @@ LIBPNG = `pkg-config --cflags --libs libpng`
 GEXIV = `pkg-config --cflags --libs gexiv2`
 
 SRC = src/import_export/*.c src/import_export/xml/*.c src/tools/*.c\
-	src/modules/*.c src/gui/*.c src/debug/*.c
+	  src/modules/*.c src/gui/*.c src/debug/*.c
 
 all: imagin tmp
 imagin: $(SRC) src/imagin.c
-	$(CC) -o $@.out src/imagin.c $(SRC) $(CFLAGS) $(CPPFLAGS)\
-		$(GTK) $(LIBTIFF)\
-		$(LIBJPEG) $(LIBXML)\
-		$(LIBPNG) $(GEXIV) $(LDFLAGS)
+	$(CC) -o $@.out src/imagin.c \
+		$(SRC) \
+		$(CFLAGS) $(CPPFLAGS) $(LDFLAGS) \
+		$(GTK) $(LIBTIFF) \
+		$(LIBJPEG) $(LIBXML) \
+		$(LIBPNG) $(GEXIV)
 
 debug:CFLAGS=-g
 debug:all
 
 cli: $(SRC) src/imagin_cli.c tmp
-	$(CC) -o imagin_cli.out src/imagin_cli.c $(SRC) $(CFLAGS) $(CPPFLAGS)\
-		$(GTK) $(LIBTIFF)\
-		$(LIBXML) $(LIBJPEG)\
-		$(LIBPNG) $(GEXIV) $(LDFLAGS)
+	$(CC) -o imagin_cli.out src/imagin_cli.c \
+		$(SRC) \
+		$(CFLAGS) $(CPPFLAGS) $(LDFLAGS) \
+		$(GTK) $(LIBTIFF) \
+		$(LIBJPEG) $(LIBXML) \
+		$(LIBPNG) $(GEXIV)
 
 debug_cli:CFLAGS=-g
 debug_cli:cli tmp
