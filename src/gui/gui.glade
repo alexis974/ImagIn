@@ -23,6 +23,37 @@
     <property name="page_increment">0.01</property>
     <property name="page_size">0.01</property>
   </object>
+  <object class="GtkBox" id="hist_elm">
+    <property name="name">hist_module</property>
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <child>
+      <object class="GtkLabel" id="hist_index">
+        <property name="name">hist_index</property>
+        <property name="width_request">20</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">0</property>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="hist_name">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Unknown</property>
+      </object>
+      <packing>
+        <property name="expand">True</property>
+        <property name="fill">True</property>
+        <property name="position">1</property>
+      </packing>
+    </child>
+  </object>
   <object class="GtkFileFilter" id="image_filter">
     <mime-types>
       <mime-type>*.jpg</mime-type>

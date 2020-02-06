@@ -72,13 +72,46 @@ gboolean on_key_press (GtkWidget *widget, GdkEventKey *event,
 ** MODULES
 */
 
+void add_module_to_list(struct UI*ui, int module_id)
+{
+    GtkBuilder *builder = gtk_builder_new();
+    GError* error = NULL;
+
+    if (gtk_builder_add_from_file(builder, "src/gui/gui.glade", &error) == 0)
+    {
+        g_printerr("Error loading file: %s\n", error->message);
+        g_clear_error(&error);
+        return;
+    }
+
+    GtkWidget *list_elm = GTK_WIDGET(
+            gtk_builder_get_object(builder, "hist_elm"));
+
+    GList *children = gtk_container_get_children(GTK_CONTAINER(list_elm));
+    for (GList *l = children; l != NULL; l = l->next)
+    {
+        if (strcmp(gtk_widget_get_name(l->data), "hist_index") == 0)
+        {
+            char index[3];
+            sprintf(index, "%zu", history_length(ui->hist));
+            gtk_label_set_text(GTK_LABEL(l->data), index);
+        }
+        else
+        {
+            gtk_label_set_text(GTK_LABEL(l->data), get_name(module_id));
+        }
+    }
+
+    gtk_list_box_insert(ui->modules->history_list->list,list_elm, 0);
+    gtk_widget_show(list_elm);
+
+    g_object_unref(builder);
+}
 void apply_module(struct UI *ui, int module_id, float value)
 {
     if(!ui->can_modify)
         return;
-    GtkWidget *label = gtk_label_new(get_name(module_id));
-    gtk_list_box_insert(ui->modules->history_list->list,label, 0);
-    gtk_widget_show(label);
+    add_module_to_list(ui, module_id);
     history_append(ui->hist, module_id, 1,value);
     reload_images(ui);
     gtk_widget_queue_draw_area(GTK_WIDGET(ui->display->histogram_area),
