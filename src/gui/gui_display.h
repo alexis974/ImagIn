@@ -5,6 +5,8 @@ void reset_modules(struct UI *ui);
 
 void display_images(struct UI *ui, char* filename);
 
+void reset_image_info(struct UI *ui);
+
 void reload_images(struct UI *ui);
 
 gboolean draw_histogram(GtkWidget *widget, cairo_t *cr, gpointer user_data);

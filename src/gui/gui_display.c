@@ -32,9 +32,8 @@ void reset_history_list(struct UI *ui)
     g_list_free(children);
 }
 
-void reset_modules(struct UI *ui)
+void reset_image_info(struct UI *ui)
 {
-    ui->can_modify = FALSE;
     gtk_label_set_text(ui->image_info->aperture, "-");
     gtk_label_set_text(ui->image_info->date, "-");
     gtk_label_set_text(ui->image_info->time, "-");
@@ -43,6 +42,11 @@ void reset_modules(struct UI *ui)
     gtk_label_set_text(ui->image_info->focal_length, "-");
     gtk_label_set_text(ui->image_info->iso, "-");
     gtk_label_set_text(ui->image_info->shutter_speed, "-");
+}
+
+void reset_modules(struct UI *ui)
+{
+    ui->can_modify = FALSE;
 
     gtk_range_set_value(GTK_RANGE(
                 ui->modules->cont_exp_sat->contraste_scale), 0);
@@ -154,6 +158,7 @@ void display_images(struct UI *ui, char* filename)
     // It is necessary to set image_loaded as false until this function is not finished
     ui->image_loaded = FALSE;
     reset_history_list(ui);
+    reset_image_info(ui);
     reset_modules(ui);
 
     int padding = 10;

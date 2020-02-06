@@ -29,6 +29,7 @@ int GUI_main(void)
 
     css_setup("src/data/style/imagin_default.css");
     reset_modules(ui);
+    reset_image_info(ui);
 
     gtk_widget_show(GTK_WIDGET(ui->window));
 
