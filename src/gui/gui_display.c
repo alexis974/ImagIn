@@ -242,7 +242,7 @@ gboolean draw_histogram(GtkWidget *widget, cairo_t *cr, gpointer user_data)
     }
 
     cairo_stroke(cr);
-
+    free(histogram);
     return FALSE;
 }
 
