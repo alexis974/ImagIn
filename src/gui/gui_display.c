@@ -13,6 +13,7 @@
 
 #include "../tools/history.h"
 #include "../tools/strings.h"
+#include "../tools/histogram.h"
 
 #include "../debug/error_handler.h"
 
@@ -214,51 +215,30 @@ gboolean draw_histogram(GtkWidget *widget, cairo_t *cr, gpointer user_data)
     }
 
     (void) widget;
-    int height =  gtk_widget_get_allocated_height(widget);
+    float height =  gtk_widget_get_allocated_height(widget);
     int width = gtk_widget_get_allocated_width(widget);
 
     cairo_set_source_rgb(cr, 0.3, 0.3, 0.3);
     cairo_paint(cr);
 
-    unsigned char red_hist[256] = {50};
-    unsigned char green_hist[256] = {50};
-    unsigned char blue_hist[256] = {50};
-    srand(time(NULL));
+    struct Histogram *histogram = compute_histogram(ui->images->edit);
 
-    for (size_t i = 1; i < 256; i++)
-    {
-        red_hist[i] = (red_hist[i-1] + (rand() % 5) - (rand() % 5))%140;
-        blue_hist[i] = (blue_hist[i-1] + (rand() % 5) - (rand() % 5))%140;
-        green_hist[i] = (green_hist[i-1] + (rand() % 5) - (rand() % 5))%140;
-    }
+    float max_value = histo_max_value(histogram);
+    float scale = height/max_value;
 
-    cairo_set_source_rgb(cr, 1, 0, 0);
+    cairo_set_source_rgb(cr, 1, 1, 1);
     cairo_set_line_width(cr,2);
-    cairo_move_to(cr, 0, height-red_hist[0]);
+
+    size_t value = (histogram->red[0]+histogram->blue[0]+histogram->green[0])/3;
+    value *= scale;
+
+    cairo_move_to(cr, 0, height-value);
 
     for (size_t i = 1; i < 256; i++)
     {
-        cairo_line_to(cr, i*width/256, height-red_hist[i]);
-    }
-
-    cairo_stroke(cr);
-    cairo_set_source_rgb(cr, 0, 1, 0);
-    cairo_set_line_width(cr,2);
-    cairo_move_to(cr, 0, height-green_hist[0]);
-
-    for (size_t i = 1; i < 256; i++)
-    {
-        cairo_line_to(cr, i*width/256, height-green_hist[i]);
-    }
-
-    cairo_stroke(cr);
-    cairo_set_source_rgb(cr, 0, 0, 1);
-    cairo_set_line_width(cr,2);
-    cairo_move_to(cr, 0, height-blue_hist[0]);
-
-    for (size_t i = 1; i < 256; i++)
-    {
-        cairo_line_to(cr, i*width/256, height-blue_hist[i]);
+        value = (histogram->red[i]+histogram->blue[i]+histogram->green[i])/3;
+        value *= scale;
+        cairo_line_to(cr, i*width/256, height-value);
     }
 
     cairo_stroke(cr);
