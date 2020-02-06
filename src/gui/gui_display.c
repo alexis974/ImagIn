@@ -241,6 +241,8 @@ gboolean draw_histogram(GtkWidget *widget, cairo_t *cr, gpointer user_data)
         cairo_line_to(cr, i*width/256, height-value);
     }
 
+    cairo_fill(cr);
+
     cairo_stroke(cr);
     free_histogram(histogram);
     return FALSE;
