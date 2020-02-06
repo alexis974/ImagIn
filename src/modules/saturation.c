@@ -149,6 +149,8 @@ void saturation(struct Image *img, float change)
         errx(1, "saturation: No image found");
     }
 
+    change -= 1;
+
     if (change < -1)
         change = -1;
     else if (change > 1)
