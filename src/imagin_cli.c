@@ -21,6 +21,7 @@
 #include "modules/contrast.h"
 
 #include "tools/scale.h"
+#include "tools/histogram.h"
 
 int main(void)
 {
@@ -73,15 +74,15 @@ int main(void)
 
     //Modify saturation
     saturation(images->edit, 2);
-    write_image("tmp/07_Saturation.jpg", images->edit);
+    write_image("tmp/01_Saturation.jpg", images->edit);
 
     //Modify contrast
     contrast(images->edit, 2);
-    write_image("tmp/06_Contrast.jpg", images->edit);
+    write_image("tmp/02_Contrast.jpg", images->edit);
 
     // Add 0.5EV to image
     exposure(images->edit, 0.5);
-    write_image("tmp/05_Exposure.jpg", images->edit);
+    write_image("tmp/03_Exposure.jpg", images->edit);
 
     // Invert the colors of an image
     invert(images->edit);
@@ -89,19 +90,26 @@ int main(void)
 
     // Turn the image black and white
     simple_BW(images->edit);
-    write_image("tmp/03_Black_and_white.ppm", images->edit);
+    write_image("tmp/05_Black_and_white.ppm", images->edit);
 
     // Flip the image both horizontaly and verticaly
     flip_both_axis(images->edit);
-    write_image("tmp/02_Flip_both_axis.tiff", images->edit);
+    write_image("tmp/06_Flip_both_axis.tiff", images->edit);
 
     // Flip the horizontaly
     horizontal_flip(images->edit);
-    write_image("tmp/01_Flip_horizontal.jpg", images->edit);
+    write_image("tmp/07_Flip_horizontal.jpg", images->edit);
 
     // Flip the image verticaly
     vertical_flip(images->edit);
-    write_image("tmp/00_Flip_vertiacl.ppm", images->edit);
+    write_image("tmp/08_Flip_vertiacl.ppm", images->edit);
+
+    struct Histogram *histogram = compute_histogram(images->edit);
+    for (size_t i = 0; i < 256; i++)
+    {
+        printf("%ld, ", (histogram->red[i] + histogram->green[i] +
+                    histogram->blue[i]) / 3);
+    }
 
     free_images(images);
 
