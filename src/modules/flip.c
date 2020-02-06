@@ -22,7 +22,7 @@ void vertical_flip(struct Image *img)
         for (size_t x = 0; x < (img->width / 2); x++)
         {
             index_left = y * offset + x;
-            index_right = y * offset + (img->width - x);
+            index_right = y * offset + (img->width - x) - 1;
 
             tmp = img->data[index_left].red;
             img->data[index_left].red = img->data[index_right].red;
@@ -83,7 +83,7 @@ void flip_both_axis(struct Image *img)
     }
 
     unsigned char tmp;
-    size_t index_end = img->width * img->height;
+    size_t index_end = img->width * img->height - 1;
 
     for (size_t i = 0; i < index_end; i++, index_end--)
     {
