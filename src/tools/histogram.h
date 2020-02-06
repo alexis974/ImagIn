@@ -10,6 +10,8 @@ struct Histogram
 
 struct Histogram *compute_histogram(struct Image *img);
 
+void free_histogram(struct Histogram *histo);
+
 size_t histo_max_value(struct Histogram *histo);
 
 #endif

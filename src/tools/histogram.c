@@ -24,6 +24,14 @@ struct Histogram *compute_histogram(struct Image *img)
     return histo;
 }
 
+void free_histogram(struct Histogram *histo)
+{
+    free(histo->red);
+    free(histo->green);
+    free(histo->blue);
+    free(histo);
+}
+
 size_t histo_max_value(struct Histogram *histo)
 {
     size_t max = 0;
