@@ -23,3 +23,27 @@ struct Histogram *compute_histogram(struct Image *img)
 
     return histo;
 }
+
+size_t histo_max_value(struct Histogram *histo)
+{
+    size_t max = 0;
+    for (size_t i = 0; i < 256; i++)
+    {
+        if (histo->red[i] > max)
+        {
+            max = histo->red[i];
+        }
+
+        if (histo->green[i] > max)
+        {
+            max = histo->green[i];
+        }
+
+        if (histo->blue[i] > max)
+        {
+            max = histo->blue[i];
+        }
+    }
+
+    return max;
+}

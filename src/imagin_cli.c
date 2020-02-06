@@ -111,6 +111,8 @@ int main(void)
                     histogram->blue[i]) / 3);
     }
 
+    printf("\nMax value = %ld\n", histo_max_value(histogram));
+
     free_images(images);
 
     printf("See you soon!\n");
