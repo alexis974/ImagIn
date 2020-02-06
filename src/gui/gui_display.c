@@ -229,17 +229,16 @@ gboolean draw_histogram(GtkWidget *widget, cairo_t *cr, gpointer user_data)
     cairo_set_source_rgb(cr, 1, 1, 1);
     cairo_set_line_width(cr,2);
 
-    size_t value = (histogram->red[0]+histogram->blue[0]+histogram->green[0])/3;
-    value *= scale;
+    cairo_move_to(cr, 0, height);
 
-    cairo_move_to(cr, 0, height-value);
-
-    for (size_t i = 1; i < 256; i++)
+    for (size_t i = 0; i < 256; i++)
     {
-        value = (histogram->red[i]+histogram->blue[i]+histogram->green[i])/3;
+        size_t value = (histogram->red[i]+histogram->blue[i]+histogram->green[i])/3;
         value *= scale;
         cairo_line_to(cr, i*width/256, height-value);
     }
+
+    cairo_line_to(cr, width, height);
 
     cairo_fill(cr);
 
