@@ -59,6 +59,13 @@ Wiki :book:
 The wiki will arrive shortly. We thank you in advance for your patience
 
 
+Website
+------
+
+You can find our website here : 
+[ImagIn](https://turodoras.github.io/ImagIn_website "ImagIn website")
+
+
 Authors
 -------
 * Thomas Berlioz
