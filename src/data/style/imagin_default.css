@@ -86,6 +86,16 @@
     padding-bottom: 3px;
 }
 
+#main_window expander #history_scroll_window
+{
+    padding : 0;
+}
+
+#main_window expander #history_scroll_window #history_list
+{
+    background-color: #252525;
+}
+
 #main_window scale > contents > trough
 {
     background-image: none;

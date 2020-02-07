@@ -283,9 +283,28 @@
                             <property name="can_focus">True</property>
                             <property name="expanded">True</property>
                             <child>
-                              <object class="GtkListBox" id="history_list">
+                              <object class="GtkScrolledWindow">
+                                <property name="name">history_scroll_window</property>
                                 <property name="visible">True</property>
-                                <property name="can_focus">False</property>
+                                <property name="can_focus">True</property>
+                                <property name="hscrollbar_policy">never</property>
+                                <property name="shadow_type">etched-in</property>
+                                <property name="max_content_height">200</property>
+                                <property name="propagate_natural_height">True</property>
+                                <child>
+                                  <object class="GtkViewport">
+                                    <property name="name">history_viewport</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <child>
+                                      <object class="GtkListBox" id="history_list">
+                                        <property name="name">history_list</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                      </object>
+                                    </child>
+                                  </object>
+                                </child>
                               </object>
                             </child>
                             <child type="label">
