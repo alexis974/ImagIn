@@ -6,6 +6,7 @@ struct Histogram
     size_t *red;
     size_t *green;
     size_t *blue;
+    size_t *white;
 };
 
 struct Histogram *compute_histogram(struct Image *img);
