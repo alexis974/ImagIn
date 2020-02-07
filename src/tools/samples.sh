@@ -230,8 +230,8 @@ download_space()
 Help()
 {
     echo "You came here for help, I see"
-    echo "Run './sample -l' to download only 5 images"
-    echo "Run './sample -m' to download only 30 images"
+    echo "Run './sample -l' to download only 3 images"
+    echo "Run './sample -m' to download only 20 images"
     echo "Run './sample -r' to download only the raw files"
     echo "Run './sample -b' to download Hasselblad images"
     echo "Run './sample -s' to download a Hubble image"
