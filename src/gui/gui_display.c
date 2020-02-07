@@ -221,7 +221,7 @@ gboolean draw_histogram(GtkWidget *widget, cairo_t *cr, gpointer user_data)
     cairo_set_source_rgb(cr, 0.3, 0.3, 0.3);
     cairo_paint(cr);
 
-    struct Histogram *histogram = compute_histogram(ui->images->edit);
+    struct Histogram *histogram = compute_histogram(ui->images->small);
 
     float max_value = histo_max_value(histogram);
     float scale = height/max_value;
