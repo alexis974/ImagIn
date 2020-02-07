@@ -142,6 +142,12 @@ void reload_images(struct UI *ui)
                 ui->images->small->width * 3, free_buffer, NULL);
     gtk_image_set_from_pixbuf(ui->display->small_image, pix_buffer_small);
 
+    gtk_widget_queue_draw_area(GTK_WIDGET(ui->display->histogram_area), 0, 0,
+        gtk_widget_get_allocated_width(
+        GTK_WIDGET(ui->display->histogram_area)),
+        gtk_widget_get_allocated_height(
+        GTK_WIDGET(ui->display->histogram_area)));
+
     // Releasing memory
     g_object_unref(pix_buffer);
     g_object_unref(pix_buffer_small);
@@ -202,8 +208,10 @@ void display_images(struct UI *ui, char* filename)
     reload_images(ui);
 
     gtk_widget_queue_draw_area(GTK_WIDGET(ui->display->histogram_area), 0, 0,
-        gtk_widget_get_allocated_width(GTK_WIDGET(ui->display->histogram_area)),
-        gtk_widget_get_allocated_height(GTK_WIDGET(ui->display->histogram_area)));
+        gtk_widget_get_allocated_width(
+        GTK_WIDGET(ui->display->histogram_area)),
+        gtk_widget_get_allocated_height(
+        GTK_WIDGET(ui->display->histogram_area)));
 }
 
 gboolean draw_histogram(GtkWidget *widget, cairo_t *cr, gpointer user_data)

@@ -114,9 +114,6 @@ void apply_module(struct UI *ui, int module_id, float value)
     add_module_to_list(ui, module_id);
     history_append(ui->hist, module_id, 1,value);
     reload_images(ui);
-    gtk_widget_queue_draw_area(GTK_WIDGET(ui->display->histogram_area), 0, 0,
-        gtk_widget_get_allocated_width(GTK_WIDGET(ui->display->histogram_area)),
-        gtk_widget_get_allocated_height(GTK_WIDGET(ui->display->histogram_area)));
 }
 
 // Rotate module callback
