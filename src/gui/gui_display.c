@@ -201,8 +201,9 @@ void display_images(struct UI *ui, char* filename)
 
     reload_images(ui);
 
-    gtk_widget_queue_draw_area(GTK_WIDGET(ui->display->histogram_area),
-            0,0,300,150);
+    gtk_widget_queue_draw_area(GTK_WIDGET(ui->display->histogram_area), 0, 0,
+        gtk_widget_get_allocated_width(GTK_WIDGET(ui->display->histogram_area)),
+        gtk_widget_get_allocated_height(GTK_WIDGET(ui->display->histogram_area)));
 }
 
 gboolean draw_histogram(GtkWidget *widget, cairo_t *cr, gpointer user_data)
@@ -214,7 +215,6 @@ gboolean draw_histogram(GtkWidget *widget, cairo_t *cr, gpointer user_data)
         return FALSE;
     }
 
-    (void) widget;
     float height =  gtk_widget_get_allocated_height(widget);
     int width = gtk_widget_get_allocated_width(widget);
 
@@ -233,9 +233,10 @@ gboolean draw_histogram(GtkWidget *widget, cairo_t *cr, gpointer user_data)
 
     for (size_t i = 0; i < 256; i++)
     {
-        size_t value = (histogram->red[i]+histogram->blue[i]+histogram->green[i])/3;
+        size_t value = (histogram->red[i] +
+            histogram->blue[i] + histogram->green[i]) / 3;
         value *= scale;
-        cairo_line_to(cr, i*width/256, height-value);
+        cairo_line_to(cr, i * width/256, height-value);
     }
 
     cairo_line_to(cr, width, height);
