@@ -5,4 +5,4 @@
 
 void create_xmp(const char *uri);
 
-#endif
+#endif /* ! XML_H */

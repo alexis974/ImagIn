@@ -1,6 +1,6 @@
 #ifndef GUI_CALLBACKS_H
 #define GUI_CALLBACKS_H
-
+// TODO : Coding style : 4.1 max 5 fcts
 void undo(GtkWidget *widget, gpointer user_data);
 
 gboolean on_key_press (GtkWidget *widget, GdkEventKey *event,
@@ -41,4 +41,4 @@ void open_export_as_window(GtkWidget *widget, gpointer user_data);
 
 void quit(GtkWidget *widget, gpointer user_data);
 
-#endif
+#endif /* ! GUI_CALLBACKS_H */

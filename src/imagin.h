@@ -24,4 +24,4 @@ struct Images
     struct Image *small;
 };
 
-#endif
+#endif /* ! IMAGIN_H */

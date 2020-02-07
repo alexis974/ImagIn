@@ -14,4 +14,4 @@ void free_histogram(struct Histogram *histo);
 
 size_t histo_max_value(struct Histogram *histo);
 
-#endif
+#endif /* ! HISTOGRAM_H */

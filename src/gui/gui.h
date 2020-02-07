@@ -86,4 +86,4 @@ struct UI
 
 int GUI_main(void);
 
-#endif
+#endif /* ! UI_H */

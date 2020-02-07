@@ -5,4 +5,4 @@ struct Image *readPNG(const char *filename);
 
 void writePNG(const char *filename, struct Image *img);
 
-#endif
+#endif /* ! PNG_H */

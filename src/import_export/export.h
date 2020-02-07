@@ -3,4 +3,4 @@
 
 void write_image(const char *filename, struct Image *img);
 
-#endif
+#endif /* ! EXPORT_H */

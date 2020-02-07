@@ -1,6 +1,6 @@
 #ifndef HISTORY_H
 #define HISTORY_H
-
+// TODO : Coding style : 4.1 max 5 fcts
 enum ModulesID
 {
     INVERT,
@@ -57,4 +57,4 @@ void print_history(struct history *hist);
 
 void copy_img(struct Image *img_src, struct Image *img_dst);
 
-#endif
+#endif /* !  HISTORY_H */

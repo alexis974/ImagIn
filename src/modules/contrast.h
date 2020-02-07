@@ -3,4 +3,4 @@
 
 void contrast(struct Image *img, float range);
 
-#endif
+#endif /* ! CONTRAST_H */

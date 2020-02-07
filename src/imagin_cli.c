@@ -26,6 +26,7 @@
 int main(void)
 {
     // Set error mode to CLI to have error in text format
+    // TODO : Coding style : 2.5 typedef ?
     g_cli_mode = FALSE;
 
     // Define paths

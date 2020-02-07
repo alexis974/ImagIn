@@ -3,4 +3,4 @@
 
 struct UI* build_GUI(char* glade_file_path);
 
-#endif
+#endif /* ! GUI_BUILDER_H */

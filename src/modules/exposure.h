@@ -3,4 +3,4 @@
 
 void exposure(struct Image *img, float EV);
 
-#endif
+#endif /* ! EXPOSURE_H */

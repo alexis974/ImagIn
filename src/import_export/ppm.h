@@ -5,4 +5,4 @@ struct Image *readPPM(const char *filename);
 
 void writePPM(const char *filename, struct Image *img);
 
-#endif
+#endif /* ! PPM_H */

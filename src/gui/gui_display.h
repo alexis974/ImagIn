@@ -1,6 +1,6 @@
 #ifndef GUI_DISPLAY_H
 #define GUI_DISPLAY_H
-
+// TODO : Coding style : 4.1 max 5 fcts
 void reset_modules(struct UI *ui);
 
 void display_images(struct UI *ui, char* filename);
@@ -14,4 +14,4 @@ gboolean draw_histogram(GtkWidget *widget, cairo_t *cr, gpointer user_data);
 gboolean on_image_event(GtkWidget *widget, GdkEvent *event,
                gpointer user_data);
 
-#endif
+#endif /* ! GUI_DISPLAY_H */

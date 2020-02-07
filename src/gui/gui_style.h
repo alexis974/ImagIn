@@ -5,4 +5,4 @@ void css_setup(char *filename);
 
 void switch_css(GtkWidget *button, gpointer user_data);
 
-#endif
+#endif /* ! GUI_STYLE_H */
