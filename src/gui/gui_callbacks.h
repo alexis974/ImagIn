@@ -1,5 +1,6 @@
 #ifndef GUI_CALLBACKS_H
 #define GUI_CALLBACKS_H
+
 // TODO : Coding style : 4.1 max 5 fcts
 void undo(GtkWidget *widget, gpointer user_data);
 

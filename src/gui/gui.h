@@ -84,6 +84,6 @@ struct UI
     struct history *hist;
 };
 
-int GUI_main(void);
+int gui_main(void);
 
 #endif /* ! UI_H */

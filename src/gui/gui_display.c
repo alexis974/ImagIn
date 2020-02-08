@@ -21,14 +21,9 @@
 
 void reset_history_list(struct UI *ui)
 {
-    // TODO : Coding style : 5.1 Initialised when declared
-    // TODO : Coding style : 5.6 Max 1 declaration per line
-    GList *children, *iter;
-
-    children = gtk_container_get_children(
+    GList *children = gtk_container_get_children(
             GTK_CONTAINER(ui->modules->history_list->list));
-    // TODO : Coding style : 5.21 Space after keyword (here: for)
-    for(iter = children; iter != NULL; iter = g_list_next(iter))
+    for (GList *iter = children; iter != NULL; iter = g_list_next(iter))
     {
         gtk_widget_destroy(GTK_WIDGET(iter->data));
     }
@@ -151,8 +146,7 @@ void reload_images(struct UI *ui)
 }
 
 // TODO : Coding style : 4.10 Fct max 25 lines
-// TODO : Coding style : 5.4 '*' With name not type
-void display_images(struct UI *ui, char* filename)
+void display_images(struct UI *ui, char *filename)
 {
     // Free memory before reimporting
     if (ui->image_loaded)
@@ -161,8 +155,10 @@ void display_images(struct UI *ui, char* filename)
         truncate_history(ui->hist, 0); //Reset
     }
 
-    // TODO : Coding style : 3.5 Line max 80 char
-    // It is necessary to set image_loaded as false until this function is not finished
+    /*
+    ** It is necessary to set image_loaded as false until this function
+    ** is not finished
+    */
     ui->image_loaded = FALSE;
     reset_history_list(ui);
     reset_image_info(ui);
@@ -184,8 +180,7 @@ void display_images(struct UI *ui, char* filename)
 
     // Getting all scaled images
     ui->images = read_image(filename);
-    // TODO : Coding style : 5.21 Space after keyword (here: if)
-    if(!ui->images)
+    if (!ui->images)
     {
         return;
     }
@@ -195,8 +190,7 @@ void display_images(struct UI *ui, char* filename)
     gtk_label_set_text(ui->image_info->filename, file_name);
     const char *ext = get_filename_ext(filename);
 
-    // TODO : Coding style : 5.21 Space after keyword (here: if)
-    if(strcmp(ext, "jpeg") == 0 || strcmp(ext, "jpg") == 0
+    if (strcmp(ext, "jpeg") == 0 || strcmp(ext, "jpg") == 0
             || strcmp(ext, "JPEG") == 0 || strcmp(ext, "JPG") == 0)
     {
         set_image_info(filename, ui);
@@ -217,8 +211,7 @@ gboolean draw_histogram(GtkWidget *widget, cairo_t *cr, gpointer user_data)
 {
     struct UI *ui = user_data;
 
-    // TODO : Coding style : 5.21 Space after keyword (here: if)
-    if(!ui->image_loaded)
+    if (!ui->image_loaded)
     {
         return FALSE;
     }
@@ -242,8 +235,8 @@ gboolean draw_histogram(GtkWidget *widget, cairo_t *cr, gpointer user_data)
 
     for (size_t i = 0; i < 256; i++)
     {
-        // TODO : Coding style : 3.5 Line max 80 char
-        size_t value = (histogram->red[i]+histogram->blue[i]+histogram->green[i])/3;
+        size_t value = (histogram->red[i] + histogram->blue[i]
+                    + histogram->green[i])/3;
         value *= scale;
         cairo_line_to(cr, i*width/256, height-value);
     }
@@ -263,8 +256,7 @@ gboolean on_image_event(GtkWidget *widget, GdkEvent *event,
     (void) widget;
     (void) event;
     struct UI *ui = user_data;
-    // TODO : Coding style : 5.21 Space after keyword (here: for)
-    if(!ui->image_loaded)
+    if (!ui->image_loaded)
     {
         open_file_chooser(NULL, user_data);
     }

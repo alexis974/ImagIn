@@ -1,5 +1,6 @@
 #ifndef GUI_DISPLAY_H
 #define GUI_DISPLAY_H
+
 // TODO : Coding style : 4.1 max 5 fcts
 void reset_modules(struct UI *ui);
 

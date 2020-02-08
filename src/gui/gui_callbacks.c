@@ -28,8 +28,7 @@ void undo(GtkWidget *widget, gpointer user_data)
 {
     (void) widget;
     struct UI *ui = user_data;
-    // TODO : Coding style : 5.21 Space after keyword (here: if)
-    if(!ui->image_loaded || history_is_empty(ui->hist))
+    if (!ui->image_loaded || history_is_empty(ui->hist))
     {
         return;
     }
@@ -47,22 +46,19 @@ gboolean on_key_press (GtkWidget *widget, GdkEventKey *event,
     (void) widget;
     struct UI *ui = user_data;
 
-    // TODO : Coding style : 5.21 Space after keyword (here: if)
-    if(event->state & GDK_CONTROL_MASK && event->keyval == GDK_KEY_z)
+    if (event->state & GDK_CONTROL_MASK && event->keyval == GDK_KEY_z)
     {
         gpointer tmp = ui;
         undo(NULL, tmp);
     }
 
-    // TODO : Coding style : 5.21 Space after keyword (here: if)
-    else if(event->state & GDK_CONTROL_MASK && event->keyval == GDK_KEY_o)
+    else if (event->state & GDK_CONTROL_MASK && event->keyval == GDK_KEY_o)
     {
         gpointer tmp = ui;
         open_file_chooser(NULL, tmp);
     }
 
-    // TODO : Coding style : 5.21 Space after keyword (here: if)
-    else if(event->state & GDK_CONTROL_MASK && event->keyval == GDK_KEY_e)
+    else if (event->state & GDK_CONTROL_MASK && event->keyval == GDK_KEY_e)
     {
         gpointer tmp = ui;
         open_export_as_window(NULL, tmp);
@@ -96,8 +92,7 @@ void add_module_to_list(struct UI*ui, int module_id)
     {
         if (strcmp(gtk_widget_get_name(l->data), "hist_index") == 0)
         {
-            // TODO : Coding style : 5.1 Must be initialised
-            char index[3];
+            char index[3] = {'a', 'a', 'a'};
             sprintf(index, "%zu", history_length(ui->hist));
             gtk_label_set_text(GTK_LABEL(l->data), index);
         }
@@ -114,9 +109,11 @@ void add_module_to_list(struct UI*ui, int module_id)
 }
 void apply_module(struct UI *ui, int module_id, float value)
 {
-    // TODO : Coding style : 5.21 Space after keyword (here: if)
-    if(!ui->can_modify)
+    if (!ui->can_modify)
+    {
         return;
+    }
+
     add_module_to_list(ui, module_id);
     history_append(ui->hist, module_id, 1,value);
     reload_images(ui);
@@ -167,7 +164,6 @@ void flip_changed(GtkComboBox *box, gpointer user_data)
 
     int element_id = gtk_combo_box_get_active(GTK_COMBO_BOX(box));
 
-    // TODO : Coding style : 5.2 Verify if default case needed
     switch (element_id)
     {
     case 0:
@@ -182,13 +178,14 @@ void flip_changed(GtkComboBox *box, gpointer user_data)
     case 3:
         apply_module(ui, FLIP, 3);
         break;
+    default:
+        break;
     }
 }
 
 gboolean contraste_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
 {
-    // TODO : Coding style : 5.21 Space after keyword (here: if)
-    if(!(gdk_event_get_event_type(event) == GDK_BUTTON_RELEASE))
+    if (!(gdk_event_get_event_type(event) == GDK_BUTTON_RELEASE))
     {
         return FALSE;
     }
@@ -209,8 +206,7 @@ gboolean contraste_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
 gboolean saturation_changed(GtkRange *range, GdkEvent *event,
         gpointer user_data)
 {
-    // TODO : Coding style : 5.21 Space after keyword (here: if)
-    if(!(gdk_event_get_event_type(event) == GDK_BUTTON_RELEASE))
+    if (!(gdk_event_get_event_type(event) == GDK_BUTTON_RELEASE))
     {
         return FALSE;
     }
@@ -230,8 +226,7 @@ gboolean saturation_changed(GtkRange *range, GdkEvent *event,
 
 gboolean exposure_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
 {
-    // TODO : Coding style : 5.21 Space after keyword (here: if)
-    if(!(gdk_event_get_event_type(event) == GDK_BUTTON_RELEASE))
+    if (!(gdk_event_get_event_type(event) == GDK_BUTTON_RELEASE))
     {
         return FALSE;
     }
@@ -252,8 +247,7 @@ gboolean exposure_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
 
 gboolean shadows_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
 {
-    // TODO : Coding style : 5.21 Space after keyword (here: if)
-    if(!(gdk_event_get_event_type(event) == GDK_BUTTON_RELEASE))
+    if (!(gdk_event_get_event_type(event) == GDK_BUTTON_RELEASE))
     {
         return FALSE;
     }
@@ -274,8 +268,7 @@ gboolean shadows_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
 gboolean highlights_changed(GtkRange *range, GdkEvent *event,
         gpointer user_data)
 {
-    // TODO : Coding style : 5.21 Space after keyword (here: if)
-    if(!(gdk_event_get_event_type(event) == GDK_BUTTON_RELEASE))
+    if (!(gdk_event_get_event_type(event) == GDK_BUTTON_RELEASE))
     {
         return FALSE;
     }
@@ -310,7 +303,7 @@ gboolean bw_changed(GtkSwitch *widget, gboolean state, gpointer user_data)
     return FALSE;
 }
 
-// Black and white
+// Invert
 gboolean invert_changed(GtkSwitch *widget, gboolean state, gpointer user_data)
 {
     (void) widget;
@@ -358,26 +351,20 @@ void open_file_chooser(GtkWidget *widget, gpointer user_data)
             ("Cancel"), GTK_RESPONSE_CANCEL,
             ("Open"), GTK_RESPONSE_ACCEPT, NULL);
 
-    // TODO : Coding style : 5.19 No space between fct name and parenthese
-    gint res = gtk_dialog_run (GTK_DIALOG (dialog));
+    gint res = gtk_dialog_run (GTK_DIALOG(dialog));
 
     if (res == GTK_RESPONSE_ACCEPT)
     {
-        // TODO : Coding style : 5.1 Must be initialised
-        char *filename;
-        GtkFileChooser *chooser = GTK_FILE_CHOOSER (dialog);
-        // TODO : Coding style : 5.19 No space between fct name and parenthese
-        filename = gtk_file_chooser_get_filename (chooser);
+        GtkFileChooser *chooser = GTK_FILE_CHOOSER(dialog);
+        char *filename = gtk_file_chooser_get_filename(chooser);
         display_images(ui, filename);
         g_free (filename);
     }
 
-    // TODO : Coding style : 5.19 No space between fct name and parenthese
-    gtk_widget_destroy (dialog);
+    gtk_widget_destroy(dialog);
 }
 
-// TODO : Coding style : 5.4 '*' with name rather than type
-void export_at(struct UI *ui, char* filename)
+void export_at(struct UI *ui, char *filename)
 {
     struct Image *exported = malloc(sizeof(struct Image));
 
@@ -397,9 +384,12 @@ void open_export_as_window(GtkWidget *widget, gpointer user_data)
 {
     (void) widget;
     struct UI *ui = user_data;
-    // TODO : Coding style : 5.21 Space after keyword (here: if)
-    if(!ui->image_loaded)
+
+    if (!ui->image_loaded)
+    {
         return;
+    }
+
     GtkWidget *dialog = gtk_file_chooser_dialog_new("Save Result",
             GTK_WINDOW(ui->window),
             GTK_FILE_CHOOSER_ACTION_SAVE, "Cancel",
