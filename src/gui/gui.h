@@ -79,9 +79,9 @@ struct UI
     struct Bottom_bar *bottom_bar;
     struct Images *images;
     struct ImageInfo *image_info;
+    struct history *hist;
     gboolean image_loaded;
     gboolean can_modify;
-    struct history *hist;
 };
 
 int GUI_main(void);
