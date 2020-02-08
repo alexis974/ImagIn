@@ -16,6 +16,8 @@
 #include "../modules/black_and_white.h"
 #include "../modules/invert.h"
 
+// TODO : Coding style : 4.2 Max 10 fcts per file
+
 struct history *new_history(void)
 {
     struct history *hist = malloc(sizeof(struct history));
@@ -69,11 +71,13 @@ void history_append(struct history *hist, int module_id,
 
 void history_pop(struct history *hist)
 {
+    // TODO : Coding style : 5.21 No space between keyword & parenth (here: if)
     if(!hist->next)
     {
         return;
     }
 
+    // TODO : Coding style : 5.21 No space between keywrd & parnth (here: while)
     while(hist->next->next)
     {
         hist = hist->next;
@@ -115,6 +119,7 @@ void history_sort(struct history *hist)
         is_sorted = 1;
         hist = copy;
 
+        // TODO : Coding style : 5.21 No space betwn kywrd & prthe (here: while)
         while(hist->next != NULL)
         {
             if(hist->id > hist->next->id)
@@ -128,6 +133,7 @@ void history_sort(struct history *hist)
     }
 }
 
+// TODO : Coding style : 4.10  Fct max 25 lines
 void reset_widgets(struct history *hist, struct UI *ui)
 {
     ui->can_modify = FALSE;
@@ -135,26 +141,32 @@ void reset_widgets(struct history *hist, struct UI *ui)
     compress_history(compressed);
     for (struct history *p = compressed->next; p != NULL; p=p->next)
     {
+        // TODO : Coding style : 5.19 No space between fct name &parenth
         switch (p->id)
         {
             case CONTRASTE:
                 gtk_range_set_value(GTK_RANGE(
+                            // TODO : Coding style : 3.5 Max 80 char per line
                             ui->modules->cont_exp_sat->contraste_scale), p->value);
                 break;
             case EXPOSURE:
                 gtk_range_set_value(GTK_RANGE(
+                            // TODO : Coding style : 3.5 Max 80 char per line
                             ui->modules->cont_exp_sat->exposure_scale), p->value);
                 break;
             case SATURATION:
                 gtk_range_set_value(GTK_RANGE(
+                            // TODO : Coding style : 3.5 Max 80 char per line
                             ui->modules->cont_exp_sat->saturation_scale), p->value);
                 break;
             case SHADOWS:
                 gtk_range_set_value(GTK_RANGE(
+                            // TODO : Coding style : 3.5 Max 80 char per line
                             ui->modules->shadows_highlights->shadows_scale), p->value);
                 break;
             case HIGHLIGHTS:
                 gtk_range_set_value(GTK_RANGE(
+                            // TODO : Coding style : 3.5 Max 80 char per line
                             ui->modules->shadows_highlights->highlights_scale), p->value);
                 break;
             case FLIP:
@@ -162,9 +174,11 @@ void reset_widgets(struct history *hist, struct UI *ui)
                             ui->modules->orientation->flip_box), p->value);
                 break;
             case BW:
+                // TODO : Coding style : 5.19 No space between fct name &parenth
                 gtk_switch_set_state (ui->modules->bw_switch, p->value);
                 break;
             case INVERT:
+                // TODO : Coding style : 5.19 No space between fct name &parenth
                 gtk_switch_set_state (ui->modules->invert_switch, p->value);
                 break;
             default:
@@ -176,12 +190,14 @@ void reset_widgets(struct history *hist, struct UI *ui)
 }
 
 
+// TODO : Coding style : 4.10  Fct max 25 lines
 void apply_history(struct history *hist, struct Image *img)
 {
     struct history *compressed = duplicate_history(hist);
     compress_history(compressed);
     for (struct history *p = compressed->next; p != NULL; p=p->next)
     {
+        // TODO : Coding style : 5.20 Cases same column as { under switch
         switch (p->id)
         {
             case CONTRASTE:
@@ -266,6 +282,7 @@ void truncate_history(struct history *hist, size_t index)
  */
 void free_recursively(struct history *hist)
 {
+    // TODO : Coding style : 5.21 No space between keyword & parenth (here: if)
     if(!hist)
     {
         return;
@@ -283,6 +300,7 @@ struct history *duplicate_history(struct history *hist)
     init_history(new);
     hist = hist->next;
 
+    // TODO : Coding style : 5.21 No space between keywrd & parnth (here: while)
     while(hist)
     {
         new->next = malloc(sizeof(struct history));
@@ -299,6 +317,8 @@ struct history *duplicate_history(struct history *hist)
 
 char *get_name(int id)
 {
+    // TODO : Coding style : 3.5 Max 80 char per line
+    // TODO : Coding style : 5.11  cf 5.11 for details
     char *module_name[] = {"Invert", "Exposure", "Saturation", "Contraste", "Shadows",
         "Highlights", "Flip", "Rotation", "Black_and_White"};
 
@@ -308,6 +328,7 @@ char *get_name(int id)
 void print_history(struct history *hist)
 {
     size_t nb_elm = history_length(hist);
+    // TODO : Coding style : 5.21 No space between keyword & parenth (here: for)
     for(size_t i = 0; i <= nb_elm; i++)
     {
         printf("------------------------------- Module %ld\n", i);

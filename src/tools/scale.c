@@ -6,6 +6,7 @@
 
 #include "scale.h"
 
+// TODO : Coding style : 4.5 Fct max 4 arg
 void interpolation(struct Image *src, struct Image *dst, size_t i, size_t j,
         float valx, float valy)
 {
@@ -81,7 +82,9 @@ struct Image *scale_img(struct Image *full_img, size_t width, size_t height)
     float new_height = height;
     float ratio_h = new_height / old_height;
 
+    // TODO : Coding style : 5.1 Initialised at declaration
     float valw;
+    // TODO : Coding style : 5.1 Initialised at declaration
     float valh;
 
     for (size_t i = 0; i < width; i++)

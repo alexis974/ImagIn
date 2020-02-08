@@ -8,6 +8,7 @@ const char *get_filename_ext(const char *filename)
     // Get the last '.' position
     const char *dot = strrchr(filename, '.');
 
+    // TODO : Coding style : 5.21 Space between keyword and parenthesis
     if(!dot || dot == filename)
     {
         return "";
@@ -22,6 +23,7 @@ const char *get_filename_from_path(const char *filename)
     // Get the last '.' position
     const char *dot = strrchr(filename, '/');
 
+    // TODO : Coding style : 5.21 Space between keyword and parenthesis
     if(!dot || dot == filename)
     {
         return "";
@@ -32,6 +34,7 @@ const char *get_filename_from_path(const char *filename)
 
 
 // Input: "AAAA/MM/DD HH/MM/SS"
+// TODO : Coding style : 5.4 '*' with name, not type x3
 void format_datetime(char* input, char* output_date, char* output_time)
 {
     snprintf(output_date, 11, "%s\n",input);
