@@ -104,15 +104,6 @@ int main(void)
     vertical_flip(images->edit);
     write_image("tmp/08_Flip_vertiacl.ppm", images->edit);
 
-    struct Histogram *histogram = compute_histogram(images->edit);
-    for (size_t i = 0; i < 256; i++)
-    {
-        printf("%ld, ", (histogram->red[i] + histogram->green[i] +
-                    histogram->blue[i]) / 3);
-    }
-
-    printf("\nMax value = %ld\n", histo_max_value(histogram));
-
     free_images(images);
 
     printf("See you soon!\n");
