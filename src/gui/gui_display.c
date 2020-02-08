@@ -54,7 +54,7 @@ void reset_modules(struct UI *ui)
     gtk_range_set_value(GTK_RANGE(
                 ui->modules->cont_exp_sat->exposure_scale), 0);
     gtk_range_set_value(GTK_RANGE(
-                ui->modules->cont_exp_sat->saturation_scale), 1);
+                ui->modules->cont_exp_sat->saturation_scale), 0);
     gtk_range_set_value(GTK_RANGE(
                 ui->modules->shadows_highlights->shadows_scale), 0);
     gtk_range_set_value(GTK_RANGE(
