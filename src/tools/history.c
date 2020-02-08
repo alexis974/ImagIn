@@ -185,13 +185,13 @@ void apply_history(struct history *hist, struct Image *img)
         switch (p->id)
         {
             case CONTRASTE:
-                contrast(img, p->value);
+                contrast(img, p->value + 1);
                 break;
             case EXPOSURE:
                 exposure(img, p->value);
                 break;
             case SATURATION:
-                saturation(img, p->value);
+                saturation(img, p->value + 1);
                 break;
             case FLIP:
                 if(p->value == 1)

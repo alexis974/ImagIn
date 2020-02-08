@@ -73,8 +73,8 @@
     </patterns>
   </object>
   <object class="GtkAdjustment" id="saturation_ajust">
-    <property name="upper">2.0099999999999998</property>
-    <property name="value">1</property>
+    <property name="lower">-1</property>
+    <property name="upper">1.01</property>
     <property name="step_increment">0.01</property>
     <property name="page_increment">0.01</property>
     <property name="page_size">0.01</property>
@@ -830,7 +830,7 @@
                                       <object class="GtkLabel">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes">Constraste</property>
+                                        <property name="label" translatable="yes">Contraste</property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -933,6 +933,8 @@
                                         <property name="can_focus">True</property>
                                         <property name="halign">center</property>
                                         <property name="adjustment">saturation_ajust</property>
+					<property name="lower_stepper_sensitivity">off</property>
+                                        <property name="upper_stepper_sensitivity">off</property>
                                         <property name="restrict_to_fill_level">False</property>
                                         <property name="fill_level">0</property>
                                         <property name="round_digits">1</property>
@@ -941,7 +943,7 @@
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
-                                        <property name="fill">False</property>
+                                        <property name="fill">True</property>
                                         <property name="position">1</property>
                                       </packing>
                                     </child>
