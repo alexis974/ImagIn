@@ -1,6 +1,7 @@
 #include <gtk/gtk.h>
 #include <string.h>
 
+// TODO : Coding style : 5.4 '*' with name, not type
 void css_setup(char* filename)
 {
     GtkCssProvider *css_provider = gtk_css_provider_new();
@@ -13,6 +14,7 @@ void css_setup(char* filename)
 void switch_css(GtkWidget *button, gpointer user_data)
 {
     (void) user_data;
+    // TODO : Coding style : 5.4 '*' with name, not type
     const gchar* filename = gtk_menu_item_get_label(GTK_MENU_ITEM(button));
     char path[512]  = "src/data/style/";
     strcat(path, filename);

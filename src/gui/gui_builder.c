@@ -5,6 +5,7 @@
 #include "gui.h"
 #include "gui_style.h"
 
+// TODO : Coding Style : 2.8 Should not use upper case in fct name
 void build_menu_bar_GUI(GtkBuilder *builder, struct UI *ui)
 {
     ui->menu_bar = malloc(sizeof(struct Menu_bar));
@@ -24,6 +25,7 @@ void build_menu_bar_GUI(GtkBuilder *builder, struct UI *ui)
     GDir *dir = g_dir_open("src/data/style", 0, NULL);
     const gchar *file = NULL;
 
+    // TODO : Coding style : 5.21 Space after keyword (here: while)
     while((file = g_dir_read_name(dir)) != NULL)
     {
         GtkWidget *item = gtk_menu_item_new_with_label(file);
@@ -80,6 +82,7 @@ void build_image_info(GtkBuilder *builder, struct UI *ui)
                 builder, "info_shutterspeed"));
 }
 
+// TODO : Coding style : 4.10 Fct max 25 lines
 void build_modules_GUI(GtkBuilder *builder, struct UI *ui)
 {
     ui->modules = malloc(sizeof(struct Modules));
@@ -130,9 +133,11 @@ void build_window_GUI(GtkBuilder *builder, struct UI *ui)
     gtk_window_set_default_size(ui->window, workarea.width, workarea.height);
 }
 
+// TODO : Coding style : 5.4 '*' with name and not type x2
 struct UI* build_GUI(char* glade_file_path)
 {
     GtkBuilder *builder = gtk_builder_new();
+    // TODO : Coding style : 5.4 '*' with name and not type
     GError* error = NULL;
 
     if (gtk_builder_add_from_file(builder, glade_file_path, &error) == 0)

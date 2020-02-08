@@ -14,6 +14,7 @@
 
 #include "../tools/history.h"
 
+// TODO : Coding style : 2.8 Fct name should not use upper case
 int GUI_main(void)
 {
     gtk_init(NULL,NULL);

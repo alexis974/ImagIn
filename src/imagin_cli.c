@@ -23,6 +23,7 @@
 #include "tools/scale.h"
 #include "tools/histogram.h"
 
+// TODO : Coding style : 4.10 Fct max 25 lines
 int main(void)
 {
     // Set error mode to CLI to have error in text format
@@ -34,11 +35,13 @@ int main(void)
     char *xml_path = "samples/Canon_90D_ppm/Canon_90D_03.ppm.xml";
 
 
+// TODO : Coding style : 6.5 Multi-lines comments are /* ** */
 //##############################################################################
 //                               ### IMPORT ###                              ###
 //##############################################################################
 
     /* try to open file to read */
+    // TODO : Coding style : 5.1 Initialized at declaration
     FILE *file;
     if ((file = fopen(xml_path, "r")))
     {
@@ -52,6 +55,7 @@ int main(void)
     }
 
     // Init struct Images
+    // TODO : Coding style : 5.1 Initialized at declaration
     struct Images *images;
     images = malloc(sizeof(struct Images));
 
@@ -69,6 +73,7 @@ int main(void)
     write_image("tmp/Small_image.ppm", images->small);
 
 
+// TODO : Coding style : 6.5 Multi-lines comments are /* ** */
 //##############################################################################
 //                               ### MODULES ###                             ###
 //##############################################################################
