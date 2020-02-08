@@ -20,23 +20,27 @@
 // Return struct Image from an image file and its extension
 struct Image *read_ext(const char *filename, const char *ext)
 {
+    // TODO : Coding style : 5.21 Space after keyword (here: if)
     if(strcmp(ext, "tiff") == 0 || strcmp(ext, "tif") == 0
             || strcmp(ext, "TIFF") == 0 || strcmp(ext, "TIF") == 0)
     {
         return readTIFF(filename);
     }
 
+    // TODO : Coding style : 5.21 Space after keyword (here: if)
     else if(strcmp(ext, "ppm") == 0 || strcmp(ext, "PPM") == 0)
     {
         return readPPM(filename);
     }
 
+    // TODO : Coding style : 5.21 Space after keyword (here: if)
     else if(strcmp(ext, "jpeg") == 0 || strcmp(ext, "jpg") == 0
             || strcmp(ext, "JPEG") == 0 || strcmp(ext, "JPG") == 0)
     {
         return readJPEG(filename);
     }
 
+    // TODO : Coding style : 5.21 Space after keyword (here: if)
     else if(strcmp(ext, "png") == 0 || strcmp(ext, "PNG") == 0)
     {
         return readPNG(filename);

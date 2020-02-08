@@ -9,6 +9,8 @@
 
 #include "../debug/error_handler.h"
 
+// TODO : Coding style : 2.8 Fct name no upper case
+// TODO : Coding style : Fct 25 lines max
 struct Image *readPNG(const char *filename)
 {
     FILE *fp = fopen(filename, "rb");
@@ -88,6 +90,7 @@ struct Image *readPNG(const char *filename)
         png_set_filler(png, 0xFF, PNG_FILLER_AFTER);
     }
 
+    // TODO : Coding style : 5.21 Space after keyword (here: if)
     if(color_type == PNG_COLOR_TYPE_GRAY ||
             color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
     {
@@ -96,9 +99,11 @@ struct Image *readPNG(const char *filename)
 
     png_read_update_info(png, info);
 
+    // TODO : Coding style : Explicite cast ?
     png_bytep *row_pointers = (png_bytep*) malloc(
             sizeof(png_bytep) * img->height);
 
+    // TODO : Coding style : 5.21 Space after keyword (here: if)
     for(size_t y = 0; y < img->height; y++)
     {
         row_pointers[y] = (png_byte*)malloc(png_get_rowbytes(png,info));
@@ -127,9 +132,12 @@ struct Image *readPNG(const char *filename)
     return img;
 }
 
+// TODO : Coding style : 2.8 Fct name no upper case
+// TODO : Coding style : Fct 25 lines max
 void writePNG(const char *filename, struct Image *img)
 {
     FILE *fp = fopen(filename, "wb");
+    // TODO : Coding style : 5.21 Space after keyword (here: if)
     if(!fp)
     {
         throw_error("writePNG", "Could not write file");
@@ -137,6 +145,7 @@ void writePNG(const char *filename, struct Image *img)
         return;
     }
 
+    // TODO : Coding style : 3.5 Max 80 char per line
     png_structp png = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 
     if (!png)

@@ -9,11 +9,17 @@
 
 #include "ppm.h"
 
+// TODO : Coding style : 2.8 Fct name no upper case
+// TODO : Coding style : Fct 25 lines max
 struct Image *readPPM(const char *filename)
 {
+    // TODO : Coding style : 5.1 Initialized at declaration
     char buff[16];
+    // TODO : Coding style : 5.1 Initialized at declaration
     struct Image *img;
+    // TODO : Coding style : 5.1 Initialized at declaration
     FILE *fp;
+    // TODO : Coding style : 5.1 Initialized at declaration
     int c;
 
     // Open PPM file for reading
@@ -88,6 +94,7 @@ struct Image *readPPM(const char *filename)
     // Memory allocation for pixel data
     while (fgetc(fp) != '\n') ;
     img->data =
+        // TODO : Coding style : Explicite cast ?
         (struct Pixel*)malloc(img->width * img->height * sizeof(struct Pixel));
 
     if (!img->data)
@@ -111,8 +118,10 @@ struct Image *readPPM(const char *filename)
     return img;
 }
 
+// TODO : Coding style : 2.8 Fct name no upper case
 void writePPM(const char *filename, struct Image *img)
 {
+    // TODO : Coding style : 5.1 Initialized at declaration
     FILE *fp;
 
     // Open file for output

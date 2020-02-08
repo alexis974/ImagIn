@@ -10,9 +10,12 @@
 
 #include "tiff.h"
 
+// TODO : Coding style : 2.8 Fct name no upper case
+// TODO : Coding style : Fct 25 lines max
 struct Image *readTIFF(const char *filename)
 {
     TIFF *tif=TIFFOpen(filename, "r");
+    // TODO : Coding style : 5.21 Space after keyword (here: if)
     if(!tif)
     {
         throw_error("readTIFF", "Unable to open file");
@@ -20,7 +23,9 @@ struct Image *readTIFF(const char *filename)
         return NULL;
     }
 
+    // TODO : Coding style : 5.1 Initialized at declaration
     uint32 width;
+    // TODO : Coding style : 5.1 Initialized at declaration
     uint32 height;
     TIFFGetField(tif, TIFFTAG_IMAGEWIDTH, &width);
     TIFFGetField(tif, TIFFTAG_IMAGELENGTH, &height);
@@ -33,6 +38,7 @@ struct Image *readTIFF(const char *filename)
         return NULL;
     }
 
+    // TODO : Coding style : 5.21 Space after keyword (here: if)
     if(!TIFFReadRGBAImage(tif, width, height, raster, 0))
     {
         throw_error("readTIFF", "Unable to read image");
@@ -40,6 +46,7 @@ struct Image *readTIFF(const char *filename)
         return NULL;
     }
 
+    // TODO : Coding style : 5.1 Initialized at declaration
     struct Image *img;
 
     // Alloc memory for image
@@ -85,6 +92,8 @@ struct Image *readTIFF(const char *filename)
     return img;
 }
 
+// TODO : Coding style : 2.8 Fct name no upper case
+// TODO : Coding style : Fct 25 lines max
 void writeTIFF(const char *filename, struct Image *img)
 {
     // Creating the file
@@ -139,6 +148,7 @@ void writeTIFF(const char *filename, struct Image *img)
         }
 
         // Writing in image
+        // TODO : Coding style : 5.21 Space after keyword (here: if)
         if(TIFFWriteScanline(out, buffer, j, 0) < 0)
         {
             throw_error("writeTIFF", "Unable to write image.");
