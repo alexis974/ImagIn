@@ -44,7 +44,7 @@ void undo(GtkWidget *widget, gpointer user_data)
     hst_compress(ui->compressed_hist);
 
     reset_modules(ui);
-    reset_widgets(ui->hist, ui);
+    reset_widgets(ui->compressed_hist, ui);
     reload_images(ui);
 }
 
@@ -128,6 +128,43 @@ void apply_module(struct UI *ui, int module_id, float value)
     reload_images(ui);
 }
 
+void compress_history(GtkWidget *button, gpointer user_data)
+{
+    (void) button;
+    struct UI *ui = user_data;
+
+    if (!ui->image_loaded || ui->hist->next ==  NULL)
+        return;
+
+    if (gtk_list_box_get_selected_row(ui->modules->history_list->list))
+    {
+        hst_compress(ui->hist);
+
+        int index = hst_length(ui->hist) - (gtk_list_box_row_get_index(
+            gtk_list_box_get_selected_row(ui->modules->history_list->list)) + 1);
+
+        for (size_t i = 0; i < hst_length(ui->hist) - (index + 1); i++)
+        {
+            gtk_widget_destroy(GTK_WIDGET(gtk_list_box_get_row_at_index(
+                ui->modules->history_list->list,0)));
+        }
+
+        printf("index is %d\n", index);
+        hst_print(ui->hist);
+        hst_truncate(ui->hist, index + 1);
+        printf("\n\n");
+        hst_print(ui->hist);
+
+        hst_free_recursively(ui->compressed_hist);
+        ui->compressed_hist = hst_duplicate(ui->hist);
+        hst_sort(ui->compressed_hist);
+        hst_compress(ui->compressed_hist);
+
+        reset_modules(ui);
+        reset_widgets(ui->compressed_hist, ui);
+        reload_images(ui);
+    }
+}
 // Rotate module callback
 void rotate_left(GtkWidget *button, gpointer user_data)
 {
@@ -430,6 +467,7 @@ void quit(GtkWidget *widget, gpointer user_data)
     }
 
     hst_free_recursively(ui->hist);
+    hst_free_recursively(ui->compressed_hist);
     free(ui);
     gtk_main_quit();
 }

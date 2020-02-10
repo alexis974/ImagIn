@@ -33,6 +33,7 @@ struct Shadows_highlights
 struct History_List
 {
     GtkListBox *list;
+    GtkButton *compress_button;
 };
 
 struct Modules

@@ -101,7 +101,8 @@ void build_modules_GUI(GtkBuilder *builder, struct UI *ui)
     ui->modules->cont_exp_sat->saturation_scale = GTK_SCALE(
             gtk_builder_get_object(builder, "saturation_scale"));
 
-    ui->modules->shadows_highlights = malloc(sizeof(struct Shadows_highlights));
+    ui->modules->shadows_highlights = malloc(sizeof(
+        struct Shadows_highlights));
     ui->modules->shadows_highlights->shadows_scale = GTK_SCALE(
             gtk_builder_get_object(builder, "shadows_scale"));
     ui->modules->shadows_highlights->highlights_scale = GTK_SCALE(
@@ -110,6 +111,8 @@ void build_modules_GUI(GtkBuilder *builder, struct UI *ui)
     ui->modules->history_list = malloc(sizeof(struct History_List));
     ui->modules->history_list->list = GTK_LIST_BOX(
             gtk_builder_get_object(builder, "history_list"));
+    ui->modules->history_list->compress_button = GTK_BUTTON(
+            gtk_builder_get_object(builder, "compress_hist_button"));
 
     ui->modules->bw_switch  = GTK_SWITCH(
             gtk_builder_get_object(builder, "bw_switch"));

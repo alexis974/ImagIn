@@ -279,7 +279,6 @@ void hst_apply_all(struct history *hist, struct Image *img)
 
 void hst_compress(struct history *hist)
 {
-    hst_sort(hist);
     struct history *old = hist;
 
     while (hist->next != NULL)

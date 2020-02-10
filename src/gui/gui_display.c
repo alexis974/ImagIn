@@ -160,6 +160,7 @@ void display_images(struct UI *ui, char* filename)
     {
         free_images(ui->images);
         hst_truncate(ui->hist, 0); //Reset
+        hst_truncate(ui->compressed_hist, 0);
     }
 
     // It is necessary to set image_loaded as false until this function is not finished

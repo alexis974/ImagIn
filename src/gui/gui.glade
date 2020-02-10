@@ -283,27 +283,56 @@
                             <property name="can_focus">True</property>
                             <property name="expanded">True</property>
                             <child>
-                              <object class="GtkScrolledWindow">
-                                <property name="name">history_scroll_window</property>
+                              <object class="GtkBox">
                                 <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="hscrollbar_policy">never</property>
-                                <property name="vscrollbar_policy">external</property>
-                                <property name="max_content_height">270</property>
-                                <property name="propagate_natural_height">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="orientation">vertical</property>
                                 <child>
-                                  <object class="GtkViewport">
-                                    <property name="name">history_viewport</property>
+                                  <object class="GtkScrolledWindow">
+                                    <property name="name">history_scroll_window</property>
                                     <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="hscrollbar_policy">never</property>
+                                    <property name="vscrollbar_policy">external</property>
+                                    <property name="max_content_height">270</property>
+                                    <property name="propagate_natural_height">True</property>
                                     <child>
-                                      <object class="GtkListBox" id="history_list">
-                                        <property name="name">history_list</property>
+                                      <object class="GtkViewport">
+                                        <property name="name">history_viewport</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
+                                        <child>
+                                          <object class="GtkListBox" id="history_list">
+                                            <property name="name">history_list</property>
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                          </object>
+                                        </child>
                                       </object>
                                     </child>
                                   </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkButton" id="compress_hist_button">
+                                    <property name="label" translatable="yes">Compress history</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">True</property>
+                                    <property name="margin_left">10</property>
+                                    <property name="margin_right">10</property>
+                                    <property name="margin_top">3</property>
+                                    <property name="margin_bottom">3</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
                                 </child>
                               </object>
                             </child>
@@ -933,7 +962,7 @@
                                         <property name="can_focus">True</property>
                                         <property name="halign">center</property>
                                         <property name="adjustment">saturation_ajust</property>
-					<property name="lower_stepper_sensitivity">off</property>
+                                        <property name="lower_stepper_sensitivity">off</property>
                                         <property name="upper_stepper_sensitivity">off</property>
                                         <property name="restrict_to_fill_level">False</property>
                                         <property name="fill_level">0</property>
