@@ -123,7 +123,7 @@ void reload_images(struct UI *ui)
     }
 
     copy_img(ui->images->scale, ui->images->edit);
-    apply_history(ui->compressed_hist, ui->images->edit);
+    hst_apply_all(ui->compressed_hist, ui->images->edit);
     ui->images->small = get_small(ui->images->edit);
 
     // Middle image
@@ -159,7 +159,7 @@ void display_images(struct UI *ui, char* filename)
     if (ui->image_loaded)
     {
         free_images(ui->images);
-        truncate_history(ui->hist, 0); //Reset
+        hst_truncate(ui->hist, 0); //Reset
     }
 
     // It is necessary to set image_loaded as false until this function is not finished

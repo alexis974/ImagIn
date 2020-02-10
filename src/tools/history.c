@@ -16,15 +16,15 @@
 #include "../modules/black_and_white.h"
 #include "../modules/invert.h"
 
-struct history *new_history(void)
+struct history *hst_new(void)
 {
     struct history *hist = malloc(sizeof(struct history));
-    init_history(hist);
+    hst_init(hist);
 
     return hist;
 }
 
-void init_history(struct history *hist)
+void hst_init(struct history *hist)
 {
     hist->id = -1;
     hist->enable = 0;
@@ -32,12 +32,12 @@ void init_history(struct history *hist)
     hist->next = NULL;
 }
 
-int history_is_empty(struct history *hist)
+int hst_is_empty(struct history *hist)
 {
     return (hist->next) ?  0 : 1;
 }
 
-size_t history_length(struct history *hist)
+size_t hst_length(struct history *hist)
 {
     size_t counter = 0;
 
@@ -50,8 +50,26 @@ size_t history_length(struct history *hist)
     return counter;
 }
 
+
+//Not counting adjacent modules with same id
+size_t hst_compressed_length(struct history *hist)
+{
+    size_t counter = 0;
+
+    while (hist->next)
+    {
+        counter++;
+        hist = hist->next;
+
+        while (hist->next && hist->id == hist->next->id)
+            hist = hist->next;
+    }
+
+    return counter;
+}
+
 // Returns 1 if new module is different from last one
-int history_append(struct history *hist, int module_id,
+int hst_append(struct history *hist, int module_id,
         int enable, float value)
 {
     struct history *new = malloc(sizeof(struct history));
@@ -73,7 +91,7 @@ int history_append(struct history *hist, int module_id,
 }
 
 // Returns 1 if we last module is different than the module before
-int history_pop(struct history *hist)
+int hst_pop(struct history *hist)
 {
     if(!hist->next)
     {
@@ -97,7 +115,7 @@ int history_pop(struct history *hist)
 void hst_insert_sort(struct history *hist, int module_id,
         int enable, float value)
 {
-    //print_history(hist);
+    //hst_print(hist);
     while (hist->next && module_id > hist->id)
     {
         hist = hist->next;
@@ -136,7 +154,7 @@ void swap_module(struct history *elm1, struct history *elm2)
 
 
 // Sorting the history using the buublesort algorithm
-void history_sort(struct history *hist)
+void hst_sort(struct history *hist)
 {
     if (hist == NULL)
     {
@@ -167,8 +185,8 @@ void history_sort(struct history *hist)
 void reset_widgets(struct history *hist, struct UI *ui)
 {
     ui->can_modify = FALSE;
-    struct history *compressed = duplicate_history(hist);
-    compress_history(compressed);
+    struct history *compressed = hst_duplicate(hist);
+    hst_compress(compressed);
     for (struct history *p = compressed->next; p != NULL; p=p->next)
     {
         switch (p->id)
@@ -208,11 +226,11 @@ void reset_widgets(struct history *hist, struct UI *ui)
         }
     }
     ui->can_modify = TRUE;
-    free_recursively(compressed);
+    hst_free_recursively(compressed);
 }
 
 // Applies a history (should be compressed before)
-void apply_history(struct history *hist, struct Image *img)
+void hst_apply_all(struct history *hist, struct Image *img)
 {
     for (struct history *p = hist->next; p != NULL; p=p->next)
     {
@@ -259,9 +277,9 @@ void apply_history(struct history *hist, struct Image *img)
     }
 }
 
-void compress_history(struct history *hist)
+void hst_compress(struct history *hist)
 {
-    history_sort(hist);
+    hst_sort(hist);
     struct history *old = hist;
 
     while (hist->next != NULL)
@@ -280,14 +298,14 @@ void compress_history(struct history *hist)
     }
 }
 
-void truncate_history(struct history *hist, size_t index)
+void hst_truncate(struct history *hist, size_t index)
 {
     for (size_t count = 0; count < index; count++)
     {
         hist = hist->next;
     }
 
-    free_recursively(hist->next);
+    hst_free_recursively(hist->next);
     hist->next = NULL;
 }
 
@@ -296,23 +314,23 @@ void truncate_history(struct history *hist, size_t index)
  **  Do not use it with hist->next as arguments
  **  because next pointer cannot be set to NULL
  */
-void free_recursively(struct history *hist)
+void hst_free_recursively(struct history *hist)
 {
     if(!hist)
     {
         return;
     }
 
-    free_recursively(hist->next);
+    hst_free_recursively(hist->next);
     free(hist);
 }
 
-struct history *duplicate_history(struct history *hist)
+struct history *hst_duplicate(struct history *hist)
 {
     struct history *new = malloc(sizeof(struct history));
     struct history *new_hist = new;
 
-    init_history(new);
+    hst_init(new);
     hist = hist->next;
 
     while(hist)
@@ -337,9 +355,9 @@ char *get_name(int id)
     return id < 0 ? "NULL" : module_name[id];
 }
 
-void print_history(struct history *hist)
+void hst_print(struct history *hist)
 {
-    size_t nb_elm = history_length(hist);
+    size_t nb_elm = hst_length(hist);
     for(size_t i = 0; i <= nb_elm; i++)
     {
         printf("------------------------------- Module %ld\n", i);
