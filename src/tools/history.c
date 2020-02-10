@@ -50,7 +50,8 @@ size_t history_length(struct history *hist)
     return counter;
 }
 
-void history_append(struct history *hist, int module_id,
+// Returns 1 if new module is different from last one
+int history_append(struct history *hist, int module_id,
         int enable, float value)
 {
     struct history *new = malloc(sizeof(struct history));
@@ -65,13 +66,18 @@ void history_append(struct history *hist, int module_id,
     }
 
     hist->next = new;
+
+    if (hist->id == module_id)
+        return 0;
+    return 1;
 }
 
-void history_pop(struct history *hist)
+// Returns 1 if we last module is different than the module before
+int history_pop(struct history *hist)
 {
     if(!hist->next)
     {
-        return;
+        return 1;
     }
 
     while(hist->next->next)
@@ -79,8 +85,38 @@ void history_pop(struct history *hist)
         hist = hist->next;
     }
 
+    int return_value = hist->id != hist->next->id;
+
     free(hist->next);
     hist->next = NULL;
+
+    return return_value;
+}
+
+// Inserts or changes value in a sorted chained list
+void hst_insert_sort(struct history *hist, int module_id,
+        int enable, float value)
+{
+    //print_history(hist);
+    while (hist->next && module_id > hist->id)
+    {
+        hist = hist->next;
+    }
+
+    if (hist->id == module_id)
+    {
+        hist->value = value;
+        hist->enable = enable;
+        return;
+    }
+
+    struct history *new = malloc(sizeof(struct history));
+    new->id = module_id;
+    new->enable = enable;
+    new->value = value;
+
+    new->next = hist->next;
+    hist->next = new;
 }
 
 void swap_module(struct history *elm1, struct history *elm2)
@@ -175,12 +211,10 @@ void reset_widgets(struct history *hist, struct UI *ui)
     free_recursively(compressed);
 }
 
-
+// Applies a history (should be compressed before)
 void apply_history(struct history *hist, struct Image *img)
 {
-    struct history *compressed = duplicate_history(hist);
-    compress_history(compressed);
-    for (struct history *p = compressed->next; p != NULL; p=p->next)
+    for (struct history *p = hist->next; p != NULL; p=p->next)
     {
         switch (p->id)
         {
@@ -223,8 +257,6 @@ void apply_history(struct history *hist, struct Image *img)
                 break;
         }
     }
-
-    free_recursively(compressed);
 }
 
 void compress_history(struct history *hist)

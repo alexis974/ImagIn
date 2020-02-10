@@ -123,7 +123,7 @@ void reload_images(struct UI *ui)
     }
 
     copy_img(ui->images->scale, ui->images->edit);
-    apply_history(ui->hist, ui->images->edit);
+    apply_history(ui->compressed_hist, ui->images->edit);
     ui->images->small = get_small(ui->images->edit);
 
     // Middle image

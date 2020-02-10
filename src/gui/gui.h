@@ -80,6 +80,7 @@ struct UI
     struct Images *images;
     struct ImageInfo *image_info;
     struct history *hist;
+    struct history *compressed_hist;
     gboolean image_loaded;
     gboolean can_modify;
 };

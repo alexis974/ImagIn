@@ -26,6 +26,7 @@ int GUI_main(void)
     }
 
     ui->hist = new_history();
+    ui->compressed_hist = new_history();
 
     css_setup("src/data/style/imagin_default.css");
     reset_modules(ui);

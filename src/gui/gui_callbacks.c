@@ -32,9 +32,17 @@ void undo(GtkWidget *widget, gpointer user_data)
     {
         return;
     }
-    gtk_widget_destroy(GTK_WIDGET(gtk_list_box_get_row_at_index (
+
+    int delete = history_pop(ui->hist);
+    if (delete)
+        gtk_widget_destroy(GTK_WIDGET(gtk_list_box_get_row_at_index(
             ui->modules->history_list->list,0)));
-    history_pop(ui->hist);
+
+    //Update compressed hist
+    free_recursively(ui->compressed_hist);
+    ui->compressed_hist = duplicate_history(ui->hist);
+    compress_history(ui->compressed_hist);
+
     reset_modules(ui);
     reset_widgets(ui->hist, ui);
     reload_images(ui);
@@ -93,7 +101,7 @@ void add_module_to_list(struct UI*ui, int module_id)
         if (strcmp(gtk_widget_get_name(l->data), "hist_index") == 0)
         {
             char index[3];
-            sprintf(index, "%zu", history_length(ui->hist));
+            sprintf(index, "%zu", history_length(ui->compressed_hist));
             gtk_label_set_text(GTK_LABEL(l->data), index);
         }
         else
@@ -107,12 +115,16 @@ void add_module_to_list(struct UI*ui, int module_id)
 
     g_object_unref(builder);
 }
+
 void apply_module(struct UI *ui, int module_id, float value)
 {
     if(!ui->can_modify)
         return;
-    add_module_to_list(ui, module_id);
-    history_append(ui->hist, module_id, 1,value);
+    int add = history_append(ui->hist, module_id, 1,value);
+    hst_insert_sort(ui->compressed_hist, module_id, 1,value);
+    if (add)
+        add_module_to_list(ui, module_id);
+
     reload_images(ui);
 }
 
@@ -369,7 +381,7 @@ void export_at(struct UI *ui, char* filename)
         exported->width * exported->height);
 
     copy_img(ui->images->full, exported);
-    apply_history(ui->hist, exported);
+    apply_history(ui->compressed_hist, exported);
     write_image(filename, exported);
     free_image(exported);
 }

@@ -34,10 +34,13 @@ int history_is_empty(struct history *hist);
 
 size_t history_length(struct history *hist);
 
-void history_append(struct history *hist, int module_id,
+int history_append(struct history *hist, int module_id,
         int enable, float value);
 
-void history_pop(struct history *hist);
+int history_pop(struct history *hist);
+
+void hst_insert_sort(struct history *hist, int module_id,
+        int enable, float value);
 
 void swap_module(struct history *elm1, struct history *elm2);
 
