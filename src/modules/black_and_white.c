@@ -13,11 +13,8 @@ void simple_BW(struct Image *img)
         errx(1, "simple_BW: No image found");
     }
 
-    // TODO : Coding style : 5.1 Initialized at declaration
     size_t i;
-    // TODO : Coding style : 5.1 Initialized at declaration
     size_t sum;
-    // TODO : Coding style : 5.1 Initialized at declaration
     unsigned char tmp;
 
     for (i = 0; i < img->width * img->height; i++)

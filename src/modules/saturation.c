@@ -20,13 +20,9 @@ float getmax(float x, float y)
 // TODO : Coding style : 4.10 Fct max 25 lines
 struct PixelHSL RGBtoHSL(struct Pixel pxl, float bd)
 {
-    // TODO : Coding style : 5.1 Initialized at declaration
     struct PixelHSL newpxl;
-    // TODO : Coding style : 5.1 Initialized at declaration
     float h;
-    // TODO : Coding style : 5.1 Initialized at declaration
     float s;
-    // TODO : Coding style : 5.1 Initialized at declaration
     float l;
 
     float r = pxl.red / bd;
@@ -74,13 +70,9 @@ struct PixelHSL RGBtoHSL(struct Pixel pxl, float bd)
 // TODO : Coding style : 4.10 Fct max 25 lines
 struct Pixel HSLtoRGB(struct PixelHSL pxl, float bd)
 {
-    // TODO : Coding style : 5.1 Initialized at declaration
     struct Pixel newpxl;
-    // TODO : Coding style : 5.1 Initialized at declaration
     float r;
-    // TODO : Coding style : 5.1 Initialized at declaration
     float g;
-    // TODO : Coding style : 5.1 Initialized at declaration
     float b;
 
     float h = (pxl.h % 260) / 360.0;
@@ -151,9 +143,11 @@ struct Pixel HSLtoRGB(struct PixelHSL pxl, float bd)
     newpxl.red = (int)(r * bd);
     newpxl.green = (int)(g * bd);
     newpxl.blue = (int)(b * bd);
+
     return newpxl;
 }
 
+// TODO : Coding style : Explicit cast
 void saturation(struct Image *img, float change)
 {
     if (!img)
@@ -168,11 +162,8 @@ void saturation(struct Image *img, float change)
     else if (change > 1)
         change = 1;
 
-    // TODO : Coding style : 5.1 Initialized at declaration
     struct PixelHSL pxlhsl;
-    // TODO : Coding style : 5.1 Initialized at declaration
     float gray_fact;
-    // TODO : Coding style : 5.1 Initialized at declaration
     float var_delta;
     for (size_t i = 0; i < img->width * img->height; i++)
     {
