@@ -71,14 +71,12 @@ void history_append(struct history *hist, int module_id,
 
 void history_pop(struct history *hist)
 {
-    // TODO : Coding style : 5.21 No space between keyword & parenth (here: if)
-    if(!hist->next)
+    if (!hist->next)
     {
         return;
     }
 
-    // TODO : Coding style : 5.21 No space between keywrd & parnth (here: while)
-    while(hist->next->next)
+    while (hist->next->next)
     {
         hist = hist->next;
     }
@@ -119,8 +117,7 @@ void history_sort(struct history *hist)
         is_sorted = 1;
         hist = copy;
 
-        // TODO : Coding style : 5.21 No space betwn kywrd & prthe (here: while)
-        while(hist->next != NULL)
+        while (hist->next != NULL)
         {
             if(hist->id > hist->next->id)
             {
@@ -141,48 +138,42 @@ void reset_widgets(struct history *hist, struct UI *ui)
     compress_history(compressed);
     for (struct history *p = compressed->next; p != NULL; p=p->next)
     {
-        // TODO : Coding style : 5.19 No space between fct name &parenth
         switch (p->id)
         {
-            case CONTRASTE:
-                gtk_range_set_value(GTK_RANGE(
-                            // TODO : Coding style : 3.5 Max 80 char per line
-                            ui->modules->cont_exp_sat->contraste_scale), p->value);
-                break;
-            case EXPOSURE:
-                gtk_range_set_value(GTK_RANGE(
-                            // TODO : Coding style : 3.5 Max 80 char per line
-                            ui->modules->cont_exp_sat->exposure_scale), p->value);
-                break;
-            case SATURATION:
-                gtk_range_set_value(GTK_RANGE(
-                            // TODO : Coding style : 3.5 Max 80 char per line
-                            ui->modules->cont_exp_sat->saturation_scale), p->value);
-                break;
-            case SHADOWS:
-                gtk_range_set_value(GTK_RANGE(
-                            // TODO : Coding style : 3.5 Max 80 char per line
-                            ui->modules->shadows_highlights->shadows_scale), p->value);
-                break;
-            case HIGHLIGHTS:
-                gtk_range_set_value(GTK_RANGE(
-                            // TODO : Coding style : 3.5 Max 80 char per line
-                            ui->modules->shadows_highlights->highlights_scale), p->value);
-                break;
-            case FLIP:
-                gtk_combo_box_set_active(GTK_COMBO_BOX(
-                            ui->modules->orientation->flip_box), p->value);
-                break;
-            case BW:
-                // TODO : Coding style : 5.19 No space between fct name &parenth
-                gtk_switch_set_state (ui->modules->bw_switch, p->value);
-                break;
-            case INVERT:
-                // TODO : Coding style : 5.19 No space between fct name &parenth
-                gtk_switch_set_state (ui->modules->invert_switch, p->value);
-                break;
-            default:
-                break;
+        case CONTRASTE:
+            gtk_range_set_value(GTK_RANGE(
+                    ui->modules->cont_exp_sat->contraste_scale), p->value);
+            break;
+        case EXPOSURE:
+            gtk_range_set_value(GTK_RANGE(
+                    ui->modules->cont_exp_sat->exposure_scale), p->value);
+            break;
+        case SATURATION:
+            gtk_range_set_value(GTK_RANGE(
+                    ui->modules->cont_exp_sat->saturation_scale), p->value);
+            break;
+        case SHADOWS:
+            // TODO : Coding style : 3.5 Max 80 char per line
+            gtk_range_set_value(GTK_RANGE(
+                    ui->modules->shadows_highlights->shadows_scale), p->value);
+            break;
+        case HIGHLIGHTS:
+            // TODO : Coding style : 3.5 Max 80 char per line
+            gtk_range_set_value(GTK_RANGE(
+                    ui->modules->shadows_highlights->highlights_scale), p->value);
+            break;
+        case FLIP:
+            gtk_combo_box_set_active(GTK_COMBO_BOX(
+                    ui->modules->orientation->flip_box), p->value);
+            break;
+        case BW:
+            gtk_switch_set_state(ui->modules->bw_switch, p->value);
+            break;
+        case INVERT:
+            gtk_switch_set_state(ui->modules->invert_switch, p->value);
+            break;
+        default:
+            break;
         }
     }
     ui->can_modify = TRUE;
@@ -197,46 +188,45 @@ void apply_history(struct history *hist, struct Image *img)
     compress_history(compressed);
     for (struct history *p = compressed->next; p != NULL; p=p->next)
     {
-        // TODO : Coding style : 5.20 Cases same column as { under switch
         switch (p->id)
         {
-            case CONTRASTE:
-                contrast(img, p->value);
-                break;
-            case EXPOSURE:
-                exposure(img, p->value);
-                break;
-            case SATURATION:
-                saturation(img, p->value);
-                break;
-            case FLIP:
-                if(p->value == 1)
-                {
-                    vertical_flip(img);
-                }
-                else if(p->value ==  2)
-                {
-                    horizontal_flip(img);
-                }
-                else if(p->value == 3)
-                {
-                    flip_both_axis(img);
-                }
-                break;
-            case BW:
-                if(p->value)
-                {
-                    simple_BW(img);
-                }
-                break;
-            case INVERT:
-                if(p->value)
-                {
-                    invert(img);
-                }
-                break;
-            default:
-                break;
+        case CONTRASTE:
+            contrast(img, p->value);
+            break;
+        case EXPOSURE:
+            exposure(img, p->value);
+            break;
+        case SATURATION:
+            saturation(img, p->value);
+            break;
+        case FLIP:
+            if(p->value == 1)
+            {
+                vertical_flip(img);
+            }
+            else if(p->value ==  2)
+            {
+                horizontal_flip(img);
+            }
+            else if(p->value == 3)
+            {
+                flip_both_axis(img);
+            }
+            break;
+        case BW:
+            if(p->value)
+            {
+                simple_BW(img);
+            }
+            break;
+        case INVERT:
+            if(p->value)
+            {
+                invert(img);
+            }
+            break;
+        default:
+            break;
         }
     }
 
@@ -282,8 +272,7 @@ void truncate_history(struct history *hist, size_t index)
  */
 void free_recursively(struct history *hist)
 {
-    // TODO : Coding style : 5.21 No space between keyword & parenth (here: if)
-    if(!hist)
+    if (!hist)
     {
         return;
     }
@@ -300,8 +289,7 @@ struct history *duplicate_history(struct history *hist)
     init_history(new);
     hist = hist->next;
 
-    // TODO : Coding style : 5.21 No space between keywrd & parnth (here: while)
-    while(hist)
+    while (hist)
     {
         new->next = malloc(sizeof(struct history));
         new->next->id = hist->id;
@@ -317,10 +305,9 @@ struct history *duplicate_history(struct history *hist)
 
 char *get_name(int id)
 {
-    // TODO : Coding style : 3.5 Max 80 char per line
     // TODO : Coding style : 5.11  cf 5.11 for details
-    char *module_name[] = {"Invert", "Exposure", "Saturation", "Contraste", "Shadows",
-        "Highlights", "Flip", "Rotation", "Black_and_White"};
+    char *module_name[] = {"Invert", "Exposure", "Saturation", "Contraste",
+        "Shadows", "Highlights", "Flip", "Rotation", "Black_and_White"};
 
     return id < 0 ? "NULL" : module_name[id];
 }
@@ -328,8 +315,7 @@ char *get_name(int id)
 void print_history(struct history *hist)
 {
     size_t nb_elm = history_length(hist);
-    // TODO : Coding style : 5.21 No space between keyword & parenth (here: for)
-    for(size_t i = 0; i <= nb_elm; i++)
+    for (size_t i = 0; i <= nb_elm; i++)
     {
         printf("------------------------------- Module %ld\n", i);
         printf("name: %s\n", get_name(hist->id));

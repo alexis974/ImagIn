@@ -82,9 +82,7 @@ struct Image *scale_img(struct Image *full_img, size_t width, size_t height)
     float new_height = height;
     float ratio_h = new_height / old_height;
 
-    // TODO : Coding style : 5.1 Initialised at declaration
     float valw;
-    // TODO : Coding style : 5.1 Initialised at declaration
     float valh;
 
     for (size_t i = 0; i < width; i++)
