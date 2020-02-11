@@ -10,6 +10,8 @@
 
 #include "tiff.h"
 
+// TODO : Coding style : 2.8 Fct name no upper case
+// TODO : Coding style : Fct 25 lines max
 struct Image *readTIFF(const char *filename)
 {
     TIFF *tif=TIFFOpen(filename, "r");
@@ -85,6 +87,8 @@ struct Image *readTIFF(const char *filename)
     return img;
 }
 
+// TODO : Coding style : 2.8 Fct name no upper case
+// TODO : Coding style : Fct 25 lines max
 void writeTIFF(const char *filename, struct Image *img)
 {
     // Creating the file
@@ -152,5 +156,6 @@ void writeTIFF(const char *filename, struct Image *img)
     {
         _TIFFfree(buffer);
     }
+
     printf("TIFF Image saved!\n");
 }

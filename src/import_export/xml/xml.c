@@ -6,6 +6,7 @@
 
 #include "xml.h"
 
+// TODO : Coding style : Fct 25 lines max
 void create_xmp(const char *uri)
 {
     int rc;

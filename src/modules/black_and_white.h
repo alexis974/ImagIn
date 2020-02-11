@@ -3,4 +3,4 @@
 
 void simple_BW(struct Image *img);
 
-#endif
+#endif /* ! BLACK_AND_WHITE_H */

@@ -21,11 +21,9 @@
 
 void reset_history_list(struct UI *ui)
 {
-    GList *children, *iter;
-
-    children = gtk_container_get_children(
+    GList *children = gtk_container_get_children(
             GTK_CONTAINER(ui->modules->history_list->list));
-    for(iter = children; iter != NULL; iter = g_list_next(iter))
+    for (GList *iter = children; iter != NULL; iter = g_list_next(iter))
     {
         gtk_widget_destroy(GTK_WIDGET(iter->data));
     }
@@ -153,7 +151,8 @@ void reload_images(struct UI *ui)
     g_object_unref(pix_buffer_small);
 }
 
-void display_images(struct UI *ui, char* filename)
+// TODO : Coding style : 4.10 Fct max 25 lines
+void display_images(struct UI *ui, char *filename)
 {
     // Free memory before reimporting
     if (ui->image_loaded)
@@ -163,7 +162,10 @@ void display_images(struct UI *ui, char* filename)
         hst_truncate(ui->compressed_hist, 0);
     }
 
-    // It is necessary to set image_loaded as false until this function is not finished
+    /*
+    ** It is necessary to set image_loaded as false until this function
+    ** is not finished
+    */
     ui->image_loaded = FALSE;
     reset_history_list(ui);
     reset_image_info(ui);

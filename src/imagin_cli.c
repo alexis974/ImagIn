@@ -23,9 +23,11 @@
 #include "tools/scale.h"
 #include "tools/histogram.h"
 
+// TODO : Coding style : 4.10 Fct max 25 lines
 int main(void)
 {
     // Set error mode to CLI to have error in text format
+    // TODO : Coding style : 2.5 typedef ?
     g_cli_mode = FALSE;
 
     // Define paths
@@ -33,9 +35,7 @@ int main(void)
     char *xml_path = "samples/Canon_90D_ppm/Canon_90D_03.ppm.xml";
 
 
-//##############################################################################
-//                               ### IMPORT ###                              ###
-//##############################################################################
+//################################################################### IMPORT ###
 
     /* try to open file to read */
     FILE *file;
@@ -51,8 +51,7 @@ int main(void)
     }
 
     // Init struct Images
-    struct Images *images;
-    images = malloc(sizeof(struct Images));
+    struct Images *images = malloc(sizeof(struct Images));
 
     // Store all the pixel of the image
     images = read_image(img_path);
@@ -68,9 +67,7 @@ int main(void)
     write_image("tmp/Small_image.ppm", images->small);
 
 
-//##############################################################################
-//                               ### MODULES ###                             ###
-//##############################################################################
+//################################################################## MODULES ###
 
     //Modify saturation
     saturation(images->edit, 2);
@@ -104,6 +101,13 @@ int main(void)
     vertical_flip(images->edit);
     write_image("tmp/08_Flip_vertiacl.ppm", images->edit);
 
+<<<<<<< HEAD
+=======
+    struct Histogram *histogram = compute_histogram(images->edit);
+
+    printf("\nMax value = %ld\n", histo_max_value(histogram));
+
+>>>>>>> Coding_style
     free_images(images);
 
     printf("See you soon!\n");

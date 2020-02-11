@@ -19,7 +19,7 @@
 
 #include "../tools/history.h"
 
-
+// TODO : Coding style : 4.2 Max 10 fct
 /*##############################################################################
 ** INPUT
 */
@@ -100,7 +100,7 @@ void add_module_to_list(struct UI*ui, int module_id)
     {
         if (strcmp(gtk_widget_get_name(l->data), "hist_index") == 0)
         {
-            char index[3];
+            char index[3] = {0};
             sprintf(index, "%zu", hst_compressed_length(ui->hist));
             gtk_label_set_text(GTK_LABEL(l->data), index);
         }
@@ -119,7 +119,10 @@ void add_module_to_list(struct UI*ui, int module_id)
 void apply_module(struct UI *ui, int module_id, float value)
 {
     if (!ui->can_modify)
+    {
         return;
+    }
+
     int add = hst_append(ui->hist, module_id, 1,value);
     hst_insert_sort(ui->compressed_hist, module_id, 1,value);
     if (add)
@@ -216,6 +219,8 @@ void flip_changed(GtkComboBox *box, gpointer user_data)
         break;
     case 3:
         apply_module(ui, FLIP, 3);
+        break;
+    default:
         break;
     }
 }
@@ -340,7 +345,7 @@ gboolean bw_changed(GtkSwitch *widget, gboolean state, gpointer user_data)
     return FALSE;
 }
 
-// Black and white
+// Invert
 gboolean invert_changed(GtkSwitch *widget, gboolean state, gpointer user_data)
 {
     (void) widget;
@@ -388,21 +393,20 @@ void open_file_chooser(GtkWidget *widget, gpointer user_data)
             ("Cancel"), GTK_RESPONSE_CANCEL,
             ("Open"), GTK_RESPONSE_ACCEPT, NULL);
 
-    gint res = gtk_dialog_run (GTK_DIALOG (dialog));
+    gint res = gtk_dialog_run (GTK_DIALOG(dialog));
 
     if (res == GTK_RESPONSE_ACCEPT)
     {
-        char *filename;
-        GtkFileChooser *chooser = GTK_FILE_CHOOSER (dialog);
-        filename = gtk_file_chooser_get_filename (chooser);
+        GtkFileChooser *chooser = GTK_FILE_CHOOSER(dialog);
+        char *filename = gtk_file_chooser_get_filename(chooser);
         display_images(ui, filename);
         g_free (filename);
     }
 
-    gtk_widget_destroy (dialog);
+    gtk_widget_destroy(dialog);
 }
 
-void export_at(struct UI *ui, char* filename)
+void export_at(struct UI *ui, char *filename)
 {
     struct Image *exported = malloc(sizeof(struct Image));
 
@@ -422,8 +426,12 @@ void open_export_as_window(GtkWidget *widget, gpointer user_data)
 {
     (void) widget;
     struct UI *ui = user_data;
+
     if (!ui->image_loaded)
+    {
         return;
+    }
+
     GtkWidget *dialog = gtk_file_chooser_dialog_new("Save Result",
             GTK_WINDOW(ui->window),
             GTK_FILE_CHOOSER_ACTION_SAVE, "Cancel",

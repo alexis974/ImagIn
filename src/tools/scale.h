@@ -3,4 +3,4 @@
 
 struct Image *scale_img(struct Image *full_img, size_t width, size_t height);
 
-#endif
+#endif /* ! SCALE_H */

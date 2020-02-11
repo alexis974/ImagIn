@@ -14,11 +14,11 @@
 
 #include "../tools/history.h"
 
-int GUI_main(void)
+int gui_main(void)
 {
     gtk_init(NULL,NULL);
 
-    struct UI *ui = build_GUI("src/gui/gui.glade");
+    struct UI *ui = build_gui("src/gui/gui.glade");
 
     if (!ui)
     {

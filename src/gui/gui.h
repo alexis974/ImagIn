@@ -86,6 +86,6 @@ struct UI
     gboolean can_modify;
 };
 
-int GUI_main(void);
+int gui_main(void);
 
-#endif
+#endif /* ! UI_H */

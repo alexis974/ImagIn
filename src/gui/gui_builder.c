@@ -5,7 +5,7 @@
 #include "gui.h"
 #include "gui_style.h"
 
-void build_menu_bar_GUI(GtkBuilder *builder, struct UI *ui)
+void build_menu_bar_gui(GtkBuilder *builder, struct UI *ui)
 {
     ui->menu_bar = malloc(sizeof(struct Menu_bar));
     ui->menu_bar->open_button = GTK_MENU_ITEM(gtk_builder_get_object(
@@ -24,7 +24,7 @@ void build_menu_bar_GUI(GtkBuilder *builder, struct UI *ui)
     GDir *dir = g_dir_open("src/data/style", 0, NULL);
     const gchar *file = NULL;
 
-    while((file = g_dir_read_name(dir)) != NULL)
+    while ((file = g_dir_read_name(dir)) != NULL)
     {
         GtkWidget *item = gtk_menu_item_new_with_label(file);
         gtk_menu_shell_append(GTK_MENU_SHELL(preferences_menu), item);
@@ -35,14 +35,14 @@ void build_menu_bar_GUI(GtkBuilder *builder, struct UI *ui)
     g_dir_close(dir);
 }
 
-void build_bottom_bar_GUI(GtkBuilder *builder, struct UI *ui)
+void build_bottom_bar_gui(GtkBuilder *builder, struct UI *ui)
 {
     ui->bottom_bar = malloc(sizeof(struct Bottom_bar));
     ui->bottom_bar->filename_label = GTK_LABEL(gtk_builder_get_object(
                 builder, "image_filename"));
 }
 
-void build_display_GUI(GtkBuilder *builder, struct UI *ui)
+void build_display_gui(GtkBuilder *builder, struct UI *ui)
 {
     ui->display = malloc(sizeof(struct Display));
     ui->display->display_image = GTK_IMAGE(gtk_builder_get_object(
@@ -80,7 +80,7 @@ void build_image_info(GtkBuilder *builder, struct UI *ui)
                 builder, "info_shutterspeed"));
 }
 
-void build_modules_GUI(GtkBuilder *builder, struct UI *ui)
+void build_modules_gui(GtkBuilder *builder, struct UI *ui)
 {
     ui->modules = malloc(sizeof(struct Modules));
     ui->modules->orientation = malloc(sizeof(struct Orientation));
@@ -120,23 +120,23 @@ void build_modules_GUI(GtkBuilder *builder, struct UI *ui)
             gtk_builder_get_object(builder, "invert_switch"));
 }
 
-void build_window_GUI(GtkBuilder *builder, struct UI *ui)
+void build_window_gui(GtkBuilder *builder, struct UI *ui)
 {
     ui->window = GTK_WINDOW(gtk_builder_get_object(builder, "main_window"));
 
-    //Get monitor size
+    // Get monitor size
     GdkRectangle workarea = {0};
     gdk_monitor_get_workarea(gdk_display_get_primary_monitor(
                 gdk_display_get_default()), &workarea);
 
-    //Set to full size
+    // Set to full size
     gtk_window_set_default_size(ui->window, workarea.width, workarea.height);
 }
 
-struct UI* build_GUI(char* glade_file_path)
+struct UI *build_gui(char *glade_file_path)
 {
     GtkBuilder *builder = gtk_builder_new();
-    GError* error = NULL;
+    GError *error = NULL;
 
     if (gtk_builder_add_from_file(builder, glade_file_path, &error) == 0)
     {
@@ -148,11 +148,11 @@ struct UI* build_GUI(char* glade_file_path)
     struct UI *ui = malloc(sizeof(struct UI));
     ui->image_loaded = FALSE;
     ui->can_modify = TRUE;
-    build_window_GUI(builder, ui);
-    build_menu_bar_GUI(builder, ui);
-    build_modules_GUI(builder, ui);
-    build_display_GUI(builder, ui);
-    build_bottom_bar_GUI(builder, ui);
+    build_window_gui(builder, ui);
+    build_menu_bar_gui(builder, ui);
+    build_modules_gui(builder, ui);
+    build_display_gui(builder, ui);
+    build_bottom_bar_gui(builder, ui);
     build_image_info(builder, ui);
     g_object_unref(builder);
 

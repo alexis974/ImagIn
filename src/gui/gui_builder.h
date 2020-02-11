@@ -1,6 +1,6 @@
 #ifndef GUI_BUILDER_H
 #define GUI_BUILDER_H
 
-struct UI* build_GUI(char* glade_file_path);
+struct UI* build_gui(char* glade_file_path);
 
-#endif
+#endif /* ! GUI_BUILDER_H */

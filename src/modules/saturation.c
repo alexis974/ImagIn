@@ -16,6 +16,8 @@ float getmax(float x, float y)
     return x > y ? x : y;
 }
 
+// TODO : Coding style : 2.8 Fct name no upper case
+// TODO : Coding style : 4.10 Fct max 25 lines
 struct PixelHSL RGBtoHSL(struct Pixel pxl, float bd)
 {
     struct PixelHSL newpxl;
@@ -64,6 +66,8 @@ struct PixelHSL RGBtoHSL(struct Pixel pxl, float bd)
     return newpxl;
 }
 
+// TODO : Coding style : 2.8 Fct name no upper case
+// TODO : Coding style : 4.10 Fct max 25 lines
 struct Pixel HSLtoRGB(struct PixelHSL pxl, float bd)
 {
     struct Pixel newpxl;
@@ -139,9 +143,11 @@ struct Pixel HSLtoRGB(struct PixelHSL pxl, float bd)
     newpxl.red = (int)(r * bd);
     newpxl.green = (int)(g * bd);
     newpxl.blue = (int)(b * bd);
+
     return newpxl;
 }
 
+// TODO : Coding style : Explicit cast
 void saturation(struct Image *img, float change)
 {
     if (!img)

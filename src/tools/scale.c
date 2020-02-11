@@ -6,6 +6,7 @@
 
 #include "scale.h"
 
+// TODO : Coding style : 4.5 Fct max 4 arg
 void interpolation(struct Image *src, struct Image *dst, size_t i, size_t j,
         float valx, float valy)
 {

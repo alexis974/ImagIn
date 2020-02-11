@@ -7,4 +7,4 @@ void horizontal_flip(struct Image *img);
 
 void flip_both_axis(struct Image *img);
 
-#endif
+#endif /* ! FLIP_H */

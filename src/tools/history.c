@@ -16,6 +16,8 @@
 #include "../modules/black_and_white.h"
 #include "../modules/invert.h"
 
+// TODO : Coding style : 4.2 Max 10 fcts per file
+
 struct history *hst_new(void)
 {
     struct history *hist = malloc(sizeof(struct history));
@@ -98,7 +100,7 @@ int hst_pop(struct history *hist)
         return 1;
     }
 
-    while(hist->next->next)
+    while (hist->next->next)
     {
         hist = hist->next;
     }
@@ -168,7 +170,7 @@ void hst_sort(struct history *hist)
         is_sorted = 1;
         hist = copy;
 
-        while(hist->next != NULL)
+        while (hist->next != NULL)
         {
             if (hist->id > hist->next->id)
             {
@@ -181,6 +183,7 @@ void hst_sort(struct history *hist)
     }
 }
 
+// TODO : Coding style : 4.10  Fct max 25 lines
 void reset_widgets(struct history *hist, struct UI *ui)
 {
     ui->can_modify = FALSE;
@@ -190,44 +193,47 @@ void reset_widgets(struct history *hist, struct UI *ui)
     {
         switch (p->id)
         {
-            case CONTRASTE:
-                gtk_range_set_value(GTK_RANGE(
-                            ui->modules->cont_exp_sat->contraste_scale), p->value);
-                break;
-            case EXPOSURE:
-                gtk_range_set_value(GTK_RANGE(
-                            ui->modules->cont_exp_sat->exposure_scale), p->value);
-                break;
-            case SATURATION:
-                gtk_range_set_value(GTK_RANGE(
-                            ui->modules->cont_exp_sat->saturation_scale), p->value);
-                break;
-            case SHADOWS:
-                gtk_range_set_value(GTK_RANGE(
-                            ui->modules->shadows_highlights->shadows_scale), p->value);
-                break;
-            case HIGHLIGHTS:
-                gtk_range_set_value(GTK_RANGE(
-                            ui->modules->shadows_highlights->highlights_scale), p->value);
-                break;
-            case FLIP:
-                gtk_combo_box_set_active(GTK_COMBO_BOX(
-                            ui->modules->orientation->flip_box), p->value);
-                break;
-            case BW:
-                gtk_switch_set_state (ui->modules->bw_switch, p->value);
-                break;
-            case INVERT:
-                gtk_switch_set_state (ui->modules->invert_switch, p->value);
-                break;
-            default:
-                break;
+        case CONTRASTE:
+            gtk_range_set_value(GTK_RANGE(
+                    ui->modules->cont_exp_sat->contraste_scale), p->value);
+            break;
+        case EXPOSURE:
+            gtk_range_set_value(GTK_RANGE(
+                    ui->modules->cont_exp_sat->exposure_scale), p->value);
+            break;
+        case SATURATION:
+            gtk_range_set_value(GTK_RANGE(
+                    ui->modules->cont_exp_sat->saturation_scale), p->value);
+            break;
+        case SHADOWS:
+            // TODO : Coding style : 3.5 Max 80 char per line
+            gtk_range_set_value(GTK_RANGE(
+                    ui->modules->shadows_highlights->shadows_scale), p->value);
+            break;
+        case HIGHLIGHTS:
+            // TODO : Coding style : 3.5 Max 80 char per line
+            gtk_range_set_value(GTK_RANGE(
+                    ui->modules->shadows_highlights->highlights_scale), p->value);
+            break;
+        case FLIP:
+            gtk_combo_box_set_active(GTK_COMBO_BOX(
+                    ui->modules->orientation->flip_box), p->value);
+            break;
+        case BW:
+            gtk_switch_set_state(ui->modules->bw_switch, p->value);
+            break;
+        case INVERT:
+            gtk_switch_set_state(ui->modules->invert_switch, p->value);
+            break;
+        default:
+            break;
         }
     }
     ui->can_modify = TRUE;
     hst_free_recursively(compressed);
 }
 
+// TODO : Coding style : 4.10  Fct max 25 lines
 // Applies a history (should be compressed before)
 void hst_apply_all(struct history *hist, struct Image *img)
 {
@@ -235,43 +241,43 @@ void hst_apply_all(struct history *hist, struct Image *img)
     {
         switch (p->id)
         {
-            case CONTRASTE:
-                contrast(img, p->value + 1);
-                break;
-            case EXPOSURE:
-                exposure(img, p->value);
-                break;
-            case SATURATION:
-                saturation(img, p->value + 1);
-                break;
-            case FLIP:
-                if (p->value == 1)
-                {
-                    vertical_flip(img);
-                }
-                else if (p->value ==  2)
-                {
-                    horizontal_flip(img);
-                }
-                else if (p->value == 3)
-                {
-                    flip_both_axis(img);
-                }
-                break;
-            case BW:
-                if (p->value)
-                {
-                    simple_BW(img);
-                }
-                break;
-            case INVERT:
-                if (p->value)
-                {
-                    invert(img);
-                }
-                break;
-            default:
-                break;
+        case CONTRASTE:
+            contrast(img, p->value);
+            break;
+        case EXPOSURE:
+            exposure(img, p->value);
+            break;
+        case SATURATION:
+            saturation(img, p->value + 1);
+            break;
+        case FLIP:
+            if(p->value == 1)
+            {
+                vertical_flip(img);
+            }
+            else if(p->value ==  2)
+            {
+                horizontal_flip(img);
+            }
+            else if(p->value == 3)
+            {
+                flip_both_axis(img);
+            }
+            break;
+        case BW:
+            if(p->value)
+            {
+                simple_BW(img);
+            }
+            break;
+        case INVERT:
+            if(p->value)
+            {
+                invert(img);
+            }
+            break;
+        default:
+            break;
         }
     }
 }
@@ -331,7 +337,7 @@ struct history *hst_duplicate(struct history *hist)
     hst_init(new);
     hist = hist->next;
 
-    while(hist)
+    while (hist)
     {
         new->next = malloc(sizeof(struct history));
         new->next->id = hist->id;
@@ -347,8 +353,10 @@ struct history *hst_duplicate(struct history *hist)
 
 char *get_name(int id)
 {
-    char *module_name[] = {"Invert", "Exposure", "Black_and_White", "Saturation", "Contraste", "Shadows",
-        "Highlights", "Flip", "Rotation"};
+    // TODO : Coding style : 5.11  cf 5.11 for details
+    char *module_name[] = {"Invert", "Exposure", "Black and white",
+        "Saturation", "Contraste", "Shadows", "Highlights",
+        "Flip", "Rotation", "Black_and_White"};
 
     return id < 0 ? "NULL" : module_name[id];
 }
@@ -356,7 +364,7 @@ char *get_name(int id)
 void hst_print(struct history *hist)
 {
     size_t nb_elm = hst_length(hist);
-    for(size_t i = 0; i <= nb_elm; i++)
+    for (size_t i = 0; i <= nb_elm; i++)
     {
         printf("------------------------------- Module %ld\n", i);
         printf("name: %s\n", get_name(hist->id));

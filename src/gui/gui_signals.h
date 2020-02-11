@@ -3,4 +3,4 @@
 
 void connect_signals(struct UI *ui);
 
-#endif
+#endif /* ! GUI_SIGNALS_H */

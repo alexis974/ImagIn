@@ -8,6 +8,7 @@
 
 #include "../gui/gui.h"
 
+// TODO : Coding style : 4.10 Fct max 25 lines
 void print_data(const char *filename)
 {
     if (!gexiv2_initialize())
@@ -31,7 +32,7 @@ void print_data(const char *filename)
         return;
     }
 
-    if (!gexiv2_metadata_get_supports_exif (meta_data))
+    if (!gexiv2_metadata_get_supports_exif(meta_data))
     {
         printf("Image not supporting exif format.");
 
@@ -54,6 +55,7 @@ void print_data(const char *filename)
     printf("-----------------\n");
 }
 
+// TODO : Coding style : 4.10 Fct max 25 lines
 void set_image_info(const char *filename, struct UI *ui)
 {
     if (!gexiv2_initialize())
@@ -79,7 +81,7 @@ void set_image_info(const char *filename, struct UI *ui)
         return;
     }
 
-    if (!gexiv2_metadata_get_supports_exif (meta_data))
+    if (!gexiv2_metadata_get_supports_exif(meta_data))
     {
         printf("Image not supporting exif format.");
 
@@ -106,7 +108,7 @@ void set_image_info(const char *filename, struct UI *ui)
                 "Exif.Photo.ISOSpeedRatings"))
     {
         gtk_label_set_text(ui->image_info->iso,
-                gexiv2_metadata_get_tag_interpreted_string (meta_data,
+                gexiv2_metadata_get_tag_interpreted_string(meta_data,
                     "Exif.Photo.ISOSpeedRatings"));
     }
 
@@ -129,7 +131,7 @@ void set_image_info(const char *filename, struct UI *ui)
     if (gexiv2_metadata_get_tag_interpreted_string(meta_data,
                 "Exif.Photo.DateTimeOriginal"))
     {
-        char* datetime = gexiv2_metadata_get_tag_interpreted_string (
+        char *datetime = gexiv2_metadata_get_tag_interpreted_string(
                 meta_data, "Exif.Photo.DateTimeOriginal");
         char *date = malloc(sizeof(char)*10);
         char *time = malloc(sizeof(char)*8);

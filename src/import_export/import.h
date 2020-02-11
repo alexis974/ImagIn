@@ -15,4 +15,4 @@ struct Image *get_small(struct Image *scaled_img);
 
 struct Images *read_image(const char *filename);
 
-#endif
+#endif /* ! IMPORT_H */

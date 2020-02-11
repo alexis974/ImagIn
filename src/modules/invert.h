@@ -3,4 +3,4 @@
 
 void invert(struct Image *img);
 
-#endif
+#endif /* ! INVERT_H */

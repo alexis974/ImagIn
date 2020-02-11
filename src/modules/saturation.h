@@ -10,4 +10,4 @@ struct PixelHSL
 
 void saturation(struct Image *img, float change);
 
-#endif
+#endif /* ! SATURATION_H */

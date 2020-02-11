@@ -5,6 +5,7 @@
 
 #include "black_and_white.h"
 
+// TODO : Coding style : 2.8 Fct name no upper case
 void simple_BW(struct Image *img)
 {
     if (!img)

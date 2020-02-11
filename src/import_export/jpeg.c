@@ -16,8 +16,10 @@ struct my_error_mgr
     jmp_buf setjmp_buffer;      // For return to caller
 };
 
-struct my_error_mgr * my_error_ptr;
+struct my_error_mgr *my_error_ptr;
 
+// TODO : Coding style : 2.8 No upper case in fct name
+// TODO : Coding style : 4.10 Fct max 25 lines
 struct Image *readJPEG(const char *filename)
 {
     // Store image info
@@ -113,6 +115,8 @@ struct Image *readJPEG(const char *filename)
     return img;
 }
 
+// TODO : Coding style : 2.8 No upper case in fct name
+// TODO : Coding style : 4.10 Fct max 25 lines
 void writeJPEG(const char *filename, struct Image *img)
 {
     struct jpeg_compress_struct cinfo;
@@ -147,6 +151,7 @@ void writeJPEG(const char *filename, struct Image *img)
         throw_error("writeJPEG", "Unable to allocate memory.");
         return;
     }
+
     while (cinfo.next_scanline < cinfo.image_height)
     {
         //Filling Buffer

@@ -46,7 +46,7 @@ void write_ext(const char *filename, const char *ext, struct Image *img)
 
 void write_image(const char *filename, struct Image *image)
 {
-    const char* ext = get_filename_ext(filename);
+    const char *ext = get_filename_ext(filename);
     write_ext(filename, ext, image);
 
     return;

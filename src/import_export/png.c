@@ -9,6 +9,8 @@
 
 #include "../debug/error_handler.h"
 
+// TODO : Coding style : 2.8 Fct name no upper case
+// TODO : Coding style : Fct 25 lines max
 struct Image *readPNG(const char *filename)
 {
     FILE *fp = fopen(filename, "rb");
@@ -96,10 +98,11 @@ struct Image *readPNG(const char *filename)
 
     png_read_update_info(png, info);
 
+    // TODO : Coding style : Explicite cast ?
     png_bytep *row_pointers = (png_bytep*) malloc(
             sizeof(png_bytep) * img->height);
 
-    for(size_t y = 0; y < img->height; y++)
+    for (size_t y = 0; y < img->height; y++)
     {
         row_pointers[y] = (png_byte*)malloc(png_get_rowbytes(png,info));
     }
@@ -127,6 +130,8 @@ struct Image *readPNG(const char *filename)
     return img;
 }
 
+// TODO : Coding style : 2.8 Fct name no upper case
+// TODO : Coding style : Fct 25 lines max
 void writePNG(const char *filename, struct Image *img)
 {
     FILE *fp = fopen(filename, "wb");
@@ -137,7 +142,8 @@ void writePNG(const char *filename, struct Image *img)
         return;
     }
 
-    png_structp png = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+    png_structp png = png_create_write_struct(PNG_LIBPNG_VER_STRING,
+            NULL, NULL, NULL);
 
     if (!png)
     {
