@@ -10,6 +10,7 @@
 int main(void)
 {
     printf("GUI Mode\n");
+
     // TODO : Coding style : 2.5 typedef ?
     g_cli_mode = FALSE;
 

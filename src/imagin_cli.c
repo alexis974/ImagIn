@@ -35,13 +35,9 @@ int main(void)
     char *xml_path = "samples/Canon_90D_ppm/Canon_90D_03.ppm.xml";
 
 
-// TODO : Coding style : 6.5 Multi-lines comments are /* ** */
-//##############################################################################
-//                               ### IMPORT ###                              ###
-//##############################################################################
+//################################################################### IMPORT ###
 
     /* try to open file to read */
-    // TODO : Coding style : 5.1 Initialized at declaration
     FILE *file;
     if ((file = fopen(xml_path, "r")))
     {
@@ -55,9 +51,7 @@ int main(void)
     }
 
     // Init struct Images
-    // TODO : Coding style : 5.1 Initialized at declaration
-    struct Images *images;
-    images = malloc(sizeof(struct Images));
+    struct Images *images = malloc(sizeof(struct Images));
 
     // Store all the pixel of the image
     images = read_image(img_path);
@@ -73,10 +67,7 @@ int main(void)
     write_image("tmp/Small_image.ppm", images->small);
 
 
-// TODO : Coding style : 6.5 Multi-lines comments are /* ** */
-//##############################################################################
-//                               ### MODULES ###                             ###
-//##############################################################################
+//################################################################## MODULES ###
 
     //Modify saturation
     saturation(images->edit, 2);
@@ -111,11 +102,6 @@ int main(void)
     write_image("tmp/08_Flip_vertiacl.ppm", images->edit);
 
     struct Histogram *histogram = compute_histogram(images->edit);
-    for (size_t i = 0; i < 256; i++)
-    {
-        printf("%ld, ", (histogram->red[i] + histogram->green[i] +
-                    histogram->blue[i]) / 3);
-    }
 
     printf("\nMax value = %ld\n", histo_max_value(histogram));
 
