@@ -15,17 +15,14 @@
 struct Image *readTIFF(const char *filename)
 {
     TIFF *tif=TIFFOpen(filename, "r");
-    // TODO : Coding style : 5.21 Space after keyword (here: if)
-    if(!tif)
+    if (!tif)
     {
         throw_error("readTIFF", "Unable to open file");
 
         return NULL;
     }
 
-    // TODO : Coding style : 5.1 Initialized at declaration
     uint32 width;
-    // TODO : Coding style : 5.1 Initialized at declaration
     uint32 height;
     TIFFGetField(tif, TIFFTAG_IMAGEWIDTH, &width);
     TIFFGetField(tif, TIFFTAG_IMAGELENGTH, &height);
@@ -38,15 +35,13 @@ struct Image *readTIFF(const char *filename)
         return NULL;
     }
 
-    // TODO : Coding style : 5.21 Space after keyword (here: if)
-    if(!TIFFReadRGBAImage(tif, width, height, raster, 0))
+    if (!TIFFReadRGBAImage(tif, width, height, raster, 0))
     {
         throw_error("readTIFF", "Unable to read image");
 
         return NULL;
     }
 
-    // TODO : Coding style : 5.1 Initialized at declaration
     struct Image *img;
 
     // Alloc memory for image
@@ -148,8 +143,7 @@ void writeTIFF(const char *filename, struct Image *img)
         }
 
         // Writing in image
-        // TODO : Coding style : 5.21 Space after keyword (here: if)
-        if(TIFFWriteScanline(out, buffer, j, 0) < 0)
+        if (TIFFWriteScanline(out, buffer, j, 0) < 0)
         {
             throw_error("writeTIFF", "Unable to write image.");
 
@@ -162,5 +156,6 @@ void writeTIFF(const char *filename, struct Image *img)
     {
         _TIFFfree(buffer);
     }
+
     printf("TIFF Image saved!\n");
 }

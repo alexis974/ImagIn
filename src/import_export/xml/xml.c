@@ -9,9 +9,7 @@
 // TODO : Coding style : Fct 25 lines max
 void create_xmp(const char *uri)
 {
-    // TODO : Coding style : 5.1 Initialized at declaration
     int rc;
-    // TODO : Coding style : 5.1 Initialized at declaration
     xmlTextWriterPtr writer;
 
     /* Create a new XmlWriter for uri, with no compression. */

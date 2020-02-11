@@ -16,24 +16,19 @@ struct my_error_mgr
     jmp_buf setjmp_buffer;      // For return to caller
 };
 
-// TODO : Coding style : 5.1 Initialized at declaration
-// TODO : Coding style : 5.4 '*' should be with name
-struct my_error_mgr * my_error_ptr;
+struct my_error_mgr *my_error_ptr;
 
 // TODO : Coding style : 2.8 No upper case in fct name
 // TODO : Coding style : 4.10 Fct max 25 lines
 struct Image *readJPEG(const char *filename)
 {
     // Store image info
-    // TODO : Coding style : 5.1 Initialized at declaration
     struct jpeg_decompress_struct cinfo;
 
     // Source file
-    // TODO : Coding style : 5.1 Initialized at declaration
     FILE *infile;
 
-    // TODO : Coding style : 5.21 Space after keyword (here: if)
-    if(!(infile = fopen(filename, "rb")))
+    if (!(infile = fopen(filename, "rb")))
     {
         throw_error("readJPEG", "Unable to open file");
 
@@ -41,7 +36,6 @@ struct Image *readJPEG(const char *filename)
     }
 
     // Setting up errors management
-    // TODO : Coding style : 5.1 Initialized at declaration
     struct my_error_mgr jerr;
     cinfo.err = jpeg_std_error(&jerr.pub);
     if (setjmp(jerr.setjmp_buffer))
@@ -58,8 +52,7 @@ struct Image *readJPEG(const char *filename)
     jpeg_read_header(&cinfo, TRUE);
     jpeg_start_decompress(&cinfo);
 
-    // TODO : Coding style : 5.21 Space after keyword (here: if)
-    if(cinfo.output_components != 3)
+    if (cinfo.output_components != 3)
     {
         throw_error("readJPEG", "Too many components (alpha canal ?)");
 
@@ -68,8 +61,7 @@ struct Image *readJPEG(const char *filename)
 
     // Setting info
     struct Image *img = malloc(sizeof(struct Image));
-    // TODO : Coding style : 5.21 Space after keyword (here: if)
-    if(!img)
+    if (!img)
     {
         throw_error("readJPEG", "Unable to allocate memory.");
 
@@ -80,8 +72,7 @@ struct Image *readJPEG(const char *filename)
     img->height = cinfo.image_height;
     img->bit_depth = 255;
     img->data = malloc(sizeof(struct Pixel) * img->width * img->height);
-    // TODO : Coding style : 5.21 Space after keyword (here: if)
-    if(!img->data)
+    if (!img->data)
     {
         throw_error("readJPEG", "Unable to allocate memory.");
 
@@ -89,7 +80,6 @@ struct Image *readJPEG(const char *filename)
     }
 
     JSAMPARRAY buffer; // Output row buffer
-    // TODO : Coding style : 5.1 Initialized at declaration
     size_t row_stride; // Physical row width in output buffer
 
     // JSAMPLEs per row in output buffer
@@ -129,14 +119,10 @@ struct Image *readJPEG(const char *filename)
 // TODO : Coding style : 4.10 Fct max 25 lines
 void writeJPEG(const char *filename, struct Image *img)
 {
-    // TODO : Coding style : 5.1 Initialized at declaration
     struct jpeg_compress_struct cinfo;
-    // TODO : Coding style : 5.1 Initialized at declaration
     struct jpeg_error_mgr jerr;
-    // TODO : Coding style : 5.1 Initialized at declaration
     FILE * outfile;
     JSAMPROW row_pointer[1];
-    // TODO : Coding style : 5.1 Initialized at declaration
     int row_stride;
     cinfo.err = jpeg_std_error(&jerr);
 
@@ -165,6 +151,7 @@ void writeJPEG(const char *filename, struct Image *img)
         throw_error("writeJPEG", "Unable to allocate memory.");
         return;
     }
+
     while (cinfo.next_scanline < cinfo.image_height)
     {
         //Filling Buffer

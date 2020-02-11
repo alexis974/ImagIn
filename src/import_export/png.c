@@ -90,8 +90,7 @@ struct Image *readPNG(const char *filename)
         png_set_filler(png, 0xFF, PNG_FILLER_AFTER);
     }
 
-    // TODO : Coding style : 5.21 Space after keyword (here: if)
-    if(color_type == PNG_COLOR_TYPE_GRAY ||
+    if (color_type == PNG_COLOR_TYPE_GRAY ||
             color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
     {
         png_set_gray_to_rgb(png);
@@ -103,8 +102,7 @@ struct Image *readPNG(const char *filename)
     png_bytep *row_pointers = (png_bytep*) malloc(
             sizeof(png_bytep) * img->height);
 
-    // TODO : Coding style : 5.21 Space after keyword (here: if)
-    for(size_t y = 0; y < img->height; y++)
+    for (size_t y = 0; y < img->height; y++)
     {
         row_pointers[y] = (png_byte*)malloc(png_get_rowbytes(png,info));
     }
@@ -137,16 +135,15 @@ struct Image *readPNG(const char *filename)
 void writePNG(const char *filename, struct Image *img)
 {
     FILE *fp = fopen(filename, "wb");
-    // TODO : Coding style : 5.21 Space after keyword (here: if)
-    if(!fp)
+    if (!fp)
     {
         throw_error("writePNG", "Could not write file");
 
         return;
     }
 
-    // TODO : Coding style : 3.5 Max 80 char per line
-    png_structp png = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+    png_structp png = png_create_write_struct(PNG_LIBPNG_VER_STRING,
+            NULL, NULL, NULL);
 
     if (!png)
     {
