@@ -88,7 +88,7 @@ struct Image *readPNG(const char *filename)
         png_set_filler(png, 0xFF, PNG_FILLER_AFTER);
     }
 
-    if(color_type == PNG_COLOR_TYPE_GRAY ||
+    if (color_type == PNG_COLOR_TYPE_GRAY ||
             color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
     {
         png_set_gray_to_rgb(png);
@@ -130,7 +130,7 @@ struct Image *readPNG(const char *filename)
 void writePNG(const char *filename, struct Image *img)
 {
     FILE *fp = fopen(filename, "wb");
-    if(!fp)
+    if (!fp)
     {
         throw_error("writePNG", "Could not write file");
 

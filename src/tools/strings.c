@@ -8,7 +8,7 @@ const char *get_filename_ext(const char *filename)
     // Get the last '.' position
     const char *dot = strrchr(filename, '.');
 
-    if(!dot || dot == filename)
+    if (!dot || dot == filename)
     {
         return "";
     }
@@ -22,7 +22,7 @@ const char *get_filename_from_path(const char *filename)
     // Get the last '.' position
     const char *dot = strrchr(filename, '/');
 
-    if(!dot || dot == filename)
+    if (!dot || dot == filename)
     {
         return "";
     }

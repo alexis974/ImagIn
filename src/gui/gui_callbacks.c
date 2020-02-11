@@ -28,7 +28,7 @@ void undo(GtkWidget *widget, gpointer user_data)
 {
     (void) widget;
     struct UI *ui = user_data;
-    if(!ui->image_loaded || hst_is_empty(ui->hist))
+    if (!ui->image_loaded || hst_is_empty(ui->hist))
     {
         return;
     }
@@ -54,19 +54,19 @@ gboolean on_key_press (GtkWidget *widget, GdkEventKey *event,
     (void) widget;
     struct UI *ui = user_data;
 
-    if(event->state & GDK_CONTROL_MASK && event->keyval == GDK_KEY_z)
+    if (event->state & GDK_CONTROL_MASK && event->keyval == GDK_KEY_z)
     {
         gpointer tmp = ui;
         undo(NULL, tmp);
     }
 
-    else if(event->state & GDK_CONTROL_MASK && event->keyval == GDK_KEY_o)
+    else if (event->state & GDK_CONTROL_MASK && event->keyval == GDK_KEY_o)
     {
         gpointer tmp = ui;
         open_file_chooser(NULL, tmp);
     }
 
-    else if(event->state & GDK_CONTROL_MASK && event->keyval == GDK_KEY_e)
+    else if (event->state & GDK_CONTROL_MASK && event->keyval == GDK_KEY_e)
     {
         gpointer tmp = ui;
         open_export_as_window(NULL, tmp);
@@ -118,7 +118,7 @@ void add_module_to_list(struct UI*ui, int module_id)
 
 void apply_module(struct UI *ui, int module_id, float value)
 {
-    if(!ui->can_modify)
+    if (!ui->can_modify)
         return;
     int add = hst_append(ui->hist, module_id, 1,value);
     hst_insert_sort(ui->compressed_hist, module_id, 1,value);
@@ -149,11 +149,7 @@ void compress_history(GtkWidget *button, gpointer user_data)
                 ui->modules->history_list->list,0)));
         }
 
-        printf("index is %d\n", index);
-        hst_print(ui->hist);
         hst_truncate(ui->hist, index + 1);
-        printf("\n\n");
-        hst_print(ui->hist);
 
         hst_free_recursively(ui->compressed_hist);
         ui->compressed_hist = hst_duplicate(ui->hist);
@@ -193,7 +189,6 @@ void rotate_right(GtkWidget *button, gpointer user_data)
 
     (void) button;
     printf("Rotate right button pressed !\n");
-    hst_print(ui->hist);
 }
 
 // Flip module callback
@@ -227,7 +222,7 @@ void flip_changed(GtkComboBox *box, gpointer user_data)
 
 gboolean contraste_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
 {
-    if(!(gdk_event_get_event_type(event) == GDK_BUTTON_RELEASE))
+    if (!(gdk_event_get_event_type(event) == GDK_BUTTON_RELEASE))
     {
         return FALSE;
     }
@@ -248,7 +243,7 @@ gboolean contraste_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
 gboolean saturation_changed(GtkRange *range, GdkEvent *event,
         gpointer user_data)
 {
-    if(!(gdk_event_get_event_type(event) == GDK_BUTTON_RELEASE))
+    if (!(gdk_event_get_event_type(event) == GDK_BUTTON_RELEASE))
     {
         return FALSE;
     }
@@ -268,7 +263,7 @@ gboolean saturation_changed(GtkRange *range, GdkEvent *event,
 
 gboolean exposure_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
 {
-    if(!(gdk_event_get_event_type(event) == GDK_BUTTON_RELEASE))
+    if (!(gdk_event_get_event_type(event) == GDK_BUTTON_RELEASE))
     {
         return FALSE;
     }
@@ -289,7 +284,7 @@ gboolean exposure_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
 
 gboolean shadows_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
 {
-    if(!(gdk_event_get_event_type(event) == GDK_BUTTON_RELEASE))
+    if (!(gdk_event_get_event_type(event) == GDK_BUTTON_RELEASE))
     {
         return FALSE;
     }
@@ -310,7 +305,7 @@ gboolean shadows_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
 gboolean highlights_changed(GtkRange *range, GdkEvent *event,
         gpointer user_data)
 {
-    if(!(gdk_event_get_event_type(event) == GDK_BUTTON_RELEASE))
+    if (!(gdk_event_get_event_type(event) == GDK_BUTTON_RELEASE))
     {
         return FALSE;
     }
@@ -427,7 +422,7 @@ void open_export_as_window(GtkWidget *widget, gpointer user_data)
 {
     (void) widget;
     struct UI *ui = user_data;
-    if(!ui->image_loaded)
+    if (!ui->image_loaded)
         return;
     GtkWidget *dialog = gtk_file_chooser_dialog_new("Save Result",
             GTK_WINDOW(ui->window),

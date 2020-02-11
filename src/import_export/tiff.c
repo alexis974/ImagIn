@@ -13,7 +13,7 @@
 struct Image *readTIFF(const char *filename)
 {
     TIFF *tif=TIFFOpen(filename, "r");
-    if(!tif)
+    if (!tif)
     {
         throw_error("readTIFF", "Unable to open file");
 
@@ -33,7 +33,7 @@ struct Image *readTIFF(const char *filename)
         return NULL;
     }
 
-    if(!TIFFReadRGBAImage(tif, width, height, raster, 0))
+    if (!TIFFReadRGBAImage(tif, width, height, raster, 0))
     {
         throw_error("readTIFF", "Unable to read image");
 
@@ -139,7 +139,7 @@ void writeTIFF(const char *filename, struct Image *img)
         }
 
         // Writing in image
-        if(TIFFWriteScanline(out, buffer, j, 0) < 0)
+        if (TIFFWriteScanline(out, buffer, j, 0) < 0)
         {
             throw_error("writeTIFF", "Unable to write image.");
 

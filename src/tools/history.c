@@ -93,7 +93,7 @@ int hst_append(struct history *hist, int module_id,
 // Returns 1 if we last module is different than the module before
 int hst_pop(struct history *hist)
 {
-    if(!hist->next)
+    if (!hist->next)
     {
         return 1;
     }
@@ -115,7 +115,6 @@ int hst_pop(struct history *hist)
 void hst_insert_sort(struct history *hist, int module_id,
         int enable, float value)
 {
-    //hst_print(hist);
     while (hist->next && module_id > hist->id)
     {
         hist = hist->next;
@@ -171,7 +170,7 @@ void hst_sort(struct history *hist)
 
         while(hist->next != NULL)
         {
-            if(hist->id > hist->next->id)
+            if (hist->id > hist->next->id)
             {
                 swap_module(hist, hist->next);
                 is_sorted = 0;
@@ -246,27 +245,27 @@ void hst_apply_all(struct history *hist, struct Image *img)
                 saturation(img, p->value + 1);
                 break;
             case FLIP:
-                if(p->value == 1)
+                if (p->value == 1)
                 {
                     vertical_flip(img);
                 }
-                else if(p->value ==  2)
+                else if (p->value ==  2)
                 {
                     horizontal_flip(img);
                 }
-                else if(p->value == 3)
+                else if (p->value == 3)
                 {
                     flip_both_axis(img);
                 }
                 break;
             case BW:
-                if(p->value)
+                if (p->value)
                 {
                     simple_BW(img);
                 }
                 break;
             case INVERT:
-                if(p->value)
+                if (p->value)
                 {
                     invert(img);
                 }
@@ -315,7 +314,7 @@ void hst_truncate(struct history *hist, size_t index)
  */
 void hst_free_recursively(struct history *hist)
 {
-    if(!hist)
+    if (!hist)
     {
         return;
     }

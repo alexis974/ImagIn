@@ -185,7 +185,7 @@ void display_images(struct UI *ui, char* filename)
 
     // Getting all scaled images
     ui->images = read_image(filename);
-    if(!ui->images)
+    if (!ui->images)
     {
         return;
     }
@@ -195,7 +195,7 @@ void display_images(struct UI *ui, char* filename)
     gtk_label_set_text(ui->image_info->filename, file_name);
     const char *ext = get_filename_ext(filename);
 
-    if(strcmp(ext, "jpeg") == 0 || strcmp(ext, "jpg") == 0
+    if (strcmp(ext, "jpeg") == 0 || strcmp(ext, "jpg") == 0
             || strcmp(ext, "JPEG") == 0 || strcmp(ext, "JPG") == 0)
     {
         set_image_info(filename, ui);
@@ -219,7 +219,7 @@ gboolean draw_histogram(GtkWidget *widget, cairo_t *cr, gpointer user_data)
 {
     struct UI *ui = user_data;
 
-    if(!ui->image_loaded)
+    if (!ui->image_loaded)
     {
         return FALSE;
     }
@@ -262,7 +262,7 @@ gboolean on_image_event(GtkWidget *widget, GdkEvent *event,
     (void) widget;
     (void) event;
     struct UI *ui = user_data;
-    if(!ui->image_loaded)
+    if (!ui->image_loaded)
     {
         open_file_chooser(NULL, user_data);
     }

@@ -10,20 +10,20 @@
 
 void print_data(const char *filename)
 {
-    if(!gexiv2_initialize())
+    if (!gexiv2_initialize())
     {
         throw_error("print_data:", "Could not init gexiv");
         return;
     }
 
     GExiv2Metadata *meta_data = gexiv2_metadata_new();
-    if(!meta_data)
+    if (!meta_data)
     {
         throw_error("print_data:", "Could not init gexiv");
         return;
     }
 
-    if(!gexiv2_metadata_open_path(meta_data, filename, NULL))
+    if (!gexiv2_metadata_open_path(meta_data, filename, NULL))
     {
         throw_error("print_data:", "Could not read metadata");
         g_object_unref (meta_data);
@@ -31,7 +31,7 @@ void print_data(const char *filename)
         return;
     }
 
-    if(!gexiv2_metadata_get_supports_exif(meta_data))
+    if (!gexiv2_metadata_get_supports_exif (meta_data))
     {
         printf("Image not supporting exif format.");
 
@@ -56,7 +56,7 @@ void print_data(const char *filename)
 
 void set_image_info(const char *filename, struct UI *ui)
 {
-    if(!gexiv2_initialize())
+    if (!gexiv2_initialize())
     {
         throw_error("print_data:", "Could not init gexiv");
 
@@ -64,14 +64,14 @@ void set_image_info(const char *filename, struct UI *ui)
     }
 
     GExiv2Metadata *meta_data = gexiv2_metadata_new();
-    if(!meta_data)
+    if (!meta_data)
     {
         throw_error("print_data:", "Could not init gexiv");
 
         return;
     }
 
-    if(!gexiv2_metadata_open_path(meta_data, filename, NULL))
+    if (!gexiv2_metadata_open_path(meta_data, filename, NULL))
     {
         throw_error("print_data:", "Could not read metadata");
         g_object_unref (meta_data);
@@ -79,14 +79,14 @@ void set_image_info(const char *filename, struct UI *ui)
         return;
     }
 
-    if(!gexiv2_metadata_get_supports_exif (meta_data))
+    if (!gexiv2_metadata_get_supports_exif (meta_data))
     {
         printf("Image not supporting exif format.");
 
         return;
     }
 
-    if(gexiv2_metadata_get_tag_interpreted_string(meta_data,
+    if (gexiv2_metadata_get_tag_interpreted_string(meta_data,
                 "Exif.Photo.ExposureTime"))
     {
         gtk_label_set_text(ui->image_info->exposure_time,
@@ -94,7 +94,7 @@ void set_image_info(const char *filename, struct UI *ui)
                     "Exif.Photo.ExposureTime"));
     }
 
-    if(gexiv2_metadata_get_tag_interpreted_string(meta_data,
+    if (gexiv2_metadata_get_tag_interpreted_string(meta_data,
                 "Exif.Photo.ShutterSpeedValue"))
     {
         gtk_label_set_text(ui->image_info->shutter_speed,
@@ -102,7 +102,7 @@ void set_image_info(const char *filename, struct UI *ui)
                     "Exif.Photo.ShutterSpeedValue"));
     }
 
-    if(gexiv2_metadata_get_tag_interpreted_string(meta_data,
+    if (gexiv2_metadata_get_tag_interpreted_string(meta_data,
                 "Exif.Photo.ISOSpeedRatings"))
     {
         gtk_label_set_text(ui->image_info->iso,
@@ -110,7 +110,7 @@ void set_image_info(const char *filename, struct UI *ui)
                     "Exif.Photo.ISOSpeedRatings"));
     }
 
-    if(gexiv2_metadata_get_tag_interpreted_string(meta_data,
+    if (gexiv2_metadata_get_tag_interpreted_string(meta_data,
                 "Exif.Photo.FocalLength"))
     {
         gtk_label_set_text(ui->image_info->focal_length,
@@ -118,7 +118,7 @@ void set_image_info(const char *filename, struct UI *ui)
                     "Exif.Photo.FocalLength"));
     }
 
-    if(gexiv2_metadata_get_tag_interpreted_string(meta_data,
+    if (gexiv2_metadata_get_tag_interpreted_string(meta_data,
                 "Exif.Photo.ApertureValue"))
     {
         gtk_label_set_text(ui->image_info->aperture,
@@ -126,7 +126,7 @@ void set_image_info(const char *filename, struct UI *ui)
                     "Exif.Photo.ApertureValue"));
     }
 
-    if(gexiv2_metadata_get_tag_interpreted_string(meta_data,
+    if (gexiv2_metadata_get_tag_interpreted_string(meta_data,
                 "Exif.Photo.DateTimeOriginal"))
     {
         char* datetime = gexiv2_metadata_get_tag_interpreted_string (

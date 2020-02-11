@@ -26,7 +26,7 @@ struct Image *readJPEG(const char *filename)
     // Source file
     FILE *infile;
 
-    if(!(infile = fopen(filename, "rb")))
+    if (!(infile = fopen(filename, "rb")))
     {
         throw_error("readJPEG", "Unable to open file");
 
@@ -50,7 +50,7 @@ struct Image *readJPEG(const char *filename)
     jpeg_read_header(&cinfo, TRUE);
     jpeg_start_decompress(&cinfo);
 
-    if(cinfo.output_components != 3)
+    if (cinfo.output_components != 3)
     {
         throw_error("readJPEG", "Too many components (alpha canal ?)");
 
@@ -59,7 +59,7 @@ struct Image *readJPEG(const char *filename)
 
     // Setting info
     struct Image *img = malloc(sizeof(struct Image));
-    if(!img)
+    if (!img)
     {
         throw_error("readJPEG", "Unable to allocate memory.");
 
@@ -70,7 +70,7 @@ struct Image *readJPEG(const char *filename)
     img->height = cinfo.image_height;
     img->bit_depth = 255;
     img->data = malloc(sizeof(struct Pixel) * img->width * img->height);
-    if(!img->data)
+    if (!img->data)
     {
         throw_error("readJPEG", "Unable to allocate memory.");
 
