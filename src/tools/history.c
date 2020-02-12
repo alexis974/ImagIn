@@ -242,7 +242,7 @@ void hst_apply_all(struct history *hist, struct Image *img)
         switch (p->id)
         {
         case CONTRASTE:
-            contrast(img, p->value);
+            contrast(img, p->value + 1);
             break;
         case EXPOSURE:
             exposure(img, p->value);
