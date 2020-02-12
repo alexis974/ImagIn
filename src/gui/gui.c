@@ -18,7 +18,7 @@ int gui_main(void)
 {
     gtk_init(NULL,NULL);
 
-    struct UI *ui = build_gui("src/gui/gui.glade");
+    struct UI *ui = build_gui("data/glade/gui.glade");
 
     if (!ui)
     {
@@ -28,7 +28,7 @@ int gui_main(void)
     ui->hist = hst_new();
     ui->compressed_hist = hst_new();
 
-    css_setup("src/data/style/imagin_default.css");
+    css_setup("data/style/imagin_default.css");
     reset_modules(ui);
     reset_image_info(ui);
 

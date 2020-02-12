@@ -93,7 +93,7 @@
     <property name="window_position">center-always</property>
     <property name="default_width">1400</property>
     <property name="default_height">1400</property>
-    <property name="icon">../data/icons/imagin_icon.png</property>
+    <property name="icon">../icons/imagin_icon.png</property>
     <child>
       <placeholder/>
     </child>
@@ -1322,7 +1322,7 @@
     <property name="comments" translatable="yes">A free and open-source software</property>
     <property name="website">https://turodoras.github.io/ImagIn_website/</property>
     <property name="website_label" translatable="yes">ImagIn.com</property>
-    <property name="logo">../data/icons/imagin_icon.png</property>
+    <property name="logo">../icons/imagin_icon.png</property>
     <property name="license_type">mit-x11</property>
     <signal name="close" handler="gtk_widget_destroy" swapped="no"/>
     <signal name="response" handler="gtk_widget_destroy" swapped="no"/>

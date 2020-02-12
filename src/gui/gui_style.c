@@ -14,7 +14,7 @@ void switch_css(GtkWidget *button, gpointer user_data)
 {
     (void) user_data;
     const gchar *filename = gtk_menu_item_get_label(GTK_MENU_ITEM(button));
-    char path[512]  = "src/data/style/";
+    char path[512]  = "data/style/";
     strcat(path, filename);
     css_setup(path);
 }

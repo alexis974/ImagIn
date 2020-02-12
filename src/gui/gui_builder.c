@@ -21,7 +21,7 @@ void build_menu_bar_gui(GtkBuilder *builder, struct UI *ui)
 
     GtkWidget *preferences_menu = GTK_WIDGET(gtk_builder_get_object(
                 builder, "preferences_menu"));
-    GDir *dir = g_dir_open("src/data/style", 0, NULL);
+    GDir *dir = g_dir_open("data/style", 0, NULL);
     const gchar *file = NULL;
 
     while ((file = g_dir_read_name(dir)) != NULL)
@@ -56,7 +56,7 @@ void build_display_gui(GtkBuilder *builder, struct UI *ui)
 
     //Setting default middle image
     gtk_image_set_from_file(ui->display->display_image,
-            "src/data/icons/no_image.png");
+            "data/icons/no_image.png");
 }
 
 void build_image_info(GtkBuilder *builder, struct UI *ui)

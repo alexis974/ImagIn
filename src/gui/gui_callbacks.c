@@ -414,7 +414,7 @@ void open_about_window(GtkWidget *widget, gpointer user_data)
 {
     (void) widget;
     struct UI *ui = user_data;
-    GtkBuilder *builder = gtk_builder_new_from_file("src/gui/gui.glade");
+    GtkBuilder *builder = gtk_builder_new_from_file("data/glade/gui.glade");
     GtkWidget *window_about =
         GTK_WIDGET(gtk_builder_get_object(builder, "window_about"));
     gtk_builder_connect_signals(builder, NULL);
