@@ -5,9 +5,12 @@
 void undo(GtkWidget *widget, gpointer user_data);
 
 gboolean on_key_press (GtkWidget *widget, GdkEventKey *event,
-                gpointer user_data);
+        gpointer user_data);
 
 void compress_history(GtkWidget *button, gpointer user_data);
+
+void hst_selection_changed(GtkListBox *box, GtkListBoxRow *row,
+        gpointer user_data);
 
 void rotate_left(GtkWidget *button, gpointer user_data);
 

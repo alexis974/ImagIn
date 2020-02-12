@@ -56,6 +56,8 @@ void connect_display(struct UI *ui)
             G_CALLBACK(draw_histogram), ui);
     g_signal_connect(ui->display->middle_area_events, "button-press-event",
             G_CALLBACK(on_image_event), ui);
+    g_signal_connect(ui->modules->history_list->list, "row-selected",
+            G_CALLBACK(hst_selection_changed), ui);
     g_signal_connect(ui->modules->history_list->compress_button, "clicked",
             G_CALLBACK(compress_history), ui);
 }

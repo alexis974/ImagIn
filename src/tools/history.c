@@ -117,7 +117,7 @@ int hst_pop(struct history *hist)
 void hst_insert_sort(struct history *hist, int module_id,
         int enable, float value)
 {
-    while (hist->next && module_id > hist->id)
+    while (hist->next && module_id >= hist->next->id)
     {
         hist = hist->next;
     }

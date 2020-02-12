@@ -123,8 +123,10 @@ void apply_module(struct UI *ui, int module_id, float value)
         return;
     }
 
-    int add = hst_append(ui->hist, module_id, 1,value);
-    hst_insert_sort(ui->compressed_hist, module_id, 1,value);
+    gtk_list_box_unselect_all(ui->modules->history_list->list);
+
+    int add = hst_append(ui->hist, module_id, 1, value);
+    hst_insert_sort(ui->compressed_hist, module_id, 1, value);
     if (add)
         add_module_to_list(ui, module_id);
 
@@ -164,6 +166,46 @@ void compress_history(GtkWidget *button, gpointer user_data)
         reload_images(ui);
     }
 }
+
+void hst_selection_changed(GtkListBox *box, GtkListBoxRow *row,
+               gpointer user_data)
+{
+    (void) box;
+    struct UI *ui = user_data;
+    if (!ui->image_loaded || !row)
+    {
+        return;
+    }
+
+    struct history *tmp_hist = hst_duplicate(ui->hist);
+
+    //First compression to match with displayed hisotory
+    hst_compress(tmp_hist);
+
+    int index = hst_length(tmp_hist) - (gtk_list_box_row_get_index(
+            gtk_list_box_get_selected_row(ui->modules->history_list->list)) + 1);
+
+    hst_truncate(tmp_hist, index + 1);
+
+    // Second compression to apply
+    hst_sort(tmp_hist);
+    hst_compress(tmp_hist);
+
+    // We have to inject it to modules to make reload functions believe
+    // it is the right history
+    struct history *tmp = ui->compressed_hist;
+
+    ui->compressed_hist = tmp_hist;
+    reset_modules(ui);
+    reset_widgets(tmp_hist, ui);
+    reload_images(ui);
+
+    //Freeing tmp_hist
+    hst_free_recursively(ui->compressed_hist);
+    ui->compressed_hist = tmp;
+}
+
+
 // Rotate module callback
 void rotate_left(GtkWidget *button, gpointer user_data)
 {
