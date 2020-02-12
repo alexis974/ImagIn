@@ -69,12 +69,16 @@ struct Image *readPNG(const char *filename)
         png_set_strip_16(png);
     }
 
+    // WARNING: this line needs to be changed when we are going
+    //to really use bit depth
+    img->bit_depth = 255;
+
     if (color_type == PNG_COLOR_TYPE_PALETTE)
     {
         png_set_palette_to_rgb(png);
     }
 
-    if (color_type == PNG_COLOR_TYPE_GRAY && img->bit_depth < 8)
+    if (color_type == PNG_COLOR_TYPE_GRAY && img->bit_depth < 255)
     {
         png_set_expand_gray_1_2_4_to_8(png);
     }
