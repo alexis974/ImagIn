@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <err.h>
 
-#include "../imagin.h"
+#include "../../imagin.h"
 
 #include "flip.h"
 

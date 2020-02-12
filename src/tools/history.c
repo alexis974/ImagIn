@@ -8,13 +8,13 @@
 
 #include "history.h"
 
-#include "../modules/contrast.h"
-#include "../modules/exposure.h"
-#include "../modules/flip.h"
-#include "../modules/saturation.h"
-#include "../modules/shadows_highlights.h"
-#include "../modules/black_and_white.h"
-#include "../modules/invert.h"
+#include "../modules/user/contrast.h"
+#include "../modules/user/exposure.h"
+#include "../modules/user/flip.h"
+#include "../modules/user/saturation.h"
+#include "../modules/user/shadows_highlights.h"
+#include "../modules/user/black_and_white.h"
+#include "../modules/user/invert.h"
 
 // TODO : Coding style : 4.2 Max 10 fcts per file
 

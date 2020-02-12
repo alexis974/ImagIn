@@ -6,11 +6,11 @@
 #include "gui_callbacks.h"
 #include "gui_display.h"
 
-#include "../modules/flip.h"
-#include "../modules/contrast.h"
-#include "../modules/shadows_highlights.h"
-#include "../modules/exposure.h"
-#include "../modules/saturation.h"
+#include "../modules/user/flip.h"
+#include "../modules/user/contrast.h"
+#include "../modules/user/shadows_highlights.h"
+#include "../modules/user/exposure.h"
+#include "../modules/user/saturation.h"
 
 #include "../import_export/free.h"
 #include "../import_export/export.h"
@@ -85,7 +85,7 @@ void add_module_to_list(struct UI*ui, int module_id)
     GtkBuilder *builder = gtk_builder_new();
     GError* error = NULL;
 
-    if (gtk_builder_add_from_file(builder, "src/gui/gui.glade", &error) == 0)
+    if (gtk_builder_add_from_file(builder, "data/glade/gui.glade", &error) == 0)
     {
         g_printerr("Error loading file: %s\n", error->message);
         g_clear_error(&error);

@@ -2,7 +2,7 @@
 #include <err.h>
 #include <math.h>
 
-#include "../imagin.h"
+#include "../../imagin.h"
 
 #include "saturation.h"
 

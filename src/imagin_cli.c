@@ -13,12 +13,12 @@
 #include "import_export/free.h"
 #include "import_export/xml/xml.h"
 
-#include "modules/black_and_white.h"
-#include "modules/invert.h"
-#include "modules/flip.h"
-#include "modules/saturation.h"
-#include "modules/exposure.h"
-#include "modules/contrast.h"
+#include "modules/user/black_and_white.h"
+#include "modules/user/invert.h"
+#include "modules/user/flip.h"
+#include "modules/user/saturation.h"
+#include "modules/user/exposure.h"
+#include "modules/user/contrast.h"
 
 #include "tools/scale.h"
 #include "tools/histogram.h"
