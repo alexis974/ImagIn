@@ -10,11 +10,12 @@
 #include "../gui/gui.h"
 
 #include "import.h"
-#include "ppm.h"
-#include "tiff.h"
-#include "jpeg.h"
-#include "png.h"
 #include "exif.h"
+
+#include "formats/ppm.h"
+#include "formats/tiff.h"
+#include "formats/jpeg.h"
+#include "formats/png.h"
 
 
 // Return struct Image from an image file and its extension

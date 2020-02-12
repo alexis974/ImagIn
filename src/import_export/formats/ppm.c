@@ -3,9 +3,9 @@
 #include <math.h>
 #include <gtk/gtk.h>
 
-#include "../imagin.h"
+#include "../../imagin.h"
 
-#include "../debug/error_handler.h"
+#include "../../debug/error_handler.h"
 
 #include "ppm.h"
 

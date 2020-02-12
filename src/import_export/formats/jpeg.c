@@ -4,8 +4,8 @@
 #include <setjmp.h>
 #include <gtk/gtk.h>
 
-#include "../debug/error_handler.h"
-#include "../imagin.h"
+#include "../../debug/error_handler.h"
+#include "../../imagin.h"
 
 #include "jpeg.h"
 

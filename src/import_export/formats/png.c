@@ -3,11 +3,11 @@
 #include <gtk/gtk.h>
 #include <png.h>
 
-#include "../imagin.h"
+#include "../../imagin.h"
 
 #include "png.h"
 
-#include "../debug/error_handler.h"
+#include "../../debug/error_handler.h"
 
 // TODO : Coding style : 2.8 Fct name no upper case
 // TODO : Coding style : Fct 25 lines max

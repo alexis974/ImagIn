@@ -1,15 +1,16 @@
 #include <string.h>
 #include <gtk/gtk.h>
 
-#include "ppm.h"
-#include "tiff.h"
-#include "jpeg.h"
-#include "png.h"
+#include "formats/ppm.h"
+#include "formats/tiff.h"
+#include "formats/jpeg.h"
+#include "formats/png.h"
 
 #include "../imagin.h"
 #include "../debug/error_handler.h"
 #include "../tools/strings.h"
 
+#include "export.h"
 
 // Write image file given an image and a file name
 void write_ext(const char *filename, const char *ext, struct Image *img)
