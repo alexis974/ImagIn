@@ -20,8 +20,8 @@
 #include "modules/user/exposure.h"
 #include "modules/user/contrast.h"
 
-#include "tools/scale.h"
-#include "tools/histogram.h"
+#include "modules/imagin/scale.h"
+#include "modules/imagin/histogram.h"
 
 // TODO : Coding style : 4.10 Fct max 25 lines
 int main(void)
@@ -101,13 +101,10 @@ int main(void)
     vertical_flip(images->edit);
     write_image("tmp/08_Flip_vertiacl.ppm", images->edit);
 
-<<<<<<< HEAD
-=======
     struct Histogram *histogram = compute_histogram(images->edit);
 
-    printf("\nMax value = %ld\n", histo_max_value(histogram));
+    printf("Max value = %ld\n", histo_max_value(histogram));
 
->>>>>>> Coding_style
     free_images(images);
 
     printf("See you soon!\n");

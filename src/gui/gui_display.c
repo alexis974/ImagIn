@@ -13,7 +13,8 @@
 
 #include "../tools/history.h"
 #include "../tools/strings.h"
-#include "../tools/histogram.h"
+
+#include "../modules/imagin/histogram.h"
 
 #include "../debug/error_handler.h"
 

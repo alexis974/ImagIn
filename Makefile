@@ -14,8 +14,8 @@ LIBXML = `pkg-config --cflags --libs libxml-2.0`
 LIBPNG = `pkg-config --cflags --libs libpng`
 GEXIV = `pkg-config --cflags --libs gexiv2`
 
-SRC = src/import_export/*.c src/import_export/xml/*.c src/tools/*.c\
-	  src/modules/user/*.c src/gui/*.c src/debug/*.c
+SRC = src/import_export/*.c src/import_export/xml/*.c src/tools/*.c \
+	  src/modules/user/*.c src/modules/imagin/*.c src/gui/*.c src/debug/*.c
 
 all: imagin tmp
 imagin: $(SRC) src/imagin.c

@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <err.h>
 
-#include "../imagin.h"
+#include "../../imagin.h"
 
 #include "histogram.h"
 
