@@ -5,7 +5,7 @@
 
 void throw_error_in_UI(char *source, char *message)
 {
-    GtkBuilder *builder = gtk_builder_new_from_file("src/gui/gui.glade");
+    GtkBuilder *builder = gtk_builder_new_from_file("data/glade/gui.glade");
     GtkWidget *error_dialog =
         GTK_WIDGET(gtk_builder_get_object(builder, "error_dialog"));
 
