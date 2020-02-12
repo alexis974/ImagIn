@@ -46,8 +46,8 @@ Please make sure you have the following intalled in order to be able to compile 
 | Library       | Version   |
 |:-------------:|:---------:|
 | gtk+-3.0      | 3.0       |
-| ibjpeg        | 8.2.2     |
-| ibpng         | 16.37.0   |
+| libjpeg       | 8.2.2     |
+| libpng        | 16.37.0   |
 | libtiff-4     | 5.5.0     |
 | libxml-2.0    | 2.9.10    |
 | gexiv2        | 2.0.0     |
