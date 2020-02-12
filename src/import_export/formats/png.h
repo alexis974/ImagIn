@@ -1,8 +1,8 @@
 #ifndef PNG_H
 #define PNG_H
 
-struct Image *readPNG(const char *filename);
+struct Image *read_png(const char *filename);
 
-void writePNG(const char *filename, struct Image *img);
+void write_png(const char *filename, struct Image *img);
 
 #endif /* ! PNG_H */

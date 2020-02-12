@@ -9,9 +9,8 @@
 
 #include "../../debug/error_handler.h"
 
-// TODO : Coding style : 2.8 Fct name no upper case
 // TODO : Coding style : Fct 25 lines max
-struct Image *readPNG(const char *filename)
+struct Image *read_png(const char *filename)
 {
     FILE *fp = fopen(filename, "rb");
 
@@ -134,9 +133,8 @@ struct Image *readPNG(const char *filename)
     return img;
 }
 
-// TODO : Coding style : 2.8 Fct name no upper case
 // TODO : Coding style : Fct 25 lines max
-void writePNG(const char *filename, struct Image *img)
+void write_png(const char *filename, struct Image *img)
 {
     FILE *fp = fopen(filename, "wb");
     if (!fp)

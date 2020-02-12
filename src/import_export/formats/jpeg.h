@@ -1,8 +1,8 @@
 #ifndef JPEG_H
 #define JPEG_H
 
-struct Image *readJPEG(const char *filename);
+struct Image *read_jpeg(const char *filename);
 
-void writeJPEG(const char *filename, struct Image *img);
+void write_jpeg(const char *filename, struct Image *img);
 
 #endif /* ! JPEH_H */

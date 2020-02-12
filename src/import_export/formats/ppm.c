@@ -9,9 +9,8 @@
 
 #include "ppm.h"
 
-// TODO : Coding style : 2.8 Fct name no upper case
 // TODO : Coding style : Fct 25 lines max
-struct Image *readPPM(const char *filename)
+struct Image *read_ppm(const char *filename)
 {
     char buff[16];
     struct Image *img;
@@ -114,8 +113,7 @@ struct Image *readPPM(const char *filename)
     return img;
 }
 
-// TODO : Coding style : 2.8 Fct name no upper case
-void writePPM(const char *filename, struct Image *img)
+void write_ppm(const char *filename, struct Image *img)
 {
     FILE *fp;
 

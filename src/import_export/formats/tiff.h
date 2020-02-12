@@ -1,8 +1,8 @@
 #ifndef TIFF_H
 #define TIFF_H
 
-struct Image *readTIFF(const char *filename);
+struct Image *read_tiff(const char *filename);
 
-void writeTIFF(const char *filename, struct Image *img);
+void write_tiff(const char *filename, struct Image *img);
 
 #endif /* ! TIFF_H */

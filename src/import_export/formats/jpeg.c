@@ -9,6 +9,7 @@
 
 #include "jpeg.h"
 
+// TODO : Coding style : Struct should be in the .h
 // Check libjpeg example.c
 struct my_error_mgr
 {
@@ -18,9 +19,8 @@ struct my_error_mgr
 
 struct my_error_mgr *my_error_ptr;
 
-// TODO : Coding style : 2.8 No upper case in fct name
 // TODO : Coding style : 4.10 Fct max 25 lines
-struct Image *readJPEG(const char *filename)
+struct Image *read_jpeg(const char *filename)
 {
     // Store image info
     struct jpeg_decompress_struct cinfo;
@@ -115,9 +115,8 @@ struct Image *readJPEG(const char *filename)
     return img;
 }
 
-// TODO : Coding style : 2.8 No upper case in fct name
 // TODO : Coding style : 4.10 Fct max 25 lines
-void writeJPEG(const char *filename, struct Image *img)
+void write_jpeg(const char *filename, struct Image *img)
 {
     struct jpeg_compress_struct cinfo;
     struct jpeg_error_mgr jerr;

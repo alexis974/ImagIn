@@ -1,8 +1,8 @@
 #ifndef PPM_H
 #define PPM_H
 
-struct Image *readPPM(const char *filename);
+struct Image *read_ppm(const char *filename);
 
-void writePPM(const char *filename, struct Image *img);
+void write_ppm(const char *filename, struct Image *img);
 
 #endif /* ! PPM_H */
