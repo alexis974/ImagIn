@@ -9,16 +9,16 @@
 
 #include "../import_export/import.h"
 #include "../import_export/export.h"
-#include "../import_export/free.h"
 
 #include "../tools/history.h"
 #include "../tools/strings.h"
+#include "../tools/free.h"
+#include "../tools/exif.h"
 
 #include "../modules/imagin/histogram.h"
 
 #include "../debug/error_handler.h"
 
-#include "../import_export/exif.h"
 
 void reset_history_list(struct UI *ui)
 {

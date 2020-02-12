@@ -4,13 +4,13 @@
 
 #include "../imagin.h"
 
+#include "../gui/gui.h"
 #include "../debug/error_handler.h"
 #include "../modules/imagin/scale.h"
 #include "../tools/strings.h"
-#include "../gui/gui.h"
+#include "../tools/exif.h"
 
 #include "import.h"
-#include "exif.h"
 
 #include "formats/ppm.h"
 #include "formats/tiff.h"

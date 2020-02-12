@@ -10,7 +10,6 @@
 
 #include "import_export/import.h"
 #include "import_export/export.h"
-#include "import_export/free.h"
 #include "import_export/xml/xml.h"
 
 #include "modules/user/black_and_white.h"
@@ -22,6 +21,8 @@
 
 #include "modules/imagin/scale.h"
 #include "modules/imagin/histogram.h"
+
+#include "tools/free.h"
 
 // TODO : Coding style : 4.10 Fct max 25 lines
 int main(void)

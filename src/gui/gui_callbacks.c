@@ -12,11 +12,11 @@
 #include "../modules/user/exposure.h"
 #include "../modules/user/saturation.h"
 
-#include "../import_export/free.h"
 #include "../import_export/export.h"
 
 #include "../debug/error_handler.h"
 
+#include "../tools/free.h"
 #include "../tools/history.h"
 
 // TODO : Coding style : 4.2 Max 10 fct

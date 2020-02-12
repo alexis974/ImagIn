@@ -2,11 +2,12 @@
 #include <gexiv2/gexiv2-metadata.h>
 #include <gtk/gtk.h>
 
+#include "../gui/gui.h"
+
 #include "../debug/error_handler.h"
 
 #include "../tools/strings.h"
 
-#include "../gui/gui.h"
 
 // TODO : Coding style : 4.10 Fct max 25 lines
 void print_data(const char *filename)
