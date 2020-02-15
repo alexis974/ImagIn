@@ -5,6 +5,24 @@
 
 #include "flip.h"
 
+void flip(struct Image *img, size_t value)
+{
+    switch (value)
+    {
+    case 0:
+        vertical_flip(img);
+        break;
+    case 1:
+        horizontal_flip(img);
+        break;
+    case 2:
+        flip_both_axis(img);
+        break;
+    default:
+        break;
+    }
+}
+
 void vertical_flip(struct Image *img)
 {
     if (!img)
@@ -39,7 +57,6 @@ void vertical_flip(struct Image *img)
     }
 }
 
-
 void horizontal_flip(struct Image *img)
 {
     if (!img)
@@ -73,7 +90,6 @@ void horizontal_flip(struct Image *img)
         }
     }
 }
-
 
 void flip_both_axis(struct Image *img)
 {
