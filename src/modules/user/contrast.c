@@ -29,6 +29,9 @@ void contrast(struct Image *img, float range)
         errx(1, "contrast: no image found");
     }
 
+    if (range == 1)
+        return;
+
     for (size_t i = 0; i < img->width * img->height; i++)
     {
         img->data[i].red = apply_contrast(img->data[i].red, range,

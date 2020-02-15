@@ -16,6 +16,9 @@ void saturation(struct Image *img, float change)
         errx(1, "saturation: No image found");
     }
 
+    if (change == 1)
+        return;
+
     struct PixelHSL pxlhsl;
     for (size_t i = 0; i < img->width * img->height; i++)
     {
