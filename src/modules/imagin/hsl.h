@@ -4,8 +4,8 @@
 struct PixelHSL
 {
     int h;
-    int s;
-    int l;
+    float s;
+    float l;
 };
 
 struct PixelHSL RGBtoHSL(struct Pixel pxl, float bd);

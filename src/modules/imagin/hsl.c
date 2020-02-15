@@ -16,131 +16,95 @@ float getmax(float x, float y)
     return x > y ? x : y;
 }
 
-struct PixelHSL RGBtoHSL(struct Pixel pxl, float bd)
+struct PixelHSL RGBtoHSL(struct Pixel rgb, float bd)
 {
-    struct PixelHSL newpxl;
-    float h;
-    float s;
-    float l;
+    struct PixelHSL hsl;
 
-    float r = pxl.red / bd;
-    float g = pxl.green / bd;
-    float b = pxl.blue / bd;
+    float r = rgb.red / bd;
+    float g = rgb.green / bd;
+    float b = rgb.blue / bd;
+
     float min = getmin(r, getmin(g, b)); //min(r, g, b)
     float max = getmax(r, getmax(g, b)); //max(r, g, b)
+    float delta = max - min;
 
-    if (r == g && g == b)
+    hsl.l = (max + min) / 2;
+
+    if (delta == 0)
     {
-        h = 0.0;
-        s = 0.0;
-        l = r;
+        hsl.h = 0;
+        hsl.s = 0.0f;
     }
     else
     {
-        float delta = max - min;
-        float sum = max + min;
+        hsl.s = (hsl.l <= 0.5) ? (delta / (max + min)) :
+            (delta / (2 - max - min));
 
-        l = sum / 2;
-        if (l < 0.5)
-            s = delta / sum;
-        else
-            s = delta / (2.0 - max - min);
+        float h;
 
         if (r == max)
-            h = (g - b) / delta;
+            h = ((g - b) / 6) / delta;
         else if (g == max)
-            h = 2.0 + (b - r) / delta;
+            h = (1.0f / 3) + ((b - r) / 6) / delta;
         else
-            h = 4.0 + (r - g) / delta;
+            h = (2.0f / 3) + ((r - g) / 6) / delta;
 
-        h /= 6;
         if (h < 0)
             h ++;
+        if (h > 1)
+            h --;
+
+        hsl.h = (int)(h * 360);
     }
 
-    newpxl.h = (int)(h * 360.0);
-    newpxl.s = (int)(s * bd);
-    newpxl.l = (int)(l * bd);
-    return newpxl;
+    return hsl;
 }
 
-// TODO : Coding style : 2.8 Fct name no upper case
-// TODO : Coding style : 4.10 Fct max 25 lines
-struct Pixel HSLtoRGB(struct PixelHSL pxl, float bd)
+float huetoRGB(float v1, float v2, float vH)
 {
-    struct Pixel newpxl;
-    float r;
-    float g;
-    float b;
+    if (vH < 0)
+        vH += 1;
 
-    float h = (pxl.h % 260) / 360.0;
-    float s = pxl.s / (bd + 1.0);
-    float l = pxl.l / (bd + 1.0);
+    if (vH > 1)
+        vH -= 1;
 
-    if (s == 0)
+    if ((6 * vH) < 1)
+        return (v1 + (v2 - v1) * 6 * vH);
+
+    if ((2 * vH) < 1)
+        return v2;
+
+    if ((3 * vH) < 2)
+        return (v1 + (v2 - v1) * ((2.0f / 3) - vH) * 6);
+
+    return v1;
+}
+
+struct Pixel HSLtoRGB(struct PixelHSL hsl, float bd)
+{
+    struct Pixel rgb;
+
+    if (hsl.s == 0)
     {
-        r = l;
-        g = l;
-        b = l;
+        rgb.red = (unsigned char)(hsl.l * bd);
+        rgb.green = (unsigned char)(hsl.l * bd);
+        rgb.blue = (unsigned char)(hsl.l * bd);
     }
     else
     {
         float tmp1;
         float tmp2;
-        float tmpr;
-        float tmpg;
-        float tmpb;
+        float h = (float)hsl.h / 360;
 
         //tmp1, tmp2
-        if (l < 0.5)
-            tmp2 = l * (1 + s);
-        else
-            tmp2 = (l + s) - (l * s);
-        tmp1 = 2 * l - tmp2;
+        tmp2 = (hsl.l < 0.5) ? (hsl.l * (1 + hsl.s)) : ((hsl.l + hsl.s) -
+                (hsl.l * hsl.s));
+        tmp1 = 2 * hsl.l - tmp2;
 
-        //tmpr, tmpg, tmpb
-        tmpr = h + 1.0 / 3.0;
-        if (tmpr > 1)
-            tmpr --;
-        tmpg = h;
-        tmpb = h - 1.0 / 3.0;
-        if (tmpb < 0)
-            tmpb ++;
-
-        //red
-        if (tmpr < 1.0 / 6.0)
-            r = tmp1 + (tmp2 - tmp1) * 6.0 * tmpr;
-        else if (tmpr < 0.5)
-            r = tmp2;
-        else if (tmpr < 2.0 / 3.0)
-            r = tmp1 + (tmp2 - tmp1) * ((2.0 / 3.0) - tmpr) * 6.0;
-        else
-            r = tmp1;
-
-        //green
-        if (tmpg < 1.0 / 6.0)
-            g = tmp1 + (tmp2 - tmp1) * 6.0 * tmpg;
-        else if (tmpg < 0.5)
-            g = tmp2;
-        else if (tmpg < 2.0 / 3.0)
-            g = tmp1 + (tmp2 - tmp1) * ((2.0 / 3.0) - tmpg) * 6.0;
-        else
-            g = tmp1;
-
-        //blue
-        if (tmpb < 1.0 / 6.0)
-            b = tmp1 + (tmp2 - tmp1) * 6.0 * tmpb;
-        else if (tmpb < 0.5)
-            b = tmp2;
-        else if (tmpb < 2.0 / 3.0)
-            b = tmp1 + (tmp2 - tmp1) * ((2.0 / 3.0) - tmpb) * 6.0;
-        else
-            b = tmp1;
+        rgb.red = (unsigned char)(bd * huetoRGB(tmp1, tmp2, h + (1.0f / 3)));
+        rgb.green = (unsigned char)(bd * huetoRGB(tmp1, tmp2, h));
+        rgb.blue = (unsigned char)(bd * huetoRGB(tmp1, tmp2, h - (1.0f / 3)));
     }
 
-    newpxl.red = (int)(r * bd);
-    newpxl.green = (int)(g * bd);
-    newpxl.blue = (int)(b * bd);
-
-    return newpxl;
+    return rgb;
 }

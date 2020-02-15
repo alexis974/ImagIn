@@ -16,31 +16,16 @@ void saturation(struct Image *img, float change)
         errx(1, "saturation: No image found");
     }
 
-    change -= 1;
-
-    if (change < -1)
-        change = -1;
-    else if (change > 1)
-        change = 1;
-
     struct PixelHSL pxlhsl;
-    float gray_fact;
-    float var_delta;
     for (size_t i = 0; i < img->width * img->height; i++)
     {
         pxlhsl = RGBtoHSL(img->data[i], (float)img->bit_depth);
 
-        if (change >= 0)
-        {
-            gray_fact = (float)pxlhsl.s / (float)img->bit_depth;
-            var_delta = img->bit_depth - pxlhsl.s;
-            pxlhsl.s += change * var_delta * gray_fact;
-        }
-        else
-        {
-            var_delta = pxlhsl.s;
-            pxlhsl.s += change * var_delta;
-        }
+        pxlhsl.s *= change;
+        if (pxlhsl.s < 0)
+            pxlhsl.s = 0;
+        if (pxlhsl.s > 1)
+            pxlhsl.s = 1;
 
         img->data[i] = HSLtoRGB(pxlhsl, (float)img->bit_depth);
     }
