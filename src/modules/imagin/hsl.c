@@ -16,8 +16,6 @@ float getmax(float x, float y)
     return x > y ? x : y;
 }
 
-// TODO : Coding style : 2.8 Fct name no upper case
-// TODO : Coding style : 4.10 Fct max 25 lines
 struct PixelHSL RGBtoHSL(struct Pixel pxl, float bd)
 {
     struct PixelHSL newpxl;
@@ -46,7 +44,7 @@ struct PixelHSL RGBtoHSL(struct Pixel pxl, float bd)
         if (l < 0.5)
             s = delta / sum;
         else
-            s = delta / (2.0 - delta);
+            s = delta / (2.0 - max - min);
 
         if (r == max)
             h = (g - b) / delta;
