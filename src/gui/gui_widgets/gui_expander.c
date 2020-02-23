@@ -22,6 +22,8 @@ gboolean expander_pressed(GtkWidget *widget,
         gtk_widget_show (expander->body);
     }
 
+    gtk_widget_queue_draw(expander->right_panel);
+
     expander->state = !expander->state;
 
     return FALSE;
@@ -36,5 +38,10 @@ void setup_imagin_expander(GtkBuilder *builder, struct Imagin_expander *exp,
             gtk_builder_get_object(builder, body_name));
     exp->state = FALSE;
     gtk_widget_hide(exp->body);
+
+    /* QUICK FIX */
+    exp->right_panel = GTK_WIDGET(
+            gtk_builder_get_object(builder, "right_panel"));
+
     g_signal_connect(exp->header, "button-release-event", G_CALLBACK(expander_pressed), exp);
 }

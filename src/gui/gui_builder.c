@@ -84,18 +84,13 @@ void build_image_info(GtkBuilder *builder, struct UI *ui)
 
 void build_custom_expanders(GtkBuilder *builder, struct UI *ui)
 {
-    //Redraw right panel when custom expanders are touched
-    GtkWidget *tmp = GTK_WIDGET(
-            gtk_builder_get_object(builder, "right_panel"));
-    g_signal_connect(tmp, "draw",
-            G_CALLBACK(gtk_widget_queue_draw), NULL);
-
     ui->modules->bw_exp = malloc(sizeof(struct Imagin_expander));
     ui->modules->cont_exp_sat->exp = malloc(sizeof(struct Imagin_expander));
     ui->modules->invert_exp = malloc(sizeof(struct Imagin_expander));
     ui->modules->orientation->exp = malloc(sizeof(struct Imagin_expander));
     ui->modules->shadows_highlights->exp =
         malloc(sizeof(struct Imagin_expander));
+
     setup_imagin_expander(builder, ui->modules->bw_exp, "bw_event", "bw_body");
     setup_imagin_expander(builder,
         ui->modules->cont_exp_sat->exp, "ces_event", "ces_body");
