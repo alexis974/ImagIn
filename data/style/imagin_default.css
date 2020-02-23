@@ -60,6 +60,26 @@
     color: white;
 }
 
+/* Custom expander*/
+
+#main_window #header
+{
+    background-color: #252525;
+    padding: 3px;
+    border-radius: 5px;
+}
+
+#main_window #body
+{
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    background-color: #383838;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+/* GTK expander */
+
 #main_window expander
 {
     background-color : #252525;

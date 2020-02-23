@@ -15,7 +15,7 @@ LIBPNG = `pkg-config --cflags --libs libpng`
 GEXIV = `pkg-config --cflags --libs gexiv2`
 
 SRC = src/debug/*.c \
-	  src/gui/*.c \
+	  src/gui/*.c src/gui/gui_widgets/*.c \
 	  src/import_export/*.c src/import_export/xml/*.c \
 	  src/import_export/formats/*.c \
 	  src/modules/user/*.c src/modules/imagin/*.c \

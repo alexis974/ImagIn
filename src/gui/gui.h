@@ -3,6 +3,7 @@
 
 struct Orientation
 {
+    struct Imagin_expander *exp;
     GtkButton *rot_l_button;
     GtkButton *rot_r_button;
     GtkComboBox *flip_box;
@@ -19,6 +20,7 @@ struct Menu_bar
 
 struct Cont_exp_sat
 {
+    struct Imagin_expander *exp;
     GtkScale *contraste_scale;
     GtkScale *exposure_scale;
     GtkScale *saturation_scale;
@@ -26,6 +28,7 @@ struct Cont_exp_sat
 
 struct Shadows_highlights
 {
+    struct Imagin_expander *exp;
     GtkScale *shadows_scale;
     GtkScale *highlights_scale;
 };
@@ -44,6 +47,8 @@ struct Modules
     struct History_List *history_list;
     GtkSwitch *bw_switch;
     GtkSwitch *invert_switch;
+    struct Imagin_expander *bw_exp;
+    struct Imagin_expander *invert_exp;
 };
 
 struct Display

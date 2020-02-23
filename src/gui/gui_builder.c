@@ -1,5 +1,7 @@
 #include <gtk/gtk.h>
 
+
+#include "gui_widgets/gui_expander.h"
 #include "gui_builder.h"
 
 #include "gui.h"
@@ -80,6 +82,31 @@ void build_image_info(GtkBuilder *builder, struct UI *ui)
                 builder, "info_shutterspeed"));
 }
 
+void build_custom_expanders(GtkBuilder *builder, struct UI *ui)
+{
+    //Redraw right panel when custom expanders are touched
+    GtkWidget *tmp = GTK_WIDGET(
+            gtk_builder_get_object(builder, "right_panel"));
+    g_signal_connect(tmp, "draw",
+            G_CALLBACK(gtk_widget_queue_draw), NULL);
+
+    ui->modules->bw_exp = malloc(sizeof(struct Imagin_expander));
+    ui->modules->cont_exp_sat->exp = malloc(sizeof(struct Imagin_expander));
+    ui->modules->invert_exp = malloc(sizeof(struct Imagin_expander));
+    ui->modules->orientation->exp = malloc(sizeof(struct Imagin_expander));
+    ui->modules->shadows_highlights->exp =
+        malloc(sizeof(struct Imagin_expander));
+    setup_imagin_expander(builder, ui->modules->bw_exp, "bw_event", "bw_body");
+    setup_imagin_expander(builder,
+        ui->modules->cont_exp_sat->exp, "ces_event", "ces_body");
+    setup_imagin_expander(builder,
+        ui->modules->invert_exp, "inv_event", "inv_body");
+    setup_imagin_expander(builder,
+        ui->modules->orientation->exp, "ori_event", "ori_body");
+    setup_imagin_expander(builder,
+        ui->modules->shadows_highlights->exp, "sh_event", "sh_body");
+}
+
 void build_modules_gui(GtkBuilder *builder, struct UI *ui)
 {
     ui->modules = malloc(sizeof(struct Modules));
@@ -151,6 +178,7 @@ struct UI *build_gui(char *glade_file_path)
     build_window_gui(builder, ui);
     build_menu_bar_gui(builder, ui);
     build_modules_gui(builder, ui);
+    build_custom_expanders(builder, ui);
     build_display_gui(builder, ui);
     build_bottom_bar_gui(builder, ui);
     build_image_info(builder, ui);

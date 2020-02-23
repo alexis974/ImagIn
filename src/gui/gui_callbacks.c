@@ -501,6 +501,20 @@ void quit(GtkWidget *widget, gpointer user_data)
 {
     (void) widget;
     struct UI *ui = user_data;
+
+    free(ui->modules->bw_exp);
+    /*free(ui->modules->invert_exp);
+    free(ui->modules->cont_exp_sat->exp);
+    free(ui->modules->orientation->exp);
+    free(ui->modules->shadows_highlights->exp);*/
+
+    free(ui->image_info);
+
+    free(ui->modules->history_list);
+    free(ui->modules->shadows_highlights);
+    free(ui->modules->orientation);
+    free(ui->modules->cont_exp_sat);
+
     free(ui->bottom_bar);
     free(ui->display);
     free(ui->menu_bar);
