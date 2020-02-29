@@ -10,8 +10,6 @@ void reset_image_info(struct UI *ui);
 
 void reload_images(struct UI *ui);
 
-gboolean draw_histogram(GtkWidget *widget, cairo_t *cr, gpointer user_data);
-
 gboolean on_image_event(GtkWidget *widget, GdkEvent *event,
                gpointer user_data);
 

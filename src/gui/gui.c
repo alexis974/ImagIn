@@ -8,7 +8,7 @@
 #include "gui.h"
 #include "gui_builder.h"
 #include "gui_signals.h"
-#include "gui_callbacks.h"
+#include "gui_modules.h"
 #include "gui_display.h"
 #include "gui_style.h"
 

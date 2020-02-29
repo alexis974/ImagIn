@@ -1,11 +1,10 @@
 #include <gtk/gtk.h>
-#include <time.h>
-#include <stdlib.h>
 
 #include "../imagin.h"
 
-#include "gui_callbacks.h"
 #include "gui.h"
+#include "gui_modules.h"
+#include "gui_windows.h"
 #include "gui_widgets/gui_expander.h"
 
 #include "../import_export/import.h"
@@ -15,8 +14,6 @@
 #include "../tools/strings.h"
 #include "../tools/free.h"
 #include "../tools/exif.h"
-
-#include "../modules/imagin/histogram.h"
 
 #include "../debug/error_handler.h"
 
@@ -228,47 +225,6 @@ void display_images(struct UI *ui, char *filename)
         GTK_WIDGET(ui->display->histogram_area)),
         gtk_widget_get_allocated_height(
         GTK_WIDGET(ui->display->histogram_area)));
-}
-
-gboolean draw_histogram(GtkWidget *widget, cairo_t *cr, gpointer user_data)
-{
-    struct UI *ui = user_data;
-
-    if (!ui->image_loaded)
-    {
-        return FALSE;
-    }
-
-    float height =  gtk_widget_get_allocated_height(widget);
-    int width = gtk_widget_get_allocated_width(widget);
-
-    cairo_set_source_rgb(cr, 0.3, 0.3, 0.3);
-    cairo_paint(cr);
-
-    struct Histogram *histogram = compute_histogram(ui->images->small);
-
-    float max_value = histo_max_value(histogram);
-    float scale = height/max_value;
-
-    cairo_set_source_rgb(cr, 1, 1, 1);
-    cairo_set_line_width(cr,2);
-
-    cairo_move_to(cr, 0, height);
-
-    for (size_t i = 0; i < 256; i++)
-    {
-        size_t value = histogram->white[i];
-        value *= scale;
-        cairo_line_to(cr, i * width/256, height-value);
-    }
-
-    cairo_line_to(cr, width, height);
-
-    cairo_fill(cr);
-
-    cairo_stroke(cr);
-    free_histogram(histogram);
-    return FALSE;
 }
 
 gboolean on_image_event(GtkWidget *widget, GdkEvent *event,

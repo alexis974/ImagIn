@@ -9,7 +9,7 @@
 
 int main(void)
 {
-    printf("GUI Mode\n");
+    printf("Launching GUI...\n");
 
     // TODO : Coding style : 2.5 typedef ?
     g_cli_mode = FALSE;

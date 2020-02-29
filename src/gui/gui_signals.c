@@ -1,9 +1,13 @@
 #include <gtk/gtk.h>
 
 #include "gui.h"
-#include "gui_callbacks.h"
+#include "gui_modules.h"
 #include "gui_display.h"
 #include "gui_signals.h"
+#include "gui_windows.h"
+#include "gui_shortcut.h"
+#include "gui_history.h"
+#include "gui_histogram.h"
 
 #include "gui_widgets/gui_expander.h"
 
