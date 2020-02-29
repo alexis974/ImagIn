@@ -6,6 +6,7 @@
 
 #include "gui_callbacks.h"
 #include "gui.h"
+#include "gui_widgets/gui_expander.h"
 
 #include "../import_export/import.h"
 #include "../import_export/export.h"
@@ -58,6 +59,17 @@ void reset_modules(struct UI *ui)
                 ui->modules->shadows_highlights->shadows_scale), 0);
     gtk_range_set_value(GTK_RANGE(
                 ui->modules->shadows_highlights->highlights_scale), 0);
+
+    gtk_toggle_button_set_active(
+                ui->modules->orientation->exp->check_box, TRUE);
+    gtk_toggle_button_set_active(
+                ui->modules->cont_exp_sat->exp->check_box, TRUE);
+    gtk_toggle_button_set_active(
+                ui->modules->shadows_highlights->exp->check_box, TRUE);
+    gtk_toggle_button_set_active(
+                ui->modules->bw_exp->check_box, TRUE);
+    gtk_toggle_button_set_active(
+                ui->modules->invert_exp->check_box, TRUE);
 
     gtk_combo_box_set_active(GTK_COMBO_BOX(
                 ui->modules->orientation->flip_box), 0);

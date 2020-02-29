@@ -5,6 +5,7 @@
 #include "gui.h"
 #include "gui_callbacks.h"
 #include "gui_display.h"
+#include "gui_widgets/gui_expander.h"
 
 #include "../modules/user/flip.h"
 #include "../modules/user/contrast.h"
@@ -116,28 +117,9 @@ void add_module_to_list(struct UI*ui, int module_id)
     g_object_unref(builder);
 }
 
-void apply_module(struct UI *ui, int module_id, float value)
+// Delete changes above selected history element
+void compress_until_selected(struct UI *ui)
 {
-    if (!ui->can_modify)
-    {
-        return;
-    }
-
-    gtk_list_box_unselect_all(ui->modules->history_list->list);
-
-    int add = hst_append(ui->hist, module_id, 1, value);
-    hst_insert_sort(ui->compressed_hist, module_id, 1, value);
-    if (add)
-        add_module_to_list(ui, module_id);
-
-    reload_images(ui);
-}
-
-void compress_history(GtkWidget *button, gpointer user_data)
-{
-    (void) button;
-    struct UI *ui = user_data;
-
     if (!ui->image_loaded || ui->hist->next ==  NULL)
         return;
 
@@ -160,11 +142,40 @@ void compress_history(GtkWidget *button, gpointer user_data)
         ui->compressed_hist = hst_duplicate(ui->hist);
         hst_sort(ui->compressed_hist);
         hst_compress(ui->compressed_hist);
-
-        reset_modules(ui);
-        reset_widgets(ui->compressed_hist, ui);
-        reload_images(ui);
     }
+}
+
+void apply_module(struct UI *ui, int module_id, float value)
+{
+    if (!ui->can_modify)
+    {
+        return;
+    }
+
+    // If we are back in history and we make a change
+    // We delete the rest of history
+    compress_until_selected(ui);
+
+    gtk_list_box_unselect_all(ui->modules->history_list->list);
+
+    int add = hst_append(ui->hist, module_id, 1, value);
+    hst_insert_sort(ui->compressed_hist, module_id, 1, value);
+    if (add)
+        add_module_to_list(ui, module_id);
+
+    reload_images(ui);
+}
+
+// "Compress history" button callback
+void compress_history(GtkWidget *button, gpointer user_data)
+{
+    (void) button;
+    struct UI *ui = user_data;
+    compress_until_selected(ui);
+
+    reset_modules(ui);
+    reset_widgets(ui->compressed_hist, ui);
+    reload_images(ui);
 }
 
 void hst_selection_changed(GtkListBox *box, GtkListBoxRow *row,
@@ -179,7 +190,7 @@ void hst_selection_changed(GtkListBox *box, GtkListBoxRow *row,
 
     struct history *tmp_hist = hst_duplicate(ui->hist);
 
-    //First compression to match with displayed hisotory
+    //First compression to match with displayed history
     hst_compress(tmp_hist);
 
     int index = hst_length(tmp_hist) - (gtk_list_box_row_get_index(
@@ -219,6 +230,8 @@ void rotate_left(GtkWidget *button, gpointer user_data)
 
     (void) button;
     printf("Rotate left button pressed !\n");
+
+    set_expander_active(ui, ui->modules->orientation->exp, TRUE);
 }
 
 // Rotate module callback
@@ -234,6 +247,7 @@ void rotate_right(GtkWidget *button, gpointer user_data)
 
     (void) button;
     printf("Rotate right button pressed !\n");
+    set_expander_active(ui, ui->modules->orientation->exp, TRUE);
 }
 
 // Flip module callback
@@ -265,6 +279,8 @@ void flip_changed(GtkComboBox *box, gpointer user_data)
     default:
         break;
     }
+
+    set_expander_active(ui, ui->modules->orientation->exp, TRUE);
 }
 
 gboolean contraste_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
@@ -283,6 +299,8 @@ gboolean contraste_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
     }
 
     apply_module(ui, CONTRASTE, gtk_range_get_value(range));
+
+    set_expander_active(ui, ui->modules->cont_exp_sat->exp, TRUE);
 
     return FALSE;
 }
@@ -305,6 +323,8 @@ gboolean saturation_changed(GtkRange *range, GdkEvent *event,
 
     apply_module(ui, SATURATION, gtk_range_get_value(range));
 
+    set_expander_active(ui, ui->modules->cont_exp_sat->exp, TRUE);
+
     return FALSE;
 }
 
@@ -323,8 +343,9 @@ gboolean exposure_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
         return FALSE;
     }
 
-    (void) event; // Prevent unused warning
     apply_module(ui, EXPOSURE, gtk_range_get_value(range));
+
+    set_expander_active(ui, ui->modules->cont_exp_sat->exp, TRUE);
 
     return FALSE;
 }
@@ -345,6 +366,8 @@ gboolean shadows_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
     }
 
     apply_module(ui, SHADOWS, gtk_range_get_value(range));
+
+    set_expander_active(ui, ui->modules->shadows_highlights->exp, TRUE);
 
     return FALSE;
 }
@@ -367,6 +390,8 @@ gboolean highlights_changed(GtkRange *range, GdkEvent *event,
 
     apply_module(ui, HIGHLIGHTS, gtk_range_get_value(range));
 
+    set_expander_active(ui, ui->modules->shadows_highlights->exp, TRUE);
+
     return FALSE;
 }
 
@@ -384,6 +409,8 @@ gboolean bw_changed(GtkSwitch *widget, gboolean state, gpointer user_data)
 
     apply_module(ui, BW, state);
 
+    set_expander_active(ui, ui->modules->bw_exp, TRUE);
+
     return FALSE;
 }
 
@@ -400,6 +427,8 @@ gboolean invert_changed(GtkSwitch *widget, gboolean state, gpointer user_data)
     }
 
     apply_module(ui, INVERT, state);
+
+    set_expander_active(ui, ui->modules->invert_exp, TRUE);
 
     return FALSE;
 }
@@ -503,10 +532,10 @@ void quit(GtkWidget *widget, gpointer user_data)
     struct UI *ui = user_data;
 
     free(ui->modules->bw_exp);
-    /*free(ui->modules->invert_exp);
+    free(ui->modules->invert_exp);
     free(ui->modules->cont_exp_sat->exp);
     free(ui->modules->orientation->exp);
-    free(ui->modules->shadows_highlights->exp);*/
+    free(ui->modules->shadows_highlights->exp);
 
     free(ui->image_info);
 
@@ -529,4 +558,70 @@ void quit(GtkWidget *widget, gpointer user_data)
     hst_free_recursively(ui->compressed_hist);
     free(ui);
     gtk_main_quit();
+}
+
+
+/*##############################################################################
+** Modules check button
+*/
+
+void toggle_module(struct UI *ui, int module_id, int state)
+{
+    if (!ui->image_loaded || !ui->can_modify)
+        return;
+
+    // We have to inject it to modules to make reload functions believe
+    // it is the right history
+    compress_until_selected(ui);
+
+    gtk_list_box_unselect_all(ui->modules->history_list->list);
+
+    hst_enable_last(ui->hist, module_id, state);
+    hst_enable_last(ui->compressed_hist, module_id, state);
+
+    reload_images(ui);
+}
+
+void bw_cb_toggled(GtkToggleButton *togglebutton,
+                            gpointer user_data)
+{
+    struct UI* ui = user_data;
+    int state =  gtk_toggle_button_get_active(togglebutton);
+    toggle_module(ui, BW, state);
+}
+
+void inv_cb_toggled(GtkToggleButton *togglebutton,
+                            gpointer user_data)
+{
+    struct UI* ui = user_data;
+    int state =  gtk_toggle_button_get_active(togglebutton);
+    toggle_module(ui, INVERT, state);
+}
+
+void ori_cb_toggled(GtkToggleButton *togglebutton,
+                            gpointer user_data)
+{
+    struct UI* ui = user_data;
+    int state =  gtk_toggle_button_get_active(togglebutton);
+    toggle_module(ui, FLIP, state);
+    toggle_module(ui, ROTATION, state);
+}
+
+void ces_cb_toggled(GtkToggleButton *togglebutton,
+                            gpointer user_data)
+{
+    struct UI* ui = user_data;
+    int state =  gtk_toggle_button_get_active(togglebutton);
+    toggle_module(ui, CONTRASTE, state);
+    toggle_module(ui, EXPOSURE, state);
+    toggle_module(ui, SATURATION, state);
+}
+
+void sh_cb_toggled(GtkToggleButton *togglebutton,
+                            gpointer user_data)
+{
+    struct UI* ui = user_data;
+    int state =  gtk_toggle_button_get_active(togglebutton);
+    toggle_module(ui, SHADOWS, state);
+    toggle_module(ui, HIGHLIGHTS, state);
 }

@@ -4,7 +4,9 @@
 #include <gtk/gtk.h>
 
 #include "../imagin.h"
+
 #include "../gui/gui.h"
+#include "../gui/gui_widgets/gui_expander.h"
 
 #include "history.h"
 
@@ -183,6 +185,23 @@ void hst_sort(struct history *hist)
     }
 }
 
+//Update the enable value of the last hist element with module_id
+void hst_enable_last(struct history *hist, int module_id, int enable)
+{
+    struct history *last = NULL;
+
+    while (hist)
+    {
+        if (hist->id == module_id)
+            last = hist;
+
+        hist = hist->next;
+    }
+
+    if (last != NULL)
+        last->enable = enable;
+}
+
 // TODO : Coding style : 4.10  Fct max 25 lines
 void reset_widgets(struct history *hist, struct UI *ui)
 {
@@ -196,34 +215,48 @@ void reset_widgets(struct history *hist, struct UI *ui)
         case CONTRASTE:
             gtk_range_set_value(GTK_RANGE(
                     ui->modules->cont_exp_sat->contraste_scale), p->value);
+            gtk_toggle_button_set_active(
+                ui->modules->cont_exp_sat->exp->check_box, p->enable);
             break;
         case EXPOSURE:
             gtk_range_set_value(GTK_RANGE(
                     ui->modules->cont_exp_sat->exposure_scale), p->value);
+            gtk_toggle_button_set_active(
+                ui->modules->cont_exp_sat->exp->check_box, p->enable);
             break;
         case SATURATION:
             gtk_range_set_value(GTK_RANGE(
                     ui->modules->cont_exp_sat->saturation_scale), p->value);
+            gtk_toggle_button_set_active(
+                ui->modules->cont_exp_sat->exp->check_box, p->enable);
             break;
         case SHADOWS:
-            // TODO : Coding style : 3.5 Max 80 char per line
             gtk_range_set_value(GTK_RANGE(
-                    ui->modules->shadows_highlights->shadows_scale), p->value);
+                ui->modules->shadows_highlights->shadows_scale), p->value);
+            gtk_toggle_button_set_active(
+                ui->modules->shadows_highlights->exp->check_box, p->enable);
             break;
         case HIGHLIGHTS:
-            // TODO : Coding style : 3.5 Max 80 char per line
             gtk_range_set_value(GTK_RANGE(
-                    ui->modules->shadows_highlights->highlights_scale), p->value);
+                ui->modules->shadows_highlights->highlights_scale), p->value);
+            gtk_toggle_button_set_active(
+                ui->modules->shadows_highlights->exp->check_box, p->enable);
             break;
         case FLIP:
             gtk_combo_box_set_active(GTK_COMBO_BOX(
                     ui->modules->orientation->flip_box), p->value);
+            gtk_toggle_button_set_active(
+                ui->modules->orientation->exp->check_box, p->enable);
             break;
         case BW:
             gtk_switch_set_state(ui->modules->bw_switch, p->value);
+            gtk_toggle_button_set_active(
+                ui->modules->bw_exp->check_box, p->enable);
             break;
         case INVERT:
             gtk_switch_set_state(ui->modules->invert_switch, p->value);
+            gtk_toggle_button_set_active(
+                ui->modules->invert_exp->check_box, p->enable);
             break;
         default:
             break;
@@ -239,6 +272,9 @@ void hst_apply_all(struct history *hist, struct Image *img)
 {
     for (struct history *p = hist->next; p != NULL; p=p->next)
     {
+        if (!p->enable)
+            continue;
+
         switch (p->id)
         {
         case CONTRASTE:
@@ -251,27 +287,27 @@ void hst_apply_all(struct history *hist, struct Image *img)
             saturation(img, p->value + 1);
             break;
         case FLIP:
-            if(p->value == 1)
+            if (p->value == 1)
             {
                 vertical_flip(img);
             }
-            else if(p->value ==  2)
+            else if (p->value ==  2)
             {
                 horizontal_flip(img);
             }
-            else if(p->value == 3)
+            else if (p->value == 3)
             {
                 flip_both_axis(img);
             }
             break;
         case BW:
-            if(p->value)
+            if (p->value)
             {
                 simple_BW(img);
             }
             break;
         case INVERT:
-            if(p->value)
+            if (p->value)
             {
                 invert(img);
             }

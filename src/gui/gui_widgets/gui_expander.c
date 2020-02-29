@@ -1,6 +1,17 @@
 #include <gtk/gtk.h>
 
+#include "../gui.h"
 #include "gui_expander.h"
+
+// Force set expander check box
+void set_expander_active(struct UI *ui, struct Imagin_expander *exp, int state)
+{
+    //Prevents signal from calling toggle btns callback
+    gboolean tmp = ui->can_modify;
+    ui->can_modify = FALSE;
+    gtk_toggle_button_set_active(exp->check_box, state);
+    ui->can_modify = tmp;
+}
 
 gboolean expander_pressed(GtkWidget *widget,
             GdkEvent *event, gpointer user_data)
@@ -30,10 +41,12 @@ gboolean expander_pressed(GtkWidget *widget,
 }
 
 void setup_imagin_expander(GtkBuilder *builder, struct Imagin_expander *exp,
-    char* header_name, char* body_name)
+    char* header_name, char* cb_name, char* body_name)
 {
     exp->header = GTK_EVENT_BOX(
             gtk_builder_get_object(builder, header_name));
+    exp->check_box = GTK_TOGGLE_BUTTON(
+            gtk_builder_get_object(builder, cb_name));
     exp->body = GTK_WIDGET(
             gtk_builder_get_object(builder, body_name));
     exp->state = FALSE;

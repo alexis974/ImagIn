@@ -1,8 +1,8 @@
 #include <gtk/gtk.h>
 
 
-#include "gui_widgets/gui_expander.h"
 #include "gui_builder.h"
+#include "gui_widgets/gui_expander.h"
 
 #include "gui.h"
 #include "gui_style.h"
@@ -91,15 +91,16 @@ void build_custom_expanders(GtkBuilder *builder, struct UI *ui)
     ui->modules->shadows_highlights->exp =
         malloc(sizeof(struct Imagin_expander));
 
-    setup_imagin_expander(builder, ui->modules->bw_exp, "bw_event", "bw_body");
-    setup_imagin_expander(builder,
-        ui->modules->cont_exp_sat->exp, "ces_event", "ces_body");
-    setup_imagin_expander(builder,
-        ui->modules->invert_exp, "inv_event", "inv_body");
-    setup_imagin_expander(builder,
-        ui->modules->orientation->exp, "ori_event", "ori_body");
-    setup_imagin_expander(builder,
-        ui->modules->shadows_highlights->exp, "sh_event", "sh_body");
+    setup_imagin_expander(builder, ui->modules->bw_exp,
+        "bw_event", "bw_cb", "bw_body");
+    setup_imagin_expander(builder, ui->modules->cont_exp_sat->exp,
+        "ces_event", "ces_cb", "ces_body");
+    setup_imagin_expander(builder, ui->modules->invert_exp,
+        "inv_event", "inv_cb", "inv_body");
+    setup_imagin_expander(builder, ui->modules->orientation->exp,
+        "ori_event", "ori_cb", "ori_body");
+    setup_imagin_expander(builder, ui->modules->shadows_highlights->exp,
+        "sh_event", "sh_cb", "sh_body");
 }
 
 void build_modules_gui(GtkBuilder *builder, struct UI *ui)

@@ -44,6 +44,8 @@ void hst_insert_sort(struct history *hist, int module_id,
 
 void hst_sort(struct history *hist);
 
+void hst_enable_last(struct history *hist, int module_id, int enable);
+
 size_t hst_compressed_length(struct history *hist);
 
 void hst_free_recursively(struct history *hist);

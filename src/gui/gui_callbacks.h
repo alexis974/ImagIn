@@ -47,4 +47,19 @@ void open_export_as_window(GtkWidget *widget, gpointer user_data);
 
 void quit(GtkWidget *widget, gpointer user_data);
 
+void bw_cb_toggled(GtkToggleButton *togglebutton,
+                            gpointer user_data);
+
+void inv_cb_toggled(GtkToggleButton *togglebutton,
+                            gpointer user_data);
+
+void ori_cb_toggled(GtkToggleButton *togglebutton,
+                            gpointer user_data);
+
+void sh_cb_toggled(GtkToggleButton *togglebutton,
+                            gpointer user_data);
+
+void ces_cb_toggled(GtkToggleButton *togglebutton,
+                            gpointer user_data);
+
 #endif /* ! GUI_CALLBACKS_H */

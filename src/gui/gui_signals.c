@@ -5,6 +5,22 @@
 #include "gui_display.h"
 #include "gui_signals.h"
 
+#include "gui_widgets/gui_expander.h"
+
+void connect_check_boxes(struct UI *ui)
+{
+    g_signal_connect(ui->modules->bw_exp->check_box, "toggled",
+            G_CALLBACK(bw_cb_toggled), ui);
+    g_signal_connect(ui->modules->invert_exp->check_box, "toggled",
+            G_CALLBACK(inv_cb_toggled), ui);
+    g_signal_connect(ui->modules->orientation->exp->check_box, "toggled",
+            G_CALLBACK(ori_cb_toggled), ui);
+    g_signal_connect(ui->modules->cont_exp_sat->exp->check_box, "toggled",
+            G_CALLBACK(ces_cb_toggled), ui);
+    g_signal_connect(ui->modules->shadows_highlights->exp->check_box,
+            "toggled", G_CALLBACK(sh_cb_toggled), ui);
+}
+
 void connect_modules(struct UI *ui)
 {
     // Orientation modules signals
@@ -68,6 +84,7 @@ void connect_signals(struct UI *ui)
     g_signal_connect(ui->window, "key_press_event",
             G_CALLBACK (on_key_press), ui);
     connect_modules(ui);
+    connect_check_boxes(ui);
     connect_menu_bar(ui);
     connect_display(ui);
 }
