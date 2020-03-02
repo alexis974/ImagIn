@@ -51,18 +51,19 @@ void compress_until_selected(struct UI *ui)
 
     if (gtk_list_box_get_selected_row(ui->modules->history_list->list))
     {
-        hst_compress(ui->hist);
+        size_t nb_elements = g_list_length(gtk_container_get_children(
+            GTK_CONTAINER(ui->modules->history_list->list)));
 
-        int index = hst_length(ui->hist) - (gtk_list_box_row_get_index(
+        int index = nb_elements - (gtk_list_box_row_get_index(
             gtk_list_box_get_selected_row(ui->modules->history_list->list)) + 1);
 
-        for (size_t i = 0; i < hst_length(ui->hist) - (index + 1); i++)
+        for (size_t i = 0; i < nb_elements - (index + 1); i++)
         {
             gtk_widget_destroy(GTK_WIDGET(gtk_list_box_get_row_at_index(
                 ui->modules->history_list->list,0)));
         }
 
-        hst_truncate(ui->hist, index + 1);
+        hst_truncate_uncompressed(ui->hist, index+1);
 
         hst_free_recursively(ui->compressed_hist);
         ui->compressed_hist = hst_duplicate(ui->hist);

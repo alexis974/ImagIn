@@ -56,6 +56,8 @@ void hst_compress(struct history *hist);
 
 void hst_truncate(struct history *hist, size_t index);
 
+void hst_truncate_uncompressed(struct history *hist, size_t count);
+
 char *get_name(int id);
 
 void hst_print(struct history *hist);

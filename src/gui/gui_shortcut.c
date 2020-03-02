@@ -17,6 +17,8 @@ void undo(GtkWidget *widget, gpointer user_data)
         return;
     }
 
+    gtk_list_box_unselect_all(ui->modules->history_list->list);
+
     int delete = hst_pop(ui->hist);
     if (delete)
         gtk_widget_destroy(GTK_WIDGET(gtk_list_box_get_row_at_index(
@@ -26,6 +28,7 @@ void undo(GtkWidget *widget, gpointer user_data)
     hst_free_recursively(ui->compressed_hist);
     ui->compressed_hist = hst_duplicate(ui->hist);
     hst_compress(ui->compressed_hist);
+    hst_sort(ui->compressed_hist);
 
     reset_modules(ui);
     reset_widgets(ui->compressed_hist, ui);

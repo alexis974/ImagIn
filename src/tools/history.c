@@ -338,6 +338,7 @@ void hst_compress(struct history *hist)
     }
 }
 
+// Keep only history until index
 void hst_truncate(struct history *hist, size_t index)
 {
     for (size_t count = 0; count < index; count++)
@@ -350,9 +351,32 @@ void hst_truncate(struct history *hist, size_t index)
 }
 
 /*
+** Keep "count" elements but allowing repetitions
+** This is useful for going backward in history
+** but still being able to undo previous changes
+*/
+void hst_truncate_uncompressed(struct history *hist, size_t count)
+{
+    while (hist->next && count > 0)
+    {
+        count --;
+
+        hist = hist->next;
+
+        // Passing every modules that has same id
+        while (hist->next && hist->id == hist->next->id)
+            hist = hist->next;
+    }
+
+    hst_free_recursively(hist->next);
+    hist->next = NULL;
+}
+
+/*
  **  Free from hist till the end (hist included)
  **  Do not use it with hist->next as arguments
- **  because next pointer cannot be set to NULL
+ **  because "next" pointer cannot be set to NULL
+ **  or set it manually then
  */
 void hst_free_recursively(struct history *hist)
 {
