@@ -94,35 +94,17 @@ unsigned char *from_image_to_buffer(struct Image *img)
     return buffer;
 }
 
-// Image data has to be allocated
-void fill_image_data_with_buffer(unsigned char *buffer, struct Image *img)
-{
-    if (!img || !img->data)
-    {
-        throw_error("fill_image_with_buffer",
-                "image memory has not been allocated.");
-
-        return;
-    }
-
-    for (size_t j = 0; j < img->height; j++)
-    {
-        for (size_t i = 0; i < img->width; i++)
-        {
-            img->data[j*img->width+i].red = buffer[j*(img->width*3)+i*3];
-            img->data[j*img->width+i].green = buffer[j*(img->width*3)+i*3+1];
-            img->data[j*img->width+i].blue = buffer[j*(img->width*3)+i*3+2];
-        }
-    }
-}
-
 // Free pixel buffer when GdkBuffer is set
+// Requested by GTK when loading images with gdk_pixbuf_new_from_data
 void free_buffer(guchar *pixels, gpointer data)
 {
     (void) data;
     free(pixels);
 }
 
+/*
+**  Called whenever we want to refresh images
+*/
 void reload_images(struct UI *ui)
 {
     if (!ui->image_loaded)
@@ -162,13 +144,14 @@ void reload_images(struct UI *ui)
 }
 
 // TODO : Coding style : 4.10 Fct max 25 lines
+/* Called the first time we import an image */
 void display_images(struct UI *ui, char *filename)
 {
     // Free memory before reimporting
     if (ui->image_loaded)
     {
         free_images(ui->images);
-        hst_truncate(ui->hist, 0); //Reset
+        hst_truncate(ui->hist, 0); // Reset histories
         hst_truncate(ui->compressed_hist, 0);
     }
 
