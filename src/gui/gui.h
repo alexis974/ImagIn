@@ -53,6 +53,7 @@ struct Modules
 
 struct Display
 {
+    GtkWidget *box;
     GtkImage *display_image;
     GtkImage *small_image;
     GtkDrawingArea *histogram_area;

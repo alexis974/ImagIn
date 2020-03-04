@@ -254,7 +254,7 @@
                 <property name="hscrollbar_policy">never</property>
                 <property name="shadow_type">in</property>
                 <child>
-                  <object class="GtkViewport">
+                  <object class="GtkViewport" id="left_panel">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
@@ -587,7 +587,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkBox">
+              <object class="GtkBox" id="central_box">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="orientation">vertical</property>
@@ -1481,12 +1481,6 @@
                             <property name="fill">True</property>
                             <property name="position">5</property>
                           </packing>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
                         </child>
                       </object>
                     </child>

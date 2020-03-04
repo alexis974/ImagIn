@@ -76,6 +76,15 @@ void reset_modules(struct UI *ui)
     ui->can_modify = TRUE;
 }
 
+void on_center_image_size_change(GtkWidget *widget, GtkAllocation *allocation, void *data)
+{
+    (void) widget;
+    (void) data;
+    int padding = 10;
+    g_maxheight = allocation->height - padding;
+    g_maxwidth = allocation->width - padding;
+}
+
 unsigned char *from_image_to_buffer(struct Image *img)
 {
     unsigned char *buffer =
@@ -165,19 +174,11 @@ void display_images(struct UI *ui, char *filename)
     reset_modules(ui);
 
     int padding = 10;
-
-    // Setting middle zone info
-    g_maxwidth = gtk_widget_get_allocated_width(
-            GTK_WIDGET(ui->display->display_image)) - padding;
-    g_maxheight = gtk_widget_get_allocated_height(
-            GTK_WIDGET(ui->display->display_image)) - padding;
-
     // Setting preview zone info
     g_maxwidth_small = gtk_widget_get_allocated_width(
             GTK_WIDGET(ui->display->small_image)) - padding;
     g_maxheight_small = gtk_widget_get_allocated_height(
             GTK_WIDGET(ui->display->small_image)) - padding;
-
     // Getting all scaled images
     ui->images = read_image(filename);
     if (!ui->images)

@@ -55,7 +55,8 @@ void build_display_gui(GtkBuilder *builder, struct UI *ui)
                 builder, "histogram_area"));
     ui->display->middle_area_events = GTK_EVENT_BOX(gtk_builder_get_object(
                 builder, "middle_area_events"));
-
+    ui->display->box = GTK_WIDGET(gtk_builder_get_object(
+                builder, "central_box"));
     //Setting default middle image
     gtk_image_set_from_file(ui->display->display_image,
             "data/icons/no_image.png");

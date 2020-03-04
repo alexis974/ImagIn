@@ -2,6 +2,10 @@
 #define GUI_DISPLAY_H
 
 // TODO : Coding style : 4.1 max 5 fcts
+
+void on_center_image_size_change(GtkWidget *widget,
+    GtkAllocation *allocation, void *data);
+
 void reset_modules(struct UI *ui);
 
 void display_images(struct UI *ui, char* filename);
