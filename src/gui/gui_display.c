@@ -211,7 +211,7 @@ void display_images(struct UI *ui, char *filename)
         GTK_WIDGET(ui->display->histogram_area)));
 }
 
-gboolean on_image_event(GtkWidget *widget, GdkEvent *event,
+gboolean on_click_image(GtkWidget *widget, GdkEventButton *event,
         gpointer user_data)
 {
     (void) widget;
@@ -220,7 +220,24 @@ gboolean on_image_event(GtkWidget *widget, GdkEvent *event,
     if (!ui->image_loaded)
     {
         open_file_chooser(NULL, user_data);
+        return FALSE;
     }
+    printf("Image pressed on %f,%f\n", event->x, event->y);
+    return FALSE;
+}
+
+gboolean on_scroll_image(GtkWidget *w, GdkEventScroll *event, gpointer data)
+{
+    (void) w;
+    struct UI *ui = data;
+    if (!ui->image_loaded)
+    {
+        return FALSE;
+    }
+
+    (void) event;
+    printf("Scroll direction : %d Scroll delta :  %f\n",
+        event->direction, event->x_root);
 
     return FALSE;
 }

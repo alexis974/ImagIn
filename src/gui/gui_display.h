@@ -14,7 +14,9 @@ void reset_image_info(struct UI *ui);
 
 void reload_images(struct UI *ui);
 
-gboolean on_image_event(GtkWidget *widget, GdkEvent *event,
+gboolean on_click_image(GtkWidget *widget, GdkEvent *event,
                gpointer user_data);
+
+gboolean on_scroll_image(GtkWidget *w, GdkEvent *event, gpointer data);
 
 #endif /* ! GUI_DISPLAY_H */

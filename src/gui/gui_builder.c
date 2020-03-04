@@ -60,6 +60,9 @@ void build_display_gui(GtkBuilder *builder, struct UI *ui)
     //Setting default middle image
     gtk_image_set_from_file(ui->display->display_image,
             "data/icons/no_image.png");
+    //Setting the possibility to scroll on image
+    gtk_widget_add_events(GTK_WIDGET(ui->display->middle_area_events),
+        GDK_SCROLL_MASK);
 }
 
 void build_image_info(GtkBuilder *builder, struct UI *ui)
