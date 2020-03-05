@@ -33,6 +33,11 @@ struct Shadows_highlights
     GtkScale *highlights_scale;
 };
 
+struct Hue
+{
+    struct Imagin_expander *exp;
+};
+
 struct History_List
 {
     GtkListBox *list;
@@ -45,6 +50,7 @@ struct Modules
     struct Cont_exp_sat *cont_exp_sat;
     struct Shadows_highlights *shadows_highlights;
     struct History_List *history_list;
+    struct Hue *hue;
     GtkSwitch *bw_switch;
     GtkSwitch *invert_switch;
     struct Imagin_expander *bw_exp;

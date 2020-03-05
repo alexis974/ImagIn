@@ -107,6 +107,14 @@ void build_custom_expanders(GtkBuilder *builder, struct UI *ui)
         "sh_event", "sh_cb", "sh_body");
 }
 
+void build_hue_gui(GtkBuilder *builder, struct UI *ui)
+{
+    ui->modules->hue = malloc(sizeof(struct Hue));
+    ui->modules->hue->exp = malloc(sizeof(struct Imagin_expander));
+    setup_imagin_expander(builder, ui->modules->hue->exp,
+        "hue_event", "hue_cb", "hue_body");
+}
+
 void build_modules_gui(GtkBuilder *builder, struct UI *ui)
 {
     ui->modules = malloc(sizeof(struct Modules));
@@ -179,6 +187,7 @@ struct UI *build_gui(char *glade_file_path)
     build_menu_bar_gui(builder, ui);
     build_modules_gui(builder, ui);
     build_custom_expanders(builder, ui);
+    build_hue_gui(builder, ui);
     build_display_gui(builder, ui);
     build_bottom_bar_gui(builder, ui);
     build_image_info(builder, ui);
