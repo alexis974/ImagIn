@@ -28,14 +28,19 @@ void open_file_chooser(GtkWidget *widget, gpointer user_data)
 {
     (void) widget;
     struct UI *ui = user_data;
-    GtkWidget *dialog;
-    GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_OPEN;
 
-    dialog = gtk_file_chooser_dialog_new ("Open File", ui->window, action,
-            ("Cancel"), GTK_RESPONSE_CANCEL,
+    GtkWidget *dialog = gtk_file_chooser_dialog_new ("Open File", ui->window,
+            GTK_FILE_CHOOSER_ACTION_OPEN, ("Cancel"), GTK_RESPONSE_CANCEL,
             ("Open"), GTK_RESPONSE_ACCEPT, NULL);
 
-    gint res = gtk_dialog_run (GTK_DIALOG(dialog));
+    GtkFileFilter *file_filter = gtk_file_filter_new();
+    gtk_file_filter_add_pattern (file_filter, "*.[pP][Nn][Gg]");
+    gtk_file_filter_add_pattern (file_filter, "*.[Tt][iI][fF]*");
+    gtk_file_filter_add_pattern (file_filter, "*.[jJ][pP]*[Gg]");
+    gtk_file_filter_add_pattern (file_filter, "*.[pP][pP]*[mM]");
+    gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), file_filter);
+
+    gint res = gtk_dialog_run(GTK_DIALOG(dialog));
 
     if (res == GTK_RESPONSE_ACCEPT)
     {
@@ -111,6 +116,7 @@ void quit(GtkWidget *widget, gpointer user_data)
 
     hst_free_recursively(ui->hist);
     hst_free_recursively(ui->compressed_hist);
+
     free(ui);
     gtk_main_quit();
 }
