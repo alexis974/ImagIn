@@ -287,18 +287,7 @@ void hst_apply_all(struct history *hist, struct Image *img)
             saturation(img, p->value + 1);
             break;
         case FLIP:
-            if (p->value == 1)
-            {
-                vertical_flip(img);
-            }
-            else if (p->value ==  2)
-            {
-                horizontal_flip(img);
-            }
-            else if (p->value == 3)
-            {
-                flip_both_axis(img);
-            }
+            flip(img, p->value);
             break;
         case BW:
             if (p->value)
