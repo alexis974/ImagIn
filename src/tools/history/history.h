@@ -26,10 +26,6 @@ void hst_apply_all(struct history *hist, struct Image *img);
 
 struct history *hst_new(void);
 
-void hst_init(struct history *hist);
-
-int hst_is_empty(struct history *hist);
-
 size_t hst_length(struct history *hist);
 
 int hst_append(struct history *hist, int module_id,

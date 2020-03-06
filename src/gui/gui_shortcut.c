@@ -7,14 +7,14 @@
 #include "gui_display.h"
 #include "gui_history.h"
 
-#include "../tools/history.h"
+#include "../tools/history/history.h"
 #include "../tools/free.h"
 
 void undo(GtkWidget *widget, gpointer user_data)
 {
     (void) widget;
     struct UI *ui = user_data;
-    if (!ui->image_loaded || hst_is_empty(ui->hist))
+    if (!ui->image_loaded || hst_length(ui->hist) == 0)
     {
         return;
     }

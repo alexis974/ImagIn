@@ -12,7 +12,7 @@
 #include "gui_display.h"
 #include "gui_style.h"
 
-#include "../tools/history.h"
+#include "../tools/history/history.h"
 
 int gui_main(void)
 {

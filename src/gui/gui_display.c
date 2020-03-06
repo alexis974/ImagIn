@@ -10,7 +10,7 @@
 #include "../import_export/import.h"
 #include "../import_export/export.h"
 
-#include "../tools/history.h"
+#include "../tools/history/history.h"
 #include "../tools/strings.h"
 #include "../tools/free.h"
 #include "../tools/exif.h"

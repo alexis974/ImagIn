@@ -3,45 +3,36 @@
 #include <err.h>
 #include <gtk/gtk.h>
 
-#include "../imagin.h"
+#include "../../imagin.h"
 
-#include "../gui/gui.h"
-#include "../gui/gui_widgets/gui_expander.h"
+#include "../../gui/gui.h"
 
 #include "history.h"
-#include "free.h"
+#include "../free.h"
 
-#include "../modules/user/contrast.h"
-#include "../modules/user/exposure.h"
-#include "../modules/user/flip.h"
-#include "../modules/user/saturation.h"
-#include "../modules/user/shadows_highlights.h"
-#include "../modules/user/black_and_white.h"
-#include "../modules/user/invert.h"
+#include "../../modules/user/contrast.h"
+#include "../../modules/user/exposure.h"
+#include "../../modules/user/flip.h"
+#include "../../modules/user/saturation.h"
+#include "../../modules/user/shadows_highlights.h"
+#include "../../modules/user/black_and_white.h"
+#include "../../modules/user/invert.h"
 
 // TODO : Coding style : 4.2 Max 10 fcts per file
 
 struct history *hst_new(void)
 {
     struct history *hist = malloc(sizeof(struct history));
-    hst_init(hist);
 
-    return hist;
-}
-
-void hst_init(struct history *hist)
-{
     hist->id = -1;
     hist->enable = 0;
     hist->value = 0;
     hist->next = NULL;
+
+    return hist;
 }
 
-int hst_is_empty(struct history *hist)
-{
-    return (hist->next) ?  0 : 1;
-}
-
+// Does not count sentinel
 size_t hst_length(struct history *hist)
 {
     size_t counter = 0;
@@ -56,7 +47,7 @@ size_t hst_length(struct history *hist)
 }
 
 
-//Not counting adjacent modules with same id
+// Not counting adjacent modules with same id
 size_t hst_compressed_length(struct history *hist)
 {
     size_t counter = 0;
@@ -300,12 +291,11 @@ void hst_truncate_uncompressed(struct history *hist, size_t count)
 
 struct history *hst_duplicate(struct history *hist)
 {
-    struct history *new = malloc(sizeof(struct history));
-    struct history *new_hist = new;
+    struct history *new_hist = hst_new();
 
-    hst_init(new);
     hist = hist->next;
 
+    struct history *new= new_hist;
     while (hist)
     {
         new->next = malloc(sizeof(struct history));

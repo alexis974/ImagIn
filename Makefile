@@ -19,7 +19,7 @@ SRC = src/debug/*.c \
 	  src/import_export/*.c src/import_export/xml/*.c \
 	  src/import_export/formats/*.c \
 	  src/modules/user/*.c src/modules/imagin/*.c \
-	  src/tools/*.c
+	  src/tools/*.c src/tools/history/*.c \
 
 all: imagin tmp
 imagin: $(SRC) src/imagin.c

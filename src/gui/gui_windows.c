@@ -6,8 +6,8 @@
 #include "gui_modules.h"
 #include "gui_display.h"
 
+#include "../tools/history/history.h"
 #include "../tools/free.h"
-#include "../tools/history.h"
 
 // Shows an about dialog window
 void open_about_window(GtkWidget *widget, gpointer user_data)

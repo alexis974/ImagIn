@@ -5,7 +5,8 @@
 
 #include "../gui/gui.h"
 
-#include "history.h"
+#include "history/history.h"
+
 #include "free.h"
 
 void free_image(struct Image *img)
