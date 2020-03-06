@@ -3,36 +3,42 @@
 #include <err.h>
 #include <gtk/gtk.h>
 
-#include "../../imagin.h"
-
-#include "../../gui/gui.h"
+#include "../imagin.h"
+#include "../gui/gui.h"
 
 #include "history.h"
-#include "../free.h"
 
-#include "../../modules/user/contrast.h"
-#include "../../modules/user/exposure.h"
-#include "../../modules/user/flip.h"
-#include "../../modules/user/saturation.h"
-#include "../../modules/user/shadows_highlights.h"
-#include "../../modules/user/black_and_white.h"
-#include "../../modules/user/invert.h"
+#include "../modules/user/contrast.h"
+#include "../modules/user/exposure.h"
+#include "../modules/user/flip.h"
+#include "../modules/user/saturation.h"
+#include "../modules/user/shadows_highlights.h"
+#include "../modules/user/black_and_white.h"
+#include "../modules/user/invert.h"
 
 // TODO : Coding style : 4.2 Max 10 fcts per file
 
 struct history *hst_new(void)
 {
     struct history *hist = malloc(sizeof(struct history));
-
-    hist->id = -1;
-    hist->enable = 0;
-    hist->value = 0;
-    hist->next = NULL;
+    hst_init(hist);
 
     return hist;
 }
 
-// Does not count sentinel
+void hst_init(struct history *hist)
+{
+    hist->id = -1;
+    hist->enable = 0;
+    hist->value = 0;
+    hist->next = NULL;
+}
+
+int hst_is_empty(struct history *hist)
+{
+    return (hist->next) ?  0 : 1;
+}
+
 size_t hst_length(struct history *hist)
 {
     size_t counter = 0;
@@ -47,7 +53,7 @@ size_t hst_length(struct history *hist)
 }
 
 
-// Not counting adjacent modules with same id
+//Not counting adjacent modules with same id
 size_t hst_compressed_length(struct history *hist)
 {
     size_t counter = 0;
@@ -177,21 +183,54 @@ void hst_sort(struct history *hist)
     }
 }
 
-//Update the enable value of the last hist element with module_id
-void hst_enable_last(struct history *hist, int module_id, int enable)
+// TODO : Coding style : 4.10  Fct max 25 lines
+void reset_widgets(struct history *hist, struct UI *ui)
 {
-    struct history *last = NULL;
-
-    while (hist)
+    ui->can_modify = FALSE;
+    struct history *compressed = hst_duplicate(hist);
+    hst_compress(compressed);
+    for (struct history *p = compressed->next; p != NULL; p=p->next)
     {
-        if (hist->id == module_id)
-            last = hist;
-
-        hist = hist->next;
+        switch (p->id)
+        {
+        case CONTRASTE:
+            gtk_range_set_value(GTK_RANGE(
+                    ui->modules->cont_exp_sat->contraste_scale), p->value);
+            break;
+        case EXPOSURE:
+            gtk_range_set_value(GTK_RANGE(
+                    ui->modules->cont_exp_sat->exposure_scale), p->value);
+            break;
+        case SATURATION:
+            gtk_range_set_value(GTK_RANGE(
+                    ui->modules->cont_exp_sat->saturation_scale), p->value);
+            break;
+        case SHADOWS:
+            // TODO : Coding style : 3.5 Max 80 char per line
+            gtk_range_set_value(GTK_RANGE(
+                    ui->modules->shadows_highlights->shadows_scale), p->value);
+            break;
+        case HIGHLIGHTS:
+            // TODO : Coding style : 3.5 Max 80 char per line
+            gtk_range_set_value(GTK_RANGE(
+                    ui->modules->shadows_highlights->highlights_scale), p->value);
+            break;
+        case FLIP:
+            gtk_combo_box_set_active(GTK_COMBO_BOX(
+                    ui->modules->orientation->flip_box), p->value);
+            break;
+        case BW:
+            gtk_switch_set_state(ui->modules->bw_switch, p->value);
+            break;
+        case INVERT:
+            gtk_switch_set_state(ui->modules->invert_switch, p->value);
+            break;
+        default:
+            break;
+        }
     }
-
-    if (last != NULL)
-        last->enable = enable;
+    ui->can_modify = TRUE;
+    hst_free_recursively(compressed);
 }
 
 // TODO : Coding style : 4.10  Fct max 25 lines
@@ -200,9 +239,6 @@ void hst_apply_all(struct history *hist, struct Image *img)
 {
     for (struct history *p = hist->next; p != NULL; p=p->next)
     {
-        if (!p->enable)
-            continue;
-
         switch (p->id)
         {
         case CONTRASTE:
@@ -215,16 +251,27 @@ void hst_apply_all(struct history *hist, struct Image *img)
             saturation(img, p->value + 1);
             break;
         case FLIP:
-            flip(img, p->value);
+            if(p->value == 1)
+            {
+                vertical_flip(img);
+            }
+            else if(p->value ==  2)
+            {
+                horizontal_flip(img);
+            }
+            else if(p->value == 3)
+            {
+                flip_both_axis(img);
+            }
             break;
         case BW:
-            if (p->value)
+            if(p->value)
             {
                 simple_BW(img);
             }
             break;
         case INVERT:
-            if (p->value)
+            if(p->value)
             {
                 invert(img);
             }
@@ -255,7 +302,6 @@ void hst_compress(struct history *hist)
     }
 }
 
-// Keep only history until index
 void hst_truncate(struct history *hist, size_t index)
 {
     for (size_t count = 0; count < index; count++)
@@ -268,34 +314,29 @@ void hst_truncate(struct history *hist, size_t index)
 }
 
 /*
-** Keep "count" elements but allowing repetitions
-** This is useful for going backward in history
-** but still being able to undo previous changes
-*/
-void hst_truncate_uncompressed(struct history *hist, size_t count)
+ **  Free from hist till the end (hist included)
+ **  Do not use it with hist->next as arguments
+ **  because next pointer cannot be set to NULL
+ */
+void hst_free_recursively(struct history *hist)
 {
-    while (hist->next && count > 0)
+    if (!hist)
     {
-        count --;
-
-        hist = hist->next;
-
-        // Passing every modules that has same id
-        while (hist->next && hist->id == hist->next->id)
-            hist = hist->next;
+        return;
     }
 
     hst_free_recursively(hist->next);
-    hist->next = NULL;
+    free(hist);
 }
 
 struct history *hst_duplicate(struct history *hist)
 {
-    struct history *new_hist = hst_new();
+    struct history *new = malloc(sizeof(struct history));
+    struct history *new_hist = new;
 
+    hst_init(new);
     hist = hist->next;
 
-    struct history *new= new_hist;
     while (hist)
     {
         new->next = malloc(sizeof(struct history));
@@ -313,11 +354,34 @@ struct history *hst_duplicate(struct history *hist)
 char *get_name(int id)
 {
     // TODO : Coding style : 5.11  cf 5.11 for details
-    char *module_name[] = {"Invert", "Exposure", "Black and white",
-        "Saturation", "Contraste", "Shadows", "Highlights",
-        "Flip", "Rotation", "Black_and_White"};
+    char *module_name[] = {"Invert", "Exposure", "Saturation", "Contraste",
+        "Shadows", "Highlights", "Flip", "Rotation", "Black_and_White"};
 
     return id < 0 ? "NULL" : module_name[id];
+}
+
+int get_id(char *mod_name)
+{
+    if (strcmp(mod_name, "Invert") == 0)
+        return 0;
+    else if (strcmp(mod_name, "Exposure") == 0)
+        return 1;
+    else if (strcmp(mod_name, "Saturation") == 0)
+        return 2;
+    else if (strcmp(mod_name, "Contraste") == 0)
+        return 3;
+    else if (strcmp(mod_name, "Shadows") == 0)
+        return 4;
+    else if (strcmp(mod_name, "Highlights") == 0)
+        return 5;
+    else if (strcmp(mod_name, "Flip") == 0)
+        return 6;
+    else if (strcmp(mod_name, "Rotationi") == 0)
+        return 7;
+    else if (strcmp(mod_name, "Black_and_White") == 0)
+        return 8;
+    else
+        errx(1, "get_id : mod_name not found");
 }
 
 void hst_print(struct history *hist)
@@ -332,5 +396,25 @@ void hst_print(struct history *hist)
         printf("value: %f\n", hist->value);
 
         hist = hist->next;
+    }
+}
+
+void copy_img(struct Image *img_src, struct Image *img_dst)
+{
+    if (!img_src || !img_dst)
+    {
+        errx(1, "copy_img: No image found");
+    }
+
+    if (img_src->width != img_dst->width || img_src->height != img_dst->height)
+    {
+        errx(1, "copy_img: images don't have the same size");
+    }
+
+    for (size_t i = 0; i < img_src->width * img_src->height; i++)
+    {
+        img_dst->data[i].red = img_src->data[i].red;
+        img_dst->data[i].green = img_src->data[i].green;
+        img_dst->data[i].blue = img_src->data[i].blue;
     }
 }
