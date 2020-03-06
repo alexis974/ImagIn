@@ -5,8 +5,10 @@
 #include "gui.h"
 #include "gui_windows.h"
 #include "gui_display.h"
+#include "gui_history.h"
 
 #include "../tools/history.h"
+#include "../tools/free.h"
 
 void undo(GtkWidget *widget, gpointer user_data)
 {

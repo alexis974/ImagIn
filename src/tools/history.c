@@ -9,6 +9,7 @@
 #include "../gui/gui_widgets/gui_expander.h"
 
 #include "history.h"
+#include "free.h"
 
 #include "../modules/user/contrast.h"
 #include "../modules/user/exposure.h"
@@ -203,70 +204,6 @@ void hst_enable_last(struct history *hist, int module_id, int enable)
 }
 
 // TODO : Coding style : 4.10  Fct max 25 lines
-void reset_widgets(struct history *hist, struct UI *ui)
-{
-    ui->can_modify = FALSE;
-    struct history *compressed = hst_duplicate(hist);
-    hst_compress(compressed);
-    for (struct history *p = compressed->next; p != NULL; p=p->next)
-    {
-        switch (p->id)
-        {
-        case CONTRASTE:
-            gtk_range_set_value(GTK_RANGE(
-                    ui->modules->cont_exp_sat->contraste_scale), p->value);
-            gtk_toggle_button_set_active(
-                ui->modules->cont_exp_sat->exp->check_box, p->enable);
-            break;
-        case EXPOSURE:
-            gtk_range_set_value(GTK_RANGE(
-                    ui->modules->cont_exp_sat->exposure_scale), p->value);
-            gtk_toggle_button_set_active(
-                ui->modules->cont_exp_sat->exp->check_box, p->enable);
-            break;
-        case SATURATION:
-            gtk_range_set_value(GTK_RANGE(
-                    ui->modules->cont_exp_sat->saturation_scale), p->value);
-            gtk_toggle_button_set_active(
-                ui->modules->cont_exp_sat->exp->check_box, p->enable);
-            break;
-        case SHADOWS:
-            gtk_range_set_value(GTK_RANGE(
-                ui->modules->shadows_highlights->shadows_scale), p->value);
-            gtk_toggle_button_set_active(
-                ui->modules->shadows_highlights->exp->check_box, p->enable);
-            break;
-        case HIGHLIGHTS:
-            gtk_range_set_value(GTK_RANGE(
-                ui->modules->shadows_highlights->highlights_scale), p->value);
-            gtk_toggle_button_set_active(
-                ui->modules->shadows_highlights->exp->check_box, p->enable);
-            break;
-        case FLIP:
-            gtk_combo_box_set_active(GTK_COMBO_BOX(
-                    ui->modules->orientation->flip_box), p->value);
-            gtk_toggle_button_set_active(
-                ui->modules->orientation->exp->check_box, p->enable);
-            break;
-        case BW:
-            gtk_switch_set_state(ui->modules->bw_switch, p->value);
-            gtk_toggle_button_set_active(
-                ui->modules->bw_exp->check_box, p->enable);
-            break;
-        case INVERT:
-            gtk_switch_set_state(ui->modules->invert_switch, p->value);
-            gtk_toggle_button_set_active(
-                ui->modules->invert_exp->check_box, p->enable);
-            break;
-        default:
-            break;
-        }
-    }
-    ui->can_modify = TRUE;
-    hst_free_recursively(compressed);
-}
-
-// TODO : Coding style : 4.10  Fct max 25 lines
 // Applies a history (should be compressed before)
 void hst_apply_all(struct history *hist, struct Image *img)
 {
@@ -359,23 +296,6 @@ void hst_truncate_uncompressed(struct history *hist, size_t count)
 
     hst_free_recursively(hist->next);
     hist->next = NULL;
-}
-
-/*
- **  Free from hist till the end (hist included)
- **  Do not use it with hist->next as arguments
- **  because "next" pointer cannot be set to NULL
- **  or set it manually then
- */
-void hst_free_recursively(struct history *hist)
-{
-    if (!hist)
-    {
-        return;
-    }
-
-    hst_free_recursively(hist->next);
-    free(hist);
 }
 
 struct history *hst_duplicate(struct history *hist)

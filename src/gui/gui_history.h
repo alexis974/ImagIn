@@ -10,4 +10,6 @@ void compress_history(GtkWidget *button, gpointer user_data);
 void hst_selection_changed(GtkListBox *box, GtkListBoxRow *row,
                gpointer user_data);
 
+void reset_widgets(struct history *hist, struct UI *ui);
+
 #endif /* ! GUI_HISTORY_H */

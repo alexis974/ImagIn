@@ -22,8 +22,6 @@ struct history
     struct history *next;
 };
 
-void reset_widgets(struct history *hist, struct UI *ui);
-
 void hst_apply_all(struct history *hist, struct Image *img);
 
 struct history *hst_new(void);
@@ -47,8 +45,6 @@ void hst_sort(struct history *hist);
 void hst_enable_last(struct history *hist, int module_id, int enable);
 
 size_t hst_compressed_length(struct history *hist);
-
-void hst_free_recursively(struct history *hist);
 
 struct history *hst_duplicate(struct history *hist);
 

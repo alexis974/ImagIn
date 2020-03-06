@@ -18,8 +18,8 @@
 
 #include "../debug/error_handler.h"
 
-#include "../tools/free.h"
 #include "../tools/history.h"
+#include "../tools/free.h"
 
 // TODO : Coding style : 4.2 Max 10 fct
 //##############################################################################
