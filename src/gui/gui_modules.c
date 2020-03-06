@@ -19,6 +19,7 @@
 #include "../debug/error_handler.h"
 
 #include "../tools/history/history.h"
+#include "../tools/history/image_handler.h"
 #include "../tools/free.h"
 
 // TODO : Coding style : 4.2 Max 10 fct

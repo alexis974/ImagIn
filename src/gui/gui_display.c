@@ -11,6 +11,8 @@
 #include "../import_export/export.h"
 
 #include "../tools/history/history.h"
+#include "../tools/history/image_handler.h"
+
 #include "../tools/strings.h"
 #include "../tools/free.h"
 #include "../tools/exif.h"

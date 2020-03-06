@@ -54,6 +54,4 @@ char *get_name(int id);
 
 void hst_print(struct history *hist);
 
-void copy_img(struct Image *img_src, struct Image *img_dst);
-
 #endif /* !  HISTORY_H */
