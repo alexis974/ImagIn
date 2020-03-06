@@ -77,7 +77,7 @@ void reset_widgets(struct history *hist, struct UI *ui)
     hst_free_recursively(compressed);
 }
 
-void add_module_to_list(struct UI*ui, int module_id)
+void add_module_to_list(struct UI *ui, char *name)
 {
     GtkBuilder *builder = gtk_builder_new();
     GError* error = NULL;
@@ -95,15 +95,16 @@ void add_module_to_list(struct UI*ui, int module_id)
     GList *children = gtk_container_get_children(GTK_CONTAINER(list_elm));
     for (GList *l = children; l != NULL; l = l->next)
     {
+        // Set index
         if (strcmp(gtk_widget_get_name(l->data), "hist_index") == 0)
         {
             char index[3] = {0};
             sprintf(index, "%zu", hst_compressed_length(ui->hist));
             gtk_label_set_text(GTK_LABEL(l->data), index);
         }
-        else
+        else // Set module name
         {
-            gtk_label_set_text(GTK_LABEL(l->data), get_name(module_id));
+            gtk_label_set_text(GTK_LABEL(l->data), name);
         }
     }
 
@@ -133,7 +134,7 @@ void compress_until_selected(struct UI *ui)
                 ui->modules->history_list->list,0)));
         }
 
-        hst_truncate_uncompressed(ui->hist, index+1);
+        hst_truncate_uncompressed(ui->hist, index);
 
         hst_free_recursively(ui->compressed_hist);
         ui->compressed_hist = hst_duplicate(ui->hist);
@@ -143,7 +144,7 @@ void compress_until_selected(struct UI *ui)
 }
 
 // "Compress history" button callback
-void compress_history(GtkWidget *button, gpointer user_data)
+void compress_history_btn(GtkWidget *button, gpointer user_data)
 {
     (void) button;
     struct UI *ui = user_data;
@@ -190,4 +191,18 @@ void hst_selection_changed(GtkListBox *box, GtkListBoxRow *row,
     //Freeing tmp_hist
     hst_free_recursively(ui->compressed_hist);
     ui->compressed_hist = tmp;
+}
+
+void reset_history_list(struct UI *ui)
+{
+    GList *children = gtk_container_get_children(
+            GTK_CONTAINER(ui->modules->history_list->list));
+    for (GList *iter = children; iter != NULL; iter = g_list_next(iter))
+    {
+        gtk_widget_destroy(GTK_WIDGET(iter->data));
+    }
+
+    g_list_free(children);
+
+    add_module_to_list(ui, "Original");
 }

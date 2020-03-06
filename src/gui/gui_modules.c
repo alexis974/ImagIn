@@ -47,7 +47,7 @@ void apply_module(struct UI *ui, int module_id, float value)
     int add = hst_append(ui->hist, module_id, 1, value);
     hst_insert_sort(ui->compressed_hist, module_id, 1, value);
     if (add)
-        add_module_to_list(ui, module_id);
+        add_module_to_list(ui, get_name(module_id));
 
     reload_images(ui);
 }
