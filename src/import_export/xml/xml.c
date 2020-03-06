@@ -1,8 +1,10 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <err.h>
 #include <string.h>
 #include <libxml/encoding.h>
 #include <libxml/xmlwriter.h>
+#include <libxml/xmlreader.h>
 
 #include "xml.h"
 
@@ -141,4 +143,184 @@ void create_xmp(const char *uri)
 
     // This is to debug memory for regression tests
     xmlMemoryDump();
+}
+
+void save_hist_xml(struct history *hist, const char *uri)
+{
+    if (hst_is_empty(hist) == 1)
+    {
+        printf("save_hist_xml : hist was empty\n");
+        return;
+    }
+
+    int rc;
+    xmlTextWriterPtr writer;
+
+    writer = xmlNewTextWriterFilename(uri, 0);
+    if (writer == NULL)
+    {
+        errx(1, "save_hist_xml: Error creating the xml writer\n");
+    }
+
+    rc = xmlTextWriterStartDocument(writer, NULL, MY_ENCODING, NULL);
+    if (rc < 0)
+    {
+        errx(1, "save_hist_xml: Error at xmlTextWriterStartDocument\n");
+    }
+
+    rc = xmlTextWriterStartElement(writer, BAD_CAST "Modules");
+    if (rc < 0)
+    {
+        errx(1, "create_xml: Error at xmlTextWriterStartElement\n");
+    }
+
+    hist = hist->next;
+
+    do {
+
+        rc = xmlTextWriterStartElement(writer, BAD_CAST get_name(hist->id));
+        if (rc < 0)
+        {
+            errx(1, "save_hist_xml: Error at xmlTextWriterStartElement\n");
+        }
+
+        char *_enable;
+        if (hist->enable == 0)
+            _enable = "0";
+        else
+            _enable = "1";
+
+        rc = xmlTextWriterWriteElement(writer, BAD_CAST "Enable",
+                                                    BAD_CAST _enable);
+        if (rc < 0)
+        {
+            errx(1, "save_hist_xml: Error at xmlTextWriterWriteElement\n");
+        }
+
+        // TODO : Find better way to cast
+        char _value[30];
+        sprintf(_value, "%f", (hist->value));
+
+        rc = xmlTextWriterWriteElement(writer, BAD_CAST "Value",
+                                                    BAD_CAST _value);
+        if (rc < 0)
+        {
+            errx(1, "save_hist_xml: Error at xmlTextWriterWriteElement\n");
+        }
+
+        rc = xmlTextWriterEndElement(writer);
+        if (rc < 0)
+        {
+            errx(1, "create_xml: Error at xmlTextWriterEndElement\n");
+        }
+
+        hist = hist->next;
+
+    } while (hist);
+
+    rc = xmlTextWriterEndDocument(writer);
+    if (rc < 0)
+    {
+        errx(1, "create_xml: Error at xmlTextWriterEndDocument\n");
+    }
+
+    xmlFreeTextWriter(writer);
+
+    xmlCleanupParser();
+
+    xmlMemoryDump();
+}
+
+// TODO : Delete this fct from here and .h
+void test_save_hist_xml(const char *uri, const char *uri2)
+{
+    struct history *hist = hst_new();
+
+    hst_append(hist, 1, 0, 5);
+    hst_append(hist, 2, 1, 6.89);
+    hst_append(hist, 3, 0, 22.1);
+    hst_append(hist, 4, 1, 5.1);
+    hst_append(hist, 5, 0, 77.77);
+
+    save_hist_xml(hist, uri);
+    //hst_free_recursively(hist);
+    printf("test save hist xml done, go check .xml\n");
+
+    struct history *hist2 = get_hist_from_xml(uri);
+    if (hist2 == NULL)
+        printf("test fct 2 case NULL\n");
+    else
+        printf("test fct 2 case ok\n");
+
+    save_hist_xml(hist2, uri2);
+    //hst_free_recursively(hist2);
+    printf("test save hist2 xml done, go check .xml\n");
+
+}
+
+struct history *get_hist_from_xml(const char *path)
+{
+    struct history *hist = hst_new();
+    xmlTextReaderPtr reader;
+    int ret;
+
+    reader = xmlReaderForFile(path, NULL, 0);
+    if (reader != NULL)
+    {
+        int _id;
+        int _enable;
+        float _value;
+        const char *str_tmp;
+
+        ret = xmlTextReaderRead(reader);
+        ret = xmlTextReaderRead(reader);
+        while (ret == 1)
+        {
+            ret = xmlTextReaderRead(reader);
+            if (ret == 0)
+                break;
+
+            ret = xmlTextReaderRead(reader);
+
+            _enable = atoi((const char *)xmlTextReaderReadOuterXml(reader));
+            printf("%i\n", _enable);
+
+            ret = xmlTextReaderRead(reader);
+            ret = xmlTextReaderRead(reader);
+            ret = xmlTextReaderRead(reader);
+
+            _value = atof((const char *)xmlTextReaderReadOuterXml(reader));
+            printf("%f\n", _value);
+
+            ret = xmlTextReaderRead(reader);
+            ret = xmlTextReaderRead(reader);
+
+            str_tmp = (const char *)xmlTextReaderReadOuterXml(reader);
+            char _str_id[strlen(str_tmp)-2];
+            memset(_str_id, '\0', sizeof(_str_id));
+            strncpy(_str_id, str_tmp + 1, strlen(str_tmp) - 3);
+            _id = get_id(_str_id);
+            printf("%s\n", _str_id);
+            printf("%i\n", _id);
+
+            hst_append(hist, _id, _enable, _value);
+
+            ret = xmlTextReaderRead(reader);
+        }
+        if (ret != 0)
+        {
+            fprintf(stderr, "%s : failed to parse\n", path);
+	        xmlFreeTextReader(reader);
+	        return(NULL);
+        }
+
+        xmlFreeTextReader(reader);
+    }
+    else
+    {
+        fprintf(stderr, "Unable to open %s\n", path);
+	    return(NULL);
+    }
+
+    return hist;
 }
