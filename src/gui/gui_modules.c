@@ -20,6 +20,8 @@
 
 #include "../tools/history/history.h"
 #include "../tools/history/image_handler.h"
+#include "../tools/history/apply.h"
+#include "../tools/history/sort.h"
 #include "../tools/free.h"
 
 // TODO : Coding style : 4.2 Max 10 fct

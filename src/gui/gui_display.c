@@ -12,6 +12,8 @@
 
 #include "../tools/history/history.h"
 #include "../tools/history/image_handler.h"
+#include "../tools/history/truncate.h"
+#include "../tools/history/apply.h"
 
 #include "../tools/strings.h"
 #include "../tools/free.h"

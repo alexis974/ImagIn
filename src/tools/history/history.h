@@ -22,8 +22,6 @@ struct history
     struct history *next;
 };
 
-void hst_apply_all(struct history *hist, struct Image *img);
-
 struct history *hst_new(void);
 
 size_t hst_length(struct history *hist);
@@ -33,22 +31,7 @@ int hst_append(struct history *hist, int module_id,
 
 int hst_pop(struct history *hist);
 
-void hst_insert_sort(struct history *hist, int module_id,
-        int enable, float value);
-
-void hst_sort(struct history *hist);
-
-void hst_enable_last(struct history *hist, int module_id, int enable);
-
-size_t hst_compressed_length(struct history *hist);
-
 struct history *hst_duplicate(struct history *hist);
-
-void hst_compress(struct history *hist);
-
-void hst_truncate(struct history *hist, size_t index);
-
-void hst_truncate_uncompressed(struct history *hist, size_t count);
 
 char *get_name(int id);
 

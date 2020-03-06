@@ -8,6 +8,9 @@
 #include "gui_widgets/gui_expander.h"
 
 #include "../tools/history/history.h"
+#include "../tools/history/truncate.h"
+#include "../tools/history/compress.h"
+#include "../tools/history/sort.h"
 #include "../tools/free.h"
 
 // TODO : Coding style : 4.10  Fct max 25 lines
