@@ -1,13 +1,14 @@
 #include <stdlib.h>
+#include <math.h>
 
 size_t bits_to_depth(unsigned const char bits_count)
 {
-    return (8 * bits_count) - 1;
+    return (pow(2, bits_count) - 1);
 }
 
 unsigned char depth_to_bits(size_t depth)
 {
-    return (depth + 1) / 8;
+    return log2(depth + 1);
 }
 
 // Convert an array of size_t of a valid depth into a bytes array
