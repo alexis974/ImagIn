@@ -77,10 +77,10 @@ void on_center_image_size_change(GtkWidget *widget, GtkAllocation *allocation, v
     g_maxwidth = allocation->width - padding;
 }
 
-unsigned char *from_image_to_buffer(struct Image *img)
+size_t *from_image_to_buffer(struct Image *img)
 {
-    unsigned char *buffer =
-        malloc(sizeof(unsigned char) * img->width * img->height * 3);
+    size_t *buffer =
+        malloc(sizeof(size_t) * img->width * img->height * 3);
 
     for (size_t j = 0; j < img->height; j++)
     {
@@ -118,7 +118,7 @@ void reload_images(struct UI *ui)
     ui->images->small = get_small(ui->images->edit);
 
     // Middle image
-    unsigned char *buffer = from_image_to_buffer(ui->images->edit);
+    size_t *buffer = from_image_to_buffer(ui->images->edit);
     GdkPixbuf *pix_buffer =
         gdk_pixbuf_new_from_data(buffer, GDK_COLORSPACE_RGB, FALSE, 8,
                 ui->images->edit->width, ui->images->edit->height,
@@ -126,7 +126,7 @@ void reload_images(struct UI *ui)
     gtk_image_set_from_pixbuf(ui->display->display_image, pix_buffer);
 
     // Small image
-    unsigned char *buffer_small = from_image_to_buffer(ui->images->small);
+    size_t *buffer_small = from_image_to_buffer(ui->images->small);
     GdkPixbuf *pix_buffer_small =
         gdk_pixbuf_new_from_data(buffer_small, GDK_COLORSPACE_RGB, FALSE, 8,
                 ui->images->small->width, ui->images->small->height,

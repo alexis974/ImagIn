@@ -15,7 +15,7 @@ void simple_BW(struct Image *img)
 
     size_t i;
     size_t sum;
-    unsigned char tmp;
+    size_t tmp;
 
     for (i = 0; i < img->width * img->height; i++)
     {

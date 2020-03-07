@@ -71,11 +71,11 @@ struct Image *read_tiff(const char *filename)
         {
             // TIFF is save from bottom to top
             img->data[(height-j-1)*width+i].red =
-                (unsigned char)TIFFGetR(raster[j*width+i]);
+                (size_t)TIFFGetR(raster[j*width+i]);
             img->data[(height-j-1)*width+i].blue =
-                (unsigned char)TIFFGetB(raster[j*width+i]);
+                (size_t)TIFFGetB(raster[j*width+i]);
             img->data[(height-j-1)*width+i].green =
-                (unsigned char)TIFFGetG(raster[j*width+i]);
+                (size_t)TIFFGetG(raster[j*width+i]);
         }
     }
 
@@ -115,16 +115,16 @@ void write_tiff(const char *filename, struct Image *img)
     TIFFSetField(out, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_RGB);
 
     size_t rowsize = sampleperpixel * img->width;
-    unsigned char *buffer = NULL;
+    size_t *buffer = NULL;
 
     // Allocating memory to store the pixels of current row
     if (TIFFScanlineSize(out))
     {
-        buffer =(unsigned char *)_TIFFmalloc(rowsize);
+        buffer =(size_t *)_TIFFmalloc(rowsize);
     }
     else
     {
-        buffer = (unsigned char *)_TIFFmalloc(TIFFScanlineSize(out));
+        buffer = (size_t *)_TIFFmalloc(TIFFScanlineSize(out));
     }
 
     // Setting the strip size to be size of one row of pixels

@@ -12,7 +12,7 @@ void vertical_flip(struct Image *img)
         errx(1, "vertical_flip: No image found");
     }
 
-    unsigned char tmp;
+    size_t tmp;
     size_t offset = img->width;
     size_t index_left;
     size_t index_right;
@@ -46,7 +46,7 @@ void horizontal_flip(struct Image *img)
         errx(1, "horizontal_flip: No image found");
     }
 
-    unsigned char tmp;
+    size_t tmp;
     size_t offset = img->width;
     size_t index_top;
     size_t index_bottom;
@@ -80,7 +80,7 @@ void flip_both_axis(struct Image *img)
         errx(1, "flip_both_axis: No image found");
     }
 
-    unsigned char tmp;
+    size_t tmp;
     size_t index_end = img->width * img->height - 1;
 
     for (size_t i = 0; i < index_end; i++, index_end--)

@@ -98,11 +98,11 @@ struct Image *read_jpeg(const char *filename)
         for (size_t i = 0; i < img->width; i++)
         {
             img->data[img->width * (cinfo.output_scanline - 1) + i].red =
-                (unsigned char)buffer[0][i * 3];
+                (size_t)buffer[0][i * 3];
             img->data[img->width * (cinfo.output_scanline - 1) + i].green =
-                (unsigned char)buffer[0][i * 3 + 1];
+                (size_t)buffer[0][i * 3 + 1];
             img->data[img->width * (cinfo.output_scanline - 1) + i].blue =
-                (unsigned char)buffer[0][i * 3 + 2];
+                (size_t)buffer[0][i * 3 + 2];
         }
     }
 
@@ -144,7 +144,7 @@ void write_jpeg(const char *filename, struct Image *img)
     jpeg_start_compress(&cinfo, TRUE);
     row_stride = img->width * 3;
 
-    row_pointer[0] = malloc(sizeof(unsigned char)*row_stride);
+    row_pointer[0] = malloc(sizeof(size_t)*row_stride);
     if (!row_pointer[0])
     {
         throw_error("writeJPEG", "Unable to allocate memory.");
