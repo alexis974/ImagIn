@@ -7,6 +7,9 @@
 
 #include "png.h"
 
+#include "../../tools/bits.h"
+
+
 #include "../../debug/error_handler.h"
 
 // TODO : Coding style : Fct 25 lines max
@@ -60,17 +63,15 @@ struct Image *read_png(const char *filename)
         return NULL;
     }
 
-    img->bit_depth = png_get_bit_depth(png, info);
+    png_byte bits_per_sample = png_get_bit_depth(png, info);
     png_byte color_type = png_get_color_type(png, info);
 
-    if (img->bit_depth == 16)
+    if (bits_per_sample == 16)
     {
         png_set_strip_16(png);
     }
 
-    // WARNING: this line needs to be changed when we are going
-    //to really use bit depth
-    img->bit_depth = 255;
+    img->bit_depth = bits_to_depth(bits_per_sample);
 
     if (color_type == PNG_COLOR_TYPE_PALETTE)
     {

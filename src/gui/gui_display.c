@@ -1,4 +1,5 @@
 #include <gtk/gtk.h>
+#include <stdlib.h>
 
 #include "../imagin.h"
 
@@ -19,6 +20,7 @@
 #include "../tools/strings.h"
 #include "../tools/free.h"
 #include "../tools/exif.h"
+#include "../tools/bits.h"
 
 #include "../debug/error_handler.h"
 
@@ -77,7 +79,7 @@ void on_center_image_size_change(GtkWidget *widget, GtkAllocation *allocation, v
     g_maxwidth = allocation->width - padding;
 }
 
-size_t *from_image_to_buffer(struct Image *img)
+unsigned char *from_image_to_buffer(struct Image *img)
 {
     size_t *buffer =
         malloc(sizeof(size_t) * img->width * img->height * 3);
@@ -92,7 +94,11 @@ size_t *from_image_to_buffer(struct Image *img)
         }
     }
 
-    return buffer;
+    unsigned char * to_bytes  = convert_to_byte_array(img->bit_depth, buffer,
+        img->width * img->height * 3);
+
+    free(buffer);
+    return to_bytes;
 }
 
 // Free pixel buffer when GdkBuffer is set
@@ -118,7 +124,8 @@ void reload_images(struct UI *ui)
     ui->images->small = get_small(ui->images->edit);
 
     // Middle image
-    size_t *buffer = from_image_to_buffer(ui->images->edit);
+    // GTK only supports 8bits format
+    unsigned char *buffer = from_image_to_buffer(ui->images->edit);
     GdkPixbuf *pix_buffer =
         gdk_pixbuf_new_from_data(buffer, GDK_COLORSPACE_RGB, FALSE, 8,
                 ui->images->edit->width, ui->images->edit->height,
@@ -126,7 +133,7 @@ void reload_images(struct UI *ui)
     gtk_image_set_from_pixbuf(ui->display->display_image, pix_buffer);
 
     // Small image
-    size_t *buffer_small = from_image_to_buffer(ui->images->small);
+    unsigned char *buffer_small = from_image_to_buffer(ui->images->small);
     GdkPixbuf *pix_buffer_small =
         gdk_pixbuf_new_from_data(buffer_small, GDK_COLORSPACE_RGB, FALSE, 8,
                 ui->images->small->width, ui->images->small->height,

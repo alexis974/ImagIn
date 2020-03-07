@@ -12,7 +12,8 @@ unsigned char depth_to_bits(size_t depth)
 
 // Convert an array of size_t of a valid depth into a bytes array
 // by mapping values
-unsigned char *to_bytes(size_t original_depth, size_t *array, size_t len)
+unsigned char *convert_to_byte_array(size_t original_depth,
+    size_t *array, size_t len)
 {
     unsigned char *new_array = malloc(sizeof(unsigned char) * len);
 
