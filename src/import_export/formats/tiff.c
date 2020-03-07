@@ -8,6 +8,8 @@
 #include "../../imagin.h"
 #include "../../debug/error_handler.h"
 
+#include "../../tools/bits.h"
+
 #include "tiff.h"
 
 // TODO : Coding style : Fct 25 lines max
@@ -23,8 +25,11 @@ struct Image *read_tiff(const char *filename)
 
     uint32 width;
     uint32 height;
+    uint16 bits_per_sample;
     TIFFGetField(tif, TIFFTAG_IMAGEWIDTH, &width);
     TIFFGetField(tif, TIFFTAG_IMAGELENGTH, &height);
+    TIFFGetField(tif, TIFFTAG_BITSPERSAMPLE, &bits_per_sample);
+
     uint32 *raster= (uint32 *) _TIFFmalloc(width*height * sizeof(uint32));
 
     if (!raster)
@@ -54,7 +59,7 @@ struct Image *read_tiff(const char *filename)
 
     img->height = height;
     img->width = width;
-    img->bit_depth = 255;
+    img->bit_depth = bits_to_depth(bits_per_sample);
 
     img->data =
         (struct Pixel*)malloc(img->width * img->height * sizeof(struct Pixel));
@@ -107,7 +112,7 @@ void write_tiff(const char *filename, struct Image *img)
     // Set number of channels per pixel
     TIFFSetField(out, TIFFTAG_SAMPLESPERPIXEL, sampleperpixel);
     // Set the size of the channels
-    TIFFSetField(out, TIFFTAG_BITSPERSAMPLE, 8);
+    TIFFSetField(out, TIFFTAG_BITSPERSAMPLE, depth_to_bits(img->bit_depth));
     // Set the origin of the image
     TIFFSetField(out, TIFFTAG_ORIENTATION, ORIENTATION_TOPLEFT);
     // Some other essential fields

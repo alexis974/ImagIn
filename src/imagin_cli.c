@@ -22,6 +22,10 @@
 #include "modules/imagin/scale.h"
 #include "modules/imagin/histogram.h"
 
+#include "gui/gui.h"
+
+#include "tools/history/history.h"
+
 #include "tools/free.h"
 
 // TODO : Coding style : 4.10 Fct max 25 lines
@@ -32,7 +36,7 @@ int main(void)
     g_cli_mode = FALSE;
 
     // Define paths
-    char *img_path = "samples/Canon_90D_ppm/Canon_90D_03.ppm";
+    char *img_path = "samples/Canon_90D_png/16bits.png";
     char *xml_path = "samples/Canon_90D_ppm/Canon_90D_03.ppm.xml";
 
 
@@ -56,27 +60,25 @@ int main(void)
 
     // Store all the pixel of the image
     images = read_image(img_path);
-    write_image("tmp/Full_image.jpg", images->full);
-    write_image("tmp/Full_image.ppm", images->full);
-    write_image("tmp/Full_image.tiff", images->full);
+    write_image("tmp/Full_image.png", images->full);
 
     // Scale the image to fit gui window
     images->scale = scale_img(images->full, 1200, 800);
     images->edit = scale_img(images->full, 1200, 800);
     images->small = scale_img(images->full, 225, 150);
-    write_image("tmp/Scale_image.ppm", images->scale);
-    write_image("tmp/Small_image.ppm", images->small);
+    write_image("tmp/Scale_image.png", images->scale);
+    write_image("tmp/Small_image.png", images->small);
 
 
 //################################################################## MODULES ###
 
     //Modify saturation
     saturation(images->edit, 2);
-    write_image("tmp/01_Saturation.jpg", images->edit);
+    write_image("tmp/01_Saturation.png", images->edit);
 
     //Modify contrast
     contrast(images->edit, 2);
-    write_image("tmp/02_Contrast.jpg", images->edit);
+    write_image("tmp/02_Contrast.png", images->edit);
 
     // Add 0.5EV to image
     exposure(images->edit, 0.5);
@@ -84,23 +86,23 @@ int main(void)
 
     // Invert the colors of an image
     invert(images->edit);
-    write_image("tmp/04_Invert.jpg", images->edit);
+    write_image("tmp/04_Invert.png", images->edit);
 
     // Turn the image black and white
     simple_BW(images->edit);
-    write_image("tmp/05_Black_and_white.ppm", images->edit);
+    write_image("tmp/05_Black_and_white.png", images->edit);
 
     // Flip the image both horizontaly and verticaly
-    flip_both_axis(images->edit);
-    write_image("tmp/06_Flip_both_axis.tiff", images->edit);
+    flip(images->edit, 3);
+    write_image("tmp/06_Flip_both_axis.png", images->edit);
 
     // Flip the horizontaly
-    horizontal_flip(images->edit);
-    write_image("tmp/07_Flip_horizontal.jpg", images->edit);
+    flip(images->edit, 2);
+    write_image("tmp/07_Flip_horizontal.png", images->edit);
 
     // Flip the image verticaly
-    vertical_flip(images->edit);
-    write_image("tmp/08_Flip_vertiacl.ppm", images->edit);
+    flip(images->edit, 1);
+    write_image("tmp/08_Flip_vertiacl.png", images->edit);
 
     struct Histogram *histogram = compute_histogram(images->edit);
 

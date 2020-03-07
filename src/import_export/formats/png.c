@@ -66,10 +66,10 @@ struct Image *read_png(const char *filename)
     png_byte bits_per_sample = png_get_bit_depth(png, info);
     png_byte color_type = png_get_color_type(png, info);
 
-    if (bits_per_sample == 16)
+    /*if (bits_per_sample == 16)
     {
         png_set_strip_16(png);
-    }
+    }*/
 
     img->bit_depth = bits_to_depth(bits_per_sample);
 
@@ -174,8 +174,9 @@ void write_png(const char *filename, struct Image *img)
     png_init_io(png, fp);
 
     png_set_IHDR(png, info, img->width, img->height,
-            8, PNG_COLOR_TYPE_RGB, PNG_INTERLACE_NONE,
-            PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
+            depth_to_bits(img->bit_depth), PNG_COLOR_TYPE_RGB,
+            PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT,
+            PNG_FILTER_TYPE_DEFAULT);
 
     png_write_info(png, info);
 
