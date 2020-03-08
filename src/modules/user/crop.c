@@ -22,6 +22,7 @@ struct Image *crop(struct Image *img, size_t x_down_left, size_t y_down_left,
 
     crop_img->width = x_up_right - x_down_left + 1;
     crop_img->height = y_up_right - y_down_left + 1;
+    crop_img->bit_depth = img->bit_depth;
     crop_img->data = malloc(crop_img->width * crop_img->height * sizeof(struct Pixel));
 
     size_t index = 0;
@@ -42,11 +43,10 @@ struct Image *crop(struct Image *img, size_t x_down_left, size_t y_down_left,
 
                     crop_img->data[index].red = img->data[x + offset * y].red;
                     crop_img->data[index].green = img->data[x + offset * y].green;
-                    crop_img->data[index].blue= img->data[x + offset * y].blue;
+                    crop_img->data[index].blue = img->data[x + offset * y].blue;
                     index++;
                 }
             }
-
         }
     }
 
@@ -56,12 +56,4 @@ struct Image *crop(struct Image *img, size_t x_down_left, size_t y_down_left,
     }
 
     return crop_img;
-
-
-
-
-
-
-
-
 }

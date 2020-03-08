@@ -108,7 +108,6 @@ int main(void)
 
     // Crop the scale image
     write_image("tmp/09_Crop_scale.ppm", crop(images->edit, 300, 50, 900, 400));
-    write_image("tmp/10_Crop_full.ppm", crop(images->full, 300, 50, 900, 400));
 
     struct Histogram *histogram = compute_histogram(images->edit);
 
