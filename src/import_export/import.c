@@ -5,6 +5,7 @@
 #include "../imagin.h"
 
 #include "../gui/gui.h"
+#include "../gui/gui_display.h"
 #include "../debug/error_handler.h"
 #include "../modules/imagin/scale.h"
 #include "../tools/strings.h"

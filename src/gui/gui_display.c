@@ -3,6 +3,7 @@
 #include "../imagin.h"
 
 #include "gui.h"
+#include "gui_display.h"
 #include "gui_modules.h"
 #include "gui_windows.h"
 #include "gui_history.h"
@@ -68,7 +69,8 @@ void reset_modules(struct UI *ui)
     ui->can_modify = TRUE;
 }
 
-void on_center_image_size_change(GtkWidget *widget, GtkAllocation *allocation, void *data)
+void on_center_image_size_change(GtkWidget *widget, GtkAllocation *allocation,
+        void *data)
 {
     (void) widget;
     (void) data;
