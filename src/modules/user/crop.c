@@ -23,30 +23,26 @@ struct Image *crop(struct Image *img, size_t x_down_left, size_t y_down_left,
     crop_img->width = x_up_right - x_down_left + 1;
     crop_img->height = y_up_right - y_down_left + 1;
     crop_img->bit_depth = img->bit_depth;
-    crop_img->data = malloc(crop_img->width * crop_img->height * sizeof(struct Pixel));
+    crop_img->data = malloc(crop_img->width * crop_img->height *
+            sizeof(struct Pixel));
 
     size_t index = 0;
     size_t offset = img->width;
 
-    for (size_t y = 0; y < img->height ; y++)
+    for (size_t y = (img->height - y_up_right);
+            y <= (img->height - y_down_left) ; y++)
     {
-        for (size_t x = 0; x < img->width ; x++)
+        for (size_t x = x_down_left; x <= x_up_right ; x++)
         {
-            if (x >= x_down_left && x <= x_up_right)
+            if (index > crop_img->width * crop_img->height)
             {
-                if (y >= (img->height - y_up_right) && y <= (img->height - y_down_left))
-                {
-                    if (index > crop_img->width * crop_img->height)
-                    {
-                        errx(1, "crop: crop_img smaller than crop surface");
-                    }
-
-                    crop_img->data[index].red = img->data[x + offset * y].red;
-                    crop_img->data[index].green = img->data[x + offset * y].green;
-                    crop_img->data[index].blue = img->data[x + offset * y].blue;
-                    index++;
-                }
+                errx(1, "crop: crop_img smaller than crop surface");
             }
+
+            crop_img->data[index].red = img->data[x + offset * y].red;
+            crop_img->data[index].green = img->data[x + offset * y].green;
+            crop_img->data[index].blue = img->data[x + offset * y].blue;
+            index++;
         }
     }
 
