@@ -18,11 +18,15 @@
 #include "modules/user/saturation.h"
 #include "modules/user/exposure.h"
 #include "modules/user/contrast.h"
+#include "modules/user/crop.h"
 
 #include "modules/imagin/scale.h"
 #include "modules/imagin/histogram.h"
 
+#include "tools/history/history.h"
+#include "gui/gui.h"
 #include "tools/free.h"
+
 
 // TODO : Coding style : 4.10 Fct max 25 lines
 int main(void)
@@ -91,16 +95,20 @@ int main(void)
     write_image("tmp/05_Black_and_white.ppm", images->edit);
 
     // Flip the image both horizontaly and verticaly
-    flip_both_axis(images->edit);
+    flip(images->edit, 3);
     write_image("tmp/06_Flip_both_axis.tiff", images->edit);
 
     // Flip the horizontaly
-    horizontal_flip(images->edit);
+    flip(images->edit, 2);
     write_image("tmp/07_Flip_horizontal.jpg", images->edit);
 
     // Flip the image verticaly
-    vertical_flip(images->edit);
+    flip(images->edit, 1);
     write_image("tmp/08_Flip_vertiacl.ppm", images->edit);
+
+    // Crop the scale image
+    write_image("tmp/09_Crop_scale.ppm", crop(images->edit, 300, 50, 900, 400));
+    write_image("tmp/10_Crop_full.ppm", crop(images->full, 300, 50, 900, 400));
 
     struct Histogram *histogram = compute_histogram(images->edit);
 
