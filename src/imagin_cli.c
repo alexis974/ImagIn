@@ -112,5 +112,24 @@ int main(void)
 
     printf("See you soon!\n");
 
+    struct Image *img = malloc(sizeof(struct Image));
+    img->height = 1;
+    img->width = 3;
+    img->bit_depth =  65535;
+    img->data = malloc(sizeof(struct Pixel) * 3);
+    img->data[0].red = 65535;
+    img->data[0].blue = 65535;
+    img->data[0].green = 65535;
+    img->data[2].red = 65535;
+    img->data[2].blue = 65535;
+    img->data[2].green = 65535;
+    img->data[1].red = 0;
+    img->data[1].blue = 0;
+    img->data[1].green = 0;
+
+    //write_image("tmp/test.png", img);
+    write_image("tmp/test.tiff", img);
+    //write_image("tmp/test.jpg", img);
+
     return 0;
 }
