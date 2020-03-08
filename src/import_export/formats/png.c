@@ -179,13 +179,29 @@ void write_png(const char *filename, struct Image *img)
 
     for (size_t j = 0; j < img->height; j++)
     {
-        row_pointers[j] = malloc(sizeof(size_t)*3*img->width);
+        uint16_t *row = malloc(sizeof(size_t)*3*img->width);
+
         for (size_t i = 0; i < img->width; i++)
         {
-            row_pointers[j][i*3] = img->data[j*img->width+i].red;
-            row_pointers[j][i*3+1] = img->data[j*img->width+i].green;
-            row_pointers[j][i*3+2] = img->data[j*img->width+i].blue;
+            row[i*3] = img->data[j*img->width+i].red;
+            row[i*3+1] = img->data[j*img->width+i].green;
+            row[i*3+2] = img->data[j*img->width+i].blue;
         }
+
+        if(img->bit_depth > 8)
+        {
+            /* swap bytes of 16 bit files to most significant bit first */
+            png_set_swap(png);
+            row_pointers[j] = malloc(sizeof(png_bytep)*3*img->width * 2);
+            memcpy(row_pointers[j], row, sizeof(png_bytep)*3*img->width * 2);
+        }
+        else
+        {
+            row_pointers[j] = malloc(sizeof(png_bytep)*3*img->width);
+            memcpy(row_pointers[j], row, sizeof(png_bytep)*3*img->width);
+        }
+
+        free(row);
     }
 
     png_write_image(png, row_pointers);
