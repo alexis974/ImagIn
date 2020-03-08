@@ -30,23 +30,23 @@ void interpolation(struct Image *src, struct Image *dst, size_t i, size_t j,
 
     // Red
     dst->data[j*dst->width+i].red =
-        src->data[miny*src->width+minx].red * (1-fx) * (1-fy) +
-        src->data[maxy*src->width+minx].red * fx * (1-fy) +
-        src->data[miny*src->width+maxx].red * (1-fx) * fy +
+        src->data[miny*src->width+minx].red * (1 - fx) * (1 - fy) +
+        src->data[maxy*src->width+minx].red * fx * (1 - fy) +
+        src->data[miny*src->width+maxx].red * (1 - fx) * fy +
         src->data[maxy*src->width+maxx].red * fx * fy;
 
     // Green
     dst->data[j*dst->width+i].green =
-        src->data[miny*src->width+minx].green * (1-fx) * (1-fy) +
-        src->data[maxy*src->width+minx].green * fx * (1-fy) +
-        src->data[miny*src->width+maxx].green * (1-fx) * fy +
+        src->data[miny*src->width+minx].green * (1 - fx) * (1 - fy) +
+        src->data[maxy*src->width+minx].green * fx * (1 - fy) +
+        src->data[miny*src->width+maxx].green * (1 - fx) * fy +
         src->data[maxy*src->width+maxx].green * fx * fy;
 
     // Blue
     dst->data[j*dst->width+i].blue =
-        src->data[miny*src->width+minx].blue * (1-fx) * (1-fy) +
-        src->data[maxy*src->width+minx].blue * fx * (1-fy) +
-        src->data[miny*src->width+maxx].blue * (1-fx) * fy +
+        src->data[miny*src->width+minx].blue * (1 - fx) * (1 - fy) +
+        src->data[maxy*src->width+minx].blue * fx * (1 - fy) +
+        src->data[miny*src->width+maxx].blue * (1 - fx) * fy +
         src->data[maxy*src->width+maxx].blue * fx * fy;
 }
 
@@ -60,7 +60,7 @@ struct Image *scale_img(struct Image *full_img, size_t width, size_t height)
     struct Image *small_img = malloc(width * height * sizeof(struct Image));
     if (!small_img)
     {
-        errx(1,"scale_img : Could not allocate memory.");
+        errx(1, "scale_img : Could not allocate memory.");
     }
 
     // Initialize scaled image
@@ -71,7 +71,7 @@ struct Image *scale_img(struct Image *full_img, size_t width, size_t height)
 
     if (!small_img->data)
     {
-        errx(1,"scale_img : Could not allocate memory.");
+        errx(1, "scale_img : Could not allocate memory.");
     }
 
     float old_width = full_img->width;
