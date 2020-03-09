@@ -155,7 +155,7 @@ void rc_handler(int rc, char *str)
 }
 
 /* Save the given history at the uri path */
-void save_hist_xml(struct history *hist, const char *uri)
+void save_hist(struct history *hist, const char *uri)
 {
     hist = hist->next;
     if (!hist)
@@ -211,7 +211,7 @@ void save_hist_xml(struct history *hist, const char *uri)
     xmlMemoryDump();
 }
 
-struct history *get_hist_from_xml(const char *path)
+struct history *load_hist(const char *path)
 {
     struct history *hist = hst_new();
     xmlTextReaderPtr reader;

@@ -92,7 +92,7 @@ int main(void)
     hst_append(hist, 4, 1, 5.1);
     hst_append(hist, 5, 0, 77.77);
 
-    save_hist_xml(hist, xml2_path);
+    save_hist(hist, xml2_path);
     //hst_free_recursively(hist);
     printf("history has been saved in xml2\n");
 

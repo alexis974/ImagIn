@@ -11,10 +11,8 @@
 
 void create_xmp(const char *uri);
 
-void save_hist_xml(struct history *hist, const char *uri);
+void save_hist(struct history *hist, const char *uri);
 
-struct history *get_hist_from_xml(const char *uri);
-
-void test_save_hist_xml(const char *uri, const char *uri2);
+struct history *load_hist(const char *uri);
 
 #endif /* ! XML_H */
