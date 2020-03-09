@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "history.h"
+#include "convert.h"
 
 struct history *hst_new(void)
 {
@@ -91,16 +92,6 @@ struct history *hst_duplicate(struct history *hist)
     }
 
     return new_hist;
-}
-
-char *get_name(int id)
-{
-    // TODO : Coding style : 5.11  cf 5.11 for details
-    char *module_name[] = {"Invert", "Exposure", "Black and white",
-        "Saturation", "Contraste", "Shadows", "Highlights",
-        "Flip", "Rotation", "Black_and_White"};
-
-    return id < 0 ? "NULL" : module_name[id];
 }
 
 void hst_print(struct history *hist)

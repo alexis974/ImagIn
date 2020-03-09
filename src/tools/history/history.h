@@ -33,8 +33,6 @@ int hst_pop(struct history *hist);
 
 struct history *hst_duplicate(struct history *hist);
 
-char *get_name(int id);
-
 void hst_print(struct history *hist);
 
 #endif /* !  HISTORY_H */
