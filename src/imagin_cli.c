@@ -34,8 +34,6 @@ int main(void)
     // Define paths
     char *img_path = "samples/Canon_90D_ppm/Canon_90D_03.ppm";
     char *xml_path = "samples/Canon_90D_ppm/Canon_90D_03.ppm.xml";
-    char *xml_path2 = "samples/Canon_90D_ppm/TESTCanon_90D_03.xml";
-    char *xml_path3 = "samples/Canon_90D_ppm/TEST2Canon_90D_03.xml";
 
 
 //################################################################### IMPORT ###
@@ -51,20 +49,6 @@ int main(void)
     {
         printf("No XML file found. Creating one...\n");
         create_xmp(xml_path);
-    }
-
-    // TODO : delete this :
-    FILE *file2;
-    if ((file2 = fopen(xml_path2, "r")))
-    {
-        printf("XML2 file already exist\n");
-        fclose(file);
-    }
-    else
-    {
-        printf("No XML2 file found. Creating one...\n");
-        test_save_hist_xml(xml_path2, xml_path3);
-        printf("----------------------------------------done\n");
     }
 
     // Init struct Images
@@ -83,6 +67,23 @@ int main(void)
     write_image("tmp/Scale_image.ppm", images->scale);
     write_image("tmp/Small_image.ppm", images->small);
 
+//################################################################# XML_TEST ###
+
+    char *xml_path2 = "samples/Canon_90D_ppm/TESTCanon_90D_03.xml";
+    char *xml_path3 = "samples/Canon_90D_ppm/TEST2Canon_90D_03.xml";
+
+    FILE *file2;
+    if ((file2 = fopen(xml_path2, "r")))
+    {
+        printf("XML2 file already exist\n");
+        fclose(file);
+    }
+    else
+    {
+        printf("No XML2 file found. Creating one...\n");
+        test_save_hist_xml(xml_path2, xml_path3);
+        printf("----------------------------------------done\n");
+    }
 
 //################################################################## MODULES ###
 
@@ -107,16 +108,16 @@ int main(void)
     write_image("tmp/05_Black_and_white.ppm", images->edit);
 
     // Flip the image both horizontaly and verticaly
-    flip_both_axis(images->edit);
-    write_image("tmp/06_Flip_both_axis.tiff", images->edit);
+    flip(images->edit, 3);
+    write_image("tmp/06_Flip_both_axis.png", images->edit);
 
     // Flip the horizontaly
-    horizontal_flip(images->edit);
-    write_image("tmp/07_Flip_horizontal.jpg", images->edit);
+    flip(images->edit, 2);
+    write_image("tmp/07_Flip_horizontal.png", images->edit);
 
     // Flip the image verticaly
-    vertical_flip(images->edit);
-    write_image("tmp/08_Flip_vertiacl.ppm", images->edit);
+    flip(images->edit, 1);
+    write_image("tmp/08_Flip_vertiacl.png", images->edit);
 
     struct Histogram *histogram = compute_histogram(images->edit);
 
