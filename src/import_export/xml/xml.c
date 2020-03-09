@@ -146,22 +146,13 @@ void create_xmp(const char *uri)
     xmlMemoryDump();
 }
 
-void start_element_handler(int rc)
+void rc_handler(int rc, char *str)
 {
     if (rc < 0)
     {
-        errx(1, "save_hist_xml: Error at xmlTextWriterStartElement\n");
+        errx(1, "%s\n", str);
     }
 }
-
-void write_element_handler(int rc)
-{
-    if (rc < 0)
-    {
-        errx(1, "save_hist_xml: Error at xmlTextWriterWriteElement\n");
-    }
-}
-
 
 /* Save the given history at the uri path */
 void save_hist_xml(struct history *hist, const char *uri)
@@ -181,19 +172,16 @@ void save_hist_xml(struct history *hist, const char *uri)
     }
 
     rc = xmlTextWriterStartDocument(writer, NULL, MY_ENCODING, NULL);
-    if (rc < 0)
-    {
-        errx(1, "save_hist_xml: Error at xmlTextWriterStartDocument\n");
-    }
+    rc_handler(rc, "save_hist_xml: Error at xmlTextWriterStartDocument");
 
     rc = xmlTextWriterStartElement(writer, BAD_CAST "Modules");
-    start_element_handler(rc);
+    rc_handler(rc, "save_hist_xml: Error at xmlTextWriterStartElement");
 
     hist = hist->next;
 
     do {
         rc = xmlTextWriterStartElement(writer, BAD_CAST get_name(hist->id));
-        start_element_handler(rc);
+        rc_handler(rc, "save_hist_xml: Error at xmlTextWriterStartElement");
 
         // Cast hist->enable to string
         char _enable[2];
@@ -201,7 +189,7 @@ void save_hist_xml(struct history *hist, const char *uri)
 
         rc = xmlTextWriterWriteElement(writer, BAD_CAST "Enable",
                 BAD_CAST _enable);
-        write_element_handler(rc);
+        rc_handler(rc, "save_hist_xml: Error at xmlTextWriterWriteElement");
 
         // Cast hist->value to string
         char _value[30];
@@ -209,7 +197,7 @@ void save_hist_xml(struct history *hist, const char *uri)
 
         rc = xmlTextWriterWriteElement(writer, BAD_CAST "Value",
                 BAD_CAST _value);
-        write_element_handler(rc);
+        rc_handler(rc, "save_hist_xml: Error at xmlTextWriterWriteElement");
 
         rc = xmlTextWriterEndElement(writer);
         if (rc < 0)
@@ -232,33 +220,6 @@ void save_hist_xml(struct history *hist, const char *uri)
     xmlCleanupParser();
 
     xmlMemoryDump();
-}
-
-// TODO : Delete this fct from here and .h
-void test_save_hist_xml(const char *uri, const char *uri2)
-{
-    struct history *hist = hst_new();
-
-    hst_append(hist, 1, 0, 5);
-    hst_append(hist, 2, 1, 6.89);
-    hst_append(hist, 3, 0, 22.1);
-    hst_append(hist, 4, 1, 5.1);
-    hst_append(hist, 5, 0, 77.77);
-
-    save_hist_xml(hist, uri);
-    //hst_free_recursively(hist);
-    printf("test save hist xml done, go check .xml\n");
-
-    struct history *hist2 = get_hist_from_xml(uri);
-    if (hist2 == NULL)
-        printf("test fct 2 case NULL\n");
-    else
-        printf("test fct 2 case ok\n");
-
-    save_hist_xml(hist2, uri2);
-    //hst_free_recursively(hist2);
-    printf("test save hist2 xml done, go check .xml\n");
-
 }
 
 struct history *get_hist_from_xml(const char *path)
@@ -310,7 +271,7 @@ struct history *get_hist_from_xml(const char *path)
             printf("%i\n", _id);
 
             // Bug my come from here
-            hst_append(hist, _id, _enable, _value);
+            //hst_append(hist, _id, _enable, _value);
 
             ret = xmlTextReaderRead(reader);
         }
