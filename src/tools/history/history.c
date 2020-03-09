@@ -362,26 +362,20 @@ char *get_name(int id)
 
 int get_id(char *mod_name)
 {
-    if (strcmp(mod_name, "Invert") == 0)
-        return 0;
-    else if (strcmp(mod_name, "Exposure") == 0)
-        return 1;
-    else if (strcmp(mod_name, "Saturation") == 0)
-        return 2;
-    else if (strcmp(mod_name, "Contraste") == 0)
-        return 3;
-    else if (strcmp(mod_name, "Shadows") == 0)
-        return 4;
-    else if (strcmp(mod_name, "Highlights") == 0)
-        return 5;
-    else if (strcmp(mod_name, "Flip") == 0)
-        return 6;
-    else if (strcmp(mod_name, "Rotationi") == 0)
-        return 7;
-    else if (strcmp(mod_name, "Black_and_White") == 0)
-        return 8;
-    else
-        errx(1, "get_id : mod_name not found");
+    char *module_name[] = {"Invert", "Exposure", "Saturation", "Contraste",
+        "Shadows", "Highlights", "Flip", "Rotation", "Black_and_White"};
+    size_t nb_module = 9;
+
+    for (size_t i = 0; i < nb_module; i++)
+    {
+        if (mod_name == module_name[i])
+        {
+            return i;
+        }
+    }
+
+    errx(1, "get_id : mod_name not found");
+    return -1;
 }
 
 void hst_print(struct history *hist)
