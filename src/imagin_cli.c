@@ -23,6 +23,7 @@
 #include "modules/imagin/histogram.h"
 
 #include "tools/free.h"
+#include "tools/history/history.h"
 
 // TODO : Coding style : 4.10 Fct max 25 lines
 int main(void)
@@ -69,19 +70,43 @@ int main(void)
 
 //################################################################# XML_TEST ###
 
-    char *xml_path2 = "samples/Canon_90D_ppm/TESTCanon_90D_03.xml";
-    char *xml_path3 = "samples/Canon_90D_ppm/TEST2Canon_90D_03.xml";
+    char *xml2_path = "samples/Canon_90D_ppm/Canon_90D_03_test1.xml";
+    //char *xml3_path = "samples/Canon_90D_ppm/Canon_90D_03_test2.xml";
 
     FILE *file2;
-    if ((file2 = fopen(xml_path2, "r")))
+    if ((file2 = fopen(xml2_path, "r")))
     {
         printf("XML2 file already exist\n");
         fclose(file);
     }
     else
     {
-        printf("No XML2 file found. Creating one...\n");
-        test_save_hist_xml(xml_path2, xml_path3);
+        printf("No XML2 file found. Creating one...\n\n");
+
+    //////////////////////////////////////////////////////////////
+    struct history *hist = hst_new();
+
+    hst_append(hist, 1, 0, 5);
+    hst_append(hist, 2, 1, 6.89);
+    hst_append(hist, 3, 0, 22.1);
+    hst_append(hist, 4, 1, 5.1);
+    hst_append(hist, 5, 0, 77.77);
+
+    save_hist_xml(hist, xml2_path);
+    //hst_free_recursively(hist);
+    printf("history has been saved in xml2\n");
+
+    /*
+    struct history *hist2 = get_hist_from_xml(uri);
+    if (hist2 == NULL)
+        printf("test fct 2 case NULL\n");
+    else
+        printf("test fct 2 case ok\n");
+
+    save_hist_xml(hist2, uri2);
+    //hst_free_recursively(hist2);
+    printf("test save hist2 xml done, go check .xml\n");
+*/
         printf("----------------------------------------done\n");
     }
 
