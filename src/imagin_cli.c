@@ -36,7 +36,7 @@ int main(void)
     g_cli_mode = FALSE;
 
     // Define paths
-    char *img_path = "samples/Canon_90D_png/16bits.png";
+    char *img_path = "samples/Canon_90D_png/Canon_90D_01.png";
     char *xml_path = "samples/Canon_90D_ppm/Canon_90D_03.ppm.xml";
 
 
@@ -80,56 +80,9 @@ int main(void)
     contrast(images->edit, 2);
     write_image("tmp/02_Contrast.png", images->edit);
 
-    // Add 0.5EV to image
-    exposure(images->edit, 0.5);
-    write_image("tmp/03_Exposure.jpg", images->edit);
-
-    // Invert the colors of an image
-    invert(images->edit);
-    write_image("tmp/04_Invert.png", images->edit);
-
-    // Turn the image black and white
-    simple_BW(images->edit);
-    write_image("tmp/05_Black_and_white.png", images->edit);
-
-    // Flip the image both horizontaly and verticaly
-    flip(images->edit, 3);
-    write_image("tmp/06_Flip_both_axis.png", images->edit);
-
-    // Flip the horizontaly
-    flip(images->edit, 2);
-    write_image("tmp/07_Flip_horizontal.png", images->edit);
-
-    // Flip the image verticaly
-    flip(images->edit, 1);
-    write_image("tmp/08_Flip_vertiacl.png", images->edit);
-
-    struct Histogram *histogram = compute_histogram(images->edit);
-
-    printf("Max value = %ld\n", histo_max_value(histogram));
-
     free_images(images);
 
     printf("See you soon!\n");
-
-    struct Image *img = malloc(sizeof(struct Image));
-    img->height = 1;
-    img->width = 3;
-    img->bit_depth =  65535;
-    img->data = malloc(sizeof(struct Pixel) * 3);
-    img->data[0].red = 19967;
-    img->data[0].blue = 48573;
-    img->data[0].green = 44287;
-    img->data[2].red = 0;
-    img->data[2].blue = 65535;
-    img->data[2].green = 0;
-    img->data[1].red = 0;
-    img->data[1].blue = 0;
-    img->data[1].green = 65535;
-
-    write_image("tmp/test.png", img);
-    //write_image("tmp/test.tiff", img);
-    //write_image("tmp/test.jpg", img);
 
     return 0;
 }

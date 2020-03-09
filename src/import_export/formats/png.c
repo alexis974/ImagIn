@@ -12,6 +12,32 @@
 
 #include "../../debug/error_handler.h"
 
+void png_get_pixel(struct Image *img, png_bytep *row_pointers,
+    size_t i, size_t j, size_t nb_channel)
+{
+    size_t bytes_per_sample =
+        (img->bit_depth < 255 ? 1 : depth_to_bits(img->bit_depth) / 8);
+
+    img->data[img->width * j + i].red = 0;
+    img->data[img->width * j + i].green = 0;
+    img->data[img->width * j + i].blue = 0;
+
+    for (size_t k = 0; k < bytes_per_sample; k++)
+    {
+        size_t b_t_d = (k == 0 ? 1 : bits_to_depth(k * 8));
+        img->data[img->width * j + i].red +=
+            row_pointers[j][i * nb_channel * bytes_per_sample + k] * b_t_d;
+
+        img->data[img->width * j + i].green +=
+            row_pointers[j][(i * nb_channel + 1) * bytes_per_sample + k] *
+                b_t_d;
+
+        img->data[img->width * j + i].blue +=
+            row_pointers[j][(i * nb_channel + 2) * bytes_per_sample + k] *
+                b_t_d;
+    }
+}
+
 // TODO : Coding style : Fct 25 lines max
 struct Image *read_png(const char *filename)
 {
@@ -21,7 +47,7 @@ struct Image *read_png(const char *filename)
             NULL);
     if (!png)
     {
-        throw_error("readPNG","Unable to use png library.");
+        throw_error("readPNG", "Unable to use png library.");
 
         return NULL;
     }
@@ -29,14 +55,14 @@ struct Image *read_png(const char *filename)
     png_infop info = png_create_info_struct(png);
     if (!info)
     {
-        throw_error("readPNG","Unable to use png library.");
+        throw_error("readPNG", "Unable to use png library.");
 
         return NULL;
     }
 
     if (setjmp(png_jmpbuf(png)))
     {
-        throw_error("readPNG","Unable to use png library.");
+        throw_error("readPNG", "Unable to use png library.");
 
         return NULL;
     }
@@ -47,7 +73,7 @@ struct Image *read_png(const char *filename)
     struct Image *img = malloc(sizeof(struct Image));
     if (!img)
     {
-        throw_error("readPNG","Unable to allocate memory.");
+        throw_error("readPNG", "Unable to allocate memory.");
 
         return NULL;
     }
@@ -58,7 +84,7 @@ struct Image *read_png(const char *filename)
 
     if (!img->data)
     {
-        throw_error("readPNG","Unable to allocate memory.");
+        throw_error("readPNG", "Unable to allocate memory.");
 
         return NULL;
     }
@@ -106,19 +132,20 @@ struct Image *read_png(const char *filename)
         row_pointers[y] = (png_byte*)malloc(png_get_rowbytes(png,info));
     }
 
-    png_byte nb_channels = png_get_channels(png,info);
+    png_byte nb_channel = png_get_channels(png,info);
     png_read_image(png, row_pointers);
 
     for (size_t j = 0; j < img->height; j++)
     {
         for (size_t i = 0; i < img->width; i++)
         {
+            //png_get_pixel(img, row_pointers, i, j, nb_channel);
             img->data[img->width * j + i].red =
-                row_pointers[j][i * nb_channels];
+                row_pointers[j][i * nb_channel];
             img->data[img->width * j + i].green =
-                row_pointers[j][i * nb_channels + 1];
+                row_pointers[j][i * nb_channel + 1];
             img->data[img->width * j + i].blue =
-                row_pointers[j][i * nb_channels + 2];
+                row_pointers[j][i * nb_channel + 2];
         }
     }
 
