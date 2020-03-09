@@ -3,9 +3,18 @@
 #include <math.h>
 
 #include "../../imagin.h"
+
 #include "../../tools/minmax.h"
 
 #include "hsl_conv.h"
+
+void init_sliders(struct Sliders sliders)
+{
+    sliders.r_id = 'r';
+    sliders.g_id = 'g';
+    sliders.b_id = 'b';
+    if (sliders.r == 0){}; //to avoid unused error
+}
 
 struct PixelHSL RGBtoHSL(struct Pixel rgb, float bd)
 {
@@ -15,8 +24,8 @@ struct PixelHSL RGBtoHSL(struct Pixel rgb, float bd)
     float g = rgb.green / bd;
     float b = rgb.blue / bd;
 
-    float min = getmin3(r, g, b); //min(r, g, b)
-    float max = getmax3(r, g, b); //max(r, g, b)
+    float min = getmin3(r, g, b);
+    float max = getmax3(r, g, b);
     float delta = max - min;
 
     hsl.l = (max + min) / 2;

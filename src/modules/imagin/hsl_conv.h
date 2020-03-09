@@ -8,15 +8,15 @@ struct PixelHSL
     float l;
 };
 
-struct SlidersH
+struct Sliders
 {
     float r;
     float g;
     float b;
 
-    size_t r_id = 0;
-    size_t g_id = 1;
-    size_t b_id = 2;
+    char r_id;
+    char g_id;
+    char b_id;
 };
 
 struct PixelHSL RGBtoHSL(struct Pixel pxl, float bd);
