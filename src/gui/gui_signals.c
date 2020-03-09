@@ -81,7 +81,7 @@ void connect_display(struct UI *ui)
     g_signal_connect(ui->modules->history_list->list, "row-selected",
             G_CALLBACK(hst_selection_changed), ui);
     g_signal_connect(ui->modules->history_list->compress_button, "clicked",
-            G_CALLBACK(compress_history), ui);
+            G_CALLBACK(compress_history_btn), ui);
     g_signal_connect(ui->display->box, "size-allocate",
             G_CALLBACK(on_center_image_size_change), ui);
 }

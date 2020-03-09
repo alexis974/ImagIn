@@ -5,6 +5,7 @@
 #include "gui.h"
 #include "gui_modules.h"
 #include "gui_windows.h"
+#include "gui_history.h"
 #include "gui_widgets/gui_expander.h"
 
 #include "../import_export/import.h"
@@ -12,25 +13,14 @@
 
 #include "../tools/history/history.h"
 #include "../tools/history/image_handler.h"
+#include "../tools/history/truncate.h"
+#include "../tools/history/apply.h"
 
 #include "../tools/strings.h"
 #include "../tools/free.h"
 #include "../tools/exif.h"
 
 #include "../debug/error_handler.h"
-
-
-void reset_history_list(struct UI *ui)
-{
-    GList *children = gtk_container_get_children(
-            GTK_CONTAINER(ui->modules->history_list->list));
-    for (GList *iter = children; iter != NULL; iter = g_list_next(iter))
-    {
-        gtk_widget_destroy(GTK_WIDGET(iter->data));
-    }
-
-    g_list_free(children);
-}
 
 void reset_image_info(struct UI *ui)
 {

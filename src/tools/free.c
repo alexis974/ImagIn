@@ -7,8 +7,6 @@
 
 #include "history/history.h"
 
-#include "free.h"
-
 void free_image(struct Image *img)
 {
     free(img->data);

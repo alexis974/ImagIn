@@ -8,6 +8,8 @@
 #include "gui_history.h"
 
 #include "../tools/history/history.h"
+#include "../tools/history/compress.h"
+#include "../tools/history/sort.h"
 #include "../tools/free.h"
 
 void undo(GtkWidget *widget, gpointer user_data)
