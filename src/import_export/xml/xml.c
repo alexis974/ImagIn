@@ -157,7 +157,8 @@ void rc_handler(int rc, char *str)
 /* Save the given history at the uri path */
 void save_hist_xml(struct history *hist, const char *uri)
 {
-    if (!hist->next)
+    hist = hist->next;
+    if (!hist)
     {
         errx(1, "save_hist_xml : hist was empty\n");
     }
@@ -177,48 +178,36 @@ void save_hist_xml(struct history *hist, const char *uri)
     rc = xmlTextWriterStartElement(writer, BAD_CAST "Modules");
     rc_handler(rc, "save_hist_xml: Error at xmlTextWriterStartElement");
 
-    hist = hist->next;
 
-    do {
+    while (hist)
+    {
         rc = xmlTextWriterStartElement(writer, BAD_CAST get_name(hist->id));
         rc_handler(rc, "save_hist_xml: Error at xmlTextWriterStartElement");
 
-        // Cast hist->enable to string
         char _enable[2];
+        char _value[30];
         sprintf(_enable, "%d", hist->enable);
+        sprintf(_value, "%f", hist->value);
 
         rc = xmlTextWriterWriteElement(writer, BAD_CAST "Enable",
                 BAD_CAST _enable);
         rc_handler(rc, "save_hist_xml: Error at xmlTextWriterWriteElement");
-
-        // Cast hist->value to string
-        char _value[30];
-        sprintf(_value, "%f", hist->value);
 
         rc = xmlTextWriterWriteElement(writer, BAD_CAST "Value",
                 BAD_CAST _value);
         rc_handler(rc, "save_hist_xml: Error at xmlTextWriterWriteElement");
 
         rc = xmlTextWriterEndElement(writer);
-        if (rc < 0)
-        {
-            errx(1, "create_xml: Error at xmlTextWriterEndElement\n");
-        }
+        rc_handler(rc, "create_xml: Error at xmlTextWriterEndElement");
 
         hist = hist->next;
-
-    } while (hist);
-
-    rc = xmlTextWriterEndDocument(writer);
-    if (rc < 0)
-    {
-        errx(1, "create_xml: Error at xmlTextWriterEndDocument\n");
     }
 
+    rc = xmlTextWriterEndDocument(writer);
+    rc_handler(rc, "create_xml: Error at xmlTextWriterEndDocument");
+
     xmlFreeTextWriter(writer);
-
     xmlCleanupParser();
-
     xmlMemoryDump();
 }
 
