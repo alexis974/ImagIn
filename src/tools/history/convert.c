@@ -6,7 +6,7 @@
 char *get_name(int id)
 {
     // TODO : Coding style : 5.11  cf 5.11 for details
-    char *module_name[] = {"Invert", "Exposure", "Black and white",
+    char *module_name[] = {"Invert", "Exposure", "Black_and_white",
         "Saturation", "Contraste", "Shadows", "Highlights",
         "Flip", "Rotation"};
 
@@ -16,7 +16,7 @@ char *get_name(int id)
 int get_id(char *str)
 {
     // TODO : Coding style : 5.11  cf 5.11 for details
-    char *module_name[] = {"Invert", "Exposure", "Black and white",
+    char *module_name[] = {"Invert", "Exposure", "Black_and_white",
         "Saturation", "Contraste", "Shadows", "Highlights",
         "Flip", "Rotation"};
     int nb_module = 9;
