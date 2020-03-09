@@ -6,6 +6,7 @@
 #include <libxml/xmlwriter.h>
 #include <libxml/xmlreader.h>
 
+#include "../../tools/history/convert.h"
 #include "xml.h"
 
 // TODO : Coding style : Fct 25 lines max
@@ -195,7 +196,7 @@ void save_hist_xml(struct history *hist, const char *uri)
         start_element_handler(rc);
 
         // Cast hist->enable to string
-        char _enable[1];
+        char _enable[2];
         sprintf(_enable, "%d", hist->enable);
 
         rc = xmlTextWriterWriteElement(writer, BAD_CAST "Enable",
