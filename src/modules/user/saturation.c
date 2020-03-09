@@ -4,7 +4,7 @@
 
 #include "../../imagin.h"
 
-#include "../imagin/hsl.h"
+#include "../imagin/hsl_conv.h"
 
 #include "saturation.h"
 

@@ -3,18 +3,9 @@
 #include <math.h>
 
 #include "../../imagin.h"
+#include "../../tools/minmax.h"
 
-#include "hsl.h"
-
-float getmin(float x, float y)
-{
-    return x < y ? x : y;
-}
-
-float getmax(float x, float y)
-{
-    return x > y ? x : y;
-}
+#include "hsl_conv.h"
 
 struct PixelHSL RGBtoHSL(struct Pixel rgb, float bd)
 {
@@ -24,8 +15,8 @@ struct PixelHSL RGBtoHSL(struct Pixel rgb, float bd)
     float g = rgb.green / bd;
     float b = rgb.blue / bd;
 
-    float min = getmin(r, getmin(g, b)); //min(r, g, b)
-    float max = getmax(r, getmax(g, b)); //max(r, g, b)
+    float min = getmin3(r, g, b); //min(r, g, b)
+    float max = getmax3(r, g, b); //max(r, g, b)
     float delta = max - min;
 
     hsl.l = (max + min) / 2;
