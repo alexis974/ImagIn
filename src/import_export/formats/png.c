@@ -139,13 +139,7 @@ struct Image *read_png(const char *filename)
     {
         for (size_t i = 0; i < img->width; i++)
         {
-            //png_get_pixel(img, row_pointers, i, j, nb_channel);
-            img->data[img->width * j + i].red =
-                row_pointers[j][i * nb_channel];
-            img->data[img->width * j + i].green =
-                row_pointers[j][i * nb_channel + 1];
-            img->data[img->width * j + i].blue =
-                row_pointers[j][i * nb_channel + 2];
+            png_get_pixel(img, row_pointers, i, j, nb_channel);
         }
     }
 
@@ -204,31 +198,40 @@ void write_png(const char *filename, struct Image *img)
 
     png_bytep *row_pointers = malloc(sizeof(png_bytep) * img->height);
 
-    for (size_t j = 0; j < img->height; j++)
+    if(img->bit_depth > 255)
     {
-        uint16_t *row = malloc(sizeof(size_t)*3*img->width);
-
-        for (size_t i = 0; i < img->width; i++)
+        for (size_t j = 0; j < img->height; j++)
         {
-            row[i*3] = img->data[j*img->width+i].red;
-            row[i*3+1] = img->data[j*img->width+i].green;
-            row[i*3+2] = img->data[j*img->width+i].blue;
-        }
+            uint16_t *row = malloc(sizeof(size_t)*3*img->width);
 
-        if(img->bit_depth > 8)
-        {
-            /* swap bytes of 16 bit files to most significant bit first */
+            for (size_t i = 0; i < img->width; i++)
+            {
+                row[i*3] = img->data[j*img->width+i].red;
+                row[i*3+1] = img->data[j*img->width+i].green;
+                row[i*3+2] = img->data[j*img->width+i].blue;
+            }
+
+            // swap bytes of 16 bit files to most significant bit first
             png_set_swap(png);
             row_pointers[j] = malloc(sizeof(png_bytep)*3*img->width * 2);
             memcpy(row_pointers[j], row, sizeof(png_bytep)*3*img->width * 2);
+
+            free(row);
         }
-        else
+    }
+    else
+    {
+        for (size_t j = 0; j < img->height; j++)
         {
             row_pointers[j] = malloc(sizeof(png_bytep)*3*img->width);
-            memcpy(row_pointers[j], row, sizeof(png_bytep)*3*img->width);
-        }
 
-        free(row);
+            for (size_t i = 0; i < img->width; i++)
+            {
+                row_pointers[j][i*3] = img->data[j*img->width+i].red;
+                row_pointers[j][i*3+1] = img->data[j*img->width+i].green;
+                row_pointers[j][i*3+2] = img->data[j*img->width+i].blue;
+            }
+        }
     }
 
     png_write_image(png, row_pointers);
