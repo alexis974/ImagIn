@@ -29,9 +29,9 @@ void create_xmp(const char *uri)
     }
 
     /*
-    ** Start an element named "IMAGE". Since thist is the first
-    ** element, this will be the root element of the document.
-    */
+     ** Start an element named "IMAGE". Since thist is the first
+     ** element, this will be the root element of the document.
+     */
     rc = xmlTextWriterStartElement(writer, BAD_CAST "IMAGE");
     if (rc < 0)
     {
@@ -127,9 +127,9 @@ void create_xmp(const char *uri)
     }
 
     /*
-    ** Since we do not want to write any other elements, we simply call
-    ** xmlTextWriterEndDocument, which will do all the work.
-    */
+     ** Since we do not want to write any other elements, we simply call
+     ** xmlTextWriterEndDocument, which will do all the work.
+     */
     rc = xmlTextWriterEndDocument(writer);
     if (rc < 0)
     {
@@ -145,12 +145,29 @@ void create_xmp(const char *uri)
     xmlMemoryDump();
 }
 
+void start_element_handler(int rc)
+{
+    if (rc < 0)
+    {
+        errx(1, "save_hist_xml: Error at xmlTextWriterStartElement\n");
+    }
+}
+
+void write_element_handler(int rc)
+{
+    if (rc < 0)
+    {
+        errx(1, "save_hist_xml: Error at xmlTextWriterWriteElement\n");
+    }
+}
+
+
+/* Save the given history at the uri path */
 void save_hist_xml(struct history *hist, const char *uri)
 {
-    if (hst_is_empty(hist) == 1)
+    if (!hist->next)
     {
-        printf("save_hist_xml : hist was empty\n");
-        return;
+        errx(1, "save_hist_xml : hist was empty\n");
     }
 
     int rc;
@@ -169,44 +186,29 @@ void save_hist_xml(struct history *hist, const char *uri)
     }
 
     rc = xmlTextWriterStartElement(writer, BAD_CAST "Modules");
-    if (rc < 0)
-    {
-        errx(1, "create_xml: Error at xmlTextWriterStartElement\n");
-    }
+    start_element_handler(rc);
 
     hist = hist->next;
 
     do {
-
         rc = xmlTextWriterStartElement(writer, BAD_CAST get_name(hist->id));
-        if (rc < 0)
-        {
-            errx(1, "save_hist_xml: Error at xmlTextWriterStartElement\n");
-        }
+        start_element_handler(rc);
 
-        char *_enable;
-        if (hist->enable == 0)
-            _enable = "0";
-        else
-            _enable = "1";
+        // Cast hist->enable to string
+        char _enable[1];
+        sprintf(_enable, "%d", hist->enable);
 
         rc = xmlTextWriterWriteElement(writer, BAD_CAST "Enable",
-                                                    BAD_CAST _enable);
-        if (rc < 0)
-        {
-            errx(1, "save_hist_xml: Error at xmlTextWriterWriteElement\n");
-        }
+                BAD_CAST _enable);
+        write_element_handler(rc);
 
-        // TODO : Find better way to cast
+        // Cast hist->value to string
         char _value[30];
-        sprintf(_value, "%f", (hist->value));
+        sprintf(_value, "%f", hist->value);
 
         rc = xmlTextWriterWriteElement(writer, BAD_CAST "Value",
-                                                    BAD_CAST _value);
-        if (rc < 0)
-        {
-            errx(1, "save_hist_xml: Error at xmlTextWriterWriteElement\n");
-        }
+                BAD_CAST _value);
+        write_element_handler(rc);
 
         rc = xmlTextWriterEndElement(writer);
         if (rc < 0)
@@ -278,7 +280,9 @@ struct history *get_hist_from_xml(const char *path)
         {
             ret = xmlTextReaderRead(reader);
             if (ret == 0)
+            {
                 break;
+            }
 
             ret = xmlTextReaderRead(reader);
 
@@ -295,6 +299,7 @@ struct history *get_hist_from_xml(const char *path)
             ret = xmlTextReaderRead(reader);
             ret = xmlTextReaderRead(reader);
 
+            //Find better conversion
             str_tmp = (const char *)xmlTextReaderReadOuterXml(reader);
             char _str_id[strlen(str_tmp)-2];
             memset(_str_id, '\0', sizeof(_str_id));
@@ -303,6 +308,7 @@ struct history *get_hist_from_xml(const char *path)
             printf("%s\n", _str_id);
             printf("%i\n", _id);
 
+            // Bug my come from here
             hst_append(hist, _id, _enable, _value);
 
             ret = xmlTextReaderRead(reader);
@@ -310,8 +316,8 @@ struct history *get_hist_from_xml(const char *path)
         if (ret != 0)
         {
             fprintf(stderr, "%s : failed to parse\n", path);
-	        xmlFreeTextReader(reader);
-	        return(NULL);
+            xmlFreeTextReader(reader);
+            return(NULL);
         }
 
         xmlFreeTextReader(reader);
@@ -319,7 +325,7 @@ struct history *get_hist_from_xml(const char *path)
     else
     {
         fprintf(stderr, "Unable to open %s\n", path);
-	    return(NULL);
+        return(NULL);
     }
 
     return hist;

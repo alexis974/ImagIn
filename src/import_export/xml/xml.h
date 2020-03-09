@@ -7,7 +7,7 @@
 
 #include "../../imagin.h"
 #include "../../gui/gui.h"
-#include "../../tools/history.h"
+#include "../../tools/history/history.h"
 
 void create_xmp(const char *uri);
 
