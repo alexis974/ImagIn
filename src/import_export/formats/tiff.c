@@ -13,6 +13,34 @@
 
 #include "tiff.h"
 
+void tiff_get_pixel(struct Image *img, uint32 *raster, size_t i, size_t j)
+{
+    size_t bytes_per_sample =
+        (img->bit_depth < 255 ? 1 : depth_to_bits(img->bit_depth) / 8);
+
+    size_t width = img->width;
+    size_t height = img->height;
+
+    img->data[(height-j-1) * width + i].red = 0;
+    img->data[(height-j-1) * width + i].blue = 0;
+    img->data[(height-j-1) * width + i].green = 0;
+
+    for (size_t k = 0; k < bytes_per_sample; k++)
+    {
+        size_t b_t_d = bits_to_depth(k * 8) + 1;
+
+        // TIFF is save from bottom to top
+        img->data[(height-j-1) * width + i].red =
+            (size_t)TIFFGetR(raster[j*width+ i + k]) * b_t_d;
+
+        img->data[(height-j-1) * width + i].blue =
+            (size_t)TIFFGetB(raster[j*width+ i + k]) * b_t_d;
+
+        img->data[(height-j-1) * width + i].green =
+            (size_t)TIFFGetG(raster[j*width+ i + k]) * b_t_d;
+    }
+}
+
 // TODO : Coding style : Fct 25 lines max
 struct Image *read_tiff(const char *filename)
 {
@@ -62,8 +90,7 @@ struct Image *read_tiff(const char *filename)
     img->width = width;
     img->bit_depth = bits_to_depth(bits_per_sample);
 
-    img->data =
-        (struct Pixel*)malloc(img->width * img->height * sizeof(struct Pixel));
+    img->data = malloc(img->width * img->height * sizeof(struct Pixel));
     if (!img->data)
     {
         throw_error("readTIFF", "Unable to allocate memory");
@@ -76,12 +103,13 @@ struct Image *read_tiff(const char *filename)
         for (size_t i = 0; i < width; i++)
         {
             // TIFF is save from bottom to top
-            img->data[(height-j-1)*width+i].red =
+            /*img->data[(height-j-1)*width+i].red =
                 (size_t)TIFFGetR(raster[j*width+i]);
             img->data[(height-j-1)*width+i].blue =
                 (size_t)TIFFGetB(raster[j*width+i]);
             img->data[(height-j-1)*width+i].green =
-                (size_t)TIFFGetG(raster[j*width+i]);
+                (size_t)TIFFGetG(raster[j*width+i]);*/
+            tiff_get_pixel(img, raster, i, j);
         }
     }
 
