@@ -22,6 +22,7 @@
 
 #include "modules/imagin/scale.h"
 #include "modules/imagin/histogram.h"
+#include "modules/imagin/zoom.h"
 
 #include "tools/history/history.h"
 #include "gui/gui.h"
@@ -107,7 +108,9 @@ int main(void)
     write_image("tmp/08_Flip_vertiacl.ppm", images->edit);
 
     // Crop the scale image
-    write_image("tmp/09_Crop_scale.ppm", crop(images->edit, 300, 50, 900, 400));
+    write_image("tmp/09_Crop_scale.ppm", crop(images->edit, 300, 0, 900, 200));
+
+    write_image("tmp/10_Zoom.ppm", zoom(images, 25, 700, 400));
 
     struct Histogram *histogram = compute_histogram(images->edit);
 

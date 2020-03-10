@@ -14,6 +14,11 @@ struct Image *crop(struct Image *img, size_t x_down_left, size_t y_down_left,
         errx(1, "crop: No image found");
     }
 
+    if (x_up_right > img->width || y_up_right > img->height)
+    {
+        errx(1, "crop : crop image bigger than input image");
+    }
+
     struct Image *crop_img = malloc(sizeof(struct Image));
     if (!crop_img)
     {
@@ -29,8 +34,7 @@ struct Image *crop(struct Image *img, size_t x_down_left, size_t y_down_left,
     size_t index = 0;
     size_t offset = img->width;
 
-    for (size_t y = (img->height - y_up_right);
-            y <= (img->height - y_down_left) ; y++)
+    for (size_t y = y_down_left; y <= y_up_right ; y++)
     {
         for (size_t x = x_down_left; x <= x_up_right ; x++)
         {
@@ -48,6 +52,8 @@ struct Image *crop(struct Image *img, size_t x_down_left, size_t y_down_left,
 
     if (index < crop_img->width * crop_img->height)
     {
+        printf("\ncrop width:%ld | crop height: %ld\n", crop_img->width, crop_img->height);
+        printf("%ld | %ld", y_up_right, y_down_left);
         errx(1, "crop: crop_img bigger than crop surface");
     }
 
