@@ -24,7 +24,7 @@ void png_get_pixel(struct Image *img, png_bytep *row_pointers,
 
     for (size_t k = 0; k < bytes_per_sample; k++)
     {
-        size_t b_t_d = (k == 0 ? 1 : bits_to_depth(k * 8));
+        size_t b_t_d = bits_to_depth(k * 8) + 1;
         img->data[img->width * j + i].red +=
             row_pointers[j][i * nb_channel * bytes_per_sample + k] * b_t_d;
 
@@ -212,7 +212,7 @@ void write_png(const char *filename, struct Image *img)
             }
 
             // swap bytes of 16 bit files to most significant bit first
-            png_set_swap(png);
+            //png_set_swap(png);
             row_pointers[j] = malloc(sizeof(png_bytep)*3*img->width * 2);
             memcpy(row_pointers[j], row, sizeof(png_bytep)*3*img->width * 2);
 

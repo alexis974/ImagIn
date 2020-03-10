@@ -15,6 +15,8 @@ gboolean draw_histogram(GtkWidget *widget, cairo_t *cr, gpointer user_data)
         return FALSE;
     }
 
+    size_t depth = ui->images->full->bit_depth + 1;
+
     float height =  gtk_widget_get_allocated_height(widget);
     int width = gtk_widget_get_allocated_width(widget);
 
@@ -23,7 +25,7 @@ gboolean draw_histogram(GtkWidget *widget, cairo_t *cr, gpointer user_data)
 
     struct Histogram *histogram = compute_histogram(ui->images->small);
 
-    float max_value = histo_max_value(histogram);
+    float max_value = histo_max_value(histogram, depth);
     float scale = height/max_value;
 
     cairo_set_source_rgb(cr, 1, 1, 1);
@@ -31,11 +33,11 @@ gboolean draw_histogram(GtkWidget *widget, cairo_t *cr, gpointer user_data)
 
     cairo_move_to(cr, 0, height);
 
-    for (size_t i = 0; i < 256; i++)
+    for (size_t i = 0; i < depth; i++)
     {
         size_t value = histogram->white[i];
         value *= scale;
-        cairo_line_to(cr, i * width/256, height-value);
+        cairo_line_to(cr, i * width/depth, height-value);
     }
 
     cairo_line_to(cr, width, height);
