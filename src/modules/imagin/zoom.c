@@ -42,8 +42,9 @@ struct Image *zoom(struct Images *images, float zoom_value, size_t x_center,
     size_t x_up_right = 0;
     size_t y_up_right = 0;
 
+    printf("x_down_left = %ld | x_up_right = %ld\n", x_down_left, x_up_right);
     // X_DOWN_LEFT
-    if ((x_center - (nb_x/2)) > 0)
+    if ((x_center > (nb_x/2)))
     {
         x_down_left += x_center - (nb_x / 2);
     }
@@ -52,6 +53,7 @@ struct Image *zoom(struct Images *images, float zoom_value, size_t x_center,
         x_down_left = 0;
         x_up_right += (nb_x/2) - x_center;
     }
+    printf("x_down_left = %ld | x_up_right = %ld\n", x_down_left, x_up_right);
 
     // X_UP_RIGHT
     if ((x_center + (nb_x/2)) < images->full->width)
@@ -63,6 +65,7 @@ struct Image *zoom(struct Images *images, float zoom_value, size_t x_center,
         x_up_right = images->full->width;
         x_down_left -= (x_center + (nb_x/2)) - (images->full->width - x_center);
     }
+    printf("x_down_left = %ld | x_up_right = %ld\n", x_down_left, x_up_right);
 
     // Y_UP_RIGHT
     // Checked
@@ -77,7 +80,7 @@ struct Image *zoom(struct Images *images, float zoom_value, size_t x_center,
     }
 
     // Y_DOWN_LEFT
-    if ((y_center - (nb_y / 2)) > 0)
+    if ((y_center > (nb_y / 2)))
     {
         y_down_left += y_center - (nb_y / 2);
     }
