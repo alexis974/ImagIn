@@ -3,6 +3,7 @@
 #include <math.h>
 #include <string.h>
 #include <tiffio.h>
+#include <err.h>
 #include <gtk/gtk.h>
 
 #include "../../imagin.h"
@@ -119,17 +120,20 @@ void write_tiff(const char *filename, struct Image *img)
     TIFFSetField(out, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
     TIFFSetField(out, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_RGB);
 
-    size_t rowsize = sampleperpixel * img->width;
-    size_t *buffer = NULL;
+    size_t bytes_per_samples =
+        (img->bit_depth <= 255 ? 1 : depth_to_bits(img->bit_depth) / 8);
+
+    size_t rowsize = sampleperpixel * img->width * bytes_per_samples;
+    unsigned char *buffer = NULL;
 
     // Allocating memory to store the pixels of current row
     if (TIFFScanlineSize(out))
     {
-        buffer =(size_t *)_TIFFmalloc(rowsize);
+        buffer = (unsigned char *)_TIFFmalloc(rowsize);
     }
     else
     {
-        buffer = (size_t *)_TIFFmalloc(TIFFScanlineSize(out));
+        buffer = (unsigned char *)_TIFFmalloc(TIFFScanlineSize(out));
     }
 
     // Setting the strip size to be size of one row of pixels
@@ -138,11 +142,49 @@ void write_tiff(const char *filename, struct Image *img)
     for (size_t j = 0; j < img->height; j++)
     {
         // Filling Buffer
-        for (size_t i = 0; i < img->width; i++)
+        if (img->bit_depth <= 255)
         {
-            buffer[i*sampleperpixel] = img->data[j*img->width+i].red;
-            buffer[i*sampleperpixel+1] = img->data[j*img->width+i].green;
-            buffer[i*sampleperpixel+2] = img->data[j*img->width+i].blue;
+            for (size_t i = 0; i < img->width; i++)
+            {
+                buffer[i*sampleperpixel] = img->data[j*img->width+i].red;
+                buffer[i*sampleperpixel+1] = img->data[j*img->width+i].green;
+                buffer[i*sampleperpixel+2] = img->data[j*img->width+i].blue;
+            }
+        }
+        else if (depth_to_bits(img->bit_depth) == 16)
+        {
+            uint16_t *row = malloc(sizeof(uint16_t) * 3 * img->width);
+
+            for (size_t i = 0; i < img->width; i++)
+            {
+                row[i*3] = img->data[j*img->width+i].red;
+                row[i*3+1] = img->data[j*img->width+i].green;
+                row[i*3+2] = img->data[j*img->width+i].blue;
+            }
+
+            memcpy(buffer, row, sizeof(unsigned char) * 3 * img->width * 2);
+
+            free(row);
+        }
+        else if (depth_to_bits(img->bit_depth) == 32)
+        {
+            uint32_t *row = malloc(sizeof(uint32_t) * 3 * img->width);
+
+            for (size_t i = 0; i < img->width; i++)
+            {
+                row[i*3] = img->data[j*img->width+i].red;
+                row[i*3+1] = img->data[j*img->width+i].green;
+                row[i*3+2] = img->data[j*img->width+i].blue;
+            }
+
+            memcpy(buffer, row, sizeof(unsigned char) * 3 * img->width * 4);
+
+            free(row);
+        }
+        else
+        {
+            throw_error("writeTIFF", "Unsupported bit depth");
+            return;
         }
 
         // Writing in image
