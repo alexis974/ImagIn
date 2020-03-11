@@ -94,6 +94,7 @@ struct UI
     struct ImageInfo *image_info;
     struct history *hist;
     struct history *compressed_hist;
+    float current_zoom;
     gboolean image_loaded;
     gboolean can_modify;
 };

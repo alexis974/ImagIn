@@ -12,6 +12,8 @@
 #include "../import_export/import.h"
 #include "../import_export/export.h"
 
+#include "../modules/imagin/zoom.h"
+
 #include "../tools/history/history.h"
 #include "../tools/history/image_handler.h"
 #include "../tools/history/truncate.h"
@@ -196,6 +198,8 @@ void display_images(struct UI *ui, char *filename)
 
     ui->image_loaded = TRUE;
 
+    ui->current_zoom = zoom_percentage(ui->images);
+
     reload_images(ui);
 
     gtk_widget_queue_draw_area(GTK_WIDGET(ui->display->histogram_area), 0, 0,
@@ -229,9 +233,22 @@ gboolean on_scroll_image(GtkWidget *w, GdkEventScroll *event, gpointer data)
         return FALSE;
     }
 
-    (void) event;
-    printf("Scroll direction : %d Scroll delta :  %f\n",
-        event->direction, event->x_root);
+    printf("Scroll direction : %d Scroll delta :  %f\n Position : (%f,%f) \n",
+        event->direction, event->x_root, event->x, event->y);
+
+    char zoom_direction = (event->direction ? 1 : -1);
+
+    ui->current_zoom += 10 * zoom_direction;
+
+    ui->images->scale = zoom(ui->images, ui->current_zoom, event->x, event->y);
+    free(ui->images->edit->data);
+    ui->images->edit->width = ui->images->scale->width;
+    ui->images->edit->height = ui->images->scale->height;
+    ui->images->edit->data = malloc(sizeof(sizeof(struct Pixel)) *
+                    ui->images->edit->height * ui->images->edit->width);
+
+    reload_images(ui);
+
 
     return FALSE;
 }
