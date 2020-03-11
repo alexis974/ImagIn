@@ -124,13 +124,11 @@ void reload_images(struct UI *ui)
     ui->images->small = get_small(ui->images->edit);
 
     // Middle image
-    // GTK only supports 8bits format
-    unsigned char *buffer = from_image_to_buffer(ui->images->edit);
-    GdkPixbuf *pix_buffer =
-        gdk_pixbuf_new_from_data(buffer, GDK_COLORSPACE_RGB, FALSE, 8,
-                ui->images->edit->width, ui->images->edit->height,
-                ui->images->edit->width * 3, free_buffer, NULL);
-    gtk_image_set_from_pixbuf(ui->display->display_image, pix_buffer);
+    gtk_widget_queue_draw_area (GTK_WIDGET(ui->display->display_image), 0, 0,
+		gtk_widget_get_allocated_width(
+        GTK_WIDGET(ui->display->display_image)),
+        gtk_widget_get_allocated_height(
+        GTK_WIDGET(ui->display->display_image)));
 
     // Small image
     unsigned char *buffer_small = from_image_to_buffer(ui->images->small);
@@ -147,7 +145,6 @@ void reload_images(struct UI *ui)
         GTK_WIDGET(ui->display->histogram_area)));
 
     // Releasing memory
-    g_object_unref(pix_buffer);
     g_object_unref(pix_buffer_small);
 }
 
@@ -238,5 +235,33 @@ gboolean on_scroll_image(GtkWidget *w, GdkEventScroll *event, gpointer data)
     printf("Scroll direction : %d Scroll delta :  %f\n",
         event->direction, event->x_root);
 
+    return FALSE;
+}
+
+gboolean draw_image(GtkWidget *w, cairo_t *cr, gpointer user_data)
+{
+    (void) w;
+    struct UI *ui = user_data;
+    if (!ui->image_loaded)
+    {
+        cairo_surface_t *image =
+            cairo_image_surface_create_from_png("data/icons/no_image.png");
+        cairo_set_source_surface(cr, image,0,0);
+        cairo_paint(cr);
+        return FALSE;
+    }
+
+    // GTK only supports 8bits format
+    unsigned char *buffer = from_image_to_buffer(ui->images->edit);
+    GdkPixbuf *pix_buffer =
+        gdk_pixbuf_new_from_data(buffer, GDK_COLORSPACE_RGB, FALSE, 8,
+                ui->images->edit->width, ui->images->edit->height,
+                ui->images->edit->width * 3, free_buffer, NULL);
+    gdk_cairo_set_source_pixbuf(cr, pix_buffer,
+       0,(gtk_widget_get_allocated_height(w)-ui->images->edit->height)/2);
+
+    cairo_paint(cr);
+
+    //g_object_unref(pix_buffer);
     return FALSE;
 }

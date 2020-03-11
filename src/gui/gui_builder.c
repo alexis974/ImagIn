@@ -47,7 +47,7 @@ void build_bottom_bar_gui(GtkBuilder *builder, struct UI *ui)
 void build_display_gui(GtkBuilder *builder, struct UI *ui)
 {
     ui->display = malloc(sizeof(struct Display));
-    ui->display->display_image = GTK_IMAGE(gtk_builder_get_object(
+    ui->display->display_image = GTK_DRAWING_AREA(gtk_builder_get_object(
                 builder, "display_image"));
     ui->display->small_image = GTK_IMAGE(gtk_builder_get_object(
                 builder, "small_preview"));
@@ -57,9 +57,7 @@ void build_display_gui(GtkBuilder *builder, struct UI *ui)
                 builder, "middle_area_events"));
     ui->display->box = GTK_WIDGET(gtk_builder_get_object(
                 builder, "central_box"));
-    //Setting default middle image
-    gtk_image_set_from_file(ui->display->display_image,
-            "data/icons/no_image.png");
+
     //Setting the possibility to scroll on image
     gtk_widget_add_events(GTK_WIDGET(ui->display->middle_area_events),
         GDK_SCROLL_MASK);

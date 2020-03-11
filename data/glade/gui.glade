@@ -642,10 +642,9 @@
                         <property name="can_focus">False</property>
                         <property name="above_child">True</property>
                         <child>
-                          <object class="GtkImage" id="display_image">
+                          <object class="GtkDrawingArea" id="display_image">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="stock">gtk-discard</property>
                           </object>
                         </child>
                       </object>

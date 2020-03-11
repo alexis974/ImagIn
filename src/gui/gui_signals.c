@@ -84,6 +84,8 @@ void connect_display(struct UI *ui)
             G_CALLBACK(compress_history_btn), ui);
     g_signal_connect(ui->display->box, "size-allocate",
             G_CALLBACK(on_center_image_size_change), ui);
+    g_signal_connect(ui->display->display_image, "draw",
+            G_CALLBACK(draw_image), ui);
 }
 
 void connect_signals(struct UI *ui)
