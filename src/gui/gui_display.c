@@ -246,7 +246,11 @@ gboolean draw_image(GtkWidget *w, cairo_t *cr, gpointer user_data)
     {
         cairo_surface_t *image =
             cairo_image_surface_create_from_png("data/icons/no_image.png");
-        cairo_set_source_surface(cr, image,0,0);
+        int top_left_x = (gtk_widget_get_allocated_width(w) -
+            cairo_image_surface_get_width(image)) / 2;
+        int top_left_y = (gtk_widget_get_allocated_height(w) -
+            cairo_image_surface_get_height(image)) / 2;
+        cairo_set_source_surface(cr, image, top_left_x, top_left_y);
         cairo_paint(cr);
         return FALSE;
     }
