@@ -4,6 +4,7 @@
 #include <string.h>
 #include <tiffio.h>
 #include <err.h>
+#include <stdint.h>
 #include <gtk/gtk.h>
 
 #include "../../imagin.h"
