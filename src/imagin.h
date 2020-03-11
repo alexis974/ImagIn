@@ -3,9 +3,9 @@
 
 struct Pixel
 {
-    size_t red;
-    size_t green;
-    size_t blue;
+    size_t r;
+    size_t g;
+    size_t b;
 };
 
 struct Image

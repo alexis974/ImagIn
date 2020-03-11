@@ -34,11 +34,11 @@ void contrast(struct Image *img, float range)
 
     for (size_t i = 0; i < img->width * img->height; i++)
     {
-        img->data[i].red = apply_contrast(img->data[i].red, range,
+        img->data[i].r = apply_contrast(img->data[i].r, range,
                 img->bit_depth);
-        img->data[i].green = apply_contrast(img->data[i].green, range,
+        img->data[i].g = apply_contrast(img->data[i].g, range,
                 img->bit_depth);
-        img->data[i].blue = apply_contrast(img->data[i].blue, range,
+        img->data[i].b = apply_contrast(img->data[i].b, range,
                 img->bit_depth);
     }
 }

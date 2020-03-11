@@ -19,11 +19,11 @@ void simple_BW(struct Image *img)
 
     for (i = 0; i < img->width * img->height; i++)
     {
-        sum = img->data[i].red + img->data[i].green + img->data[i].blue;
+        sum = img->data[i].r + img->data[i].g + img->data[i].b;
         tmp = sum / 3;
 
-        img->data[i].red = tmp;
-        img->data[i].green = tmp;
-        img->data[i].blue = tmp;
+        img->data[i].r = tmp;
+        img->data[i].g = tmp;
+        img->data[i].b = tmp;
     }
 }

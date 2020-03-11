@@ -3,10 +3,10 @@
 
 struct Histogram
 {
-    size_t *red;
-    size_t *green;
-    size_t *blue;
-    size_t *white;
+    size_t *r;
+    size_t *g;
+    size_t *b;
+    size_t *w;
 };
 
 struct Histogram *compute_histogram(struct Image *img);

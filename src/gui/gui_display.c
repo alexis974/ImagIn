@@ -70,7 +70,8 @@ void reset_modules(struct UI *ui)
     ui->can_modify = TRUE;
 }
 
-void on_center_image_size_change(GtkWidget *widget, GtkAllocation *allocation, void *data)
+void on_center_image_size_change(GtkWidget *widget, GtkAllocation *allocation,
+        void *data)
 {
     (void) widget;
     (void) data;
@@ -88,9 +89,9 @@ unsigned char *from_image_to_buffer(struct Image *img)
     {
         for (size_t i = 0; i < img->width; i++)
         {
-            buffer[j*(img->width*3)+i*3] = img->data[j*img->width+i].red;
-            buffer[j*(img->width*3)+i*3+1] = img->data[j*img->width+i].green;
-            buffer[j*(img->width*3)+i*3+2] = img->data[j*img->width+i].blue;
+            buffer[j*(img->width*3)+i*3] = img->data[j*img->width+i].r;
+            buffer[j*(img->width*3)+i*3+1] = img->data[j*img->width+i].g;
+            buffer[j*(img->width*3)+i*3+2] = img->data[j*img->width+i].b;
         }
     }
 

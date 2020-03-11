@@ -30,24 +30,24 @@ void interpolation(struct Image *src, struct Image *dst, size_t i, size_t j,
 
     // Red
     dst->data[j*dst->width+i].red =
-        src->data[miny*src->width+minx].red * (1-fx) * (1-fy) +
-        src->data[maxy*src->width+minx].red * fx * (1-fy) +
-        src->data[miny*src->width+maxx].red * (1-fx) * fy +
-        src->data[maxy*src->width+maxx].red * fx * fy;
+        src->data[miny*src->width+minx].r * (1-fx) * (1-fy) +
+        src->data[maxy*src->width+minx].r * fx * (1-fy) +
+        src->data[miny*src->width+maxx].r * (1-fx) * fy +
+        src->data[maxy*src->width+maxx].r * fx * fy;
 
     // Green
     dst->data[j*dst->width+i].green =
-        src->data[miny*src->width+minx].green * (1-fx) * (1-fy) +
-        src->data[maxy*src->width+minx].green * fx * (1-fy) +
-        src->data[miny*src->width+maxx].green * (1-fx) * fy +
-        src->data[maxy*src->width+maxx].green * fx * fy;
+        src->data[miny*src->width+minx].g * (1-fx) * (1-fy) +
+        src->data[maxy*src->width+minx].g * fx * (1-fy) +
+        src->data[miny*src->width+maxx].g * (1-fx) * fy +
+        src->data[maxy*src->width+maxx].g * fx * fy;
 
     // Blue
     dst->data[j*dst->width+i].blue =
-        src->data[miny*src->width+minx].blue * (1-fx) * (1-fy) +
-        src->data[maxy*src->width+minx].blue * fx * (1-fy) +
-        src->data[miny*src->width+maxx].blue * (1-fx) * fy +
-        src->data[maxy*src->width+maxx].blue * fx * fy;
+        src->data[miny*src->width+minx].b * (1-fx) * (1-fy) +
+        src->data[maxy*src->width+minx].b * fx * (1-fy) +
+        src->data[miny*src->width+maxx].b * (1-fx) * fy +
+        src->data[maxy*src->width+maxx].b * fx * fy;
 }
 
 struct Image *scale_img(struct Image *full_img, size_t width, size_t height)

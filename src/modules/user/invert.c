@@ -14,8 +14,8 @@ void invert(struct Image *img)
 
     for (size_t i = 0; i < img->width * img->height; i++)
     {
-        img->data[i].red = img->bit_depth - img->data[i].red;
-        img->data[i].green = img->bit_depth - img->data[i].green;
-        img->data[i].blue = img->bit_depth - img->data[i].blue;
+        img->data[i].r = img->bit_depth - img->data[i].r;
+        img->data[i].g = img->bit_depth - img->data[i].g;
+        img->data[i].b = img->bit_depth - img->data[i].b;
     }
 }

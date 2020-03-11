@@ -17,13 +17,13 @@ void exposure(struct Image *img, float EV)
 
     for (size_t i = 0; i < img->width * img->height; i++)
     {
-        img->data[i].red = (img->data[i].red * scale) > img->bit_depth ?
-            img->bit_depth : img->data[i].red * scale;
+        img->data[i].r = (img->data[i].r * scale) > img->bit_depth ?
+            img->bit_depth : img->data[i].r * scale;
 
-        img->data[i].green = (img->data[i].green * scale) > img->bit_depth ?
-            img->bit_depth : img->data[i].green * scale;
+        img->data[i].g = (img->data[i].g * scale) > img->bit_depth ?
+            img->bit_depth : img->data[i].g * scale;
 
-        img->data[i].blue = (img->data[i].blue * scale) > img->bit_depth ?
-            img->bit_depth : img->data[i].blue * scale;
+        img->data[i].b = (img->data[i].b * scale) > img->bit_depth ?
+            img->bit_depth : img->data[i].b * scale;
     }
 }

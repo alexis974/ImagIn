@@ -20,9 +20,9 @@ struct PixelHSL RGBtoHSL(struct Pixel rgb, float bd)
 {
     struct PixelHSL hsl;
 
-    float r = rgb.red / bd;
-    float g = rgb.green / bd;
-    float b = rgb.blue / bd;
+    float r = rgb.r / bd;
+    float g = rgb.g / bd;
+    float b = rgb.b / bd;
 
     float min = getmin(r, getmin(g, b)); //min(r, g, b)
     float max = getmax(r, getmax(g, b)); //max(r, g, b)
@@ -86,9 +86,9 @@ struct Pixel HSLtoRGB(struct PixelHSL hsl, float bd)
 
     if (hsl.s == 0)
     {
-        rgb.red = (size_t)(hsl.l * bd);
-        rgb.green = (size_t)(hsl.l * bd);
-        rgb.blue = (size_t)(hsl.l * bd);
+        rgb.r = (size_t)(hsl.l * bd);
+        rgb.g = (size_t)(hsl.l * bd);
+        rgb.b = (size_t)(hsl.l * bd);
     }
     else
     {
@@ -101,9 +101,9 @@ struct Pixel HSLtoRGB(struct PixelHSL hsl, float bd)
                 (hsl.l * hsl.s));
         tmp1 = 2 * hsl.l - tmp2;
 
-        rgb.red = (size_t)(bd * huetoRGB(tmp1, tmp2, h + (1.0f / 3)));
-        rgb.green = (size_t)(bd * huetoRGB(tmp1, tmp2, h));
-        rgb.blue = (size_t)(bd * huetoRGB(tmp1, tmp2, h - (1.0f / 3)));
+        rgb.r = (size_t)(bd * huetoRGB(tmp1, tmp2, h + (1.0f / 3)));
+        rgb.g = (size_t)(bd * huetoRGB(tmp1, tmp2, h));
+        rgb.b = (size_t)(bd * huetoRGB(tmp1, tmp2, h - (1.0f / 3)));
     }
 
     return rgb;

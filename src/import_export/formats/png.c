@@ -19,21 +19,21 @@ void png_get_pixel(struct Image *img, png_bytep *row_pointers,
     size_t bytes_per_sample =
         (img->bit_depth < 255 ? 1 : depth_to_bits(img->bit_depth) / 8);
 
-    img->data[img->width * j + i].red = 0;
-    img->data[img->width * j + i].green = 0;
-    img->data[img->width * j + i].blue = 0;
+    img->data[img->width * j + i].r = 0;
+    img->data[img->width * j + i].g = 0;
+    img->data[img->width * j + i].b = 0;
 
     for (size_t k = 0; k < bytes_per_sample; k++)
     {
         size_t b_t_d = bits_to_depth(k * 8) + 1;
-        img->data[img->width * j + i].red +=
+        img->data[img->width * j + i].r +=
             row_pointers[j][i * nb_channel * bytes_per_sample + k] * b_t_d;
 
-        img->data[img->width * j + i].green +=
+        img->data[img->width * j + i].g +=
             row_pointers[j][(i * nb_channel + 1) * bytes_per_sample + k] *
                 b_t_d;
 
-        img->data[img->width * j + i].blue +=
+        img->data[img->width * j + i].b +=
             row_pointers[j][(i * nb_channel + 2) * bytes_per_sample + k] *
                 b_t_d;
     }
@@ -207,9 +207,9 @@ void write_png(const char *filename, struct Image *img)
 
             for (size_t i = 0; i < img->width; i++)
             {
-                row[i*3] = img->data[j*img->width+i].red;
-                row[i*3+1] = img->data[j*img->width+i].green;
-                row[i*3+2] = img->data[j*img->width+i].blue;
+                row[i*3] = img->data[j*img->width+i].r;
+                row[i*3+1] = img->data[j*img->width+i].g;
+                row[i*3+2] = img->data[j*img->width+i].b;
             }
 
             // swap bytes of 16 bit files to most significant bit first
@@ -228,9 +228,9 @@ void write_png(const char *filename, struct Image *img)
 
             for (size_t i = 0; i < img->width; i++)
             {
-                row_pointers[j][i*3] = img->data[j*img->width+i].red;
-                row_pointers[j][i*3+1] = img->data[j*img->width+i].green;
-                row_pointers[j][i*3+2] = img->data[j*img->width+i].blue;
+                row_pointers[j][i*3] = img->data[j*img->width+i].r;
+                row_pointers[j][i*3+1] = img->data[j*img->width+i].g;
+                row_pointers[j][i*3+2] = img->data[j*img->width+i].b;
             }
         }
     }

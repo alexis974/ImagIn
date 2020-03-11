@@ -22,22 +22,22 @@ void tiff_get_pixel(struct Image *img, uint32 *raster, size_t i, size_t j)
     size_t width = img->width;
     size_t height = img->height;
 
-    img->data[(height-j-1) * width + i].red = 0;
-    img->data[(height-j-1) * width + i].blue = 0;
-    img->data[(height-j-1) * width + i].green = 0;
+    img->data[(height-j-1) * width + i].r = 0;
+    img->data[(height-j-1) * width + i].b = 0;
+    img->data[(height-j-1) * width + i].g = 0;
 
     for (size_t k = 0; k < bytes_per_sample; k++)
     {
         size_t b_t_d = bits_to_depth(k * 8) + 1;
 
         // TIFF is save from bottom to top
-        img->data[(height-j-1) * width + i].red =
+        img->data[(height-j-1) * width + i].r =
             (size_t)TIFFGetR(raster[j*width+ i + k]) * b_t_d;
 
-        img->data[(height-j-1) * width + i].blue =
+        img->data[(height-j-1) * width + i].b =
             (size_t)TIFFGetB(raster[j*width+ i + k]) * b_t_d;
 
-        img->data[(height-j-1) * width + i].green =
+        img->data[(height-j-1) * width + i].g =
             (size_t)TIFFGetG(raster[j*width+ i + k]) * b_t_d;
     }
 }
@@ -175,9 +175,9 @@ void write_tiff(const char *filename, struct Image *img)
         {
             for (size_t i = 0; i < img->width; i++)
             {
-                buffer[i*sampleperpixel] = img->data[j*img->width+i].red;
-                buffer[i*sampleperpixel+1] = img->data[j*img->width+i].green;
-                buffer[i*sampleperpixel+2] = img->data[j*img->width+i].blue;
+                buffer[i*sampleperpixel] = img->data[j*img->width+i].r;
+                buffer[i*sampleperpixel+1] = img->data[j*img->width+i].g;
+                buffer[i*sampleperpixel+2] = img->data[j*img->width+i].b;
             }
         }
         else if (depth_to_bits(img->bit_depth) == 16)
@@ -186,9 +186,9 @@ void write_tiff(const char *filename, struct Image *img)
 
             for (size_t i = 0; i < img->width; i++)
             {
-                row[i*3] = img->data[j*img->width+i].red;
-                row[i*3+1] = img->data[j*img->width+i].green;
-                row[i*3+2] = img->data[j*img->width+i].blue;
+                row[i*3] = img->data[j*img->width+i].r;
+                row[i*3+1] = img->data[j*img->width+i].g;
+                row[i*3+2] = img->data[j*img->width+i].b;
             }
 
             memcpy(buffer, row, sizeof(unsigned char) * 3 * img->width * 2);
@@ -201,9 +201,9 @@ void write_tiff(const char *filename, struct Image *img)
 
             for (size_t i = 0; i < img->width; i++)
             {
-                row[i*3] = img->data[j*img->width+i].red;
-                row[i*3+1] = img->data[j*img->width+i].green;
-                row[i*3+2] = img->data[j*img->width+i].blue;
+                row[i*3] = img->data[j*img->width+i].r;
+                row[i*3+1] = img->data[j*img->width+i].g;
+                row[i*3+2] = img->data[j*img->width+i].b;
             }
 
             memcpy(buffer, row, sizeof(unsigned char) * 3 * img->width * 4);

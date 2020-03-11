@@ -100,11 +100,11 @@ struct Image *read_jpeg(const char *filename)
         jpeg_read_scanlines(&cinfo, buffer, 1);
         for (size_t i = 0; i < img->width; i++)
         {
-            img->data[img->width * (cinfo.output_scanline - 1) + i].red =
+            img->data[img->width * (cinfo.output_scanline - 1) + i].r =
                 (size_t)buffer[0][i * 3];
-            img->data[img->width * (cinfo.output_scanline - 1) + i].green =
+            img->data[img->width * (cinfo.output_scanline - 1) + i].g =
                 (size_t)buffer[0][i * 3 + 1];
-            img->data[img->width * (cinfo.output_scanline - 1) + i].blue =
+            img->data[img->width * (cinfo.output_scanline - 1) + i].b =
                 (size_t)buffer[0][i * 3 + 2];
         }
     }
@@ -162,11 +162,11 @@ void write_jpeg(const char *filename, struct Image *img)
         for (size_t i = 0; i < img->width; i++)
         {
             row_pointer[0][i*3] =
-                img->data[cinfo.next_scanline*img->width+i].red;
+                img->data[cinfo.next_scanline*img->width+i].r;
             row_pointer[0][i*3+1] =
-                img->data[cinfo.next_scanline*img->width+i].green;
+                img->data[cinfo.next_scanline*img->width+i].g;
             row_pointer[0][i*3+2] =
-                img->data[cinfo.next_scanline*img->width+i].blue;
+                img->data[cinfo.next_scanline*img->width+i].b;
         }
 
         //Writing in image

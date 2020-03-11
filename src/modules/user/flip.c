@@ -24,17 +24,17 @@ void vertical_flip(struct Image *img)
             index_left = y * offset + x;
             index_right = y * offset + (img->width - x) - 1;
 
-            tmp = img->data[index_left].red;
-            img->data[index_left].red = img->data[index_right].red;
-            img->data[index_right].red = tmp;
+            tmp = img->data[index_left].r;
+            img->data[index_left].r = img->data[index_right].r;
+            img->data[index_right].r = tmp;
 
-            tmp = img->data[index_left].green;
-            img->data[index_left].green = img->data[index_right].green;
-            img->data[index_right].green = tmp;
+            tmp = img->data[index_left].g;
+            img->data[index_left].g = img->data[index_right].g;
+            img->data[index_right].g = tmp;
 
-            tmp = img->data[index_left].blue;
-            img->data[index_left].blue = img->data[index_right].blue;
-            img->data[index_right].blue = tmp;
+            tmp = img->data[index_left].b;
+            img->data[index_left].b = img->data[index_right].b;
+            img->data[index_right].b = tmp;
         }
     }
 }
@@ -58,17 +58,17 @@ void horizontal_flip(struct Image *img)
             index_top = y * offset + x;
             index_bottom = offset * (img->height - y) + x - offset;
 
-            tmp = img->data[index_top].red;
-            img->data[index_top].red = img->data[index_bottom].red;
-            img->data[index_bottom].red = tmp;
+            tmp = img->data[index_top].r;
+            img->data[index_top].r = img->data[index_bottom].r;
+            img->data[index_bottom].r = tmp;
 
-            tmp = img->data[index_top].green;
-            img->data[index_top].green = img->data[index_bottom].green;
-            img->data[index_bottom].green = tmp;
+            tmp = img->data[index_top].g;
+            img->data[index_top].g = img->data[index_bottom].g;
+            img->data[index_bottom].g = tmp;
 
-            tmp = img->data[index_top].blue;
-            img->data[index_top].blue = img->data[index_bottom].blue;
-            img->data[index_bottom].blue = tmp;
+            tmp = img->data[index_top].b;
+            img->data[index_top].b = img->data[index_bottom].b;
+            img->data[index_bottom].b = tmp;
         }
     }
 }
@@ -85,17 +85,17 @@ void flip_both_axis(struct Image *img)
 
     for (size_t i = 0; i < index_end; i++, index_end--)
     {
-        tmp = img->data[i].red;
-        img->data[i].red = img->data[index_end].red;
-        img->data[index_end].red = tmp;
+        tmp = img->data[i].r;
+        img->data[i].r = img->data[index_end].r;
+        img->data[index_end].r = tmp;
 
-        tmp = img->data[i].green;
-        img->data[i].green = img->data[index_end].green;
-        img->data[index_end].green = tmp;
+        tmp = img->data[i].g;
+        img->data[i].g = img->data[index_end].g;
+        img->data[index_end].g = tmp;
 
-        tmp = img->data[i].blue;
-        img->data[i].blue = img->data[index_end].blue;
-        img->data[index_end].blue = tmp;
+        tmp = img->data[i].b;
+        img->data[i].b = img->data[index_end].b;
+        img->data[index_end].b = tmp;
     }
 }
 
