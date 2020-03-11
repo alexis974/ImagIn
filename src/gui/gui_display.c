@@ -216,7 +216,6 @@ gboolean on_click_image(GtkWidget *widget, GdkEventButton *event,
         gpointer user_data)
 {
     (void) widget;
-    (void) event;
     struct UI *ui = user_data;
     if (!ui->image_loaded)
     {
@@ -224,6 +223,19 @@ gboolean on_click_image(GtkWidget *widget, GdkEventButton *event,
         return FALSE;
     }
     printf("Image pressed on %f,%f\n", event->x, event->y);
+
+    crop_on_click(event, ui);
+    return FALSE;
+}
+
+gboolean on_click_released_image(GtkWidget *w,
+            GdkEventButton *event, gpointer data)
+{
+    (void) w;
+    (void) event;
+    struct UI *ui = data;
+    // Unselecting crop handle
+    ui->modules->crop->selected_handle = -1;
     return FALSE;
 }
 

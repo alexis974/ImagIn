@@ -1,3 +1,4 @@
+#include <math.h>
 #include <gtk/gtk.h>
 
 #include  "../../imagin.h"
@@ -9,6 +10,11 @@ int mod(int a, int b)
 {
     int r = a % b;
     return r < 0 ? r + b : r;
+}
+
+double distance(struct Coordinates a, struct Coordinates b)
+{
+    return sqrt((a.x - b.x)*(a.x - b.x) + (a.y - b.y)*(a.y - b.y));
 }
 
 // Setup the four handles at beginning (at each corner)
@@ -75,10 +81,31 @@ void draw_crop_rectangle(struct UI *ui, cairo_t *cr)
     cairo_stroke(cr);
 }
 
+void crop_on_click(GdkEventButton *event, struct UI *ui)
+{
+    struct Coordinates mouse;
+    mouse.x = event->x;
+    mouse.y = event->y;
+
+    GtkWidget *drawing_area = GTK_WIDGET(ui->display->display_image);
+    int draw_area_width = gtk_widget_get_allocated_width(drawing_area);
+
+    float proximity = draw_area_width * 0.05;
+
+    for (size_t i = 0; i < 4; i++)
+    {
+        if (distance(ui->modules->crop->handles[i], mouse) < proximity)
+        {
+            ui->modules->crop->selected_handle = i;
+            break;
+        }
+    }
+}
+
 void crop_motion_event(GdkEventMotion *event, struct UI *ui)
 {
     int selected = ui->modules->crop->selected_handle;
-    selected = 0;
+
     if (selected != -1)
     {
         ui->modules->crop->handles[selected].x =

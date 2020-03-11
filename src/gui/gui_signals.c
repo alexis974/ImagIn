@@ -76,6 +76,8 @@ void connect_display(struct UI *ui)
             G_CALLBACK(draw_histogram), ui);
     g_signal_connect(ui->display->middle_area_events, "button-press-event",
             G_CALLBACK(on_click_image), ui);
+    g_signal_connect(ui->display->middle_area_events, "button-release-event",
+            G_CALLBACK(on_click_released_image), ui);
     g_signal_connect(ui->display->middle_area_events, "scroll-event",
             G_CALLBACK(on_scroll_image), ui);
     g_signal_connect(ui->display->middle_area_events, "motion-notify-event",
