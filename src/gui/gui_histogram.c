@@ -35,7 +35,7 @@ gboolean draw_histogram(GtkWidget *widget, cairo_t *cr, gpointer user_data)
 
     for (size_t i = 0; i < depth; i++)
     {
-        size_t value = histogram->white[i];
+        size_t value = histogram->w[i];
         value *= scale;
         cairo_line_to(cr, i * width/depth, height-value);
     }

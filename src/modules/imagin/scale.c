@@ -29,21 +29,21 @@ void interpolation(struct Image *src, struct Image *dst, size_t i, size_t j,
     double fy = valy - miny;
 
     // Red
-    dst->data[j*dst->width+i].red =
+    dst->data[j*dst->width+i].r =
         src->data[miny*src->width+minx].r * (1-fx) * (1-fy) +
         src->data[maxy*src->width+minx].r * fx * (1-fy) +
         src->data[miny*src->width+maxx].r * (1-fx) * fy +
         src->data[maxy*src->width+maxx].r * fx * fy;
 
     // Green
-    dst->data[j*dst->width+i].green =
+    dst->data[j*dst->width+i].g =
         src->data[miny*src->width+minx].g * (1-fx) * (1-fy) +
         src->data[maxy*src->width+minx].g * fx * (1-fy) +
         src->data[miny*src->width+maxx].g * (1-fx) * fy +
         src->data[maxy*src->width+maxx].g * fx * fy;
 
     // Blue
-    dst->data[j*dst->width+i].blue =
+    dst->data[j*dst->width+i].b =
         src->data[miny*src->width+minx].b * (1-fx) * (1-fy) +
         src->data[maxy*src->width+minx].b * fx * (1-fy) +
         src->data[miny*src->width+maxx].b * (1-fx) * fy +

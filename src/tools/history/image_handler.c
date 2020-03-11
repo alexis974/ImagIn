@@ -17,8 +17,8 @@ void copy_img(struct Image *img_src, struct Image *img_dst)
 
     for (size_t i = 0; i < img_src->width * img_src->height; i++)
     {
-        img_dst->data[i].red = img_src->data[i].red;
-        img_dst->data[i].green = img_src->data[i].green;
-        img_dst->data[i].blue = img_src->data[i].blue;
+        img_dst->data[i].r = img_src->data[i].r;
+        img_dst->data[i].g = img_src->data[i].g;
+        img_dst->data[i].b = img_src->data[i].b;
     }
 }
