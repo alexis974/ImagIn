@@ -19,7 +19,7 @@ float zoom_percentage(struct Images *images)
 }
 
 
-struct Image *zoom(struct Images *images, float zoom_value, size_t x_center,
+struct Image *zoom(struct Images *images, float *zoom_value, size_t x_center,
         size_t y_center)
 {
     if (!images)
@@ -27,13 +27,13 @@ struct Image *zoom(struct Images *images, float zoom_value, size_t x_center,
         errx(1, "zoom: No images found");
     }
 
-    if (zoom_value > 100 || zoom_value < zoom_percentage(images))
+    if (*zoom_value > 100 || *zoom_value < zoom_percentage(images))
     {
-        zoom_value = zoom_value > 100 ? 100 : zoom_percentage(images);
+        *zoom_value = *zoom_value > 100 ? 100 : zoom_percentage(images);
     }
 
-    size_t nb_x = (images->scale->width) * 100 / zoom_value;
-    size_t nb_y = (images->scale->height) * 100 / zoom_value;
+    size_t nb_x = (images->scale->width) * 100 / *zoom_value;
+    size_t nb_y = (images->scale->height) * 100 / *zoom_value;
 
     printf("nb_x = %ld | nb_y = %ld\n", nb_x, nb_y);
 
