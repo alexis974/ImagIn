@@ -61,6 +61,8 @@ void build_display_gui(GtkBuilder *builder, struct UI *ui)
     //Setting the possibility to scroll on image
     gtk_widget_add_events(GTK_WIDGET(ui->display->middle_area_events),
         GDK_SCROLL_MASK);
+    gtk_widget_add_events(GTK_WIDGET(ui->display->middle_area_events),
+        GDK_POINTER_MOTION_MASK);
 }
 
 void build_image_info(GtkBuilder *builder, struct UI *ui)
@@ -116,6 +118,8 @@ void build_hue_gui(GtkBuilder *builder, struct UI *ui)
 void build_modules_gui(GtkBuilder *builder, struct UI *ui)
 {
     ui->modules = malloc(sizeof(struct Modules));
+    ui->modules->crop = malloc(sizeof(struct Crop));
+    ui->modules->crop->selected_handle = -1;
     ui->modules->orientation = malloc(sizeof(struct Orientation));
 
     ui->modules->orientation->rot_l_button = GTK_BUTTON(gtk_builder_get_object(

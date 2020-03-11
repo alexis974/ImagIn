@@ -19,6 +19,8 @@ gboolean on_click_image(GtkWidget *widget, GdkEvent *event,
 
 gboolean on_scroll_image(GtkWidget *w, GdkEvent *event, gpointer data);
 
+gboolean motion_image(GtkWidget *w, GdkEventMotion *event, gpointer user_data);
+
 gboolean draw_image(GtkWidget *w, cairo_t *cr, gpointer user_data);
 
 #endif /* ! GUI_DISPLAY_H */

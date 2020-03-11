@@ -78,6 +78,8 @@ void connect_display(struct UI *ui)
             G_CALLBACK(on_click_image), ui);
     g_signal_connect(ui->display->middle_area_events, "scroll-event",
             G_CALLBACK(on_scroll_image), ui);
+    g_signal_connect(ui->display->middle_area_events, "motion-notify-event",
+            G_CALLBACK(motion_image), ui);
     g_signal_connect(ui->modules->history_list->list, "row-selected",
             G_CALLBACK(hst_selection_changed), ui);
     g_signal_connect(ui->modules->history_list->compress_button, "clicked",

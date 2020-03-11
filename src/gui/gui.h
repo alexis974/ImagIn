@@ -1,6 +1,20 @@
 #ifndef UI_H
 #define UI_H
 
+struct Coordinates
+{
+    size_t x;
+    size_t y;
+};
+
+struct Crop
+{
+    /* There are four handles we register their positions and which one is
+    selected */
+    int selected_handle;
+    struct Coordinates handles[4];
+};
+
 struct Orientation
 {
     struct Imagin_expander *exp;
@@ -51,6 +65,7 @@ struct Modules
     struct Shadows_highlights *shadows_highlights;
     struct History_List *history_list;
     struct Hue *hue;
+    struct Crop *crop;
     GtkSwitch *bw_switch;
     GtkSwitch *invert_switch;
     struct Imagin_expander *bw_exp;

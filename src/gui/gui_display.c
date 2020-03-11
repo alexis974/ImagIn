@@ -171,11 +171,13 @@ void display_images(struct UI *ui, char *filename)
     reset_modules(ui);
 
     int padding = 10;
+
     // Setting preview zone info
     g_maxwidth_small = gtk_widget_get_allocated_width(
             GTK_WIDGET(ui->display->small_image)) - padding;
     g_maxheight_small = gtk_widget_get_allocated_height(
             GTK_WIDGET(ui->display->small_image)) - padding;
+
     // Getting all scaled images
     ui->images = read_image(filename);
     if (!ui->images)
@@ -198,6 +200,8 @@ void display_images(struct UI *ui, char *filename)
     gtk_label_set_text(ui->bottom_bar->filename_label, filename);
 
     ui->image_loaded = TRUE;
+
+    set_crop_handles_coordinates(ui);
 
     reload_images(ui);
 
@@ -274,5 +278,16 @@ gboolean draw_image(GtkWidget *w, cairo_t *cr, gpointer user_data)
     draw_crop_rectangle(ui, cr);
 
     //g_object_unref(pix_buffer);
+    return FALSE;
+}
+
+// Mouse motion over image
+gboolean motion_image(GtkWidget *w, GdkEventMotion *event, gpointer user_data)
+{
+    (void) w;
+    struct UI *ui = user_data;
+
+    crop_motion_event(event, ui);
+
     return FALSE;
 }
