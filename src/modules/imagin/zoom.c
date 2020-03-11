@@ -37,6 +37,15 @@ struct Image *zoom(struct Images *images, float *zoom_value, size_t x_center,
         return images->full;
     }
 
+    float tmp_x = x_center;
+    float  tmp_y = y_center;
+    float temp_x = (tmp_x / images->scale->width) * images->full->width;
+    float temp_y = (tmp_y / images->scale->height)  * images->full->height;
+    x_center =  temp_x;
+    y_center = temp_y;
+    printf("%zu\n", x_center);
+    printf("%zu\n", y_center);
+
     size_t nb_x = (images->scale->width) * 100 / *zoom_value;
     size_t nb_y = (images->scale->height) * 100 / *zoom_value;
 
@@ -56,7 +65,7 @@ struct Image *zoom(struct Images *images, float *zoom_value, size_t x_center,
     else
     {
         x_down_left = 0;
-        x_up_right += (nb_x/2) - x_center;
+        x_up_right = nb_x;
     }
     printf("x_down_left = %ld | x_up_right = %ld\n", x_down_left, x_up_right);
 
@@ -68,7 +77,7 @@ struct Image *zoom(struct Images *images, float *zoom_value, size_t x_center,
     else
     {
         x_up_right = images->full->width;
-        x_down_left -= (x_center + (nb_x/2)) - (images->full->width - x_center);
+        x_down_left = images->full->width - nb_x;
     }
     printf("x_down_left = %ld | x_up_right = %ld\n", x_down_left, x_up_right);
 
@@ -81,7 +90,7 @@ struct Image *zoom(struct Images *images, float *zoom_value, size_t x_center,
     else
     {
         y_up_right = images->full->height;
-        y_down_left -= ((nb_y / 2) + y_center) - images->full->height - y_center;
+        y_down_left = images->full->height - nb_y;
     }
 
     // Y_DOWN_LEFT
@@ -92,7 +101,7 @@ struct Image *zoom(struct Images *images, float *zoom_value, size_t x_center,
     else
     {
         y_down_left = 0;
-        y_up_right += (nb_y / 2) - y_center;
+        y_up_right = nb_y;
     }
 
     printf("%ld | %ld | %ld | %ld\n", x_down_left, y_down_left, x_up_right, y_up_right);

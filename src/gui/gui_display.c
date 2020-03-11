@@ -233,9 +233,6 @@ gboolean on_scroll_image(GtkWidget *w, GdkEventScroll *event, gpointer data)
         return FALSE;
     }
 
-    printf("Scroll direction : %d Scroll delta :  %f\n Position : (%f,%f) \n",
-        event->direction, event->x_root, event->x, event->y);
-
     char zoom_direction = (event->direction ? 1 : -1);
 
     ui->current_zoom += 1 * zoom_direction;
