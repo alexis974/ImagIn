@@ -104,12 +104,6 @@ struct Image *read_tiff(const char *filename)
         for (size_t i = 0; i < width; i++)
         {
             // TIFF is save from bottom to top
-            /*img->data[(height-j-1)*width+i].red =
-                (size_t)TIFFGetR(raster[j*width+i]);
-            img->data[(height-j-1)*width+i].blue =
-                (size_t)TIFFGetB(raster[j*width+i]);
-            img->data[(height-j-1)*width+i].green =
-                (size_t)TIFFGetG(raster[j*width+i]);*/
             tiff_get_pixel(img, raster, i, j);
         }
     }
