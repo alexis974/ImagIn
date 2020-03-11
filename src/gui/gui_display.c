@@ -8,6 +8,7 @@
 #include "gui_windows.h"
 #include "gui_history.h"
 #include "gui_widgets/gui_expander.h"
+#include "gui_modules/gui_crop.h"
 
 #include "../import_export/import.h"
 #include "../import_export/export.h"
@@ -269,6 +270,8 @@ gboolean draw_image(GtkWidget *w, cairo_t *cr, gpointer user_data)
        5,(gtk_widget_get_allocated_height(w)-ui->images->edit->height)/2);
 
     cairo_paint(cr);
+
+    draw_crop_rectangle(ui, cr);
 
     //g_object_unref(pix_buffer);
     return FALSE;
