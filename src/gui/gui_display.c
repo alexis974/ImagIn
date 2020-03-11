@@ -242,6 +242,10 @@ gboolean draw_image(GtkWidget *w, cairo_t *cr, gpointer user_data)
 {
     (void) w;
     struct UI *ui = user_data;
+
+    cairo_set_source_rgb(cr, 0.38, 0.38, 0.38);
+    cairo_paint(cr);
+
     if (!ui->image_loaded)
     {
         cairo_surface_t *image =
@@ -262,7 +266,7 @@ gboolean draw_image(GtkWidget *w, cairo_t *cr, gpointer user_data)
                 ui->images->edit->width, ui->images->edit->height,
                 ui->images->edit->width * 3, free_buffer, NULL);
     gdk_cairo_set_source_pixbuf(cr, pix_buffer,
-       0,(gtk_widget_get_allocated_height(w)-ui->images->edit->height)/2);
+       5,(gtk_widget_get_allocated_height(w)-ui->images->edit->height)/2);
 
     cairo_paint(cr);
 

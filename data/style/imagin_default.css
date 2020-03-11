@@ -28,11 +28,6 @@
     background-color: rgb(241, 93, 88);
 }
 
-#image_canvas
-{
-    background-color: #626262;
-}
-
 #main_window button, #window_about button ,#error_dialog button
 {
     box-shadow: 0px -2px 1px #606060;
