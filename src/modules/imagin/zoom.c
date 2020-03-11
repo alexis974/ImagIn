@@ -27,9 +27,14 @@ struct Image *zoom(struct Images *images, float *zoom_value, size_t x_center,
         errx(1, "zoom: No images found");
     }
 
-    if (*zoom_value > 100 || *zoom_value < zoom_percentage(images))
+    if (*zoom_value > 100)
     {
-        *zoom_value = *zoom_value > 100 ? 100 : zoom_percentage(images);
+        *zoom_value = 100;
+    }
+    if (*zoom_value - 0.01 < zoom_percentage(images))
+    {
+        *zoom_value = zoom_percentage(images);
+        return images->full;
     }
 
     size_t nb_x = (images->scale->width) * 100 / *zoom_value;
