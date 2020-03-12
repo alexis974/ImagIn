@@ -191,6 +191,9 @@ struct UI *build_gui(char *glade_file_path)
     struct UI *ui = malloc(sizeof(struct UI));
     ui->image_loaded = FALSE;
     ui->can_modify = TRUE;
+    ui->mouse = malloc(sizeof(struct Mouse));
+    ui->mouse->last_position.x = 0;
+    ui->mouse->last_position.y = 0;
     build_window_gui(builder, ui);
     build_menu_bar_gui(builder, ui);
     build_modules_gui(builder, ui);

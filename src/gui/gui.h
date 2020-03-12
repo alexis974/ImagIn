@@ -18,6 +18,11 @@ struct Crop
     GtkButton *crop_btn;
 };
 
+struct Mouse
+{
+    struct Coordinates last_position;
+};
+
 struct Orientation
 {
     struct Imagin_expander *exp;
@@ -112,6 +117,7 @@ struct UI
     struct ImageInfo *image_info;
     struct history *hist;
     struct history *compressed_hist;
+    struct Mouse *mouse;
     gboolean image_loaded;
     gboolean can_modify;
 };

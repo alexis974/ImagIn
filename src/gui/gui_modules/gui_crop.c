@@ -120,25 +120,25 @@ void crop_motion_event(GdkEventMotion *event, struct UI *ui)
 
     if (selected != -1)
     {
-        ui->modules->crop->handles[selected].x =
-            event->x;
-        ui->modules->crop->handles[selected].y =
-            event->y;
+        ui->modules->crop->handles[selected].x +=
+            event->x - ui->mouse->last_position.x;
+        ui->modules->crop->handles[selected].y +=
+            event->y - ui->mouse->last_position.y;
 
         // Moving others to keep it a rectangle
         if (selected == 0 || selected == 2)
         {
             ui->modules->crop->handles[mod((selected - 1), 4)].x =
-                event->x;
+                ui->modules->crop->handles[selected].x;
             ui->modules->crop->handles[mod((selected + 1), 4)].y =
-                event->y;
+                ui->modules->crop->handles[selected].y;
         }
         else
         {
             ui->modules->crop->handles[mod((selected + 1), 4)].x =
-                event->x;
+                ui->modules->crop->handles[selected].x;
             ui->modules->crop->handles[mod((selected - 1), 4)].y =
-                event->y;
+                ui->modules->crop->handles[selected].y;
         }
 
         gtk_widget_queue_draw_area(GTK_WIDGET(ui->display->display_image),0,0,

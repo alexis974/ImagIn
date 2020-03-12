@@ -305,5 +305,9 @@ gboolean motion_image(GtkWidget *w, GdkEventMotion *event, gpointer user_data)
 
     crop_motion_event(event, ui);
 
+    // Keep at the end
+    ui->mouse->last_position.x = event->x;
+    ui->mouse->last_position.y = event->y;
+
     return FALSE;
 }
