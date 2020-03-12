@@ -62,16 +62,9 @@ void draw_crop_rectangle(struct UI *ui, cairo_t *cr)
     cairo_fill(cr);
     cairo_set_fill_rule(cr, CAIRO_FILL_RULE_WINDING);
 
-    // Draw rectangle
-    cairo_set_source_rgb(cr, 0.8, 0.8, 0.8);
-    cairo_set_line_width(cr, 4);
-    cairo_move_to(cr, handle[0].x, handle[0].y);
-    cairo_line_to(cr, handle[1].x, handle[1].y);
-    cairo_line_to(cr, handle[2].x, handle[2].y);
-    cairo_line_to(cr, handle[3].x, handle[3].y);
-    cairo_line_to(cr, handle[0].x, handle[0].y);
-
     // Drawing four handles
+    cairo_set_source_rgb(cr, 0.6, 0.6, 0.6);
+    cairo_set_line_width(cr, 2);
     int handle_size = 0.05 * draw_area_width;
     cairo_move_to(cr, handle[0].x + handle_size, handle[0].y);
     cairo_rel_line_to(cr, 0, handle_size);
@@ -89,6 +82,14 @@ void draw_crop_rectangle(struct UI *ui, cairo_t *cr)
     cairo_rel_line_to(cr, 0, -handle_size);
     cairo_rel_line_to(cr, -handle_size, 0);
 
+    cairo_stroke(cr);
+
+    // Draw rectangle
+    cairo_set_source_rgb(cr, 0.2, 0.2, 0.2);
+    cairo_set_line_width(cr, 3);
+    cairo_rectangle(cr, handle[0].x, handle[0].y,
+        handle[1].x - handle[0].x,
+        handle[3].y - handle[0].y);
     cairo_stroke(cr);
 }
 
