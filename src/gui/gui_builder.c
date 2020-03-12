@@ -120,6 +120,12 @@ void build_modules_gui(GtkBuilder *builder, struct UI *ui)
     ui->modules = malloc(sizeof(struct Modules));
     ui->modules->crop = malloc(sizeof(struct Crop));
     ui->modules->crop->selected_handle = -1;
+    ui->modules->crop->is_active = 0;
+    ui->modules->crop->start_btn = GTK_BUTTON(gtk_builder_get_object(
+                builder, "start_crop_btn"));
+    ui->modules->crop->crop_btn = GTK_BUTTON(gtk_builder_get_object(
+                builder, "crop_btn"));
+
     ui->modules->orientation = malloc(sizeof(struct Orientation));
 
     ui->modules->orientation->rot_l_button = GTK_BUTTON(gtk_builder_get_object(

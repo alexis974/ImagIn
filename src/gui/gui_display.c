@@ -224,7 +224,9 @@ gboolean on_click_image(GtkWidget *widget, GdkEventButton *event,
     }
     printf("Image pressed on %f,%f\n", event->x, event->y);
 
-    crop_on_click(event, ui);
+    if (ui->modules->crop->is_active)
+        crop_on_click(event, ui);
+
     return FALSE;
 }
 
@@ -287,7 +289,8 @@ gboolean draw_image(GtkWidget *w, cairo_t *cr, gpointer user_data)
 
     cairo_paint(cr);
 
-    draw_crop_rectangle(ui, cr);
+    if (ui->modules->crop->is_active)
+        draw_crop_rectangle(ui, cr);
 
     //g_object_unref(pix_buffer);
     return FALSE;

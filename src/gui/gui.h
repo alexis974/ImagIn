@@ -13,6 +13,9 @@ struct Crop
     selected */
     int selected_handle;
     struct Coordinates handles[4];
+    int is_active;
+    GtkButton *start_btn;
+    GtkButton *crop_btn;
 };
 
 struct Orientation

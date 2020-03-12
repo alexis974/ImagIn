@@ -10,6 +10,7 @@
 #include "gui_histogram.h"
 
 #include "gui_widgets/gui_expander.h"
+#include "gui_modules/gui_crop.h"
 
 void connect_check_boxes(struct UI *ui)
 {
@@ -34,6 +35,10 @@ void connect_modules(struct UI *ui)
             G_CALLBACK(rotate_right), ui);
     g_signal_connect(ui->modules->orientation->flip_box, "changed",
             G_CALLBACK(flip_changed), ui);
+    g_signal_connect(ui->modules->crop->start_btn, "clicked",
+            G_CALLBACK(start_btn), ui);
+    g_signal_connect(ui->modules->crop->crop_btn, "clicked",
+            G_CALLBACK(crop_on_click), ui);
 
     // Contraste Exposure Saturation signals
     g_signal_connect(ui->modules->cont_exp_sat->contraste_scale, "event",

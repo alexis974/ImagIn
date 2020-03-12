@@ -136,3 +136,39 @@ void crop_motion_event(GdkEventMotion *event, struct UI *ui)
         GTK_WIDGET(ui->display->display_image)));
     }
 }
+
+void start_btn(GtkWidget *w, gpointer user_data)
+{
+    (void) w;
+    struct UI *ui = user_data;
+
+    if (!ui->image_loaded)
+        return;
+
+    if (ui->modules->crop->is_active == 0)
+    {
+        gtk_button_set_label(ui->modules->crop->start_btn, "Leave");
+        gtk_widget_set_sensitive(GTK_WIDGET(ui->modules->crop->crop_btn),
+            FALSE);
+        ui->modules->crop->is_active = 1;
+    }
+    else
+    {
+        gtk_button_set_label(ui->modules->crop->start_btn, "Start");
+        gtk_widget_set_sensitive(GTK_WIDGET(ui->modules->crop->crop_btn),
+            TRUE);
+        ui->modules->crop->is_active = 0;
+    }
+
+    gtk_widget_queue_draw_area(GTK_WIDGET(ui->display->display_image),0,0,
+        gtk_widget_get_allocated_width(
+        GTK_WIDGET(ui->display->display_image)),
+        gtk_widget_get_allocated_height(
+        GTK_WIDGET(ui->display->display_image)));
+}
+
+void crop_btn(GtkWidget *w, gpointer user_data)
+{
+    (void) w;
+    (void) user_data;
+}
