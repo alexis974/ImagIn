@@ -114,7 +114,6 @@ void crop_on_click(GdkEventButton *event, struct UI *ui)
     float proximity = draw_area_width * 0.05;
 
     // Getting selected handle if there is one
-    ui->modules->crop->selected_handle = -1;
     if (mouse.x >= handle[0].x && mouse.x <= handle[0].x + proximity)
     {
         if (mouse.y >= handle[0].y && mouse.y <= handle[0].y + proximity)
@@ -154,21 +153,32 @@ void crop_motion_event(GdkEventMotion *event, struct UI *ui)
         int origin_x = (draw_area_width - img_width) / 2;
         int origin_y = (draw_area_height - img_height) / 2;
 
-        ui->modules->crop->handles[selected].x +=
+        struct Coordinates *handle = ui->modules->crop->handles;
+
+        // Future coordinates that will be applied after some verifications
+        long new_x = handle[selected].x +
             event->x - ui->mouse->last_position.x;
-        ui->modules->crop->handles[selected].y +=
+        long new_y = handle[selected].y +
             event->y - ui->mouse->last_position.y;
 
-        // Prevent from being outside image
-        ui->modules->crop->handles[selected].x =
-            clamp(ui->modules->crop->handles[selected].x, origin_x,
-                origin_x + img_width);
+        // min gap between to side
+        float min_gap = draw_area_width * 0.05 * 2 + 20;
 
-        ui->modules->crop->handles[selected].y =
-            clamp(ui->modules->crop->handles[selected].y, origin_y,
-                origin_y + img_height);
+        //Checking if not too small on x
+        if (labs(new_x - handle[mod(selected + 2, 4)].x) >= min_gap)
+        {
+            // Prevent from being outside image on x
+            handle[selected].x = clamp(new_x, origin_x, origin_x + img_width);
+        }
 
-        // Moving others to keep it a rectangle
+        //Checking if not too small on y
+        if (labs(new_y - handle[mod(selected + 2, 4)].y) >= min_gap)
+        {
+            // Prevent from being outside image on y
+            handle[selected].y = clamp(new_y, origin_y, origin_y + img_height);
+        }
+
+        // Moving other sides to keep it a rectangle
         if (selected == 0 || selected == 2)
         {
             ui->modules->crop->handles[mod((selected - 1), 4)].x =
