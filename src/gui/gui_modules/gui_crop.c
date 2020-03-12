@@ -164,6 +164,12 @@ void crop_motion_event(GdkEventMotion *event, struct UI *ui)
         // min gap between to side
         float min_gap = draw_area_width * 0.05 * 2 + 20;
 
+        GdkRectangle old_rectangle;
+        old_rectangle.x = handle[0].x;
+        old_rectangle.y = handle[0].y;
+        old_rectangle.width = handle[1].x- handle[0].x;
+        old_rectangle.height = handle[3].y - handle[0].y;
+
         //Checking if not too small on x
         if (labs(new_x - handle[mod(selected + 2, 4)].x) >= min_gap)
         {
@@ -194,11 +200,23 @@ void crop_motion_event(GdkEventMotion *event, struct UI *ui)
                 ui->modules->crop->handles[selected].y;
         }
 
-        gtk_widget_queue_draw_area(GTK_WIDGET(ui->display->display_image),0,0,
+        /*gtk_widget_queue_draw_area(GTK_WIDGET(ui->display->display_image),0,0,
         gtk_widget_get_allocated_width(
         GTK_WIDGET(ui->display->display_image)),
         gtk_widget_get_allocated_height(
-        GTK_WIDGET(ui->display->display_image)));
+        GTK_WIDGET(ui->display->display_image)));*/
+
+        GdkRectangle new_rectangle;
+        new_rectangle.x = handle[0].x;
+        new_rectangle.y = handle[0].y;
+        new_rectangle.width = handle[1].x- handle[0].x;
+        new_rectangle.height = handle[3].y - handle[0].y;
+
+        gdk_rectangle_union(&old_rectangle, &new_rectangle, &old_rectangle);
+
+        gtk_widget_queue_draw_area(GTK_WIDGET(ui->display->display_image),
+            old_rectangle.x - 2, old_rectangle.y - 2,
+            old_rectangle.width + 4, old_rectangle.height + 4);
     }
 }
 
