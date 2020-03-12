@@ -48,8 +48,19 @@ void draw_crop_rectangle(struct UI *ui, cairo_t *cr)
     // Clarify code by creating clear variable names
     GtkWidget *drawing_area = GTK_WIDGET(ui->display->display_image);
     int draw_area_width = gtk_widget_get_allocated_width(drawing_area);
+    int draw_area_height = gtk_widget_get_allocated_height(drawing_area);
 
     struct Coordinates *handle = ui->modules->crop->handles;
+
+    //Opacity mask
+    cairo_rectangle(cr, handle[0].x, handle[0].y,
+        handle[1].x - handle[0].x,
+        handle[3].y - handle[0].y);
+    cairo_rectangle(cr, 0, 0, draw_area_width, draw_area_height);
+    cairo_set_source_rgba(cr, 0.4, 0.4, 0.4, 0.6);
+    cairo_set_fill_rule(cr, CAIRO_FILL_RULE_EVEN_ODD);
+    cairo_fill(cr);
+    cairo_set_fill_rule(cr, CAIRO_FILL_RULE_WINDING);
 
     // Draw rectangle
     cairo_set_source_rgb(cr, 0.8, 0.8, 0.8);
@@ -149,14 +160,14 @@ void start_btn(GtkWidget *w, gpointer user_data)
     {
         gtk_button_set_label(ui->modules->crop->start_btn, "Leave");
         gtk_widget_set_sensitive(GTK_WIDGET(ui->modules->crop->crop_btn),
-            FALSE);
+            TRUE);
         ui->modules->crop->is_active = 1;
     }
     else
     {
         gtk_button_set_label(ui->modules->crop->start_btn, "Start");
         gtk_widget_set_sensitive(GTK_WIDGET(ui->modules->crop->crop_btn),
-            TRUE);
+            FALSE);
         ui->modules->crop->is_active = 0;
     }
 
