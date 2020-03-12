@@ -8,4 +8,6 @@ struct Matrix
     float data[];
 };
 
+void freeMatrix(struct Matrix matrix);
+
 #endif
