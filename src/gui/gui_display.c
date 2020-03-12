@@ -285,7 +285,8 @@ gboolean draw_image(GtkWidget *w, cairo_t *cr, gpointer user_data)
                 ui->images->edit->width, ui->images->edit->height,
                 ui->images->edit->width * 3, free_buffer, NULL);
     gdk_cairo_set_source_pixbuf(cr, pix_buffer,
-       5,(gtk_widget_get_allocated_height(w)-ui->images->edit->height)/2);
+        (gtk_widget_get_allocated_width(w)-ui->images->edit->width)/2,
+       (gtk_widget_get_allocated_height(w)-ui->images->edit->height)/2);
 
     cairo_paint(cr);
 
