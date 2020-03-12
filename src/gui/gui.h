@@ -3,8 +3,8 @@
 
 struct Coordinates
 {
-    size_t x;
-    size_t y;
+    long x;
+    long y;
 };
 
 struct Crop

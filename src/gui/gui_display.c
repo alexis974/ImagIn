@@ -222,7 +222,6 @@ gboolean on_click_image(GtkWidget *widget, GdkEventButton *event,
         open_file_chooser(NULL, user_data);
         return FALSE;
     }
-    printf("Image pressed on %f,%f\n", event->x, event->y);
 
     if (ui->modules->crop->is_active)
         crop_on_click(event, ui);
@@ -302,6 +301,12 @@ gboolean motion_image(GtkWidget *w, GdkEventMotion *event, gpointer user_data)
 {
     (void) w;
     struct UI *ui = user_data;
+
+    // Negative positions are undesirable
+    if (event->x < 0)
+        event->x = 0;
+    if (event->y < 0)
+        event->y = 0;
 
     crop_motion_event(event, ui);
 

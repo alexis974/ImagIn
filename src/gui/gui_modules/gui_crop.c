@@ -12,6 +12,13 @@ int mod(int a, int b)
     return r < 0 ? r + b : r;
 }
 
+long clamp(long value, long min, long max)
+{
+    if (value < min)
+        return min;
+    return (value > max ? max : value);
+}
+
 double distance(struct Coordinates a, struct Coordinates b)
 {
     return sqrt((a.x - b.x)*(a.x - b.x) + (a.y - b.y)*(a.y - b.y));
@@ -24,8 +31,8 @@ void set_crop_handles_coordinates(struct UI *ui)
     GtkWidget *drawing_area = GTK_WIDGET(ui->display->display_image);
     int draw_area_width = gtk_widget_get_allocated_width(drawing_area);
     int draw_area_height = gtk_widget_get_allocated_height(drawing_area);
-    size_t img_width = ui->images->scale->width;
-    size_t img_height = ui->images->scale->height;
+    size_t img_width = ui->images->edit->width;
+    size_t img_height = ui->images->edit->height;
     // Padding / 2
     int origin_x = (draw_area_width - img_width) / 2;
     int origin_y = (draw_area_height - img_height) / 2;
@@ -99,17 +106,35 @@ void crop_on_click(GdkEventButton *event, struct UI *ui)
     mouse.x = event->x;
     mouse.y = event->y;
 
+    struct Coordinates *handle = ui->modules->crop->handles;
+
     GtkWidget *drawing_area = GTK_WIDGET(ui->display->display_image);
     int draw_area_width = gtk_widget_get_allocated_width(drawing_area);
 
     float proximity = draw_area_width * 0.05;
 
-    for (size_t i = 0; i < 4; i++)
+    // Getting selected handle if there is one
+    ui->modules->crop->selected_handle = -1;
+    if (mouse.x >= handle[0].x && mouse.x <= handle[0].x + proximity)
     {
-        if (distance(ui->modules->crop->handles[i], mouse) < proximity)
+        if (mouse.y >= handle[0].y && mouse.y <= handle[0].y + proximity)
         {
-            ui->modules->crop->selected_handle = i;
-            break;
+            ui->modules->crop->selected_handle = 0;
+        }
+        else if (mouse.y >= handle[3].y - proximity && mouse.y <= handle[3].y)
+        {
+            ui->modules->crop->selected_handle = 3;
+        }
+    }
+    else if (mouse.x >= handle[1].x - proximity && mouse.x <= handle[1].x)
+    {
+        if (mouse.y >= handle[1].y && mouse.y <= handle[1].y + proximity)
+        {
+            ui->modules->crop->selected_handle = 1;
+        }
+        else if (mouse.y >= handle[2].y - proximity && mouse.y <= handle[2].y)
+        {
+            ui->modules->crop->selected_handle = 2;
         }
     }
 }
@@ -120,10 +145,28 @@ void crop_motion_event(GdkEventMotion *event, struct UI *ui)
 
     if (selected != -1)
     {
+        GtkWidget *drawing_area = GTK_WIDGET(ui->display->display_image);
+        int draw_area_width = gtk_widget_get_allocated_width(drawing_area);
+        int draw_area_height = gtk_widget_get_allocated_height(drawing_area);
+        size_t img_width = ui->images->edit->width;
+        size_t img_height = ui->images->edit->height;
+        // Padding / 2
+        int origin_x = (draw_area_width - img_width) / 2;
+        int origin_y = (draw_area_height - img_height) / 2;
+
         ui->modules->crop->handles[selected].x +=
             event->x - ui->mouse->last_position.x;
         ui->modules->crop->handles[selected].y +=
             event->y - ui->mouse->last_position.y;
+
+        // Prevent from being outside image
+        ui->modules->crop->handles[selected].x =
+            clamp(ui->modules->crop->handles[selected].x, origin_x,
+                origin_x + img_width);
+
+        ui->modules->crop->handles[selected].y =
+            clamp(ui->modules->crop->handles[selected].y, origin_y,
+                origin_y + img_height);
 
         // Moving others to keep it a rectangle
         if (selected == 0 || selected == 2)
