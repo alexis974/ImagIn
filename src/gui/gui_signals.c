@@ -38,7 +38,7 @@ void connect_modules(struct UI *ui)
     g_signal_connect(ui->modules->crop->start_btn, "clicked",
             G_CALLBACK(start_btn), ui);
     g_signal_connect(ui->modules->crop->crop_btn, "clicked",
-            G_CALLBACK(crop_on_click), ui);
+            G_CALLBACK(crop_btn), ui);
 
     // Contraste Exposure Saturation signals
     g_signal_connect(ui->modules->cont_exp_sat->contraste_scale, "event",

@@ -253,5 +253,31 @@ void start_btn(GtkWidget *w, gpointer user_data)
 void crop_btn(GtkWidget *w, gpointer user_data)
 {
     (void) w;
-    (void) user_data;
+    struct UI *ui =user_data;
+
+    GtkWidget *drawing_area = GTK_WIDGET(ui->display->display_image);
+    int draw_area_width = gtk_widget_get_allocated_width(drawing_area);
+    int draw_area_height = gtk_widget_get_allocated_height(drawing_area);
+    size_t img_width = ui->images->edit->width;
+    size_t img_height = ui->images->edit->height;
+    // Padding / 2
+    int origin_x = (draw_area_width - img_width) / 2;
+    int origin_y = (draw_area_height - img_height) / 2;
+
+    printf("Crop values on scale : x1: %ld y1: %ld x2: %ld y2: %ld\n",
+        ui->modules->crop->handles[0].x - origin_x,
+        ui->modules->crop->handles[0].y - origin_y,
+        ui->modules->crop->handles[2].x - origin_x,
+        ui->modules->crop->handles[2].y - origin_y);
+
+    gtk_button_set_label(ui->modules->crop->start_btn, "Start");
+    gtk_widget_set_sensitive(GTK_WIDGET(ui->modules->crop->crop_btn),
+        FALSE);
+    ui->modules->crop->is_active = 0;
+
+    gtk_widget_queue_draw_area(GTK_WIDGET(ui->display->display_image),0,0,
+        gtk_widget_get_allocated_width(
+        GTK_WIDGET(ui->display->display_image)),
+        gtk_widget_get_allocated_height(
+        GTK_WIDGET(ui->display->display_image)));
 }
