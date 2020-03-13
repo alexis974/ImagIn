@@ -181,6 +181,7 @@ struct UI *build_gui(char *glade_file_path)
     }
 
     struct UI *ui = malloc(sizeof(struct UI));
+    ui->zoom = malloc(sizeof(struct Zoom));
     ui->image_loaded = FALSE;
     ui->can_modify = TRUE;
     build_window_gui(builder, ui);

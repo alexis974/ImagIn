@@ -13,7 +13,9 @@
 
 float zoom_percentage(struct Images *images)
 {
-    float percentage = (images->scale->width * 100) / images->full->width;
+    // DO NOT REMOVE EXPLICIT CAST IF YOU ARE NOT
+    // SURE THAT YOU FIND A SOLUTION TO KEEP DECIMALS
+    float percentage = (float)(images->scale->width * 100) / images->full->width;
 
     return percentage;
 }
@@ -37,26 +39,23 @@ struct Image *zoom(struct Images *images, float *zoom_value, size_t x_center,
         return images->full;
     }
 
+    // To remove if you work on absolute positionning
     float tmp_x = x_center;
     float  tmp_y = y_center;
     float temp_x = (tmp_x / images->scale->width) * images->full->width;
     float temp_y = (tmp_y / images->scale->height)  * images->full->height;
     x_center =  temp_x;
     y_center = temp_y;
-    printf("Clicked on full at %zu/%zu\n", x_center, y_center);
 
-    size_t nb_x = (images->scale->width) * 100 / *zoom_value;
-    size_t nb_y = (images->scale->height) * 100 / *zoom_value;
-
-    printf("Zoom shoud contains %ld/%ld pixels\n", nb_x, nb_y);
+    size_t nb_x = (images->edit->width) * 100 / *zoom_value;
+    size_t nb_y = (images->edit->height) * 100 / *zoom_value;
 
     size_t x_down_left = 0;
     size_t y_down_left = 0;
     size_t x_up_right = 0;
     size_t y_up_right = 0;
 
-    printf("x_down_left = %ld | x_up_right = %ld\n", x_down_left, x_up_right);
-    // X_DOWN_LEFT
+    // X
     if (x_center > (nb_x/2))
     {
         if ((x_center + (nb_x/2)) < images->full->width)
@@ -76,8 +75,8 @@ struct Image *zoom(struct Images *images, float *zoom_value, size_t x_center,
         x_down_left = 0;
         x_up_right = nb_x;
     }
-    printf("x_down_left = %ld | x_up_right = %ld\n", x_down_left, x_up_right);
 
+    // Y
     if (y_center > (nb_y/2))
     {
         if ((y_center + (nb_y/2)) < images->full->height)

@@ -198,7 +198,10 @@ void display_images(struct UI *ui, char *filename)
 
     ui->image_loaded = TRUE;
 
-    ui->current_zoom = zoom_percentage(ui->images);
+    // Initializing zoom values
+    ui->zoom->last_zoom_x = ui->images->full->width / 2;
+    ui->zoom->last_zoom_y = ui->images->full->height / 2;
+    ui->zoom->current_value = zoom_percentage(ui->images);
 
     reload_images(ui);
 
@@ -233,20 +236,30 @@ gboolean on_scroll_image(GtkWidget *w, GdkEventScroll *event, gpointer data)
         return FALSE;
     }
 
-    printf("Scale is : %zu/%zu\n", ui->images->scale->width, ui->images->scale->height);
-    printf("Full is : %zu/%zu\n", ui->images->full->width, ui->images->full->height);
-    printf("User clicked on : %f/%f\n", event->x, event->y);
+    printf("User mouse relative positive: %f/%f\n", event->x, event->y);
     char zoom_direction = (event->direction ? 1 : -1);
 
-    ui->current_zoom += 1 * zoom_direction;
+    /*
+    ** Zoom position is relative
+    ** We know the zoom position but it can be a zoom in a zoom
+    ** So we calculate absolute zoom relative to full
+    */
+
+    float x_abs = event->x;
+    float y_abs = event->y;
+
+    ui->zoom->current_value += 1 * zoom_direction;
 
     ui->images->scale = get_scale(
-            zoom(ui->images, &ui->current_zoom, event->x, event->y));
+            zoom(ui->images, &ui->zoom->current_value, x_abs, y_abs));
     free(ui->images->edit->data);
     ui->images->edit->width = ui->images->scale->width;
     ui->images->edit->height = ui->images->scale->height;
     ui->images->edit->data = malloc(sizeof(sizeof(struct Pixel)) *
                     ui->images->edit->height * ui->images->edit->width);
+
+    ui->zoom->last_zoom_x = x_abs;
+    ui->zoom->last_zoom_y = y_abs;
 
     reload_images(ui);
 

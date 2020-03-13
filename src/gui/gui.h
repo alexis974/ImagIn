@@ -1,6 +1,13 @@
 #ifndef UI_H
 #define UI_H
 
+struct Zoom
+{
+    long last_zoom_x;
+    long last_zoom_y;
+    float current_value;
+};
+
 struct Orientation
 {
     struct Imagin_expander *exp;
@@ -94,7 +101,7 @@ struct UI
     struct ImageInfo *image_info;
     struct history *hist;
     struct history *compressed_hist;
-    float current_zoom;
+    struct Zoom *zoom;
     gboolean image_loaded;
     gboolean can_modify;
 };
