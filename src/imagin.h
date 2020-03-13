@@ -3,9 +3,9 @@
 
 struct Pixel
 {
-    unsigned char red;
-    unsigned char green;
-    unsigned char blue;
+    size_t red;
+    size_t green;
+    size_t blue;
 };
 
 struct Image

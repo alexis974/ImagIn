@@ -10,10 +10,12 @@ struct Histogram *compute_histogram(struct Image *img)
 {
     struct Histogram *histo = malloc(sizeof(struct Histogram));
 
-    histo->red = calloc(256, sizeof(size_t));
-    histo->green = calloc(256, sizeof(size_t));
-    histo->blue = calloc(256, sizeof(size_t));
-    histo->white = calloc(256, sizeof(size_t));
+    size_t depth = img->bit_depth + 1;
+
+    histo->red = calloc(depth, sizeof(size_t));
+    histo->green = calloc(depth, sizeof(size_t));
+    histo->blue = calloc(depth, sizeof(size_t));
+    histo->white = calloc(depth, sizeof(size_t));
 
     size_t sum = 0;
     size_t tmp = 0;
@@ -42,10 +44,10 @@ void free_histogram(struct Histogram *histo)
     free(histo);
 }
 
-size_t histo_max_value(struct Histogram *histo)
+size_t histo_max_value(struct Histogram *histo, size_t depth)
 {
     size_t max = 0;
-    for (size_t i = 0; i < 256; i++)
+    for (size_t i = 0; i < depth; i++)
     {
         if (histo->white[i] > max)
         {

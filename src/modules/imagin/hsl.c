@@ -86,9 +86,9 @@ struct Pixel HSLtoRGB(struct PixelHSL hsl, float bd)
 
     if (hsl.s == 0)
     {
-        rgb.red = (unsigned char)(hsl.l * bd);
-        rgb.green = (unsigned char)(hsl.l * bd);
-        rgb.blue = (unsigned char)(hsl.l * bd);
+        rgb.red = (size_t)(hsl.l * bd);
+        rgb.green = (size_t)(hsl.l * bd);
+        rgb.blue = (size_t)(hsl.l * bd);
     }
     else
     {
@@ -101,9 +101,9 @@ struct Pixel HSLtoRGB(struct PixelHSL hsl, float bd)
                 (hsl.l * hsl.s));
         tmp1 = 2 * hsl.l - tmp2;
 
-        rgb.red = (unsigned char)(bd * huetoRGB(tmp1, tmp2, h + (1.0f / 3)));
-        rgb.green = (unsigned char)(bd * huetoRGB(tmp1, tmp2, h));
-        rgb.blue = (unsigned char)(bd * huetoRGB(tmp1, tmp2, h - (1.0f / 3)));
+        rgb.red = (size_t)(bd * huetoRGB(tmp1, tmp2, h + (1.0f / 3)));
+        rgb.green = (size_t)(bd * huetoRGB(tmp1, tmp2, h));
+        rgb.blue = (size_t)(bd * huetoRGB(tmp1, tmp2, h - (1.0f / 3)));
     }
 
     return rgb;

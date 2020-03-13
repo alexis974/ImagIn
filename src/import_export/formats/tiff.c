@@ -3,12 +3,44 @@
 #include <math.h>
 #include <string.h>
 #include <tiffio.h>
+#include <err.h>
+#include <stdint.h>
 #include <gtk/gtk.h>
 
 #include "../../imagin.h"
 #include "../../debug/error_handler.h"
 
+#include "../../tools/bits.h"
+
 #include "tiff.h"
+
+void tiff_get_pixel(struct Image *img, uint32 *raster, size_t i, size_t j)
+{
+    size_t bytes_per_sample =
+        (img->bit_depth < 255 ? 1 : depth_to_bits(img->bit_depth) / 8);
+
+    size_t width = img->width;
+    size_t height = img->height;
+
+    img->data[(height-j-1) * width + i].red = 0;
+    img->data[(height-j-1) * width + i].blue = 0;
+    img->data[(height-j-1) * width + i].green = 0;
+
+    for (size_t k = 0; k < bytes_per_sample; k++)
+    {
+        size_t b_t_d = bits_to_depth(k * 8) + 1;
+
+        // TIFF is save from bottom to top
+        img->data[(height-j-1) * width + i].red =
+            (size_t)TIFFGetR(raster[j*width+ i + k]) * b_t_d;
+
+        img->data[(height-j-1) * width + i].blue =
+            (size_t)TIFFGetB(raster[j*width+ i + k]) * b_t_d;
+
+        img->data[(height-j-1) * width + i].green =
+            (size_t)TIFFGetG(raster[j*width+ i + k]) * b_t_d;
+    }
+}
 
 // TODO : Coding style : Fct 25 lines max
 struct Image *read_tiff(const char *filename)
@@ -23,8 +55,11 @@ struct Image *read_tiff(const char *filename)
 
     uint32 width;
     uint32 height;
+    uint16 bits_per_sample;
     TIFFGetField(tif, TIFFTAG_IMAGEWIDTH, &width);
     TIFFGetField(tif, TIFFTAG_IMAGELENGTH, &height);
+    TIFFGetField(tif, TIFFTAG_BITSPERSAMPLE, &bits_per_sample);
+
     uint32 *raster= (uint32 *) _TIFFmalloc(width*height * sizeof(uint32));
 
     if (!raster)
@@ -54,10 +89,9 @@ struct Image *read_tiff(const char *filename)
 
     img->height = height;
     img->width = width;
-    img->bit_depth = 255;
+    img->bit_depth = bits_to_depth(bits_per_sample);
 
-    img->data =
-        (struct Pixel*)malloc(img->width * img->height * sizeof(struct Pixel));
+    img->data = malloc(img->width * img->height * sizeof(struct Pixel));
     if (!img->data)
     {
         throw_error("readTIFF", "Unable to allocate memory");
@@ -70,12 +104,13 @@ struct Image *read_tiff(const char *filename)
         for (size_t i = 0; i < width; i++)
         {
             // TIFF is save from bottom to top
-            img->data[(height-j-1)*width+i].red =
-                (unsigned char)TIFFGetR(raster[j*width+i]);
+            /*img->data[(height-j-1)*width+i].red =
+                (size_t)TIFFGetR(raster[j*width+i]);
             img->data[(height-j-1)*width+i].blue =
-                (unsigned char)TIFFGetB(raster[j*width+i]);
+                (size_t)TIFFGetB(raster[j*width+i]);
             img->data[(height-j-1)*width+i].green =
-                (unsigned char)TIFFGetG(raster[j*width+i]);
+                (size_t)TIFFGetG(raster[j*width+i]);*/
+            tiff_get_pixel(img, raster, i, j);
         }
     }
 
@@ -107,20 +142,23 @@ void write_tiff(const char *filename, struct Image *img)
     // Set number of channels per pixel
     TIFFSetField(out, TIFFTAG_SAMPLESPERPIXEL, sampleperpixel);
     // Set the size of the channels
-    TIFFSetField(out, TIFFTAG_BITSPERSAMPLE, 8);
+    TIFFSetField(out, TIFFTAG_BITSPERSAMPLE, depth_to_bits(img->bit_depth));
     // Set the origin of the image
     TIFFSetField(out, TIFFTAG_ORIENTATION, ORIENTATION_TOPLEFT);
     // Some other essential fields
     TIFFSetField(out, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
     TIFFSetField(out, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_RGB);
 
-    size_t rowsize = sampleperpixel * img->width;
+    size_t bytes_per_samples =
+        (img->bit_depth <= 255 ? 1 : depth_to_bits(img->bit_depth) / 8);
+
+    size_t rowsize = sampleperpixel * img->width * bytes_per_samples;
     unsigned char *buffer = NULL;
 
     // Allocating memory to store the pixels of current row
     if (TIFFScanlineSize(out))
     {
-        buffer =(unsigned char *)_TIFFmalloc(rowsize);
+        buffer = (unsigned char *)_TIFFmalloc(rowsize);
     }
     else
     {
@@ -133,11 +171,49 @@ void write_tiff(const char *filename, struct Image *img)
     for (size_t j = 0; j < img->height; j++)
     {
         // Filling Buffer
-        for (size_t i = 0; i < img->width; i++)
+        if (img->bit_depth <= 255)
         {
-            buffer[i*sampleperpixel] = img->data[j*img->width+i].red;
-            buffer[i*sampleperpixel+1] = img->data[j*img->width+i].green;
-            buffer[i*sampleperpixel+2] = img->data[j*img->width+i].blue;
+            for (size_t i = 0; i < img->width; i++)
+            {
+                buffer[i*sampleperpixel] = img->data[j*img->width+i].red;
+                buffer[i*sampleperpixel+1] = img->data[j*img->width+i].green;
+                buffer[i*sampleperpixel+2] = img->data[j*img->width+i].blue;
+            }
+        }
+        else if (depth_to_bits(img->bit_depth) == 16)
+        {
+            uint16_t *row = malloc(sizeof(uint16_t) * 3 * img->width);
+
+            for (size_t i = 0; i < img->width; i++)
+            {
+                row[i*3] = img->data[j*img->width+i].red;
+                row[i*3+1] = img->data[j*img->width+i].green;
+                row[i*3+2] = img->data[j*img->width+i].blue;
+            }
+
+            memcpy(buffer, row, sizeof(unsigned char) * 3 * img->width * 2);
+
+            free(row);
+        }
+        else if (depth_to_bits(img->bit_depth) == 32)
+        {
+            uint32_t *row = malloc(sizeof(uint32_t) * 3 * img->width);
+
+            for (size_t i = 0; i < img->width; i++)
+            {
+                row[i*3] = img->data[j*img->width+i].red;
+                row[i*3+1] = img->data[j*img->width+i].green;
+                row[i*3+2] = img->data[j*img->width+i].blue;
+            }
+
+            memcpy(buffer, row, sizeof(unsigned char) * 3 * img->width * 4);
+
+            free(row);
+        }
+        else
+        {
+            throw_error("writeTIFF", "Unsupported bit depth");
+            return;
         }
 
         // Writing in image

@@ -7,6 +7,8 @@
 #include "../../debug/error_handler.h"
 #include "../../imagin.h"
 
+#include "../../tools/bits.h"
+
 #include "jpeg.h"
 
 // TODO : Coding style : Struct should be in the .h
@@ -70,7 +72,8 @@ struct Image *read_jpeg(const char *filename)
 
     img->width = cinfo.image_width;
     img->height = cinfo.image_height;
-    img->bit_depth = 255;
+    img->bit_depth = bits_to_depth(cinfo.data_precision);
+
     img->data = malloc(sizeof(struct Pixel) * img->width * img->height);
     if (!img->data)
     {
@@ -98,11 +101,11 @@ struct Image *read_jpeg(const char *filename)
         for (size_t i = 0; i < img->width; i++)
         {
             img->data[img->width * (cinfo.output_scanline - 1) + i].red =
-                (unsigned char)buffer[0][i * 3];
+                (size_t)buffer[0][i * 3];
             img->data[img->width * (cinfo.output_scanline - 1) + i].green =
-                (unsigned char)buffer[0][i * 3 + 1];
+                (size_t)buffer[0][i * 3 + 1];
             img->data[img->width * (cinfo.output_scanline - 1) + i].blue =
-                (unsigned char)buffer[0][i * 3 + 2];
+                (size_t)buffer[0][i * 3 + 2];
         }
     }
 
@@ -139,12 +142,14 @@ void write_jpeg(const char *filename, struct Image *img)
     cinfo.image_height = img->height;
     cinfo.input_components = 3;
     cinfo.in_color_space = JCS_RGB;
+    cinfo.data_precision = depth_to_bits(img->bit_depth);
+
     jpeg_set_defaults(&cinfo);
     jpeg_set_quality(&cinfo, 100, TRUE);
     jpeg_start_compress(&cinfo, TRUE);
     row_stride = img->width * 3;
 
-    row_pointer[0] = malloc(sizeof(unsigned char)*row_stride);
+    row_pointer[0] = malloc(sizeof(size_t)*row_stride);
     if (!row_pointer[0])
     {
         throw_error("writeJPEG", "Unable to allocate memory.");

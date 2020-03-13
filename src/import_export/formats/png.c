@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <gtk/gtk.h>
 #include <png.h>
 
@@ -7,7 +8,36 @@
 
 #include "png.h"
 
+#include "../../tools/bits.h"
+
+
 #include "../../debug/error_handler.h"
+
+void png_get_pixel(struct Image *img, png_bytep *row_pointers,
+    size_t i, size_t j, size_t nb_channel)
+{
+    size_t bytes_per_sample =
+        (img->bit_depth < 255 ? 1 : depth_to_bits(img->bit_depth) / 8);
+
+    img->data[img->width * j + i].red = 0;
+    img->data[img->width * j + i].green = 0;
+    img->data[img->width * j + i].blue = 0;
+
+    for (size_t k = 0; k < bytes_per_sample; k++)
+    {
+        size_t b_t_d = bits_to_depth(k * 8) + 1;
+        img->data[img->width * j + i].red +=
+            row_pointers[j][i * nb_channel * bytes_per_sample + k] * b_t_d;
+
+        img->data[img->width * j + i].green +=
+            row_pointers[j][(i * nb_channel + 1) * bytes_per_sample + k] *
+                b_t_d;
+
+        img->data[img->width * j + i].blue +=
+            row_pointers[j][(i * nb_channel + 2) * bytes_per_sample + k] *
+                b_t_d;
+    }
+}
 
 // TODO : Coding style : Fct 25 lines max
 struct Image *read_png(const char *filename)
@@ -18,7 +48,7 @@ struct Image *read_png(const char *filename)
             NULL);
     if (!png)
     {
-        throw_error("readPNG","Unable to use png library.");
+        throw_error("readPNG", "Unable to use png library.");
 
         return NULL;
     }
@@ -26,14 +56,14 @@ struct Image *read_png(const char *filename)
     png_infop info = png_create_info_struct(png);
     if (!info)
     {
-        throw_error("readPNG","Unable to use png library.");
+        throw_error("readPNG", "Unable to use png library.");
 
         return NULL;
     }
 
     if (setjmp(png_jmpbuf(png)))
     {
-        throw_error("readPNG","Unable to use png library.");
+        throw_error("readPNG", "Unable to use png library.");
 
         return NULL;
     }
@@ -44,7 +74,7 @@ struct Image *read_png(const char *filename)
     struct Image *img = malloc(sizeof(struct Image));
     if (!img)
     {
-        throw_error("readPNG","Unable to allocate memory.");
+        throw_error("readPNG", "Unable to allocate memory.");
 
         return NULL;
     }
@@ -55,22 +85,15 @@ struct Image *read_png(const char *filename)
 
     if (!img->data)
     {
-        throw_error("readPNG","Unable to allocate memory.");
+        throw_error("readPNG", "Unable to allocate memory.");
 
         return NULL;
     }
 
-    img->bit_depth = png_get_bit_depth(png, info);
+    png_byte bits_per_sample = png_get_bit_depth(png, info);
     png_byte color_type = png_get_color_type(png, info);
 
-    if (img->bit_depth == 16)
-    {
-        png_set_strip_16(png);
-    }
-
-    // WARNING: this line needs to be changed when we are going
-    //to really use bit depth
-    img->bit_depth = 255;
+    img->bit_depth = bits_to_depth(bits_per_sample);
 
     if (color_type == PNG_COLOR_TYPE_PALETTE)
     {
@@ -110,19 +133,14 @@ struct Image *read_png(const char *filename)
         row_pointers[y] = (png_byte*)malloc(png_get_rowbytes(png,info));
     }
 
-    png_byte nb_channels = png_get_channels(png,info);
+    png_byte nb_channel = png_get_channels(png,info);
     png_read_image(png, row_pointers);
 
     for (size_t j = 0; j < img->height; j++)
     {
         for (size_t i = 0; i < img->width; i++)
         {
-            img->data[img->width * j + i].red =
-                row_pointers[j][i * nb_channels];
-            img->data[img->width * j + i].green =
-                row_pointers[j][i * nb_channels + 1];
-            img->data[img->width * j + i].blue =
-                row_pointers[j][i * nb_channels + 2];
+            png_get_pixel(img, row_pointers, i, j, nb_channel);
         }
     }
 
@@ -173,22 +191,47 @@ void write_png(const char *filename, struct Image *img)
     png_init_io(png, fp);
 
     png_set_IHDR(png, info, img->width, img->height,
-            8, PNG_COLOR_TYPE_RGB, PNG_INTERLACE_NONE,
-            PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
+            depth_to_bits(img->bit_depth), PNG_COLOR_TYPE_RGB,
+            PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT,
+            PNG_FILTER_TYPE_DEFAULT);
 
     png_write_info(png, info);
 
-    png_bytep *row_pointers =
-        (png_bytep*) malloc(sizeof(png_bytep) * img->height);
+    png_bytep *row_pointers = malloc(sizeof(png_bytep) * img->height);
 
-    for (size_t j = 0; j < img->height; j++)
+    if(img->bit_depth > 255)
     {
-        row_pointers[j] = (png_byte*) malloc(sizeof(png_byte)*3*img->width);
-        for (size_t i = 0; i < img->width; i++)
+        for (size_t j = 0; j < img->height; j++)
         {
-            row_pointers[j][i*3] = img->data[j*img->width+i].red;
-            row_pointers[j][i*3+1] = img->data[j*img->width+i].green;
-            row_pointers[j][i*3+2] = img->data[j*img->width+i].blue;
+            uint16_t *row = malloc(sizeof(size_t)*3*img->width);
+
+            for (size_t i = 0; i < img->width; i++)
+            {
+                row[i*3] = img->data[j*img->width+i].red;
+                row[i*3+1] = img->data[j*img->width+i].green;
+                row[i*3+2] = img->data[j*img->width+i].blue;
+            }
+
+            // swap bytes of 16 bit files to most significant bit first
+            //png_set_swap(png);
+            row_pointers[j] = malloc(sizeof(png_bytep)*3*img->width * 2);
+            memcpy(row_pointers[j], row, sizeof(png_bytep)*3*img->width * 2);
+
+            free(row);
+        }
+    }
+    else
+    {
+        for (size_t j = 0; j < img->height; j++)
+        {
+            row_pointers[j] = malloc(sizeof(png_bytep)*3*img->width);
+
+            for (size_t i = 0; i < img->width; i++)
+            {
+                row_pointers[j][i*3] = img->data[j*img->width+i].red;
+                row_pointers[j][i*3+1] = img->data[j*img->width+i].green;
+                row_pointers[j][i*3+2] = img->data[j*img->width+i].blue;
+            }
         }
     }
 

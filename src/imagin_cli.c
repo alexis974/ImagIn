@@ -37,7 +37,7 @@ int main(void)
     g_cli_mode = FALSE;
 
     // Define paths
-    char *img_path = "samples/Canon_90D_ppm/Canon_90D_03.ppm";
+    char *img_path = "samples/Canon_90D_png/Canon_90D_01.png";
     char *xml_path = "samples/Canon_90D_ppm/Canon_90D_03.ppm.xml";
 
 
@@ -61,23 +61,21 @@ int main(void)
 
     // Store all the pixel of the image
     images = read_image(img_path);
-    write_image("tmp/Full_image.jpg", images->full);
-    write_image("tmp/Full_image.ppm", images->full);
-    write_image("tmp/Full_image.tiff", images->full);
+    write_image("tmp/Full_image.png", images->full);
 
     // Scale the image to fit gui window
     images->scale = scale_img(images->full, 1200, 800);
     images->edit = scale_img(images->full, 1200, 800);
     images->small = scale_img(images->full, 225, 150);
-    write_image("tmp/Scale_image.ppm", images->scale);
-    write_image("tmp/Small_image.ppm", images->small);
+    write_image("tmp/Scale_image.png", images->scale);
+    write_image("tmp/Small_image.png", images->small);
 
 
 //################################################################## MODULES ###
 
     //Modify saturation
     saturation(images->edit, 2);
-    write_image("tmp/01_Saturation.jpg", images->edit);
+    write_image("tmp/01_Saturation.png", images->edit);
 
     //Modify contrast
     contrast(images->edit, 2);
