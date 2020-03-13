@@ -282,7 +282,7 @@ gboolean on_scroll_image(GtkWidget *w, GdkEventScroll *event, gpointer data)
     float x_abs = pos_img_x;
     float y_abs = pos_img_y;
 
-    ui->zoom->current_value += 1 * zoom_direction;
+    ui->zoom->current_value += 4 * zoom_direction;
 
     ui->images->scale = get_scale(
             zoom(ui->images, &ui->zoom->current_value, x_abs, y_abs));
@@ -336,7 +336,7 @@ gboolean draw_image(GtkWidget *w, cairo_t *cr, gpointer user_data)
     if (ui->modules->crop->is_active)
         draw_crop_rectangle(ui, cr);
 
-    //g_object_unref(pix_buffer);
+    g_object_unref(pix_buffer);
     return FALSE;
 }
 
