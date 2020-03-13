@@ -233,6 +233,9 @@ gboolean on_scroll_image(GtkWidget *w, GdkEventScroll *event, gpointer data)
         return FALSE;
     }
 
+    printf("Scale is : %zu/%zu\n", ui->images->scale->width, ui->images->scale->height);
+    printf("Full is : %zu/%zu\n", ui->images->full->width, ui->images->full->height);
+    printf("User clicked on : %f/%f\n", event->x, event->y);
     char zoom_direction = (event->direction ? 1 : -1);
 
     ui->current_zoom += 1 * zoom_direction;
@@ -246,7 +249,6 @@ gboolean on_scroll_image(GtkWidget *w, GdkEventScroll *event, gpointer data)
                     ui->images->edit->height * ui->images->edit->width);
 
     reload_images(ui);
-
 
     return FALSE;
 }
