@@ -18,11 +18,16 @@
 #include "modules/user/saturation.h"
 #include "modules/user/exposure.h"
 #include "modules/user/contrast.h"
+#include "modules/user/sharpness.h"
 
 #include "modules/imagin/scale.h"
 #include "modules/imagin/histogram.h"
 
+#include "gui/gui.h"
+
+#include "tools/history/history.h"
 #include "tools/free.h"
+#include "tools/matrix.h"
 
 // TODO : Coding style : 4.10 Fct max 25 lines
 int main(void)
@@ -70,6 +75,10 @@ int main(void)
 
 //################################################################## MODULES ###
 
+    //Blur test
+    blur(images->edit, 1.4);
+    write_image("tmp/00_Blur.jgp", images->edit);
+
     //Modify saturation
     saturation(images->edit, 2);
     write_image("tmp/01_Saturation.jpg", images->edit);
@@ -89,7 +98,7 @@ int main(void)
     // Turn the image black and white
     simple_BW(images->edit);
     write_image("tmp/05_Black_and_white.ppm", images->edit);
-
+/*
     // Flip the image both horizontaly and verticaly
     flip_both_axis(images->edit);
     write_image("tmp/06_Flip_both_axis.tiff", images->edit);
@@ -101,7 +110,7 @@ int main(void)
     // Flip the image verticaly
     vertical_flip(images->edit);
     write_image("tmp/08_Flip_vertiacl.ppm", images->edit);
-
+*/
     struct Histogram *histogram = compute_histogram(images->edit);
 
     printf("Max value = %ld\n", histo_max_value(histogram));
