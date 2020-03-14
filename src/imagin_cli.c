@@ -69,7 +69,7 @@ int main(void)
 
     //Blur test
     blur(images->edit, 1.4);
-    write_image("tmp/00_Blur.jgp", images->edit);
+    write_image("tmp/00_Blur.jpg", images->edit);
 
     //Modify saturation
     saturation(images->edit, 2);
