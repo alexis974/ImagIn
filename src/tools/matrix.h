@@ -12,4 +12,4 @@ void freeMatrix(struct Matrix *m);
 
 void printMatrix(struct Matrix *m);
 
-#endif
+#endif /* MATRIX_H */
