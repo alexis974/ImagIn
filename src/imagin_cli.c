@@ -14,6 +14,8 @@
 
 #include "tools/matrix.h"
 
+#include "modules/imagin/scale.h"
+
 #include "modules/user/black_and_white.h"
 #include "modules/user/invert.h"
 #include "modules/user/saturation.h"
@@ -21,13 +23,9 @@
 #include "modules/user/contrast.h"
 #include "modules/user/sharpness.h"
 
-#include "modules/imagin/scale.h"
-
-// TODO : Coding style : 4.10 Fct max 25 lines
 int main(void)
 {
     // Set error mode to CLI to have error in text format
-    // TODO : Coding style : 2.5 typedef ?
     g_cli_mode = FALSE;
 
     // Define paths
