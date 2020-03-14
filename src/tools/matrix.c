@@ -19,6 +19,6 @@ void printMatrix(struct Matrix *m)
         {
             printf("\n");
         }
-    } 
+    }
     printf("------------------\n");
 }
