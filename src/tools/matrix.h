@@ -5,9 +5,11 @@ struct Matrix
 {
     size_t lines;
     size_t cols;
-    float data[];
+    float *data;
 };
 
-void freeMatrix(struct Matrix matrix);
+void freeMatrix(struct Matrix *m);
+
+void printMatrix(struct Matrix *m);
 
 #endif
