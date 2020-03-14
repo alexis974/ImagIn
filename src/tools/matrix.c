@@ -11,6 +11,7 @@ void freeMatrix(struct Matrix *m)
 
 void printMatrix(struct Matrix *m)
 {
+    printf("------------------\n");
     for (size_t i = 0; i < m->lines*m->cols; i++)
     {
         printf("%f ", m->data[i]);
@@ -18,5 +19,6 @@ void printMatrix(struct Matrix *m)
         {
             printf("\n");
         }
-    }
+    } 
+    printf("------------------\n");
 }
