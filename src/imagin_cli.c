@@ -76,7 +76,7 @@ int main(void)
 //################################################################## MODULES ###
 
     //Blur test
-    blur(images->edit, 1.4);
+    blur(images->edit, 0.84089642);
     write_image("tmp/00_Blur.jgp", images->edit);
 
     //Modify saturation
@@ -110,11 +110,11 @@ int main(void)
     // Flip the image verticaly
     vertical_flip(images->edit);
     write_image("tmp/08_Flip_vertiacl.ppm", images->edit);
-*/
+
     struct Histogram *histogram = compute_histogram(images->edit);
 
     printf("Max value = %ld\n", histo_max_value(histogram));
-
+*/
     free_images(images);
 
     printf("See you soon!\n");
