@@ -23,7 +23,7 @@ struct Matrix *initGaussianKernel(int radius, float sigma)
         {
             float e = exp(-(x*x + y*y) / (2*sigma*sigma));
             factor += e;
-            kernel->data[x+radius * kernel->cols + y+radius] = e;
+            kernel->data[(x+radius) * kernel->cols + (y+radius)] = e;
         }
     }
 
@@ -31,7 +31,7 @@ struct Matrix *initGaussianKernel(int radius, float sigma)
     {
         for (int y = -radius; y <= radius + 1; y++)
         {
-            kernel->data[x+radius * kernel->cols + y+radius] /= factor;
+            kernel->data[(x+radius) * kernel->cols + (y+radius)] /= factor;
         }
     }
 
@@ -40,6 +40,7 @@ struct Matrix *initGaussianKernel(int radius, float sigma)
 
 void blur(struct Image *img, float sigma)
 {
+    printf("\n------------------\n");
     if (!img)
     {
         errx(1, "blur: No image found");
@@ -50,13 +51,14 @@ void blur(struct Image *img, float sigma)
         return;
     }
 
-    int radius = 2;
+    int radius = (5 * sigma) / 2;
+
     struct Matrix *kernel = initGaussianKernel(radius, sigma);
-    printf("\n------------------\n");
-    printf("Gaussian kernel:");
-    printf("\n------------------\n");
+
+    printf("Gaussian kernel:\n");
     printMatrix(kernel);
 
+    printf("\n------------------\n");
     freeMatrix(kernel);
 }
 
