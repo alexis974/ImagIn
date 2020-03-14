@@ -7,4 +7,4 @@ void freeMatrix(struct Matrix matrix)
 {
     free(matrix.data);
     free(matrix);
-)
+}
