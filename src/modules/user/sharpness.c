@@ -51,13 +51,41 @@ void blur(struct Image *img, float sigma)
         return;
     }
 
-    int radius = (5 * sigma) / 2;
+    size_t radius = ceil((2 * sigma));
 
-    struct Matrix *kernel = initGaussianKernel(radius, sigma);
+    struct Matrix *kernel = initGaussianKernel((int)radius, sigma);
 
     printf("Gaussian kernel:\n");
     printMatrix(kernel);
+    size_t a = 0;
 
+    for (size_t i = radius; i < img->width - radius; i++)
+    {
+        for (size_t j = radius; j < img->height - radius; j++)
+        {
+            float acc[3] = {0, 0, 0};
+
+            for (size_t x = 0; x < kernel->lines; x++)
+            {
+                for (size_t y = 0; y < kernel->cols; y++)
+                {
+                    int in = i + x - radius;
+                    int jn = j + y - radius;
+                    struct Pixel pxl = img->data[in * img->width + jn];
+                    acc[0] += pxl.red * kernel->data[x * kernel->cols + y];
+                    acc[1] += pxl.green * kernel->data[x * kernel->cols + y];
+                    acc[2] += pxl.blue * kernel->data[x * kernel->cols + y];
+                }
+            }
+
+            img->data[i * img->width + j].red = (size_t)acc[0];
+            img->data[i * img->width + j].green = (size_t)acc[1];
+            img->data[i * img->width + j].blue = (size_t)acc[2];
+        }
+    }
+
+    printf("a = %ld\n", a);
+    printf("width = %ld\n", img->width);
     printf("\n------------------\n");
     freeMatrix(kernel);
 }
