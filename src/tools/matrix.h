@@ -5,7 +5,7 @@ struct Matrix
 {
     size_t lines;
     size_t cols;
-    float *data;
+    double *data;
 };
 
 void freeMatrix(struct Matrix *m);
