@@ -14,7 +14,7 @@ void printMatrix(struct Matrix *m)
     printf("------------------\n");
     for (size_t i = 0; i < m->lines*m->cols; i++)
     {
-        printf("%lf ", m->data[i]);
+        printf("%f ", m->data[i]);
         if ((i+1) % m->cols == 0)
         {
             printf("\n");
