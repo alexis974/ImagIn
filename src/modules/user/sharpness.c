@@ -38,6 +38,24 @@ struct Matrix *initGaussianKernel(int radius, float sigma)
     return kernel;
 }
 
+struct Matrix *testgauss(int radius, float sigma)
+{
+    struct Matrix *kernel = malloc(sizeof(struct Matrix));
+    kernel->lines = 2 * radius + 1;
+    kernel->cols = 2 * radius + 1;
+    kernel->data = malloc(sizeof(float) * kernel->cols * kernel->lines);
+    if (sigma){};
+    for (int x = -radius; x < radius+1; x++)
+    {
+        for (int y = -radius; y < radius+1; y++)
+        {
+            kernel->data[(x+radius) * kernel->cols + (y+radius)] = (float)1/25;
+        }
+    }
+
+    return kernel;
+}
+
 void blur(struct Image *img, float sigma)
 {
     printf("\n------------------\n");
@@ -54,14 +72,15 @@ void blur(struct Image *img, float sigma)
     size_t radius = ceil((2 * sigma));
 
     struct Matrix *kernel = initGaussianKernel((int)radius, sigma);
+    //struct Matrix *kernel = testgauss((int)radius, sigma);
 
     printf("Gaussian kernel:\n");
     printMatrix(kernel);
     size_t a = 0;
 
-    for (size_t i = radius; i < img->width - radius; i++)
+    for (size_t i = radius; i < img->height - radius; i++)
     {
-        for (size_t j = radius; j < img->height - radius; j++)
+        for (size_t j = radius; j < img->width - radius; j++)
         {
             float acc[3] = {0, 0, 0};
 
