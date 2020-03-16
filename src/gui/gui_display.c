@@ -4,13 +4,17 @@
 #include "../imagin.h"
 
 #include "gui.h"
+#include "gui_display.h"
 #include "gui_modules.h"
 #include "gui_windows.h"
 #include "gui_history.h"
 #include "gui_widgets/gui_expander.h"
+#include "gui_modules/gui_crop.h"
 
 #include "../import_export/import.h"
 #include "../import_export/export.h"
+
+#include "../modules/imagin/zoom.h"
 
 #include "../tools/history/history.h"
 #include "../tools/history/image_handler.h"
@@ -125,13 +129,11 @@ void reload_images(struct UI *ui)
     ui->images->small = get_small(ui->images->edit);
 
     // Middle image
-    // GTK only supports 8bits format
-    unsigned char *buffer = from_image_to_buffer(ui->images->edit);
-    GdkPixbuf *pix_buffer =
-        gdk_pixbuf_new_from_data(buffer, GDK_COLORSPACE_RGB, FALSE, 8,
-                ui->images->edit->width, ui->images->edit->height,
-                ui->images->edit->width * 3, free_buffer, NULL);
-    gtk_image_set_from_pixbuf(ui->display->display_image, pix_buffer);
+    gtk_widget_queue_draw_area (GTK_WIDGET(ui->display->display_image), 0, 0,
+		gtk_widget_get_allocated_width(
+        GTK_WIDGET(ui->display->display_image)),
+        gtk_widget_get_allocated_height(
+        GTK_WIDGET(ui->display->display_image)));
 
     // Small image
     unsigned char *buffer_small = from_image_to_buffer(ui->images->small);
@@ -148,7 +150,6 @@ void reload_images(struct UI *ui)
         GTK_WIDGET(ui->display->histogram_area)));
 
     // Releasing memory
-    g_object_unref(pix_buffer);
     g_object_unref(pix_buffer_small);
 }
 
@@ -174,11 +175,13 @@ void display_images(struct UI *ui, char *filename)
     reset_modules(ui);
 
     int padding = 10;
+
     // Setting preview zone info
     g_maxwidth_small = gtk_widget_get_allocated_width(
             GTK_WIDGET(ui->display->small_image)) - padding;
     g_maxheight_small = gtk_widget_get_allocated_height(
             GTK_WIDGET(ui->display->small_image)) - padding;
+
     // Getting all scaled images
     ui->images = read_image(filename);
     if (!ui->images)
@@ -202,6 +205,13 @@ void display_images(struct UI *ui, char *filename)
 
     ui->image_loaded = TRUE;
 
+    // Initializing zoom values
+    ui->zoom->last_zoom_x = ui->images->full->width / 2;
+    ui->zoom->last_zoom_y = ui->images->full->height / 2;
+    ui->zoom->current_value = zoom_percentage(ui->images);
+
+    set_crop_handles_coordinates(ui);
+
     reload_images(ui);
 
     gtk_widget_queue_draw_area(GTK_WIDGET(ui->display->histogram_area), 0, 0,
@@ -215,14 +225,27 @@ gboolean on_click_image(GtkWidget *widget, GdkEventButton *event,
         gpointer user_data)
 {
     (void) widget;
-    (void) event;
     struct UI *ui = user_data;
     if (!ui->image_loaded)
     {
         open_file_chooser(NULL, user_data);
         return FALSE;
     }
-    printf("Image pressed on %f,%f\n", event->x, event->y);
+
+    if (ui->modules->crop->is_active)
+        crop_on_click(event, ui);
+
+    return FALSE;
+}
+
+gboolean on_click_released_image(GtkWidget *w,
+            GdkEventButton *event, gpointer data)
+{
+    (void) w;
+    (void) event;
+    struct UI *ui = data;
+    // Unselecting crop handle
+    ui->modules->crop->selected_handle = -1;
     return FALSE;
 }
 
@@ -234,10 +257,106 @@ gboolean on_scroll_image(GtkWidget *w, GdkEventScroll *event, gpointer data)
     {
         return FALSE;
     }
+    GtkWidget *drawing_area = GTK_WIDGET(ui->display->display_image);
+    int draw_area_width = gtk_widget_get_allocated_width(drawing_area);
+    int draw_area_height = gtk_widget_get_allocated_height(drawing_area);
+    size_t img_width = ui->images->edit->width;
+    size_t img_height = ui->images->edit->height;
+    // Padding / 2
+    int origin_x = (draw_area_width - img_width) / 2;
+    int origin_y = (draw_area_height - img_height) / 2;
 
-    (void) event;
-    printf("Scroll direction : %d Scroll delta :  %f\n",
-        event->direction, event->x_root);
+    // Relative position
+    float pos_img_x = event->x - origin_x;
+    float pos_img_y = event->y - origin_y;
+
+    printf("User mouse relative positive: %f/%f\n", event->x, event->y);
+    char zoom_direction = (event->direction ? 1 : -1);
+
+    /*
+    ** Zoom position is relative
+    ** We know the zoom position but it can be a zoom in a zoom
+    ** So we calculate absolute zoom relative to full
+    */
+
+    float x_abs = pos_img_x;
+    float y_abs = pos_img_y;
+
+    ui->zoom->current_value += 4 * zoom_direction;
+
+    ui->images->scale = get_scale(
+            zoom(ui->images, &ui->zoom->current_value, x_abs, y_abs));
+    free(ui->images->edit->data);
+    ui->images->edit->width = ui->images->scale->width;
+    ui->images->edit->height = ui->images->scale->height;
+    ui->images->edit->data = malloc(sizeof(struct Pixel) *
+                    ui->images->edit->height * ui->images->edit->width);
+
+    ui->zoom->last_zoom_x = x_abs;
+    ui->zoom->last_zoom_y = y_abs;
+
+    reload_images(ui);
+
+    return FALSE;
+}
+
+gboolean draw_image(GtkWidget *w, cairo_t *cr, gpointer user_data)
+{
+    (void) w;
+    struct UI *ui = user_data;
+
+    cairo_set_source_rgb(cr, 0.38, 0.38, 0.38);
+    cairo_paint(cr);
+
+    if (!ui->image_loaded)
+    {
+        cairo_surface_t *image =
+            cairo_image_surface_create_from_png("data/icons/no_image.png");
+        int top_left_x = (gtk_widget_get_allocated_width(w) -
+            cairo_image_surface_get_width(image)) / 2;
+        int top_left_y = (gtk_widget_get_allocated_height(w) -
+            cairo_image_surface_get_height(image)) / 2;
+        cairo_set_source_surface(cr, image, top_left_x, top_left_y);
+        cairo_paint(cr);
+        return FALSE;
+    }
+
+    // GTK only supports 8bits format
+    unsigned char *buffer = from_image_to_buffer(ui->images->edit);
+    GdkPixbuf *pix_buffer =
+        gdk_pixbuf_new_from_data(buffer, GDK_COLORSPACE_RGB, FALSE, 8,
+                ui->images->edit->width, ui->images->edit->height,
+                ui->images->edit->width * 3, free_buffer, NULL);
+    gdk_cairo_set_source_pixbuf(cr, pix_buffer,
+        (gtk_widget_get_allocated_width(w)-ui->images->edit->width)/2,
+       (gtk_widget_get_allocated_height(w)-ui->images->edit->height)/2);
+
+    cairo_paint(cr);
+
+    if (ui->modules->crop->is_active)
+        draw_crop_rectangle(ui, cr);
+
+    g_object_unref(pix_buffer);
+    return FALSE;
+}
+
+// Mouse motion over image
+gboolean motion_image(GtkWidget *w, GdkEventMotion *event, gpointer user_data)
+{
+    (void) w;
+    struct UI *ui = user_data;
+
+    // Negative positions are undesirable
+    if (event->x < 0)
+        event->x = 0;
+    if (event->y < 0)
+        event->y = 0;
+
+    crop_motion_event(event, ui);
+
+    // Keep at the end
+    ui->mouse->last_position.x = event->x;
+    ui->mouse->last_position.y = event->y;
 
     return FALSE;
 }

@@ -10,6 +10,7 @@
 #include "gui_histogram.h"
 
 #include "gui_widgets/gui_expander.h"
+#include "gui_modules/gui_crop.h"
 
 void connect_check_boxes(struct UI *ui)
 {
@@ -34,6 +35,10 @@ void connect_modules(struct UI *ui)
             G_CALLBACK(rotate_right), ui);
     g_signal_connect(ui->modules->orientation->flip_box, "changed",
             G_CALLBACK(flip_changed), ui);
+    g_signal_connect(ui->modules->crop->start_btn, "clicked",
+            G_CALLBACK(start_btn), ui);
+    g_signal_connect(ui->modules->crop->crop_btn, "clicked",
+            G_CALLBACK(crop_btn), ui);
 
     // Contraste Exposure Saturation signals
     g_signal_connect(ui->modules->cont_exp_sat->contraste_scale, "event",
@@ -76,14 +81,20 @@ void connect_display(struct UI *ui)
             G_CALLBACK(draw_histogram), ui);
     g_signal_connect(ui->display->middle_area_events, "button-press-event",
             G_CALLBACK(on_click_image), ui);
+    g_signal_connect(ui->display->middle_area_events, "button-release-event",
+            G_CALLBACK(on_click_released_image), ui);
     g_signal_connect(ui->display->middle_area_events, "scroll-event",
             G_CALLBACK(on_scroll_image), ui);
+    g_signal_connect(ui->display->middle_area_events, "motion-notify-event",
+            G_CALLBACK(motion_image), ui);
     g_signal_connect(ui->modules->history_list->list, "row-selected",
             G_CALLBACK(hst_selection_changed), ui);
     g_signal_connect(ui->modules->history_list->compress_button, "clicked",
             G_CALLBACK(compress_history_btn), ui);
-    g_signal_connect(ui->display->box, "size-allocate",
+    g_signal_connect(ui->display->display_image, "size-allocate",
             G_CALLBACK(on_center_image_size_change), ui);
+    g_signal_connect(ui->display->display_image, "draw",
+            G_CALLBACK(draw_image), ui);
 }
 
 void connect_signals(struct UI *ui)

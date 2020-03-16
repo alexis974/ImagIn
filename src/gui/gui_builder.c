@@ -47,7 +47,7 @@ void build_bottom_bar_gui(GtkBuilder *builder, struct UI *ui)
 void build_display_gui(GtkBuilder *builder, struct UI *ui)
 {
     ui->display = malloc(sizeof(struct Display));
-    ui->display->display_image = GTK_IMAGE(gtk_builder_get_object(
+    ui->display->display_image = GTK_DRAWING_AREA(gtk_builder_get_object(
                 builder, "display_image"));
     ui->display->small_image = GTK_IMAGE(gtk_builder_get_object(
                 builder, "small_preview"));
@@ -57,12 +57,12 @@ void build_display_gui(GtkBuilder *builder, struct UI *ui)
                 builder, "middle_area_events"));
     ui->display->box = GTK_WIDGET(gtk_builder_get_object(
                 builder, "central_box"));
-    //Setting default middle image
-    gtk_image_set_from_file(ui->display->display_image,
-            "data/icons/no_image.png");
+
     //Setting the possibility to scroll on image
     gtk_widget_add_events(GTK_WIDGET(ui->display->middle_area_events),
         GDK_SCROLL_MASK);
+    gtk_widget_add_events(GTK_WIDGET(ui->display->middle_area_events),
+        GDK_POINTER_MOTION_MASK);
 }
 
 void build_image_info(GtkBuilder *builder, struct UI *ui)
@@ -118,6 +118,14 @@ void build_hue_gui(GtkBuilder *builder, struct UI *ui)
 void build_modules_gui(GtkBuilder *builder, struct UI *ui)
 {
     ui->modules = malloc(sizeof(struct Modules));
+    ui->modules->crop = malloc(sizeof(struct Crop));
+    ui->modules->crop->selected_handle = -1;
+    ui->modules->crop->is_active = 0;
+    ui->modules->crop->start_btn = GTK_BUTTON(gtk_builder_get_object(
+                builder, "start_crop_btn"));
+    ui->modules->crop->crop_btn = GTK_BUTTON(gtk_builder_get_object(
+                builder, "crop_btn"));
+
     ui->modules->orientation = malloc(sizeof(struct Orientation));
 
     ui->modules->orientation->rot_l_button = GTK_BUTTON(gtk_builder_get_object(
@@ -181,8 +189,12 @@ struct UI *build_gui(char *glade_file_path)
     }
 
     struct UI *ui = malloc(sizeof(struct UI));
+    ui->zoom = malloc(sizeof(struct Zoom));
     ui->image_loaded = FALSE;
     ui->can_modify = TRUE;
+    ui->mouse = malloc(sizeof(struct Mouse));
+    ui->mouse->last_position.x = 0;
+    ui->mouse->last_position.y = 0;
     build_window_gui(builder, ui);
     build_menu_bar_gui(builder, ui);
     build_modules_gui(builder, ui);

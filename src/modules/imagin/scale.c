@@ -60,7 +60,7 @@ struct Image *scale_img(struct Image *full_img, size_t width, size_t height)
     struct Image *small_img = malloc(width * height * sizeof(struct Image));
     if (!small_img)
     {
-        errx(1,"scale_img : Could not allocate memory.");
+        errx(1, "scale_img : Could not allocate memory.");
     }
 
     // Initialize scaled image
@@ -71,7 +71,7 @@ struct Image *scale_img(struct Image *full_img, size_t width, size_t height)
 
     if (!small_img->data)
     {
-        errx(1,"scale_img : Could not allocate memory.");
+        errx(1, "scale_img : Could not allocate memory.");
     }
 
     float old_width = full_img->width;

@@ -1,6 +1,35 @@
 #ifndef UI_H
 #define UI_H
 
+struct Zoom
+{
+    long last_zoom_x;
+    long last_zoom_y;
+    float current_value;
+};
+
+struct Coordinates
+{
+    long x;
+    long y;
+};
+
+struct Crop
+{
+    /* There are four handles we register their positions and which one is
+    selected */
+    int selected_handle;
+    struct Coordinates handles[4];
+    int is_active;
+    GtkButton *start_btn;
+    GtkButton *crop_btn;
+};
+
+struct Mouse
+{
+    struct Coordinates last_position;
+};
+
 struct Orientation
 {
     struct Imagin_expander *exp;
@@ -51,6 +80,7 @@ struct Modules
     struct Shadows_highlights *shadows_highlights;
     struct History_List *history_list;
     struct Hue *hue;
+    struct Crop *crop;
     GtkSwitch *bw_switch;
     GtkSwitch *invert_switch;
     struct Imagin_expander *bw_exp;
@@ -60,7 +90,7 @@ struct Modules
 struct Display
 {
     GtkWidget *box;
-    GtkImage *display_image;
+    GtkDrawingArea *display_image;
     GtkImage *small_image;
     GtkDrawingArea *histogram_area;
     GtkEventBox *middle_area_events;
@@ -94,6 +124,8 @@ struct UI
     struct ImageInfo *image_info;
     struct history *hist;
     struct history *compressed_hist;
+    struct Zoom *zoom;
+    struct Mouse *mouse;
     gboolean image_loaded;
     gboolean can_modify;
 };
