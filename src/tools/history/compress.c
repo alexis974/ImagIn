@@ -30,6 +30,7 @@ void hst_compress(struct history *hist)
         if (hist->id == hist->next->id)
         {
             old->next = hist->next;
+            free(hist->value);
             free(hist);
             hist = old->next;
         }

@@ -23,29 +23,47 @@ void hst_apply_all(struct history *hist, struct Image *img)
         switch (p->id)
         {
         case CONTRASTE:
-            contrast(img, p->value + 1);
+        {
+            float *value = p->value;
+            contrast(img, *value + 1);
             break;
+        }
         case EXPOSURE:
-            exposure(img, p->value);
+        {
+            float *value = p->value;
+            exposure(img, *value);
             break;
+        }
         case SATURATION:
-            saturation(img, p->value + 1);
+        {
+            float *value = p->value;
+            saturation(img, *value + 1);
             break;
+        }
         case FLIP:
-            flip(img, p->value);
+        {
+            size_t *value = p->value;
+            flip(img, *value);
             break;
+        }
         case BW:
-            if (p->value)
+        {
+            int *value = p->value;
+            if (*value)
             {
                 simple_BW(img);
             }
             break;
+        }
         case INVERT:
-            if (p->value)
+        {
+            int *value = p->value;
+            if (*value)
             {
                 invert(img);
             }
             break;
+        }
         default:
             break;
         }

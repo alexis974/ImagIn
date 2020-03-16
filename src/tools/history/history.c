@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "history.h"
 
@@ -30,8 +31,9 @@ size_t hst_length(struct history *hist)
 }
 
 // Returns 1 if new module is different from last one
+// Value has to be allocated
 int hst_append(struct history *hist, int module_id,
-        int enable, float value)
+        int enable, void *value)
 {
     struct history *new = malloc(sizeof(struct history));
     new->id = module_id;
@@ -65,11 +67,35 @@ int hst_pop(struct history *hist)
     }
 
     int return_value = hist->id != hist->next->id;
-
+    free(hist->next->value);
     free(hist->next);
     hist->next = NULL;
 
     return return_value;
+}
+
+// When we have to duplicate a void* pointer, we must know the
+// size of the data that has to be allocated
+size_t get_data_size(int id)
+{
+    switch(id)
+    {
+        case CONTRASTE:
+        case SATURATION:
+        case EXPOSURE:
+        case SHADOWS:
+        case HIGHLIGHTS:
+            return sizeof(float);
+        case FLIP:
+        case BW:
+        case INVERT:
+        case ROTATION:
+            return sizeof(size_t);
+        default:
+            return sizeof(float);
+    }
+
+    return 0;
 }
 
 struct history *hst_duplicate(struct history *hist)
@@ -84,7 +110,10 @@ struct history *hst_duplicate(struct history *hist)
         new->next = malloc(sizeof(struct history));
         new->next->id = hist->id;
         new->next->enable = hist->enable;
-        new->next->value = hist->value;
+
+        void *new_value = malloc(get_data_size(hist->id));
+        memcpy(new_value, hist->value, get_data_size(hist->id));
+        new->next->value = new_value;
         new->next->next = NULL;
         new = new->next;
         hist = hist->next;
@@ -112,7 +141,6 @@ void hst_print(struct history *hist)
         printf("name: %s\n", get_name(hist->id));
         printf("id: %d\n", hist->id);
         printf("enable: %d\n", hist->enable);
-        printf("value: %f\n", hist->value);
 
         hist = hist->next;
     }

@@ -2,7 +2,7 @@
 #define SORT_H
 
 void hst_insert_sort(struct history *hist, int module_id,
-        int enable, float value);
+        int enable, void *value);
 
 void hst_sort(struct history *hist);
 

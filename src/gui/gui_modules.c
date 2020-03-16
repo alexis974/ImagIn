@@ -31,7 +31,7 @@
 ** MODULES
 */
 
-void apply_module(struct UI *ui, int module_id, float value)
+void apply_module(struct UI *ui, int module_id, void *value)
 {
     if (!ui->can_modify)
     {
@@ -112,26 +112,9 @@ void flip_changed(GtkComboBox *box, gpointer user_data)
         return;
     }
 
-    int element_id = gtk_combo_box_get_active(GTK_COMBO_BOX(box));
-
-    switch (element_id)
-    {
-    case 0:
-        apply_module(ui, FLIP, 0);
-        break;
-    case 1:
-        apply_module(ui, FLIP, 1);
-        break;
-    case 2:
-        apply_module(ui, FLIP, 2);
-        break;
-    case 3:
-        apply_module(ui, FLIP, 3);
-        break;
-    default:
-        break;
-    }
-
+    size_t *value = malloc(sizeof(size_t));
+    (*value) = gtk_combo_box_get_active(GTK_COMBO_BOX(box));
+    apply_module(ui, FLIP, value);
     set_expander_active(ui, ui->modules->orientation->exp, TRUE);
 }
 
@@ -150,7 +133,10 @@ gboolean contraste_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
         return FALSE;
     }
 
-    apply_module(ui, CONTRASTE, gtk_range_get_value(range));
+    float *value = malloc(sizeof(float));
+    (*value) = gtk_range_get_value(range);
+
+    apply_module(ui, CONTRASTE, value);
 
     set_expander_active(ui, ui->modules->cont_exp_sat->exp, TRUE);
 
@@ -173,7 +159,10 @@ gboolean saturation_changed(GtkRange *range, GdkEvent *event,
         return FALSE;
     }
 
-    apply_module(ui, SATURATION, gtk_range_get_value(range));
+    float *value = malloc(sizeof(float));
+    (*value) = gtk_range_get_value(range);
+
+    apply_module(ui, SATURATION, value);
 
     set_expander_active(ui, ui->modules->cont_exp_sat->exp, TRUE);
 
@@ -195,7 +184,10 @@ gboolean exposure_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
         return FALSE;
     }
 
-    apply_module(ui, EXPOSURE, gtk_range_get_value(range));
+    float *value = malloc(sizeof(float));
+    (*value) = gtk_range_get_value(range);
+
+    apply_module(ui, EXPOSURE, value);
 
     set_expander_active(ui, ui->modules->cont_exp_sat->exp, TRUE);
 
@@ -217,7 +209,10 @@ gboolean shadows_changed(GtkRange *range, GdkEvent *event, gpointer user_data)
         return FALSE;
     }
 
-    apply_module(ui, SHADOWS, gtk_range_get_value(range));
+    float *value = malloc(sizeof(float));
+    (*value) = gtk_range_get_value(range);
+
+    apply_module(ui, SHADOWS, value);
 
     set_expander_active(ui, ui->modules->shadows_highlights->exp, TRUE);
 
@@ -240,7 +235,10 @@ gboolean highlights_changed(GtkRange *range, GdkEvent *event,
         return FALSE;
     }
 
-    apply_module(ui, HIGHLIGHTS, gtk_range_get_value(range));
+    float *value = malloc(sizeof(float));
+    (*value) = gtk_range_get_value(range);
+
+    apply_module(ui, HIGHLIGHTS, value);
 
     set_expander_active(ui, ui->modules->shadows_highlights->exp, TRUE);
 
@@ -259,7 +257,10 @@ gboolean bw_changed(GtkSwitch *widget, gboolean state, gpointer user_data)
         return FALSE;
     }
 
-    apply_module(ui, BW, state);
+    int *value = malloc(sizeof(int));
+    (*value) = state;
+
+    apply_module(ui, BW, value);
 
     set_expander_active(ui, ui->modules->bw_exp, TRUE);
 
@@ -278,7 +279,10 @@ gboolean invert_changed(GtkSwitch *widget, gboolean state, gpointer user_data)
         return FALSE;
     }
 
-    apply_module(ui, INVERT, state);
+    int *value = malloc(sizeof(int));
+    (*value) = state;
+
+    apply_module(ui, INVERT, value);
 
     set_expander_active(ui, ui->modules->invert_exp, TRUE);
 

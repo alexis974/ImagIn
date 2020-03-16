@@ -18,7 +18,7 @@ struct history
 {
     int id;
     int enable;
-    float value;
+    void *value;
     struct history *next;
 };
 
@@ -27,7 +27,7 @@ struct history *hst_new(void);
 size_t hst_length(struct history *hist);
 
 int hst_append(struct history *hist, int module_id,
-        int enable, float value);
+        int enable, void *value);
 
 int hst_pop(struct history *hist);
 
