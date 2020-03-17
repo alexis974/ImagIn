@@ -35,6 +35,8 @@ struct history *hst_duplicate(struct history *hist);
 
 char *get_name(int id);
 
+size_t get_data_size(int id);
+
 void hst_print(struct history *hist);
 
 #endif /* !  HISTORY_H */

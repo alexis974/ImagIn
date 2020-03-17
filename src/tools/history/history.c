@@ -10,7 +10,7 @@ struct history *hst_new(void)
 
     hist->id = -1;
     hist->enable = 0;
-    hist->value = 0;
+    hist->value = NULL;
     hist->next = NULL;
 
     return hist;
@@ -47,7 +47,6 @@ int hst_append(struct history *hist, int module_id,
     }
 
     hist->next = new;
-
     if (hist->id == module_id)
         return 0;
     return 1;
@@ -104,7 +103,7 @@ struct history *hst_duplicate(struct history *hist)
 
     hist = hist->next;
 
-    struct history *new= new_hist;
+    struct history *new = new_hist;
     while (hist)
     {
         new->next = malloc(sizeof(struct history));
@@ -141,6 +140,11 @@ void hst_print(struct history *hist)
         printf("name: %s\n", get_name(hist->id));
         printf("id: %d\n", hist->id);
         printf("enable: %d\n", hist->enable);
+
+        if (hist->id >= 0)
+        {
+            printf("Pointer : %p\n", hist->value);
+        }
 
         hist = hist->next;
     }

@@ -48,7 +48,7 @@ void hst_apply_all(struct history *hist, struct Image *img)
         }
         case BW:
         {
-            int *value = p->value;
+            size_t *value = p->value;
             if (*value)
             {
                 simple_BW(img);
@@ -57,7 +57,7 @@ void hst_apply_all(struct history *hist, struct Image *img)
         }
         case INVERT:
         {
-            int *value = p->value;
+            size_t *value = p->value;
             if (*value)
             {
                 invert(img);

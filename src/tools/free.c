@@ -40,7 +40,8 @@ void hst_free_recursively(struct history *hist)
     }
 
     hst_free_recursively(hist->next);
-    free(hist->value);
+    if (hist->id >= 0)
+        free(hist->value);
     free(hist);
 }
 

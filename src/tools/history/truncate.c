@@ -21,7 +21,7 @@ void hst_truncate(struct history *hist, size_t index)
 }
 
 /*
-** Keep "count" elements but allowing repetitions
+** Keep "count" different elements by allowing adjacent repetitions
 ** This is useful for going backward in history
 ** but still being able to undo previous changes
 */

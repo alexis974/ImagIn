@@ -44,8 +44,17 @@ void apply_module(struct UI *ui, int module_id, void *value)
 
     gtk_list_box_unselect_all(ui->modules->history_list->list);
 
+    // Append in full history
     int add = hst_append(ui->hist, module_id, 1, value);
-    hst_insert_sort(ui->compressed_hist, module_id, 1, value);
+
+    // Insert sort in compressed history
+    // We have to make a copy a value because we do not want common pointers
+    // between the two histories
+    void *copied_value = malloc(get_data_size(module_id));
+    memcpy(copied_value, value, get_data_size(module_id));
+    hst_insert_sort(ui->compressed_hist, module_id, 1, copied_value);
+
+    // Check wheter we should add an element to the UI history list
     if (add)
         add_module_to_list(ui, get_name(module_id));
 
@@ -257,7 +266,7 @@ gboolean bw_changed(GtkSwitch *widget, gboolean state, gpointer user_data)
         return FALSE;
     }
 
-    int *value = malloc(sizeof(int));
+    size_t *value = malloc(sizeof(size_t));
     (*value) = state;
 
     apply_module(ui, BW, value);
@@ -279,7 +288,7 @@ gboolean invert_changed(GtkSwitch *widget, gboolean state, gpointer user_data)
         return FALSE;
     }
 
-    int *value = malloc(sizeof(int));
+    size_t *value = malloc(sizeof(size_t));
     (*value) = state;
 
     apply_module(ui, INVERT, value);

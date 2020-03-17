@@ -25,7 +25,7 @@ void reset_widgets(struct history *hist, struct UI *ui)
         {
         case CONTRASTE:
         {
-            gdouble *value = p->value;
+            float *value = p->value;
             gtk_range_set_value(GTK_RANGE(
                     ui->modules->cont_exp_sat->contraste_scale), *value);
             gtk_toggle_button_set_active(
@@ -34,7 +34,7 @@ void reset_widgets(struct history *hist, struct UI *ui)
         }
         case EXPOSURE:
         {
-            gdouble *value = p->value;
+            float *value = p->value;
             gtk_range_set_value(GTK_RANGE(
                     ui->modules->cont_exp_sat->exposure_scale), *value);
             gtk_toggle_button_set_active(
@@ -43,7 +43,7 @@ void reset_widgets(struct history *hist, struct UI *ui)
         }
         case SATURATION:
         {
-            gdouble *value = p->value;
+            float *value = p->value;
             gtk_range_set_value(GTK_RANGE(
                     ui->modules->cont_exp_sat->saturation_scale), *value);
             gtk_toggle_button_set_active(
@@ -52,7 +52,7 @@ void reset_widgets(struct history *hist, struct UI *ui)
         }
         case SHADOWS:
         {
-            gdouble *value = p->value;
+            float *value = p->value;
             gtk_range_set_value(GTK_RANGE(
                 ui->modules->shadows_highlights->shadows_scale), *value);
             gtk_toggle_button_set_active(
@@ -61,7 +61,7 @@ void reset_widgets(struct history *hist, struct UI *ui)
         }
         case HIGHLIGHTS:
         {
-            gdouble *value = p->value;
+            float *value = p->value;
             gtk_range_set_value(GTK_RANGE(
                 ui->modules->shadows_highlights->highlights_scale), *value);
             gtk_toggle_button_set_active(
@@ -70,7 +70,7 @@ void reset_widgets(struct history *hist, struct UI *ui)
         }
         case FLIP:
         {
-            int *value = p->value;
+            size_t *value = p->value;
             gtk_combo_box_set_active(GTK_COMBO_BOX(
                     ui->modules->orientation->flip_box), *value);
             gtk_toggle_button_set_active(
@@ -79,7 +79,7 @@ void reset_widgets(struct history *hist, struct UI *ui)
         }
         case BW:
         {
-            int *value = p->value;
+            size_t *value = p->value;
             gtk_switch_set_state(ui->modules->bw_switch, *value);
             gtk_toggle_button_set_active(
                 ui->modules->bw_exp->check_box, p->enable);
@@ -87,7 +87,7 @@ void reset_widgets(struct history *hist, struct UI *ui)
         }
         case INVERT:
         {
-            int *value = p->value;
+            size_t *value = p->value;
             gtk_switch_set_state(ui->modules->invert_switch, *value);
             gtk_toggle_button_set_active(
                 ui->modules->invert_exp->check_box, p->enable);
