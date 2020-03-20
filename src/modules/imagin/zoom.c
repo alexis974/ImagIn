@@ -11,6 +11,8 @@
 
 #include "scale.h"
 
+#include "zoom.h"
+
 float zoom_percentage(struct Images *images)
 {
     // DO NOT REMOVE EXPLICIT CAST IF YOU ARE NOT
@@ -18,6 +20,20 @@ float zoom_percentage(struct Images *images)
     float percentage = (float)(images->scale->width * 100) / images->full->width;
 
     return percentage;
+}
+
+
+void zoom_init(struct Images *images, struct zoom2 *zoom)
+{
+    zoom->x_down_full = 0;
+    zoom->y_down_full = 0;
+    zoom->x_up_full = images->full->width - 1;
+    zoom->y_up_full = images->full->height - 1;
+
+    zoom->x_down = 0;
+    zoom->y_down = 0;
+    zoom->x_up = images->full->width - 1;
+    zoom->y_up = images->full->height - 1;
 }
 
 
@@ -29,75 +45,77 @@ struct Image *zoom(struct Images *images, float *zoom_value, size_t x_center,
         errx(1, "zoom: No images found");
     }
 
-    if (*zoom_value > 100)
+    if (x_center >=  images->full->width || y_center > images->full->height)
     {
-        *zoom_value = 100;
-    }
-    if (*zoom_value - 0.01 < zoom_percentage(images))
-    {
-        *zoom_value = zoom_percentage(images);
-        return images->full;
+        errx(1, "zoom: Center coordonates invalid");
     }
 
-    // To remove if you work on absolute positionning
-    float tmp_x = x_center;
-    float  tmp_y = y_center;
-    float temp_x = (tmp_x / images->scale->width) * images->full->width;
-    float temp_y = (tmp_y / images->scale->height)  * images->full->height;
-    x_center =  temp_x;
-    y_center = temp_y;
+    //Not use yet;
+    *zoom_value *= 1.2;
 
-    size_t nb_x = (images->edit->width) * 100 / *zoom_value;
-    size_t nb_y = (images->edit->height) * 100 / *zoom_value;
+    struct zoom2 *zoom = malloc(sizeof(struct zoom2));
+    zoom_init(images, zoom);
 
-    size_t x_down_left = 0;
-    size_t y_down_left = 0;
-    size_t x_up_right = 0;
-    size_t y_up_right = 0;
+    //Convert center to full image
+    float w_ratio = zoom->x_down_full / images->scale->width;
+    float h_ratio = zoom->y_down_full / images->scale->height;
+    x_center *= w_ratio;
+    y_center *= h_ratio;
+
+    size_t nb_x = (zoom->x_up - zoom->x_down) * 2 / 3;
+    size_t nb_y = (zoom->y_up - zoom->y_down) * 2 / 3;
+
 
     // X
-    if (x_center > (nb_x/2))
+    // Can go left no prob
+    if (x_center > (nb_x / 2))
     {
-        if ((x_center + (nb_x/2)) < images->full->width)
-        {
-            // Everything fine on x
-            x_down_left = x_center - (nb_x / 2);
-            x_up_right = x_center + (nb_x / 2);
-        }
-        else // Goes to far on right
-        {
-            x_up_right = images->full->width;
-            x_down_left = images->full->width - nb_x;
-        }
+        zoom->x_down -= (nb_x / 2);
     }
-    else // Goes too far on left
+    // Goes to far left
+    else
     {
-        x_down_left = 0;
-        x_up_right = nb_x;
+        zoom->x_down = 0;
+        zoom->x_up += (nb_x / 2) - (zoom->x_down);
+    }
+
+    // Can go right no prob
+    if (x_center + (nb_x / 2) < images->full->width - 1)
+    {
+        zoom->x_up += (nb_x / 2);
+    }
+    // Goes to far right
+    else
+    {
+        zoom->x_up = images->full->width - 1;
+        zoom->x_down -= (nb_x / 2) - ((images->full->width - 1) - x_center);
     }
 
     // Y
-    if (y_center > (nb_y/2))
+    // Can go down no prob
+    if (y_center > (nb_y / 2))
     {
-        if ((y_center + (nb_y/2)) < images->full->height)
-        {
-            // Everything fine on y
-            y_down_left = y_center - (nb_y / 2);
-            y_up_right = y_center + (nb_y / 2);
-        }
-        else // Goes to far on bottom
-        {
-            y_up_right = images->full->height;
-            y_down_left = images->full->height - nb_y;
-        }
+        zoom->y_down -= (nb_y / 2);
     }
-    else // Goes too far on top
+    // Goes to far to bottom
+    else
     {
-        y_down_left = 0;
-        y_up_right = nb_y;
+        zoom->y_down = 0;
+        zoom->y_up += (nb_y / 2) - (zoom->y_down);
     }
 
-    printf("%ld | %ld | %ld | %ld\n", x_down_left, y_down_left, x_up_right, y_up_right);
+    // Can go up no prob
+    if (y_center + (nb_y / 2) < images->full->height - 1)
+    {
+        zoom->y_up += (nb_y / 2);
+    }
+    // Goes to far up
+    else
+    {
+        zoom->y_up = images->full->height - 1;
+        zoom->y_down -= (nb_y / 2) - ((images->full->height - 1) - y_center);
+    }
 
-    return crop(images->full, x_down_left, y_down_left, x_up_right, y_up_right);
+    printf("%ld | %ld | %ld | %ld\n", zoom->x_down, zoom->y_down, zoom->x_up, zoom->y_up);
+    return crop(images->full, zoom->x_down, zoom->y_down, zoom->x_up, zoom->y_up);
 }
