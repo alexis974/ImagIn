@@ -57,8 +57,8 @@ struct Image *zoom(struct Images *images, float *zoom_value, size_t x_center,
     zoom_init(images, zoom);
 
     //Convert center to full image
-    float w_ratio = zoom->x_down_full / images->scale->width;
-    float h_ratio = zoom->y_down_full / images->scale->height;
+    float w_ratio = zoom->x_up_full / images->scale->width;
+    float h_ratio = zoom->y_up_full / images->scale->height;
     x_center *= w_ratio;
     y_center *= h_ratio;
 
@@ -78,7 +78,6 @@ struct Image *zoom(struct Images *images, float *zoom_value, size_t x_center,
         zoom->x_down = 0;
         zoom->x_up += (nb_x / 2) - (zoom->x_down);
     }
-
     // Can go right no prob
     if (x_center + (nb_x / 2) < images->full->width - 1)
     {
@@ -103,7 +102,6 @@ struct Image *zoom(struct Images *images, float *zoom_value, size_t x_center,
         zoom->y_down = 0;
         zoom->y_up += (nb_y / 2) - (zoom->y_down);
     }
-
     // Can go up no prob
     if (y_center + (nb_y / 2) < images->full->height - 1)
     {
@@ -117,6 +115,12 @@ struct Image *zoom(struct Images *images, float *zoom_value, size_t x_center,
     }
 
 
+
+    printf("center:(%ld, %ld) || nb_x = %ld | nb_y = %ld\n", x_center, y_center, nb_x, nb_y);
+    printf("GOT  : (%ld, %ld) | (%ld, %ld)\n", zoom->x_down, zoom->y_down, zoom->x_up, zoom->y_up);
+    printf("FULL : (%ld, %ld) | (%ld, %ld)\n", zoom->x_down_full, zoom->y_down_full, zoom->x_up_full, zoom->y_up_full);
+
+
     // TEST :
     if (zoom->x_up >= zoom->x_up_full)
     {
@@ -128,12 +132,5 @@ struct Image *zoom(struct Images *images, float *zoom_value, size_t x_center,
     }
 
 
-
-
-
-
-
-    printf("center:(%ld, %ld) || nb_x = %ld | nb_y = %ld\n", x_center, y_center, nb_x, nb_y);
-    printf("(%ld, %ld) | (%ld, %ld)\n", zoom->x_down, zoom->y_down, zoom->x_up, zoom->y_up);
     return crop(images->full, zoom->x_down, zoom->y_down, zoom->x_up, zoom->y_up);
 }
