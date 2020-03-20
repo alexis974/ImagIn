@@ -116,6 +116,7 @@ struct Image *zoom(struct Images *images, float *zoom_value, size_t x_center,
         zoom->y_down -= (nb_y / 2) - ((images->full->height - 1) - y_center);
     }
 
-    printf("%ld | %ld | %ld | %ld\n", zoom->x_down, zoom->y_down, zoom->x_up, zoom->y_up);
+    printf("center:(%ld, %ld) || nb_x = %ld | nb_y = %ld\n", x_center, y_center, nb_x, nb_y);
+    printf("(%ld, %ld) | (%ld, %ld)\n", zoom->x_down, zoom->y_down, zoom->x_up, zoom->y_up);
     return crop(images->full, zoom->x_down, zoom->y_down, zoom->x_up, zoom->y_up);
 }
