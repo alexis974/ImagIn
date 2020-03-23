@@ -65,27 +65,32 @@ struct Image *zoom(struct Images *images, float *zoom_value, size_t x_center,
     size_t nb_x = (zoom->x_up - zoom->x_down) * 2 / 3;
     size_t nb_y = (zoom->y_up - zoom->y_down) * 2 / 3;
 
+    printf("\npath = ");
 
     // X
     // Can go left no prob
     if (x_center > (nb_x / 2))
     {
+        printf("1");
         zoom->x_down -= (nb_x / 2);
     }
     // Goes to far left
     else
     {
+        printf("2");
         zoom->x_down = 0;
         zoom->x_up += (nb_x / 2) - (zoom->x_down);
     }
     // Can go right no prob
     if (x_center + (nb_x / 2) < images->full->width - 1)
     {
+        printf("3");
         zoom->x_up += (nb_x / 2);
     }
     // Goes to far right
     else
     {
+        printf("4");
         zoom->x_up = images->full->width - 1;
         zoom->x_down -= (nb_x / 2) - ((images->full->width - 1) - x_center);
     }
@@ -94,26 +99,31 @@ struct Image *zoom(struct Images *images, float *zoom_value, size_t x_center,
     // Can go down no prob
     if (y_center > (nb_y / 2))
     {
+        printf("5");
         zoom->y_down -= (nb_y / 2);
     }
     // Goes to far to bottom
     else
     {
+        printf("6");
         zoom->y_down = 0;
         zoom->y_up += (nb_y / 2) - (zoom->y_down);
     }
     // Can go up no prob
     if (y_center + (nb_y / 2) < images->full->height - 1)
     {
+        printf("7");
         zoom->y_up += (nb_y / 2);
     }
     // Goes to far up
     else
     {
+        printf("8");
         zoom->y_up = images->full->height - 1;
         zoom->y_down -= (nb_y / 2) - ((images->full->height - 1) - y_center);
     }
 
+    printf("\n");
 
 
     printf("center:(%ld, %ld) || nb_x = %ld | nb_y = %ld\n", x_center, y_center, nb_x, nb_y);
