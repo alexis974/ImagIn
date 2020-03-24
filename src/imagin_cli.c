@@ -111,8 +111,8 @@ int main(void)
     float val = 25.0;
     float *p = &val;
     write_image("tmp/10_Zoom25.ppm", zoom(images, p, 700, 400));
-    write_image("tmp/11_Zoom35.ppm", zoom(images, p, 3500, 2300));
-    write_image("tmp/12_Zoom100.ppm", zoom(images, p, 3500, 2300));
+    write_image("tmp/11_Zoom35.ppm", zoom(images, p, 0, 100));
+    write_image("tmp/12_Zoom100.ppm", zoom(images, p, 1000, 200));
 
     //struct Histogram *histogram = compute_histogram(images->edit);
 

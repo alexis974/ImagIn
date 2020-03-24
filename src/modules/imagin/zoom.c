@@ -92,7 +92,7 @@ struct Image *zoom(struct Images *images, float *zoom_value, size_t x_center,
 
     // X
     // Can go left no prob
-    if (x_center - (nb_x / 2) > zoom->x_down)
+    if (x_center - (nb_x / 2) > zoom->x_down && (x_center - (nb_x / 2)) < zoom->x_up_full)
     {
         printf("1");
         zoom->x_down = x_center - (nb_x / 2);
@@ -107,7 +107,7 @@ struct Image *zoom(struct Images *images, float *zoom_value, size_t x_center,
         {
             printf("4");
             zoom->x_up = zoom->x_up;
-            zoom->x_down = zoom->x_up - (nb_x / 2);
+            zoom->x_down = zoom->x_up - (nb_x);
         }
     }
     // Goes to far left
@@ -118,11 +118,9 @@ struct Image *zoom(struct Images *images, float *zoom_value, size_t x_center,
         zoom->x_up = zoom->x_down + nb_x;
     }
 
-
-
     // Y
     // Can go down no prob
-    if (y_center - (nb_y / 2) > zoom->y_down)
+    if (y_center - (nb_y / 2) > zoom->y_down && (y_center - (nb_y / 2)) < zoom->y_up_full)
     {
         printf("5");
         zoom->y_down = y_center - (nb_y / 2);
