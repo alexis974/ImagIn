@@ -51,7 +51,7 @@ size_t get_y_pixel(struct Images *images, struct zoom2 *zoom, size_t y_center)
     return y_center;
 }
 
-struct Image *zoom(struct Images *images, float *zoom_value, size_t x_center,
+struct Image *zoom(struct Images *images, size_t x_center,
         size_t y_center)
 {
     if (!images)
@@ -63,9 +63,6 @@ struct Image *zoom(struct Images *images, float *zoom_value, size_t x_center,
     {
         errx(1, "zoom: Center coordonates invalid");
     }
-
-    //Not use yet;
-    *zoom_value *= 1.2;
 
     struct zoom2 *zoom = malloc(sizeof(struct zoom2));
     zoom_init(images, zoom);
