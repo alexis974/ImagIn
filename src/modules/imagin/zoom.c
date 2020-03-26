@@ -43,7 +43,6 @@ size_t get_x_pixel(struct Images *images, struct zoom2 *zoom, size_t x_center)
     return x_center;
 }
 
-
 size_t get_y_pixel(struct Images *images, struct zoom2 *zoom, size_t y_center)
 {
     float h_ratio = zoom->y_up_full / images->scale->height;
@@ -51,8 +50,8 @@ size_t get_y_pixel(struct Images *images, struct zoom2 *zoom, size_t y_center)
     return y_center;
 }
 
-struct Image *zoom(struct Images *images, size_t x_center,
-        size_t y_center)
+struct Image *zoom(struct Images *images, struct zoom2 *zoom,
+        size_t x_center, size_t y_center)
 {
     if (!images)
     {
@@ -63,9 +62,6 @@ struct Image *zoom(struct Images *images, size_t x_center,
     {
         errx(1, "zoom: Center coordonates invalid");
     }
-
-    struct zoom2 *zoom = malloc(sizeof(struct zoom2));
-    zoom_init(images, zoom);
 
     //Convert center to full image
     x_center = get_x_pixel(images, zoom, x_center);
@@ -102,8 +98,7 @@ struct Image *zoom(struct Images *images, size_t x_center,
             zoom->x_down = zoom->x_up - (nb_x);
         }
     }
-    // Goes to far left
-    else
+    else    // Goes to far left
     {
         zoom->x_down = zoom->x_down;
         zoom->x_up = zoom->x_down + nb_x;
@@ -127,8 +122,7 @@ struct Image *zoom(struct Images *images, size_t x_center,
             zoom->y_down = zoom->y_up - (nb_y / 2);
         }
     }
-    // Goes to far down
-    else
+    else    // Goes to far down
     {
         zoom->y_down = zoom->y_down;
         zoom->y_up = zoom->y_down + nb_y;
@@ -156,10 +150,87 @@ struct Image *zoom(struct Images *images, size_t x_center,
     return crop(images->full, zoom->x_down, zoom->y_down, zoom->x_up, zoom->y_up);
 }
 
-/*
-struct Image *unzoom(struct Images *images, float *zoom_value, size_t x_center,
-        size_t y_center)
+struct Image *unzoom(struct Images *images, struct zoom2 *zoom)
 {
-    //
+    if (!images)
+    {
+        errx(1, "zoom: No images found");
+    }
+
+    //Get width and height of crop image
+    size_t nb_x = (zoom->x_up - zoom->x_down) * 3 / 2;
+    size_t nb_y = (zoom->y_up - zoom->y_down) * 3 / 2;
+
+    //Get center of image
+    size_t x_center = (zoom->x_up + zoom->x_down) / 2;
+    size_t y_center = (zoom->y_up + zoom->y_down) / 2;
+
+    // X
+    // Can go left no prob
+    if (x_center - (nb_x / 2) > zoom->x_down_full &&
+            (x_center - (nb_x / 2)) < zoom->x_up_full)
+    {
+        zoom->x_down = x_center - (nb_x / 2);
+
+        //Can go right no prob
+        if (x_center + (nb_x / 2) < zoom->x_up_full)
+        {
+            zoom->x_up = x_center + (nb_x / 2);
+        }
+        else
+        {
+            zoom->x_up = zoom->x_up_full;
+            zoom->x_down = zoom->x_up_full - (nb_x);
+        }
+    }
+    else    // Goes to far left
+    {
+        zoom->x_down = zoom->x_down_full;
+        zoom->x_up = zoom->x_down_full + nb_x;
+    }
+
+    // Y
+    // Can go down no prob
+    if (y_center - (nb_y / 2) > zoom->y_down_full &&
+            (y_center - (nb_y / 2)) < zoom->y_up_full)
+    {
+        zoom->y_down = y_center - (nb_y / 2);
+
+        //Can go up no prob
+        if (y_center + (nb_y / 2) < zoom->y_up_full)
+        {
+            zoom->y_up = y_center + (nb_y / 2);
+        }
+        else
+        {
+            zoom->y_up = zoom->y_up_full;
+            zoom->y_down = zoom->y_up_full - (nb_y);
+        }
+    }
+    else    // Goes to far down
+    {
+        zoom->y_down = zoom->y_down_full;
+        zoom->y_up = zoom->y_down_full + nb_y;
+    }
+
+    printf("center:(%ld, %ld) || nb_x = %ld | nb_y = %ld\n",
+            x_center, y_center, nb_x, nb_y);
+    printf("GOT  : (%ld, %ld) | (%ld, %ld)\n",
+            zoom->x_down, zoom->y_down, zoom->x_up, zoom->y_up);
+    printf("FULL : (%ld, %ld) | (%ld, %ld)\n",
+            zoom->x_down_full, zoom->y_down_full,
+            zoom->x_up_full, zoom->y_up_full);
+
+
+    // TEST :
+    if (zoom->x_up > zoom->x_up_full)
+    {
+        errx(1, "x_up is bigger than image width");
+    }
+    if (zoom->y_up > zoom->y_up_full)
+    {
+        errx(1, "y_up is bigger than image height");
+    }
+
+    return crop(images->full, zoom->x_down, zoom->y_down, zoom->x_up, zoom->y_up);
 }
-*/

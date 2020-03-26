@@ -284,8 +284,10 @@ gboolean on_scroll_image(GtkWidget *w, GdkEventScroll *event, gpointer data)
 
     ui->zoom->current_value += 4 * zoom_direction;
 
+    struct zoom2 *zoom_test = malloc(sizeof(struct zoom2));
+    zoom_init(ui->images, zoom_test);
     ui->images->scale = get_scale(
-            zoom(ui->images, x_abs, y_abs));
+            zoom(ui->images, zoom_test, x_abs, y_abs));
     free(ui->images->edit->data);
     ui->images->edit->width = ui->images->scale->width;
     ui->images->edit->height = ui->images->scale->height;

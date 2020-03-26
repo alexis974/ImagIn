@@ -16,7 +16,11 @@ struct zoom2
 
 float zoom_percentage(struct Images *images);
 
-struct Image *zoom(struct Images *images, size_t x_center,
-        size_t y_center);
+void zoom_init(struct Images *images, struct zoom2 *zoom);
+
+struct Image *zoom(struct Images *images, struct zoom2 *zoom,
+        size_t x_center, size_t y_center);
+
+struct Image *unzoom(struct Images *images, struct zoom2 *zoom);
 
 #endif /* ! ZOOM_H */
