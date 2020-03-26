@@ -84,25 +84,20 @@ struct Image *zoom(struct Images *images, size_t x_center,
         errx(1, "zoom: Can't crop with this height");
     }
 
-    printf("\npath = ");
-
-
     // X
     // Can go left no prob
-    if (x_center - (nb_x / 2) > zoom->x_down && (x_center - (nb_x / 2)) < zoom->x_up_full)
+    if (x_center - (nb_x / 2) > zoom->x_down &&
+            (x_center - (nb_x / 2)) < zoom->x_up_full)
     {
-        printf("1");
         zoom->x_down = x_center - (nb_x / 2);
 
         //Can go right no prob
         if (x_center + (nb_x / 2) < zoom->x_up)
         {
-            printf("3");
             zoom->x_up = x_center + (nb_x / 2);
         }
         else
         {
-            printf("4");
             zoom->x_up = zoom->x_up;
             zoom->x_down = zoom->x_up - (nb_x);
         }
@@ -110,27 +105,24 @@ struct Image *zoom(struct Images *images, size_t x_center,
     // Goes to far left
     else
     {
-        printf("2");
         zoom->x_down = zoom->x_down;
         zoom->x_up = zoom->x_down + nb_x;
     }
 
     // Y
     // Can go down no prob
-    if (y_center - (nb_y / 2) > zoom->y_down && (y_center - (nb_y / 2)) < zoom->y_up_full)
+    if (y_center - (nb_y / 2) > zoom->y_down &&
+            (y_center - (nb_y / 2)) < zoom->y_up_full)
     {
-        printf("5");
         zoom->y_down = y_center - (nb_y / 2);
 
         //Can go up no prob
         if (y_center + (nb_y / 2) < zoom->y_up)
         {
-            printf("7");
             zoom->y_up = y_center + (nb_y / 2);
         }
         else
         {
-            printf("8");
             zoom->y_up = zoom->y_up;
             zoom->y_down = zoom->y_up - (nb_y / 2);
         }
@@ -138,18 +130,17 @@ struct Image *zoom(struct Images *images, size_t x_center,
     // Goes to far down
     else
     {
-        printf("6");
         zoom->y_down = zoom->y_down;
         zoom->y_up = zoom->y_down + nb_y;
     }
 
-
-    printf("\n");
-
-
-    printf("center:(%ld, %ld) || nb_x = %ld | nb_y = %ld\n", x_center, y_center, nb_x, nb_y);
-    printf("GOT  : (%ld, %ld) | (%ld, %ld)\n", zoom->x_down, zoom->y_down, zoom->x_up, zoom->y_up);
-    printf("FULL : (%ld, %ld) | (%ld, %ld)\n", zoom->x_down_full, zoom->y_down_full, zoom->x_up_full, zoom->y_up_full);
+    printf("center:(%ld, %ld) || nb_x = %ld | nb_y = %ld\n",
+            x_center, y_center, nb_x, nb_y);
+    printf("GOT  : (%ld, %ld) | (%ld, %ld)\n",
+            zoom->x_down, zoom->y_down, zoom->x_up, zoom->y_up);
+    printf("FULL : (%ld, %ld) | (%ld, %ld)\n",
+            zoom->x_down_full, zoom->y_down_full,
+            zoom->x_up_full, zoom->y_up_full);
 
 
     // TEST :
@@ -161,7 +152,6 @@ struct Image *zoom(struct Images *images, size_t x_center,
     {
         errx(1, "y_up is bigger than image height");
     }
-
 
     return crop(images->full, zoom->x_down, zoom->y_down, zoom->x_up, zoom->y_up);
 }
