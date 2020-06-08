@@ -1,47 +1,53 @@
-ImagIn
-======
+# ImagIn
 
-ImagIn is a free and open-source software designed to be used by beginner and intermediate photographers. The purpose of the software is to combine both calibration and retouch tools in the same place.
-This project is made by four second year students at EPITA
+**ImagIn** is a free and open-source software designed for both beginner and intermediate photographers. The purpose of this software is to combine both calibration and retouch tools in one same software.
 
+This project is made by four second year students at EPITA.
 
-Building :hammer:
---------
+* [Building](#building-hammer)
+  + [GUI](#gui)
+  + [CLI](#cli)
+* [Requirements](#requirements)
+* [Wiki](#wiki-book)
+* [Website](#website)
+* [Team](#team)
 
-Since ImagIn is a software that is currently in active developement, if you cloned the repository a couple of days ago, please run the following command to be sure to have the latest stable version.
+## Building :hammer:
+
+**ImagIn** development has reached its end unexpectedly due to the covid-19 crisis. However some members of the *Silvergrain* team are still going to work on it. Therefore be sure to run the following command to be sure to have the latest stable version before using.
 
 ```bash
 git pull
 ```
 
-### GUI way
+### GUI
+
+The software is made to be run with the GUI.
 
 ```bash
 make all
 ./imagin.out
-
 ```
 
-### CLI way
+### CLI
 
-The cli way is meant only to test a lot of module using samples choosed by the developers. To download them, follow these steps :
+The CLI is meant only to test the modules using samples choosed by the developers. Follow these steps to download them:
 
 ```bash
 cd src/tools
 ./samples -h
 ```
 
-Once the images have been downloaded, run this :
+Once the images have been downloaded, run this:
 
 ```bash
 make cli
 ./imagin_cli.out
 ```
 
-Requirements
-------------
+## Requirements
 
-Please make sure you have the following intalled in order to be able to compile the projet :
+Please make sure you have the following libraries intalled in order to be able to compile the projet:
 
 | Library       | Version   |
 |:-------------:|:---------:|
@@ -52,22 +58,19 @@ Please make sure you have the following intalled in order to be able to compile 
 | libxml-2.0    | 2.9.10    |
 | gexiv2        | 2.0.0     |
 
+## Wiki :book:
 
-Wiki :book:
-----
-
-The wiki will arrive shortly. We thank you in advance for your patience
+There is no wiki yet because of the unexpected end of the project. If you have any questions do not hesitate to ask them on the [Github page](https://github.com/alexis974/ImagIn/issues).
 
 
-Website
-------
+## Website
 
-You can find our website here : 
-[ImagIn](https://turodoras.github.io/ImagIn_website "ImagIn website")
+The [website](https://turodoras.github.io/ImagIn_website "ImagIn website") contains a small description of the project. It was supposed to have the wiki, some release notes and screenshots but the development stopped before it was done.
 
+## Team
 
-Authors
--------
+**ImagIn** is the creation of the *Silvergrain* team:
+
 * Thomas Berlioz
 * Alexis Boissière
 * Alexis Boyadjian
