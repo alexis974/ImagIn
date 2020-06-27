@@ -7,12 +7,12 @@
 
 #include "imagin.h"
 
+// TODO : Coding style : 2.5 typedef ?
+gboolean g_cli_mode = FALSE;
+
 int main(void)
 {
     printf("Launching GUI...\n");
-
-    // TODO : Coding style : 2.5 typedef ?
-    g_cli_mode = FALSE;
 
     return gui_main();
 }

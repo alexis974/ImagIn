@@ -22,6 +22,11 @@
 
 #include "../debug/error_handler.h"
 
+size_t g_maxheight;
+size_t g_maxwidth;
+size_t g_maxwidth_small;
+size_t g_maxheight_small;
+
 void reset_image_info(struct UI *ui)
 {
     gtk_label_set_text(ui->image_info->aperture, "-");

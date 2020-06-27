@@ -24,13 +24,13 @@
 
 #include "tools/free.h"
 
+// Set error mode to CLI to have error in text format
+// TODO : Coding style : 2.5 typedef ?
+gboolean g_cli_mode = TRUE;
+
 // TODO : Coding style : 4.10 Fct max 25 lines
 int main(void)
 {
-    // Set error mode to CLI to have error in text format
-    // TODO : Coding style : 2.5 typedef ?
-    g_cli_mode = FALSE;
-
     // Define paths
     char *img_path = "samples/Canon_90D_ppm/Canon_90D_03.ppm";
     char *xml_path = "samples/Canon_90D_ppm/Canon_90D_03.ppm.xml";
